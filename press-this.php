@@ -19,6 +19,7 @@ class WpPressThis {
 	}
 
 	public function press_this_site_settings() {
+		header( 'content-type: application/json' );
 		echo json_encode(array(
 			'nonce' => wp_create_nonce( 'press_this_site_settings' ),
 			'i18n'  => array(

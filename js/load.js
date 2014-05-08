@@ -47,7 +47,7 @@
 
 				// We now have a good idea what context we're dealing with, let's get some site specific config/data
 				$.post(app_config.ajax_url, { action: site_config_callback}, function (response) {
-					site_config = $.parseJSON(response) || {};
+					site_config = response || {};
 
 					if (!site_config.nonce) {
 						// @TODO Fail gracefully, we're kinda stuck
