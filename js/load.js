@@ -2,7 +2,7 @@
 	$( document ).ready(function( $ ) {
 		var WpPressThis_Loader = function() {
 			// Defines base variables
-			var local_file_base_path = './js/',
+			var plugin_js_dir_url = window.wp_pressthis_data._plugin_dir_url + '/js/',
 				app_config_file = 'config-bookmarklet.js', // default to bookmarklet context
 				app_logic_file = 'app.js',
 				app_config = {},
@@ -18,7 +18,7 @@
 					}
 
 					// Now make the file a file path
-					app_config_file = local_file_base_path + app_config_file;
+					app_config_file = plugin_js_dir_url + app_config_file;
 
 					// Load the approriate config file/script
 					$.getScript(app_config_file)
@@ -38,7 +38,7 @@
 			function load_site_config() {
 				// Still no app config?
 				if (!app_config) {
-					// @TODO Fail gracefully, we're kinda stuck
+					// @TODO Fail more gracefully, we shouldn't go on without a nonce or the rest of the app_config data by now
 					return;
 				} else if (!app_config.ajax_url) {
 					// @TODO Usually extension context, likely need to load the multi-blog contextual UX/UI,
@@ -49,8 +49,9 @@
 				$.post(app_config.ajax_url, { action: site_config_callback}, function (response) {
 					site_config = response || {};
 
+					// Still no site config?
 					if (!site_config.nonce) {
-						// @TODO Fail gracefully, we're kinda stuck
+						// @TODO Fail more gracefully, we shouldn't go on without a nonce or the rest of the site_config data by now
 						return;
 					}
 
@@ -60,7 +61,7 @@
 					};
 
 					// That's it for the loader, now load the real app.js and let it take over.
-					$.getScript(local_file_base_path + app_logic_file);
+					$.getScript(plugin_js_dir_url + app_logic_file);
 				});
 			}
 
