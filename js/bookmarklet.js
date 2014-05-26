@@ -9,6 +9,7 @@ var d=document,
 	metas=d.head.getElementsByTagName('meta'),
 	imgs=d.body.getElementsByTagName('img'),
 	r=new Image(),
+	now= new Date().getTime(),
 	f=d.createElement('form'),
 	fAdd=function(n,v){
 		if(typeof(v)==='undefined')return;
@@ -45,11 +46,11 @@ fAdd('_t',d.title);
 fAdd('_s',s);
 
 f.setAttribute('method','POST');
-f.setAttribute('action', u += '?a=init');
+f.setAttribute('action', ( u + '?buster' + now ));
 f.setAttribute('target', tn);
 
 if ( top.location.href.match(/^https/) && ! u.match(/https/) ) {
-	p =w.open('about: blank', tn, "width=500, height=700");
+	p = w.open('about: blank', tn, "width=500,height=700");
 } else {
 	i = d.createElement('iframe');
 	i.setAttribute('src', 'about: blank' );
