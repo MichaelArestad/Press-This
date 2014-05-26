@@ -77,23 +77,7 @@ class WpPressThis {
 		if ( ! preg_match( '/\/press-this\.php$/', $_SERVER['SCRIPT_NAME'] ) )
 			return;
 
-		$action = '';
-
-		if ( ! empty( $_GET['a'] ) ) {
-			switch ( $_GET['a'] ) {
-				case 'init':
-					$action = $_GET['a'];
-					break;
-			}
-		}
-
-		switch ( $action ) {
-			case 'init':
-				self::serve_app_html();
-				return;
-			default:
-				return;
-		}
+		self::serve_app_html();
 	}
 
 	/**
