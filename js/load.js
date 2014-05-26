@@ -2,28 +2,73 @@
 	$( document ).ready(function( $ ) {
 		var WpPressThis_Loader = function() {
 			// Defines base variables
-			var plugin_js_dir_url = window.wp_pressthis_data._plugin_dir_url + '/js/',
-				app_config_file = 'config-bookmarklet.js', // default to bookmarklet context
-				app_logic_file = 'app.js',
-				app_config = {},
-				site_config_callback = 'press_this_site_settings',
-				site_config = {};
+			var plugin_js_dir_url    = window.wp_pressthis_data._plugin_dir_url + '/js/',
+				app_config_file      = 'config.js', // default to bookmarklet context
+				app_logic_file       = 'app.js',
+				ls_app_config        = {},
+				app_config           = {},
+				site_config          = {},
+				site_config_callback = 'press_this_site_settings';
+
+			// @DEBUG
+			// localStorage.removeItem( 'WpPressThis_AppConfig' );
+
+			function ls_test(){
+				var x = 'y';
+				try {
+					localStorage.setItem(x, 'z');
+					localStorage.removeItem(x);
+					return true;
+				} catch(e) {
+					return false;
+				}
+			}
+
+			function load_cached_settings() {
+				if ( ! ls_test() )
+					return false;
+				var app_config = localStorage.getItem( 'WpPressThis_AppConfig' );
+				if ( ! app_config )
+					return false;
+				app_config = JSON.parse( app_config );
+				if ( ! app_config.ajax_url )
+					return false;
+				return app_config;
+			}
+
+			function save_cached_settings( app_config ) {
+				return ( ! ls_test() || ! app_config )
+					? false
+					: localStorage.setItem( 'WpPressThis_AppConfig', JSON.stringify( app_config ) );
+			}
 
 			function initialize() {
+				// Try to rely on localStorage-cached app and site configs to speed things up, when we can.
+				ls_app_config = load_cached_settings();
+				// All or nothing, better consistency
+				if ( ! ls_app_config || ! ls_app_config.ajax_url ) {
+					// Be safe, rest all related config vars
+					ls_app_config = {};
+					app_config    = {};
+					site_config   = {};
+					// @DEBUG
+					// console.log('Press This app and site config will be loaded from live install.');
+				} else {
+					app_config  = ls_app_config || {};
+					// @DEBUG
+					// console.log('Press This app config loaded from localStorage cache.', app_config);
+				}
 
-				if (!app_config.ajax_url) {
-					// @TODO define if extension, load appropriate file if so
-					if (false === true) {
-						app_config_file = 'config-extensions.js';
-					}
-
+				// If still no app configs by now, let's fetch that 1st.
+				if ( ! app_config.ajax_url) {
 					// Now make the file a file path
 					app_config_file = plugin_js_dir_url + app_config_file;
 
-					// Load the approriate config file/script
+					// Load the appropriate config file/script
 					$.getScript(app_config_file)
 						.done(function (script, textStatus) {
 							app_config = WpPressThis_AppConfig || {};
+							// Since we had to regenerate the app_config, let's refresh the related site_config as well
 							load_site_config();
 						})
 						.fail(function (jqxhr, settings, exception) {
@@ -31,38 +76,50 @@
 							console.log("Triggered ajaxError handler. ");
 						});
 				} else {
-					load_site_config();
+					// Only regenerate site_configs if we "lost them", or if they look sketchy
+					if ( !site_config || !site_config.ajax_url || site_config.ajax_url != app_config.ajax_url )
+						load_site_config();
+					else
+						complete_loading(); // otherwise called at end of load_site_config()
 				}
 			}
 
 			function load_site_config() {
 				// Still no app config?
-				if (!app_config) {
-					// @TODO Fail more gracefully, we shouldn't go on without a nonce or the rest of the app_config data by now
+				if (!app_config || !app_config.ajax_url) {
+					// @TODO Fail more gracefully, we shouldn't go on, maybe try initialize again/first?
 					return;
-				} else if (!app_config.ajax_url) {
-					// @TODO Usually extension context, likely need to load the multi-blog contextual UX/UI,
-					// define app_config.ajax_url (target site) and set it in localStorage for the future
 				}
 
 				// We now have a good idea what context we're dealing with, let's get some site specific config/data
 				$.post(app_config.ajax_url, { action: site_config_callback}, function (response) {
 					site_config = response || {};
-
-					// Still no site config?
-					if (!site_config.nonce) {
-						// @TODO Fail more gracefully, we shouldn't go on without a nonce or the rest of the site_config data by now
-						return;
-					}
-
-					window.wp_pressthis_config = {
-						'app_config':  app_config,
-						'site_config': site_config
-					};
-
-					// That's it for the loader, now load the real app.js and let it take over.
-					$.getScript(plugin_js_dir_url + app_logic_file);
+					complete_loading();
 				});
+			}
+
+			function complete_loading() {
+				// Still no site config?
+				if ( ! site_config.nonce) {
+					// @TODO Fail more gracefully, we shouldn't go on without a nonce or the rest of the site_config data by now
+					return;
+				}
+
+				// Site config provides a generated admin ajax_url from live install, standardize app and site configs on canonical value
+				if ( site_config.ajax_url && site_config.ajax_url != app_config.ajax_url )
+					app_config.ajax_url = site_config.ajax_url;
+
+				window.wp_pressthis_config = {
+					'app_config':  app_config,
+					'site_config': site_config
+				};
+
+				if ( ! save_cached_settings( app_config ) ) {
+					// @TODO: couldn't save setting, [maybe] handle.
+				}
+
+				// That's it for the loader, now load the real app.js and let it take over.
+				$.getScript( plugin_js_dir_url + app_logic_file );
 			}
 
 			initialize();

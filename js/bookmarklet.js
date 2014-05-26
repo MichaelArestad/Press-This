@@ -49,7 +49,7 @@ f.setAttribute('action', u += '?a=init');
 f.setAttribute('target', tn);
 
 if ( top.location.href.match(/^https/) && ! u.match(/https/) ) {
-	p =w.open('about: blank', tn, "width=500, height=500");
+	p =w.open('about: blank', tn, "width=500, height=700");
 } else {
 	i = d.createElement('iframe');
 	i.setAttribute('src', 'about: blank' );

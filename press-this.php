@@ -20,19 +20,25 @@ class WpPressThis {
 	 * Constructor
 	 */
 	public function __construct() {
-		// TEMP: Remove SAMEORIGIN so we can display in iframe, see TODO below.
-		// @TODO: should detect if actually in iframe context, don't remove if in popup, come up with alternative to SAMEORIGIN when removing.
-		remove_action( 'admin_init', 'send_frame_options_header' );
-		remove_action( 'login_init', 'send_frame_options_header' );
 
-		// Take over /wp-admin/press-this.php
-		add_action( 'admin_init', array( $this, 'press_this_php_override' ), 0 );
-		// Take over Press This bookmarklet code in /wp-admin/tools.php
-		add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
+		// TEMP: Removing SAMEORIGIN so we can display in iframe, see TODO below.
+		// @TODO: must come up with final solution for SAMEORIGIN handling when in modal context (detect, secure, serve).
 
-		// AJAX handling
-		add_action( 'wp_ajax_press_this_site_settings', array( $this, 'press_this_ajax_site_settings' ) );
-		add_action( 'wp_ajax_nopriv_press_this_site_settings', array( $this, 'press_this_ajax_site_settings' ) );
+		if ( ! is_admin() ) {
+			remove_action( 'login_init', 'send_frame_options_header' );
+			// add_action( 'wp_ajax_nopriv_press_this_site_settings', array( $this, 'press_this_ajax_site_settings' ) );
+		} else {
+			remove_action( 'admin_init', 'send_frame_options_header' );
+
+			// Take over /wp-admin/press-this.php
+			add_action( 'admin_init', array( $this, 'press_this_php_override' ), 0 );
+
+			// Take over Press This bookmarklet code in /wp-admin/tools.php
+			add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
+
+			// AJAX handling
+			add_action( 'wp_ajax_press_this_site_settings', array( $this, 'press_this_ajax_site_settings' ) );
+		}
 	}
 
 	/**
@@ -96,21 +102,23 @@ class WpPressThis {
 	public function serve_app_html() {
 		$_POST['_runtime_url']    = self::runtime_url();
 		$_POST['_plugin_dir_url'] = self::plugin_dir_url();
-		$json = json_encode( $_POST );
-		$app_css = self::plugin_dir_url() . '/css/app.css';
-		$load_js = self::plugin_dir_url() . '/js/load.js';
+		$json                     = json_encode( $_POST );
+		$json_js_inc              = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js/json2.min.js', self::runtime_url() );
+		$app_css_inc              = self::plugin_dir_url() . '/css/app.css';
+		$load_js_inc              = self::plugin_dir_url() . '/js/load.js';
 		echo <<<________HTMLDOC
 <!DOCTYPE html>
 <html>
 <head lang="en">
 	<meta charset="UTF-8">
 	<title></title>
-	<link rel='stylesheet' id='all-css' href='{$app_css}' type='text/css' media='all' />
+	<link rel='stylesheet' id='all-css' href='{$app_css_inc}' type='text/css' media='all' />
 	<script language="JavaScript">
 		window.wp_pressthis_data = {$json};
 	</script>
+	<script src="{$json_js_inc}" language="JavaScript"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" language="JavaScript"></script>
-	<script src="{$load_js}" language="JavaScript"></script>
+	<script src="{$load_js_inc}" language="JavaScript"></script>
 </head>
 <body>
 	<div id='press_this_app_container'></div>
@@ -125,12 +133,13 @@ ________HTMLDOC;
 	 */
 	public function press_this_ajax_site_settings() {
 		header( 'content-type: application/json' );
-		echo json_encode(array(
-			'nonce' => wp_create_nonce( 'press_this_site_settings' ),
-			'i18n'  => array(
+		echo json_encode( array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce'    => wp_create_nonce( 'press_this_site_settings' ),
+			'i18n'     => array(
 				'Welcome to Press This!' => __('Welcome to Press This!', 'press-this'),
 			),
-		));
+		) );
 		die();
 	}
 }
