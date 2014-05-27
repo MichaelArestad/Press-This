@@ -1,9 +1,6 @@
 ( function( $ ) {
 	$( document ).ready(function( $ ) {
 		var WpPressThis_App = function() {
-			// @DEBUG
-			// console.log('Starting WpPressThis_App');
-
 			var plugin_js_dir_url     = window.wp_pressthis_data._plugin_dir_url + '/js/',
 				app_config            = window.wp_pressthis_config.app_config || {},
 				site_config           = window.wp_pressthis_config.site_config || {},
@@ -17,8 +14,9 @@
 				suggested_title_str   = suggested_title( data ) || '',
 				suggested_excerpt_str = suggested_excerpt( data ) || '';
 
-			// @DEBUG
-			// console.log(app_config, site_config, data);
+/* ***************************************************************
+ * LOGIC FUNCTIONS
+ *************************************************************** */
 
 			function suggested_title( data ) {
 				if ( !data )
@@ -89,6 +87,10 @@
 				return featured;
 			}
 
+/* ***************************************************************
+ * RENDERING FUNCTIONS
+ *************************************************************** */
+
 			function render_suggested_title( title ) {
 				if ( ! title || ! title.length )
 					return;
@@ -120,17 +122,21 @@
 
 				var img_div = $('<div />', {
 					'id'                 : 'img-featured-container',
-					'width'              : current_square_size,
-					'height'             : 'auto'
+					'width'              : current_square_size + 'px',
+					'height'             : Math.abs( current_square_size / 1.5 ) + 'px'
 				}).css({
 					'display'            : 'inline-block',
 					'background-image'   : 'url('+featured+')',
 					'background-position': 'center',
 					'background-repeat'  : 'no-repeat',
-					'background-size'    : current_square_size + 'px auto',
+					'background-size'    : 'auto '+current_square_size+'px',
 					'margin'             : '15px 15px 0 0'
+				}).click(function(){
+					alert(featured.replace(/^(http[^\?]+)(\?.*$)?/, '$1'));
 				}).appendTo('#wppt_featured_image_container');
 
+				/*
+				 * Might not need that img, or might only need it, decide as group later
 				var img_tag = $('<img />', {
 					'src'        : featured,
 					'id'         : 'img-featured',
@@ -139,12 +145,18 @@
 				}).css({
 					'visibility' : 'hidden'
 				}).appendTo(img_div);
+				*/
 			}
 
 			function render_other_images(all_images) {
+				var img_switch = $('#wppt_other_images_switch');
 
-				if ( ! all_images || ! all_images.length )
+				if ( ! all_images || ! all_images.length ) {
+					img_switch.text('').hide();
 					return;
+				}
+
+				$('#wppt_other_images_container').hide();
 
 				var img_div,
 					img_tag,
@@ -181,8 +193,12 @@
 						'background-repeat'  : 'no-repeat',
 						'background-size'    : 'auto '+( current_square_size * 1.5 )+'px',
 						'margin'             : '15px 15px 0 0'
+					}).click(function(){
+						alert(src.replace(/^(http[^\?]+)(\?.*$)?/, '$1'));
 					}).appendTo('#wppt_other_images_container');
 
+					/*
+					 * Might not need that img, or might only need it, decide as group later
 					img_tag = $('<img />', {
 						'src'        : src,
 						'id'         : 'img-'+i,
@@ -191,7 +207,18 @@
 					}).css({
 						'visibility' : 'hidden'
 					}).appendTo(img_div);
+					*/
 				});
+
+				img_switch.text(
+					site_config.i18n['Show other images']
+				).click(function(){
+					$('#wppt_other_images_container').toggle( 500 );
+					if ( img_switch.text() == site_config.i18n['Show other images'] )
+						img_switch.text( site_config.i18n['Hide other images'] );
+					else
+						img_switch.text( site_config.i18n['Show other images'] );
+				}).show();
 			}
 
 			function render_prioritized_images( featured, all_images ){
@@ -201,8 +228,13 @@
 					render_other_images( all_images );
 			}
 
+/* ***************************************************************
+ * PROCESSING FUNCTIONS
+ *************************************************************** */
+
 			function initialize(){
-				return (app_config.ajax_url && site_config.nonce); // boolean
+				// If we don't have those, or they are empty, we weren't able to initialize properly.
+				return (app_config.ajax_url && app_config.ajax_url.length && site_config.nonce && site_config.nonce.length);
 			}
 
 			function render(){
@@ -213,13 +245,15 @@
 				render_suggested_excerpt( suggested_excerpt_str );
 			}
 
+/* ***************************************************************
+ * PROCESSING
+ *************************************************************** */
 			// Let's go!
 			if ( initialize() ) {
 				render();
+			} else {
+				// @TODO: coulnd't initialize, fail gracefully
 			}
-
-			// @DEBUG
-			// console.log('Ending WpPressThis_App');
 		};
 
 		window.wp_pressthis_app = new WpPressThis_App();
