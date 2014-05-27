@@ -110,7 +110,10 @@ class WpPressThis {
 	<div id='wppt_app_container'>
 		<h2 id='wppt_title_container'></h2>
 		<div id='wppt_featured_image_container'></div>
-		<div id='wppt_other_images_container'></div>
+		<div id='wppt_other_images_widget'>
+			<a href="#" id="wppt_other_images_switch"></a>
+			<div id='wppt_other_images_container'></div>
+		</div>
 		<div id='wppt_suggested_excerpt_container'></div>
 	</div>
 </body>
@@ -130,7 +133,9 @@ ________HTMLDOC;
 			'nonce'    => wp_create_nonce( 'press_this_site_settings' ),
 			'i18n'     => array(
 				'Welcome to Press This!' => __('Welcome to Press This!', $domain ),
-				'Source:'                => __( 'Source:', $domain )
+				'Source:'                => __( 'Source:', $domain ),
+				'Show other images'      => __( 'Show other images', $domain ),
+				'Hide other images'      => __( 'Hide other images', $domain ),
 			),
 		) );
 		die();

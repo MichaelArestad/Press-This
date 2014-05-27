@@ -122,17 +122,19 @@
 
 				var img_div = $('<div />', {
 					'id'                 : 'img-featured-container',
-					'width'              : current_square_size,
-					'height'             : 'auto'
+					'width'              : current_square_size + 'px',
+					'height'             : Math.abs( current_square_size / 1.5 ) + 'px'
 				}).css({
 					'display'            : 'inline-block',
 					'background-image'   : 'url('+featured+')',
 					'background-position': 'center',
 					'background-repeat'  : 'no-repeat',
-					'background-size'    : current_square_size + 'px auto',
+					'background-size'    : 'auto '+current_square_size+'px',
 					'margin'             : '15px 15px 0 0'
 				}).appendTo('#wppt_featured_image_container');
 
+				/*
+				 * Might not need that img, or might only need it, decide as group later
 				var img_tag = $('<img />', {
 					'src'        : featured,
 					'id'         : 'img-featured',
@@ -141,6 +143,7 @@
 				}).css({
 					'visibility' : 'hidden'
 				}).appendTo(img_div);
+				*/
 			}
 
 			function render_other_images(all_images) {
@@ -185,6 +188,8 @@
 						'margin'             : '15px 15px 0 0'
 					}).appendTo('#wppt_other_images_container');
 
+					/*
+					 * Might not need that img, or might only need it, decide as group later
 					img_tag = $('<img />', {
 						'src'        : src,
 						'id'         : 'img-'+i,
@@ -193,6 +198,7 @@
 					}).css({
 						'visibility' : 'hidden'
 					}).appendTo(img_div);
+					*/
 				});
 			}
 
