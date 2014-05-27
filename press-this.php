@@ -87,7 +87,9 @@ class WpPressThis {
 		$_POST['_runtime_url']    = self::runtime_url();
 		$_POST['_plugin_dir_url'] = self::plugin_dir_url();
 		$json                     = json_encode( $_POST );
-		$json_js_inc              = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js/json2.min.js', self::runtime_url() );
+		$js_inc_dir               = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js', self::runtime_url() );
+		$json_js_inc              = $js_inc_dir . '/json2.min.js';
+		$jquery_js_inc            = $js_inc_dir . '/jquery/jquery.js';
 		$app_css_inc              = self::plugin_dir_url() . '/css/press-this.css';
 		$load_js_inc              = self::plugin_dir_url() . '/js/load.js';
 		echo <<<________HTMLDOC
@@ -101,7 +103,7 @@ class WpPressThis {
 		window.wp_pressthis_data = {$json};
 	</script>
 	<script src="{$json_js_inc}" language="JavaScript"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" language="JavaScript"></script>
+	<script src="{$jquery_js_inc}" language="JavaScript"></script>
 	<script src="{$load_js_inc}" language="JavaScript"></script>
 </head>
 <body>
@@ -121,13 +123,14 @@ ________HTMLDOC;
 	 *
 	 */
 	public function press_this_ajax_site_settings() {
+		$domain = 'press-this';
 		header( 'content-type: application/json' );
 		echo json_encode( array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'nonce'    => wp_create_nonce( 'press_this_site_settings' ),
 			'i18n'     => array(
-				'Welcome to Press This!' => __('Welcome to Press This!', 'press-this'),
-				'Source:'                => __( 'Source:', 'press-this' )
+				'Welcome to Press This!' => __('Welcome to Press This!', $domain ),
+				'Source:'                => __( 'Source:', $domain )
 			),
 		) );
 		die();
