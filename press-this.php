@@ -88,7 +88,7 @@ class WpPressThis {
 		$_POST['_plugin_dir_url'] = self::plugin_dir_url();
 		$json                     = json_encode( $_POST );
 		$json_js_inc              = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js/json2.min.js', self::runtime_url() );
-		$app_css_inc              = self::plugin_dir_url() . '/css/app.css';
+		$app_css_inc              = self::plugin_dir_url() . '/css/press-this.css';
 		$load_js_inc              = self::plugin_dir_url() . '/js/load.js';
 		echo <<<________HTMLDOC
 <!DOCTYPE html>
@@ -105,7 +105,7 @@ class WpPressThis {
 	<script src="{$load_js_inc}" language="JavaScript"></script>
 </head>
 <body>
-	<div id='press_this_app_container'></div>
+	<div id='press_this_app_container' class="editor"></div>
 </body>
 </html>
 ________HTMLDOC;

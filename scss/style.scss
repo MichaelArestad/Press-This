@@ -1,0 +1,128 @@
+/*
+Theme Name: th_s (THUNDERSCORES!)
+Theme URI: http://underscores.me/
+Author: Underscores.me & Michael Arestad
+Author URI: http://underscores.me/
+Description: Description
+Version: 1.0
+License: GNU General Public License
+License URI: license.txt
+Text Domain: th_s
+Domain Path: /languages/
+Tags:
+
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+
+ th_s is based on Underscores http://underscores.me/, (C) 2012-2014 Automattic, Inc.
+
+Resetting and rebuilding styles have been helped along thanks to the fine work of
+Eric Meyer http://meyerweb.com/eric/tools/css/reset/index.html
+along with Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
+and Blueprint http://www.blueprintcss.org/
+*/
+
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+--------------------------------------------------------------*/
+
+// A - Mixins
+// B - Colors
+
+/*
+1.0 - Normalize or Reset
+2.0 - Typography
+3.0 - Elements
+	3.1 Links
+	3.2 Horizontal Rules
+	3.3 Lists
+	3.4 Tables
+4.0 - Forms
+5.0 - Buttons
+6.0 - Media
+7.0 - Navigation
+	7.1 - Menus
+8.0 - Accessibility
+9.0 - Alignments
+10.0 - Clearings
+11.0 - UI Patterns
+12.0 - Main
+13.0 - IE
+
+--------------------------------------------------------------*/
+
+// -------------------------------------------------------------
+// A - Mixins
+// -------------------------------------------------------------
+@import "mixins/mixins";
+
+// -------------------------------------------------------------
+// B - Colors
+// -------------------------------------------------------------
+@import "colors/colors";
+
+/*--------------------------------------------------------------
+1.0 - Normalize or Reset
+--------------------------------------------------------------*/
+@import "normalize";
+// @import "reset";
+
+/*--------------------------------------------------------------
+2.0 - Typography
+--------------------------------------------------------------*/
+@import "typography/typography";
+
+/*--------------------------------------------------------------
+3.0 - Elements
+--------------------------------------------------------------*/
+@import "modules/elements/elements";
+
+/*--------------------------------------------------------------
+4.0 - Forms
+--------------------------------------------------------------*/
+@import "forms/forms";
+
+/*--------------------------------------------------------------
+5.0 - Buttons
+--------------------------------------------------------------*/
+@import "buttons/buttons";
+
+/*--------------------------------------------------------------
+6.0 - Media
+--------------------------------------------------------------*/
+@import "modules/media";
+
+/*--------------------------------------------------------------
+7.0 - Navigation
+--------------------------------------------------------------*/
+@import "modules/navigation/navigation";
+
+/*--------------------------------------------------------------
+8.0 - Accessibility
+--------------------------------------------------------------*/
+@import "modules/accessibility";
+
+/*--------------------------------------------------------------
+9.0 - Alignments
+--------------------------------------------------------------*/
+@import "modules/alignments";
+
+/*--------------------------------------------------------------
+10.0 - Clearings
+--------------------------------------------------------------*/
+@import "modules/clearings/clearings";
+
+/*--------------------------------------------------------------
+11.0 - UI Patterns
+--------------------------------------------------------------*/
+@import "ui-patterns/ui-patterns";
+
+/*--------------------------------------------------------------
+12.0 - Main
+--------------------------------------------------------------*/
+@import "main";
+
+/*--------------------------------------------------------------
+13.0 - IE
+--------------------------------------------------------------*/
+@import "vendor/ie";

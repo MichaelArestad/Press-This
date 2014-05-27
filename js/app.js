@@ -8,7 +8,7 @@
 				app_config            = window.wp_pressthis_config.app_config || {},
 				site_config           = window.wp_pressthis_config.site_config || {},
 				data                  = window.wp_pressthis_data || {},
-				largest_width         = $( document ).width() - 30,
+				largest_width         = $( document ).width() - 60,
 				smallest_width        = 48,
 				current_square_size   = largest_width,
 				preferred             = featured_image( data ) || '',
@@ -48,24 +48,26 @@
 				if ( featured ) {
 					img_featured_container = $('<div />', {
 						'id'                 : 'img-featured-container',
-						'width'              : current_square_size,
-						'height'             : 'auto'
+						'class'              : 'featured-image__container'
+						// 'height'             : 'auto'
 					}).css({
-						'display'            : 'inline-block',
-						'background-image'   : 'url('+featured+')',
-						'background-position': 'center',
-						'background-repeat'  : 'no-repeat',
-						'background-size'    : current_square_size + 'px auto',
-						'margin'             : '15px 15px 0 0'
+						// 'display'            : 'inline-block',
+						// 'max-width'              : current_square_size,
+						// 'background-image'   : 'url('+featured+')'
+						// 'background-position': 'center',
+						// 'background-repeat'  : 'no-repeat',
+						// 'background-size'    : current_square_size + 'px auto'
+						// 'margin'             : '15px 15px 0 0'
 					}).appendTo('#press_this_app_container');
 
 					img_featured_tag = $('<img />', {
 						'src'        : featured,
 						'id'         : 'img-featured',
-						'width'      : current_square_size + 'px',
-						'height'     : 'auto'
+						'class'      : 'featured-image',
+						// 'height'     : 'auto'
 					}).css({
-						'visibility' : 'hidden'
+						// 'max-width'      : current_square_size + 'px'
+						// 'visibility' : 'hidden'
 					}).appendTo(img_featured_container);
 				}
 			}
@@ -166,7 +168,7 @@
 
 				// We're on!
 				$("head title").text(site_config.i18n['Welcome to Press This!']);
-				$('<h2>'+site_config.i18n['Welcome to Press This!']+'</h2>').appendTo('#press_this_app_container');
+				$('<h1>'+site_config.i18n['Welcome to Press This!']+'</h1>').appendTo('#press_this_app_container');
 				// @DEBUG
 				// console.log( 'Done initializing. Moving on to img handling.' )
 				render_prioritized_images( data );

@@ -56,7 +56,7 @@ if ( top.location.href.match(/^https/) && ! u.match(/https/) ) {
 	i.setAttribute('src', 'about: blank' );
 	i.setAttribute('name', tn );
 	i.setAttribute('id', i.name );
-	i.setAttribute('style', 'position:fixed;top:0px;right:0px;z-index:999999999999999;width:40%;height:'+h+'px');
+	i.setAttribute('style', 'position:fixed;top:0px;right:0px;z-index:999999999999999;border:0;min-width:320px;max-width:760px;width:50%;height:'+h+'px');
 
 	d.body.appendChild(i);
 }
