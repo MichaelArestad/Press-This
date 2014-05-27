@@ -24,8 +24,9 @@ class WpPressThis {
 	 */
 	public function __construct() {
 
-		// TEMP: Removing SAMEORIGIN so we can display in iframe, see TODO below.
-		// @TODO: must come up with final solution for SAMEORIGIN handling when in modal context (detect, secure, serve).
+		/*
+		 * @TODO: IMPORTANT: must come up with final solution for SAMEORIGIN handling when in modal context (detect, secure, serve).
+		 */
 
 		if ( ! is_admin() ) {
 			if ( preg_match( '/\/wp-login\.php$/', $_SERVER['SCRIPT_NAME'] ) && preg_match( '/\/wp-admin\/press-this\.php([\?]{1}.*)?$/', $_GET['redirect_to'] ) ) {
