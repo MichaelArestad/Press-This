@@ -233,6 +233,8 @@
 				$('#wppt_title_field').val( default_title_str );
 				$('#wppt_selected_img_field').val( full_size_src( default_img_src ) );
 				$('#wppt_content_field').val( default_content_str );
+				$('#wppt_publish').val( site_config.i18n['Publish'] );
+				$('#wppt_draft').val( site_config.i18n['Save Draft'] );
 			}
 
 /* ***************************************************************

@@ -77,7 +77,54 @@ class WpPressThis {
 		if ( ! preg_match( '/\/press-this\.php$/', $_SERVER['SCRIPT_NAME'] ) )
 			return;
 
-		self::serve_app_html();
+		// Decide what to do based on requested action, or lack there of
+		if ( ! empty( $_POST['wppt_publish'] ) ) {
+			self::publish();
+		} else if ( ! empty( $_POST['wppt_draft'] ) ) {
+			self::save_draft();
+		} else {
+			self::serve_app_html();
+		}
+	}
+
+	/**
+	 * WpPressThis::report_and_redirect()
+	 *
+	 * @param $report
+	 * @param $redirect
+	 */
+	function report_and_redirect( $report, $redirect ){
+		$report = esc_js( $report );
+		echo <<<________HTMLDOC
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<script language="JavaScript">
+		alert("{$report}");
+		window.top.location.href = '{$redirect}';
+	</script>
+</head>
+</html>
+________HTMLDOC;
+		die();
+	}
+
+	/**
+	 * WpPressThis::publish()
+	 *
+	 * @uses $_POST
+	 */
+	function publish() {
+		self::report_and_redirect( 'Published Post, should redirect to live post.', '../' );
+	}
+
+	/**
+	 * WpPressThis::save_draft()
+	 *
+	 * @uses $_POST
+	 */
+	function save_draft() {
+		self::report_and_redirect( 'Saved Draft, should redir to post edit screen.', '../' );
 	}
 
 	/**
@@ -116,10 +163,12 @@ class WpPressThis {
 		</div>
 		<div id='wppt_suggested_content_container'></div>
 	</div>
-	<form id="wppt_form" name="wppt_form">
+	<form id="wppt_form" name="wppt_form" method="POST" action="{$form_action}" target="_self">
 		<input type="hidden" name="wppt_title_field" id="wppt_title_field" value=""/>
 		<input type="hidden" name="wppt_selected_img_field" id="wppt_selected_img_field" value=""/>
 		<input type="hidden" name="wppt_content_field" id="wppt_content_field" value=""/>
+		<input type="submit" name="wppt_publish" id="wppt_publish" value=""/>
+		<input type="submit" name="wppt_draft" id="wppt_draft" value=""/>
 	</form>
 </body>
 </html>
@@ -141,6 +190,8 @@ ________HTMLDOC;
 				'Source:'                => __( 'Source:', $domain ),
 				'Show other images'      => __( 'Show other images', $domain ),
 				'Hide other images'      => __( 'Hide other images', $domain ),
+				'Publish'                => __( 'Publish', $domain ),
+				'Save Draft'             => __( 'Save Draft', $domain ),
 			),
 		) );
 		die();
