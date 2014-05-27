@@ -131,6 +131,8 @@
 					'background-repeat'  : 'no-repeat',
 					'background-size'    : 'auto '+current_square_size+'px',
 					'margin'             : '15px 15px 0 0'
+				}).click(function(){
+					alert(featured.replace(/^(http[^\?]+)(\?.*$)?/, '$1'));
 				}).appendTo('#wppt_featured_image_container');
 
 				/*
@@ -147,9 +149,14 @@
 			}
 
 			function render_other_images(all_images) {
+				var img_switch = $('#wppt_other_images_switch');
 
-				if ( ! all_images || ! all_images.length )
+				if ( ! all_images || ! all_images.length ) {
+					img_switch.text('').hide();
 					return;
+				}
+
+				$('#wppt_other_images_container').hide();
 
 				var img_div,
 					img_tag,
@@ -186,6 +193,8 @@
 						'background-repeat'  : 'no-repeat',
 						'background-size'    : 'auto '+( current_square_size * 1.5 )+'px',
 						'margin'             : '15px 15px 0 0'
+					}).click(function(){
+						alert(src.replace(/^(http[^\?]+)(\?.*$)?/, '$1'));
 					}).appendTo('#wppt_other_images_container');
 
 					/*
@@ -200,6 +209,16 @@
 					}).appendTo(img_div);
 					*/
 				});
+
+				img_switch.text(
+					site_config.i18n['Show other images']
+				).click(function(){
+					$('#wppt_other_images_container').toggle( 500 );
+					if ( img_switch.text() == site_config.i18n['Show other images'] )
+						img_switch.text( site_config.i18n['Hide other images'] );
+					else
+						img_switch.text( site_config.i18n['Show other images'] );
+				}).show();
 			}
 
 			function render_prioritized_images( featured, all_images ){
