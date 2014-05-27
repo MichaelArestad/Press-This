@@ -214,7 +214,8 @@
  *************************************************************** */
 
 			function initialize(){
-				return (app_config.ajax_url && site_config.nonce); // boolean
+				// If we don't have those, or they are empty, we weren't able to initialize properly.
+				return (app_config.ajax_url && app_config.ajax_url.length && site_config.nonce && site_config.nonce.length);
 			}
 
 			function render(){
@@ -231,6 +232,8 @@
 			// Let's go!
 			if ( initialize() ) {
 				render();
+			} else {
+				// @TODO: coulnd't initialize, fail gracefully
 			}
 		};
 
