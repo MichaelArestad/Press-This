@@ -105,7 +105,12 @@ class WpPressThis {
 	<script src="{$load_js_inc}" language="JavaScript"></script>
 </head>
 <body>
-	<div id='press_this_app_container' class="editor"></div>
+	<div id='wppt_app_container'>
+		<h2 id='wppt_title_container'></h2>
+		<div id='wppt_featured_image_container'></div>
+		<div id='wppt_other_images_container'></div>
+		<div id='wppt_suggested_excerpt_container'></div>
+	</div>
 </body>
 </html>
 ________HTMLDOC;
@@ -122,6 +127,7 @@ ________HTMLDOC;
 			'nonce'    => wp_create_nonce( 'press_this_site_settings' ),
 			'i18n'     => array(
 				'Welcome to Press This!' => __('Welcome to Press This!', 'press-this'),
+				'Source:'                => __( 'Source:', 'press-this' )
 			),
 		) );
 		die();
