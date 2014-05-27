@@ -17,7 +17,10 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
 class WpPressThis {
 	/**
+	 * WpPressThis::__construct()
 	 * Constructor
+	 *
+	 * @uses remove_action(), add_action()
 	 */
 	public function __construct() {
 
@@ -42,24 +45,38 @@ class WpPressThis {
 	}
 
 	/**
+	 * WpPressThis::runtime_url()
+	 *
 	 * @return string|void Full URL to /admin/press-this.php in current install
+	 * @uses admin_url()
 	 */
 	public function runtime_url() {
 		return admin_url( 'press-this.php' );
 	}
 
 	/**
+	 * WpPressThis::plugin_dir_path()
+	 *
 	 * @return string|void Full URL to /admin/press-this.php in current install
+	 * @uses __FILE__, plugin_dir_path()
 	 */
 	public function plugin_dir_path() {
 		return rtrim( plugin_dir_path( __FILE__ ), '/' );
 	}
 
+	/**
+	 * WpPressThis::plugin_dir_url()
+	 *
+	 * @return string
+	 * @uses __FILE__, plugin_dir_url()
+	 */
 	public function plugin_dir_url() {
 		return rtrim( plugin_dir_url( __FILE__ ), '/' );
 	}
 
 	/**
+	 * WpPressThis::shortcut_link_override()
+	 *
 	 * @return mixed Press This bookmarklet JS trigger found in /wp-admin/tools.php
 	 */
 	public function shortcut_link_override() {
@@ -70,7 +87,10 @@ class WpPressThis {
 	}
 
 	/**
+	 * WpPressThis::press_this_php_override()
 	 * Takes over /wp-admin/press-this.php for backward compatibility and while in feature-as-plugin mode
+	 *
+	 * @uses $_POST
 	 */
 	public function press_this_php_override() {
 		// Simply drop the following test once/if this becomes the standard Press This code in core
@@ -128,7 +148,9 @@ ________HTMLDOC;
 	}
 
 	/**
+	 * WpPressThis::serve_app_html()
 	 *
+	 * @uses $_POST, WpPressThis::runtime_url(), WpPressThis::plugin_dir_url()
 	 */
 	public function serve_app_html() {
 		$_POST['_runtime_url']    = self::runtime_url();
@@ -139,6 +161,7 @@ ________HTMLDOC;
 		$jquery_js_inc            = $js_inc_dir . '/jquery/jquery.js';
 		$app_css_inc              = self::plugin_dir_url() . '/css/press-this.css';
 		$load_js_inc              = self::plugin_dir_url() . '/js/load.js';
+		$form_action              = self::runtime_url();
 		echo <<<________HTMLDOC
 <!DOCTYPE html>
 <html>
@@ -177,7 +200,9 @@ ________HTMLDOC;
 	}
 
 	/**
+	 * WpPressThis::press_this_ajax_site_settings()
 	 *
+	 * @uses admin_url(), wp_create_nonce()
 	 */
 	public function press_this_ajax_site_settings() {
 		$domain = 'press-this';
