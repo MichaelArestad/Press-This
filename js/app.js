@@ -252,7 +252,7 @@
 			if ( initialize() ) {
 				render();
 			} else {
-				// @TODO: coulnd't initialize, fail gracefully
+				// @TODO: couldn't initialize, fail gracefully
 			}
 		};
 
