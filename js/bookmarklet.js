@@ -46,7 +46,7 @@ fAdd('_t',d.title);
 fAdd('_s',s);
 
 f.setAttribute('method','POST');
-f.setAttribute('action', ( u + '?buster' + now ));
+f.setAttribute('action', ( u + '?buster=' + now ));
 f.setAttribute('target', tn);
 
 if ( top.location.href.match(/^https/) && ! u.match(/https/) ) {
