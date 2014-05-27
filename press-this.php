@@ -28,19 +28,36 @@ class WpPressThis {
 		// @TODO: must come up with final solution for SAMEORIGIN handling when in modal context (detect, secure, serve).
 
 		if ( ! is_admin() ) {
-			remove_action( 'login_init', 'send_frame_options_header' );
-			// add_action( 'wp_ajax_nopriv_press_this_site_settings', array( $this, 'press_this_ajax_site_settings' ) );
+			if ( preg_match( '/\/wp-login\.php$/', $_SERVER['SCRIPT_NAME'] ) && preg_match( '/\/wp-admin\/press-this\.php([\?]{1}.*)?$/', $_GET['redirect_to'] ) ) {
+				/*
+				 * Only remove SAMEORIGIN header for /wp-login.php, so it can be displayed in the modal/iframe if needed,
+				 * and only if then redirected to /wp-admin/press-this.php
+				 */
+				remove_action( 'login_init', 'send_frame_options_header' );
+			}
 		} else {
-			remove_action( 'admin_init', 'send_frame_options_header' );
-
-			// Take over /wp-admin/press-this.php
-			add_action( 'admin_init', array( $this, 'press_this_php_override' ), 0 );
-
-			// Take over Press This bookmarklet code in /wp-admin/tools.php
-			add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
-
-			// AJAX handling
-			add_action( 'wp_ajax_press_this_site_settings', array( $this, 'press_this_ajax_site_settings' ) );
+			if ( preg_match( '/\/wp-admin\/press-this\.php$/', $_SERVER['SCRIPT_NAME'] ) ) {
+				/*
+				 * Only remove SAMEORIGIN header for /wp-admin/press-this.php itself, no other script require it,
+				 * or need to be displayed in an iframe (not even ajax, since only called from already authorized
+				 * press-this.php iframe: see below).
+				 */
+				remove_action( 'admin_init', 'send_frame_options_header' );
+				/*
+				 * Take over /wp-admin/press-this.php
+				 */
+				add_action( 'admin_init', array( $this, 'press_this_php_override' ), 0 );
+			} else if ( preg_match( '/\/wp-admin\/tools\.php$/', $_SERVER['SCRIPT_NAME'] ) ) {
+				/*
+				 * Take over Press This bookmarklet code in /wp-admin/tools.php
+				 */
+				add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
+			} else if ( preg_match( '/\/wp-admin\/admin-ajax\.php$/', $_SERVER['SCRIPT_NAME'] ) ) {
+				/*
+				 * AJAX handling
+				 */
+				add_action( 'wp_ajax_press_this_site_settings', array( $this, 'press_this_ajax_site_settings' ) );
+			}
 		}
 	}
 
