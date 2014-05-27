@@ -114,8 +114,13 @@ class WpPressThis {
 			<a href="#" id="wppt_other_images_switch"></a>
 			<div id='wppt_other_images_container'></div>
 		</div>
-		<div id='wppt_suggested_excerpt_container'></div>
+		<div id='wppt_suggested_content_container'></div>
 	</div>
+	<form id="wppt_form" name="wppt_form">
+		<input type="hidden" name="wppt_title_field" id="wppt_title_field" value=""/>
+		<input type="hidden" name="wppt_selected_img_field" id="wppt_selected_img_field" value=""/>
+		<input type="hidden" name="wppt_content_field" id="wppt_content_field" value=""/>
+	</form>
 </body>
 </html>
 ________HTMLDOC;

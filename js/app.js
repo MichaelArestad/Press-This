@@ -12,7 +12,7 @@
 				all_images            = data._img || [],
 				featured              = ( preferred ) ? preferred : ( ( all_images.length ) ? all_images[0] : '' ),
 				suggested_title_str   = suggested_title( data ) || '',
-				suggested_excerpt_str = suggested_excerpt( data ) || '';
+				suggested_content_str = suggested_content( data ) || '';
 
 /* ***************************************************************
  * LOGIC FUNCTIONS
@@ -35,27 +35,31 @@
 				return title.replace(/\\/g, '');
 			}
 
-			function suggested_excerpt( data ) {
+			function suggested_content( data ) {
 				if (!data)
 					return '';
 
-				var excerpt = '';
+				var content = '';
 
 				if ( data._s && data._s.length ) {
-					excerpt = data._s;
-					// console.log('_s', excerpt);
+					content = data._s;
+					// console.log('_s', content);
 				} else if ( data._meta['twitter:description'] && data._meta['twitter:description'].length ) {
-					excerpt = data._meta['twitter:description'];
-					// console.log('twitter:description', excerpt);
+					content = data._meta['twitter:description'];
+					// console.log('twitter:description', content);
 				} else if ( data._meta['og:description'] && data._meta['og:description'].length ) {
-					excerpt = data._meta['og:description'];
-					// console.log('og:description', excerpt);
+					content = data._meta['og:description'];
+					// console.log('og:description', content);
 				} else if ( data._meta['description'] && data._meta['description'].length ) {
-					excerpt = data._meta['description'];
-					// console.log('description', excerpt);
+					content = data._meta['description'];
+					// console.log('description', content);
 				}
 
-				return excerpt.replace(/\\/g, '');
+				return '<blockquote id="wppt_suggested_content">' + content.replace(/\\/g, '') + '</blockquote>'
+					+ '<p>'
+					+ site_config.i18n['Source:']
+					+ ' <cite id="wppt_suggested_content_source"><a href="'+ data._u +'" target="_blank">'+ suggested_title( data ) +'</a></cite>'
+					+ '</p>';
 			}
 
 			function featured_image( data ) {
@@ -87,6 +91,10 @@
 				return featured;
 			}
 
+			function full_size_src( src ) {
+				return src.replace(/^(http[^\?]+)(\?.*$)?/, '$1');
+			}
+
 /* ***************************************************************
  * RENDERING FUNCTIONS
  *************************************************************** */
@@ -98,22 +106,13 @@
 				$('#wppt_title_container').text( title );
 			}
 
-			function render_suggested_excerpt( excerpt ) {
-				if ( ! excerpt || ! excerpt.length )
+			function render_suggested_content( content ) {
+				if ( ! content || ! content.length )
 					return;
 
-				var suggested_excerpt_blockquote = $('<blockquote></blockquote>', {
-					'id'      : 'wppt_suggested_excerpt'
-				}).css({
+				$('#wppt_suggested_content_container').css({
 					'display' : 'block'
-				}).text(
-					suggested_excerpt_str
-				).appendTo('#wppt_suggested_excerpt_container');
-
-				var suggested_source = $('<p></p>', {
-				}).html(
-					site_config.i18n['Source:'] + ' <cite><a href="'+ data._u +'" target="_blank">'+ suggested_title_str +'</a></cite>'
-				).appendTo('#wppt_suggested_excerpt_container');
+				}).html( content );
 			}
 
 			function render_featured_image( featured ) {
@@ -132,7 +131,9 @@
 					'background-size'    : 'auto '+current_square_size+'px',
 					'margin'             : '15px 15px 0 0'
 				}).click(function(){
-					alert(featured.replace(/^(http[^\?]+)(\?.*$)?/, '$1'));
+					var real_src = full_size_src( featured );
+					$('#wppt_selected_img_field').val(real_src);
+					alert(real_src);
 				}).appendTo('#wppt_featured_image_container');
 
 				/*
@@ -158,9 +159,7 @@
 
 				$('#wppt_other_images_container').hide();
 
-				var img_div,
-					img_tag,
-					skipped = false,
+				var skipped = false,
 					num = 0;
 
 				$.each( all_images, function( i, src ) {
@@ -182,7 +181,7 @@
 					if ( featured.replace(/^([^\?]+)(\?.*)?$/, '$1') ==  src.replace(/^([^\?]+)(\?.*)?$/, '$1') )
 						return;
 
-					img_div = $('<div />', {
+					var img_div = $('<div />', {
 						'id'                 : 'img-'+i+'-container',
 						'width'              : current_square_size + 'px',
 						'height'             : current_square_size + 'px'
@@ -194,12 +193,14 @@
 						'background-size'    : 'auto '+( current_square_size * 1.5 )+'px',
 						'margin'             : '15px 15px 0 0'
 					}).click(function(){
-						alert(src.replace(/^(http[^\?]+)(\?.*$)?/, '$1'));
+						var real_src = full_size_src( src );
+						$('#wppt_selected_img_field').val(real_src);
+						alert(real_src);
 					}).appendTo('#wppt_other_images_container');
 
 					/*
 					 * Might not need that img, or might only need it, decide as group later
-					img_tag = $('<img />', {
+					var img_tag = $('<img />', {
 						'src'        : src,
 						'id'         : 'img-'+i,
 						'width'      : current_square_size + 'px',
@@ -228,6 +229,12 @@
 					render_other_images( all_images );
 			}
 
+			function render_default_form_field_values( default_title_str, default_img_src, default_content_str ) {
+				$('#wppt_title_field').val( default_title_str );
+				$('#wppt_selected_img_field').val( full_size_src( default_img_src ) );
+				$('#wppt_content_field').val( default_content_str );
+			}
+
 /* ***************************************************************
  * PROCESSING FUNCTIONS
  *************************************************************** */
@@ -242,7 +249,9 @@
 				$("head title").text(site_config.i18n['Welcome to Press This!']);
 				render_suggested_title( suggested_title_str );
 				render_prioritized_images( featured, all_images );
-				render_suggested_excerpt( suggested_excerpt_str );
+				render_suggested_content( suggested_content_str );
+
+				render_default_form_field_values( suggested_title_str, featured, suggested_content_str );
 			}
 
 /* ***************************************************************
