@@ -1,9 +1,6 @@
 ( function( $ ) {
 	$( document ).ready(function( $ ) {
 		var WpPressThis_App = function() {
-			// @DEBUG
-			// console.log('Starting WpPressThis_App');
-
 			var plugin_js_dir_url     = window.wp_pressthis_data._plugin_dir_url + '/js/',
 				app_config            = window.wp_pressthis_config.app_config || {},
 				site_config           = window.wp_pressthis_config.site_config || {},
@@ -17,8 +14,9 @@
 				suggested_title_str   = suggested_title( data ) || '',
 				suggested_excerpt_str = suggested_excerpt( data ) || '';
 
-			// @DEBUG
-			// console.log(app_config, site_config, data);
+/* ***************************************************************
+ * LOGIC FUNCTIONS
+ *************************************************************** */
 
 			function suggested_title( data ) {
 				if ( !data )
@@ -88,6 +86,10 @@
 
 				return featured;
 			}
+
+/* ***************************************************************
+ * RENDERING FUNCTIONS
+ *************************************************************** */
 
 			function render_suggested_title( title ) {
 				if ( ! title || ! title.length )
@@ -201,6 +203,10 @@
 					render_other_images( all_images );
 			}
 
+/* ***************************************************************
+ * PROCESSING FUNCTIONS
+ *************************************************************** */
+
 			function initialize(){
 				return (app_config.ajax_url && site_config.nonce); // boolean
 			}
@@ -213,13 +219,13 @@
 				render_suggested_excerpt( suggested_excerpt_str );
 			}
 
+/* ***************************************************************
+ * PROCESSING
+ *************************************************************** */
 			// Let's go!
 			if ( initialize() ) {
 				render();
 			}
-
-			// @DEBUG
-			// console.log('Ending WpPressThis_App');
 		};
 
 		window.wp_pressthis_app = new WpPressThis_App();
