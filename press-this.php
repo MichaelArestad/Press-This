@@ -195,7 +195,7 @@ ________HTMLDOC;
 	<script src="{$load_js_inc}" language="JavaScript"></script>
 </head>
 <body>
-	<div id='wppt_app_container'>
+	<div id='wppt_app_container' class="editor">
 		<h2 id='wppt_title_container' contenteditable="true"></h2>
 		<div id='wppt_featured_image_container'></div>
 		<div id='wppt_other_images_widget'>
@@ -204,13 +204,15 @@ ________HTMLDOC;
 		</div>
 		<div id='wppt_suggested_content_container' contenteditable="true"></div>
 	</div>
-	<form id="wppt_form" name="wppt_form" method="POST" action="{$form_action}" target="_self">
-		<input type="hidden" name="wppt_title_field" id="wppt_title_field" value=""/>
-		<input type="hidden" name="wppt_selected_img_field" id="wppt_selected_img_field" value=""/>
-		<input type="hidden" name="wppt_content_field" id="wppt_content_field" value=""/>
-		<input type="submit" name="wppt_publish" id="wppt_publish" value=""/>
-		<input type="submit" name="wppt_draft" id="wppt_draft" value=""/>
-	</form>
+	<div class="actions">
+		<form id="wppt_form" class="post-actions" name="wppt_form" method="POST" action="{$form_action}" target="_self">
+			<input type="hidden" name="wppt_title_field" id="wppt_title_field" value=""/>
+			<input type="hidden" name="wppt_selected_img_field" id="wppt_selected_img_field" value=""/>
+			<input type="hidden" name="wppt_content_field" id="wppt_content_field" value=""/>
+			<input type="submit" class="button--subtle" name="wppt_draft" id="wppt_draft" value=""/>
+			<input type="submit" class="button--primary" name="wppt_publish" id="wppt_publish" value=""/>
+		</form>
+	</div>
 </body>
 </html>
 ________HTMLDOC;

@@ -3,6 +3,12 @@
 // ==========================================================================
 
 $buttons:(
-	color: royalblue,
-	text: #fff,
+	primary__color: $blue--light,
+	primary__text: #fff,
+
+	secondary__color: #f7f7f7,
+	secondary__text: #555,
+
+	subtle__text: $blue--dark,
+	subtle__text--hover: $blue--light,
 );

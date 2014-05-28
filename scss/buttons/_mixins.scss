@@ -22,10 +22,13 @@
 	}
 
 	&[disabled],
-	&:disabled,
-	&.button-primary-disabled {
+	&:disabled {
 		color: hsl( hue( $button-color ), 10%, 80% ) !important;
 		background: darken( $button-color, 8% ) !important;
 		border-color: darken( $button-color, 15% ) !important;
+	}
+
+	&:visited {
+		color: $text-color;
 	}
 }

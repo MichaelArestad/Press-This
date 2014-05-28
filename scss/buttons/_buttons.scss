@@ -6,9 +6,32 @@
 @import "mixins";
 @import "extends";
 
-button,
-input[type="button"],
-input[type="reset"],
-input[type="submit"] {
-	@extend %button--default;
+
+// button,
+// input[type="button"],
+// input[type="reset"],
+// input[type="submit"],
+.button--secondary {
+	@extend %button--secondary;
+}
+
+.button--primary {
+	@extend %button--primary;
+}
+
+.button--subtle {
+	@extend %button;
+	background: none;
+	border: 0;
+	color: map-get($buttons, subtle__text);
+
+	&:focus,
+	&:hover,
+	&:active {
+		color: map-get($buttons, subtle__text--hover);
+	}
+
+	&:visited {
+		color: map-get($buttons, subtle__text);
+	}
 }
