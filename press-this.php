@@ -29,31 +29,37 @@ class WpPressThis {
 		 */
 
 		if ( ! is_admin() ) {
-			if ( preg_match( '/\/wp-login\.php$/', $_SERVER['SCRIPT_NAME'] ) && preg_match( '/\/wp-admin\/press-this\.php([\?]{1}.*)?$/', $_GET['redirect_to'] ) ) {
+			if ( false !== strpos( site_url('wp-login.php'), $_SERVER['SCRIPT_NAME'] ) ) {
 				/*
 				 * Only remove SAMEORIGIN header for /wp-login.php, so it can be displayed in the modal/iframe if needed,
-				 * and only if then redirected to /wp-admin/press-this.php
+				 * but only if then redirecting to /wp-admin/press-this.php
 				 */
-				remove_action( 'login_init', 'send_frame_options_header' );
+				if ( false !== strpos( $_GET['redirect_to'], self::runtime_url() ) )
+					remove_action( 'login_init', 'send_frame_options_header' );
 			}
 		} else {
-			if ( preg_match( '/\/wp-admin\/press-this\.php$/', $_SERVER['SCRIPT_NAME'] ) ) {
+			if ( false !== strpos( self::runtime_url(), $_SERVER['SCRIPT_NAME'] ) ) {
 				/*
-				 * Only remove SAMEORIGIN header for /wp-admin/press-this.php itself, no other script require it,
-				 * or need to be displayed in an iframe (not even ajax, since only called from already authorized
-				 * press-this.php iframe: see below).
+				 * Remove SAMEORIGIN header for /wp-admin/press-this.php on targeted install so it can be used inside the modal's iframe
 				 */
 				remove_action( 'admin_init', 'send_frame_options_header' );
 				/*
 				 * Take over /wp-admin/press-this.php
 				 */
 				add_action( 'admin_init', array( $this, 'press_this_php_override' ), 0 );
-			} else if ( preg_match( '/\/wp-admin\/tools\.php$/', $_SERVER['SCRIPT_NAME'] ) ) {
+			} else if ( false !== strpos( admin_url( 'post.php' ), $_SERVER['SCRIPT_NAME'] ) ) {
+				/*
+				 * Remove SAMEORIGIN header for /wp-admin/post.php so it can be used inside the modal's iframe,
+				 * after saving a draft, but only if referred from /wp-admin/press-this.php
+				 */
+				if ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() ) )
+					remove_action( 'admin_init', 'send_frame_options_header' );
+			} else if ( false !== strpos( admin_url( 'tools.php' ), $_SERVER['SCRIPT_NAME'] ) ) {
 				/*
 				 * Take over Press This bookmarklet code in /wp-admin/tools.php
 				 */
 				add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
-			} else if ( preg_match( '/\/wp-admin\/admin-ajax\.php$/', $_SERVER['SCRIPT_NAME'] ) ) {
+			} else if ( false !== strpos( admin_url( 'admin-ajax.php' ), $_SERVER['SCRIPT_NAME'] ) ) {
 				/*
 				 * AJAX handling
 				 */
@@ -112,7 +118,7 @@ class WpPressThis {
 	 */
 	public function press_this_php_override() {
 		// Simply drop the following test once/if this becomes the standard Press This code in core
-		if ( ! preg_match( '/\/press-this\.php$/', $_SERVER['SCRIPT_NAME'] ) )
+		if ( false === strpos( self::runtime_url(), $_SERVER['SCRIPT_NAME'] ) )
 			return;
 
 		// Decide what to do based on requested action, or lack there of
@@ -131,7 +137,7 @@ class WpPressThis {
 	 * @param $report
 	 * @param $redirect
 	 */
-	function report_and_redirect( $report, $redirect ){
+	function report_and_redirect( $report, $redirect, $target = 'self' ){
 		$report = esc_js( $report );
 		echo <<<________HTMLDOC
 <!DOCTYPE html>
@@ -139,7 +145,7 @@ class WpPressThis {
 <head lang="en">
 	<script language="JavaScript">
 		alert("{$report}");
-		window.top.location.href = '{$redirect}';
+		window.{$target}.location.href = '{$redirect}';
 	</script>
 </head>
 </html>
@@ -153,7 +159,7 @@ ________HTMLDOC;
 	 * @uses $_POST
 	 */
 	function publish() {
-		self::report_and_redirect( 'Published Post ('.json_encode($_POST).'), should redirect to live post.', '../' );
+		self::report_and_redirect( 'Published Post ('.json_encode($_POST).'), should redirect to live post.', '../', 'top' );
 	}
 
 	/**
@@ -162,7 +168,7 @@ ________HTMLDOC;
 	 * @uses $_POST
 	 */
 	function save_draft() {
-		self::report_and_redirect( 'Saved Draft ('.json_encode($_POST).'), should redir to post edit screen.', '../' );
+		self::report_and_redirect( 'Saved Draft ('.json_encode($_POST).'), should redir to post edit screen.', './post.php?post=1&action=edit', 'self' );
 	}
 
 	/**
