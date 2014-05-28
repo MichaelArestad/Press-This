@@ -36,7 +36,11 @@ for (var m = 0; m < metas.length; m++) {
 
 for (var n = 0; n < imgs.length; n++) {
 	r.src=imgs[n].src;
-	if( r.width >= 256 && r.height >= 128){
+	if( imgs[n].className && imgs[n].className.length && imgs[n].className.indexOf('gravatar') > -1 ) {
+		fAdd('_img[]',r.src.replace(/^(http[^\?]+)(\?.*)?$/, '$1'));
+	}else if( imgs[n].original && imgs[n].original.length ) {
+		fAdd('_img[]',r.src);
+	}else if( r.width >= 256 && r.height >= 128){
 		fAdd('_img[]',r.src);
 	}
 }
