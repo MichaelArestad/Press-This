@@ -196,13 +196,13 @@ ________HTMLDOC;
 </head>
 <body>
 	<div id='wppt_app_container'>
-		<h2 id='wppt_title_container'></h2>
+		<h2 id='wppt_title_container' contenteditable="true"></h2>
 		<div id='wppt_featured_image_container'></div>
 		<div id='wppt_other_images_widget'>
 			<a href="#" id="wppt_other_images_switch"></a>
 			<div id='wppt_other_images_container'></div>
 		</div>
-		<div id='wppt_suggested_content_container'></div>
+		<div id='wppt_suggested_content_container' contenteditable="true"></div>
 	</div>
 	<form id="wppt_form" name="wppt_form" method="POST" action="{$form_action}" target="_self">
 		<input type="hidden" name="wppt_title_field" id="wppt_title_field" value=""/>
