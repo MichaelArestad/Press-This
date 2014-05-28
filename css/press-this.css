@@ -669,7 +669,7 @@ html {
 }
 
 .editor {
-  padding: 30px;
+  padding: 0 30px 95px;
 }
 
 img {
@@ -697,7 +697,7 @@ img {
   bottom: 0;
   left: 1px;
   width: 100%;
-  height: 75px;
+  height: 65px;
   background: #f1f1f1;
   background: rgba(241, 241, 241, 0.9);
   border-top: 1px solid #e5e5e5;
@@ -705,7 +705,7 @@ img {
 
 .post-actions {
   float: right;
-  margin: 18px 30px;
+  margin: 14px 30px;
 }
 
 /*--------------------------------------------------------------
