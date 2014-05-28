@@ -5,12 +5,12 @@
 				app_config            = window.wp_pressthis_config.app_config || {},
 				site_config           = window.wp_pressthis_config.site_config || {},
 				data                  = window.wp_pressthis_data || {},
-				largest_width         = $( document ).width() - 60,
-				smallest_width        = 48,
-				current_square_size   = largest_width,
+				largest_width         = parseInt( $( document ).width() - 60 ) || 450,
+				smallest_width        = 64,
+				current_square_size   = parseInt( largest_width ) || 450,
 				preferred             = featured_image( data ) || '',
 				all_images            = data._img || [],
-				featured              = ( preferred ) ? preferred : ( ( all_images.length ) ? all_images[0] : '' ),
+				featured              = ( preferred ) ? preferred : ( ( all_images.length ) ? full_size_src( all_images[0] ) : '' ),
 				suggested_title_str   = suggested_title( data ) || '',
 				suggested_content_str = suggested_content( data ) || '',
 				already_shown_img     = [];
@@ -56,7 +56,7 @@
 					// console.log('description', content);
 				}
 
-				return '<blockquote id="wppt_suggested_content">' + content.replace(/\\/g, '') + '</blockquote>'
+				return ( (content.length) ? '<blockquote id="wppt_suggested_content">' + content.replace(/\\/g, '') + '</blockquote>' : '' )
 					+ '<p>'
 					+ site_config.i18n['Source:']
 					+ ' <cite id="wppt_suggested_content_source"><a href="'+ data._u +'" target="_blank">'+ suggested_title( data ) +'</a></cite>'
@@ -120,13 +120,17 @@
 				if ( ! featured || ! featured.length )
 					return;
 
+				var display_src = ( featured.indexOf('files.wordpress.com') > -1 )
+					? featured + '?w=' + current_square_size
+					: featured;
+
 				var img_div = $('<div />', {
 					'id'                 : 'img-featured-container',
 					'width'              : current_square_size + 'px',
-					'height'             : Math.abs( current_square_size / 1.5 ) + 'px'
+					'height'             : parseInt( current_square_size / 4 * 3 ) + 'px'
 				}).css({
 					'display'            : 'inline-block',
-					'background-image'   : 'url('+featured+')',
+					'background-image'   : 'url('+display_src+')',
 					'background-position': 'center',
 					'background-repeat'  : 'no-repeat',
 					'background-size'    : 'auto '+current_square_size+'px',
@@ -140,7 +144,7 @@
 				/*
 				 * Might not need that img, or might only need it, decide as group later
 				var img_tag = $('<img />', {
-					'src'        : featured,
+					'src'        : display_src,
 					'id'         : 'img-featured',
 					'width'      : current_square_size + 'px',
 					'height'     : 'auto'
@@ -162,8 +166,7 @@
 
 				$('#wppt_other_images_container').hide();
 
-				var skipped       = 0,
-					num           = 0;
+				var skipped = 0;
 
 				$.each( all_images, function( i, src ) {
 					src = full_size_src(src);
@@ -174,17 +177,17 @@
 						return;
 					}
 
-					num = ( skipped ) ? i - skipped : i;
+					var num = ( skipped ) ? i - skipped : i;
 
 					if (0 == num || num % 3 == 0)
-						current_square_size = Math.abs( current_square_size / 3.25 );
+						current_square_size = parseInt( current_square_size / 3.25 );
 
 					if ( smallest_width >= current_square_size )
 						current_square_size = smallest_width;
 
-
-					if ( featured.replace(/^([^\?]+)(\?.*)?$/, '$1') ==  src.replace(/^([^\?]+)(\?.*)?$/, '$1') )
-						return;
+					var display_src = ( src.indexOf('files.wordpress.com') > -1 )
+						? src + '?w=' + parseInt( current_square_size * 1.5 )
+						: src;
 
 					var img_div = $('<div />', {
 						'id'                 : 'img-'+i+'-container',
@@ -192,10 +195,10 @@
 						'height'             : current_square_size + 'px'
 					}).css({
 						'display'            : 'inline-block',
-						'background-image'   : 'url('+src+')',
+						'background-image'   : 'url('+display_src+')',
 						'background-position': 'center',
 						'background-repeat'  : 'no-repeat',
-						'background-size'    : 'auto '+( current_square_size * 1.5 )+'px',
+						'background-size'    : 'auto '+current_square_size+'px',
 						'margin'             : '15px 15px 0 0'
 					}).click(function(){
 						$('#wppt_selected_img_field').val(src);
@@ -205,7 +208,7 @@
 					/*
 					 * Might not need that img, or might only need it, decide as group later
 					var img_tag = $('<img />', {
-						'src'        : src,
+						'src'        : display_src,
 						'id'         : 'img-'+i,
 						'width'      : current_square_size + 'px',
 						'height'     : current_square_size + 'px'
@@ -216,6 +219,11 @@
 
 					already_shown_img.push(src);
 				});
+
+				if ( already_shown_img.length == 1 ) {
+					img_switch.text('').hide();
+					return;
+				}
 
 				img_switch.text(
 					site_config.i18n['Show other images']
