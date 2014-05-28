@@ -37,9 +37,10 @@
 			}
 
 			function save_cached_settings( app_config ) {
-				return ( ! ls_test() || ! app_config )
-					? false
-					: localStorage.setItem( 'WpPressThis_AppConfig', JSON.stringify( app_config ) );
+				if ( ! ls_test() || ! app_config )
+					return false;
+				localStorage.setItem( 'WpPressThis_AppConfig', JSON.stringify( app_config ) );
+				return true;
 			}
 
 			function initialize() {
@@ -116,6 +117,7 @@
 
 				if ( ! save_cached_settings( app_config ) ) {
 					// @TODO: couldn't save setting, [maybe] handle.
+					console.log("couldn't save settings...", app_config);
 				}
 
 				// That's it for the loader, now load the real app.js and let it take over.

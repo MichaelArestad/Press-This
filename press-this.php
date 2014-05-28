@@ -235,6 +235,8 @@ ________HTMLDOC;
 				'Hide other images'      => __( 'Hide other images', $domain ),
 				'Publish'                => __( 'Publish', $domain ),
 				'Save Draft'             => __( 'Save Draft', $domain ),
+				'New Post'               => __( 'New Post', $domain ),
+				'Start typing here.'     => __( 'Start typing here.', $domain ),
 			),
 		) );
 		die();
