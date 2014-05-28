@@ -1,31 +1,33 @@
 ( function( $ ) {
 	$( document ).ready(function( $ ) {
 		var WpPressThis_App = function() {
-			var plugin_js_dir_url     = window.wp_pressthis_data._plugin_dir_url + '/js/',
-				app_config            = window.wp_pressthis_config.app_config || {},
-				site_config           = window.wp_pressthis_config.site_config || {},
+			var site_config           = window.wp_pressthis_config || {},
 				data                  = window.wp_pressthis_data || {},
 				largest_width         = parseInt( $( document ).width() - 60 ) || 450,
 				smallest_width        = 64,
 				current_square_size   = parseInt( largest_width ) || 450,
-				preferred             = featured_image( data ) || '',
+				preferred             = featured_image( data ),
 				all_images            = data._img || [],
 				featured              = ( preferred ) ? preferred : ( ( all_images.length ) ? full_size_src( all_images[0] ) : '' ),
-				suggested_title_str   = suggested_title( data ) || '',
-				suggested_content_str = suggested_content( data ) || '',
-				already_shown_img     = [];
+				suggested_title_str   = suggested_title( data ),
+				suggested_content_str = suggested_content( data ),
+				already_shown_img     = [],
+				nonce                 = data._nonce || '';
 
 /* ***************************************************************
  * LOGIC FUNCTIONS
  *************************************************************** */
 
 			function suggested_title( data ) {
-				if ( !data )
+				if ( !data ) {
+					if ( site_config && site_config.i18n && site_config.i18n['New Post'] )
+						return site_config.i18n['New Post'];
 					return '';
+				}
 
 				var title='';
 
-				if ( data._meta['og:title'] && data._meta['og:title'].length ) {
+				if ( data._meta && data._meta['og:title'] && data._meta['og:title'].length ) {
 					title = data._meta['og:title'];
 					// console.log('og:title', title);
 				} else if ( data._t && data._t.length ) {
@@ -33,34 +35,56 @@
 					// console.log('_t', title);
 				}
 
+				if ( ! title.length && site_config && site_config.i18n && site_config.i18n['New Post'])
+					title = site_config.i18n['New Post'];
+
 				return title.replace(/\\/g, '');
 			}
 
 			function suggested_content( data ) {
-				if (!data)
-					return '';
+				var default_content = ( site_config && site_config.i18n && site_config.i18n['Start typing here.'] )
+						? site_config.i18n['Start typing here.']
+						: 'Start typing here.',
+					content = '',
+					title   = suggested_title( data),
+					url     = data._u || '' ;
 
-				var content = '';
+				if ( !data )
+					return default_content;
 
-				if ( data._s && data._s.length ) {
+				if (data._s && data._s.length) {
 					content = data._s;
 					// console.log('_s', content);
-				} else if ( data._meta['twitter:description'] && data._meta['twitter:description'].length ) {
-					content = data._meta['twitter:description'];
-					// console.log('twitter:description', content);
-				} else if ( data._meta['og:description'] && data._meta['og:description'].length ) {
-					content = data._meta['og:description'];
-					// console.log('og:description', content);
-				} else if ( data._meta['description'] && data._meta['description'].length ) {
-					content = data._meta['description'];
-					// console.log('description', content);
+				} else if (data._meta) {
+					if (data._meta['twitter:description'] && data._meta['twitter:description'].length) {
+						content = data._meta['twitter:description'];
+						// console.log('twitter:description', content);
+					} else if (data._meta['og:description'] && data._meta['og:description'].length) {
+						content = data._meta['og:description'];
+						// console.log('og:description', content);
+					} else if (data._meta['description'] && data._meta['description'].length) {
+						content = data._meta['description'];
+						// console.log('description', content);
+					}
 				}
 
-				return ( (content.length) ? '<blockquote id="wppt_suggested_content">' + content.replace(/\\/g, '') + '</blockquote>' : '' )
-					+ '<p>'
-					+ site_config.i18n['Source:']
-					+ ' <cite id="wppt_suggested_content_source"><a href="'+ data._u +'" target="_blank">'+ suggested_title( data ) +'</a></cite>'
-					+ '</p>';
+				// Wrap suggested content in blockquote tag, if we have any.
+				content = ( (content.length)
+						? '<blockquote id="wppt_suggested_content">' + content.replace(/\\/g, '') + '</blockquote>'
+						: '' );
+
+				// Add a source attribution if there is one available.
+				if ( title.length && url.length ) {
+					content += '<p>'
+							+ ( ( site_config.i18n['Source:'] ) ? site_config.i18n['Source:'] : '' )
+							+ ' <cite id="wppt_suggested_content_source"><a href="'+ url +'" target="_blank">'+ title +'</a></cite>'
+							+ '</p>';
+				}
+
+				if ( ! content.length )
+					content = default_content;
+
+				return content.replace(/\\/g, '');
 			}
 
 			function full_size_src( src ) {
@@ -68,7 +92,7 @@
 			}
 
 			function featured_image( data ) {
-				if ( ! data )
+				if ( ! data || ! data._meta )
 					return '';
 
 				var featured = '';
@@ -245,7 +269,8 @@
 					render_other_images( all_images );
 			}
 
-			function render_default_form_field_values( default_title_str, default_img_src, default_content_str ) {
+			function render_default_form_field_values( nonce, default_title_str, default_img_src, default_content_str ) {
+				$('#wppt_nonce_field').val( nonce );
 				$('#wppt_title_field').val( default_title_str );
 				$('#wppt_selected_img_field').val( default_img_src );
 				$('#wppt_content_field').val( default_content_str );
@@ -259,7 +284,7 @@
 
 			function initialize(){
 				// If we don't have those, or they are empty, we weren't able to initialize properly.
-				return (app_config.ajax_url && app_config.ajax_url.length && site_config.nonce && site_config.nonce.length);
+				return (site_config.ajax_url && site_config.ajax_url.length && data._nonce && data._nonce.length);
 			}
 
 			function render(){
@@ -269,12 +294,13 @@
 				render_prioritized_images( featured, all_images );
 				render_suggested_content( suggested_content_str );
 
-				render_default_form_field_values( suggested_title_str, featured, suggested_content_str );
+				render_default_form_field_values( nonce, suggested_title_str, featured, suggested_content_str );
 			}
 
 /* ***************************************************************
  * PROCESSING
  *************************************************************** */
+
 			// Let's go!
 			if ( initialize() ) {
 				render();

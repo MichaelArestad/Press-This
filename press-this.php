@@ -153,7 +153,7 @@ ________HTMLDOC;
 	 * @uses $_POST
 	 */
 	function publish() {
-		self::report_and_redirect( 'Published Post, should redirect to live post.', '../' );
+		self::report_and_redirect( 'Published Post ('.json_encode($_POST).'), should redirect to live post.', '../' );
 	}
 
 	/**
@@ -162,7 +162,7 @@ ________HTMLDOC;
 	 * @uses $_POST
 	 */
 	function save_draft() {
-		self::report_and_redirect( 'Saved Draft, should redir to post edit screen.', '../' );
+		self::report_and_redirect( 'Saved Draft ('.json_encode($_POST).'), should redir to post edit screen.', '../' );
 	}
 
 	/**
@@ -171,8 +171,13 @@ ________HTMLDOC;
 	 * @uses $_POST, WpPressThis::runtime_url(), WpPressThis::plugin_dir_url()
 	 */
 	public function serve_app_html() {
+		$plugin_data              = get_plugin_data( __FILE__, false, false );
+		$nonce                    = wp_create_nonce( 'press_this_site_settings' );
+		$_POST['_version']        = ( ! empty( $plugin_data ) && ! empty( $plugin_data['Version'] ) ) ? $plugin_data['Version'] : 0;
 		$_POST['_runtime_url']    = self::runtime_url();
 		$_POST['_plugin_dir_url'] = self::plugin_dir_url();
+		$_POST['_ajax_url']       = admin_url( 'admin-ajax.php' );
+		$_POST['_nonce']          = $nonce;
 		$json                     = json_encode( $_POST );
 		$js_inc_dir               = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js', self::runtime_url() );
 		$json_js_inc              = $js_inc_dir . '/json2.min.js';
@@ -206,6 +211,7 @@ ________HTMLDOC;
 	</div>
 	<div class="actions">
 		<form id="wppt_form" class="post-actions" name="wppt_form" method="POST" action="{$form_action}" target="_self">
+			<input type="hidden" name="wppt_nonce_field" id="wppt_nonce_field" value="{$nonce}"/>
 			<input type="hidden" name="wppt_title_field" id="wppt_title_field" value=""/>
 			<input type="hidden" name="wppt_selected_img_field" id="wppt_selected_img_field" value=""/>
 			<input type="hidden" name="wppt_content_field" id="wppt_content_field" value=""/>
@@ -225,12 +231,12 @@ ________HTMLDOC;
 	 * @uses admin_url(), wp_create_nonce()
 	 */
 	public function press_this_ajax_site_settings() {
-		$domain = 'press-this';
+		$domain      = 'press-this';
+		$plugin_data = get_plugin_data( __FILE__, false, false );
 		header( 'content-type: application/json' );
 		echo json_encode( array(
-			'ajax_url' => admin_url( 'admin-ajax.php' ),
-			'nonce'    => wp_create_nonce( 'press_this_site_settings' ),
-			'i18n'     => array(
+			'version'        => ( ! empty( $plugin_data ) && ! empty( $plugin_data['Version'] ) ) ? $plugin_data['Version'] : 0,
+			'i18n'           => array(
 				'Welcome to Press This!' => __('Welcome to Press This!', $domain ),
 				'Source:'                => __( 'Source:', $domain ),
 				'Show other images'      => __( 'Show other images', $domain ),
