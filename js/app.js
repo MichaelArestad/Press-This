@@ -124,17 +124,19 @@
 					? featured + '?w=' + current_square_size
 					: featured;
 
-				var img_div = $('<div />', {
+				var img_div = $('<img />', {
+					'src'                : display_src,
 					'id'                 : 'img-featured-container',
+					'class'              : 'featured-image',
 					'width'              : current_square_size + 'px',
-					'height'             : parseInt( current_square_size / 4 * 3 ) + 'px'
+					'height'             : parseInt( current_square_size / 1.6) + 'px'
 				}).css({
-					'display'            : 'inline-block',
-					'background-image'   : 'url('+display_src+')',
-					'background-position': 'center',
-					'background-repeat'  : 'no-repeat',
-					'background-size'    : 'auto '+current_square_size+'px',
-					'margin'             : '15px 15px 0 0'
+					// 'display'            : 'inline-block',
+					'background-image'   : 'url('+display_src+')'
+					// 'background-position': 'center',
+					// 'background-repeat'  : 'no-repeat',
+					// 'background-size'    : 'auto '+current_square_size+'px',
+					// 'margin'             : '15px 15px 0 0'
 				}).click(function(){
 					var real_src = featured ;
 					$('#wppt_selected_img_field').val(real_src);

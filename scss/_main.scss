@@ -20,17 +20,21 @@ img {
 	height: auto;
 }
 
-.featured-image__container {
+.featured-image-container {
 	padding: 2px 0;
 	border-top: 1px solid $gray--light;
 	border-bottom: 1px solid $gray--light;
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
+	// background-position: center;
+	// background-repeat: no-repeat;
+	// background-size: cover;
 }
 
 .featured-image {
 	display: block;
+	padding-left: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 
