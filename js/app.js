@@ -190,7 +190,7 @@
 					return;
 				}
 
-				$('#wppt_other_images_container').hide();
+				// $('#wppt_other_images_container').hide();
 
 				var skipped = 0;
 
@@ -206,7 +206,8 @@
 					var num = ( skipped ) ? i - skipped : i;
 
 					if (0 == num || num % 3 == 0)
-						current_square_size = parseInt( current_square_size / 3.25 );
+						// current_square_size = parseInt( current_square_size / 3.25 );
+						current_square_size = '33%';
 
 					if ( smallest_width >= current_square_size )
 						current_square_size = smallest_width;
@@ -215,17 +216,21 @@
 						? src + '?w=' + parseInt( current_square_size * 1.5 )
 						: src;
 
-					var img_div = $('<div />', {
+					var img_div = $('<img />', {
+						'src'                : display_src,
 						'id'                 : 'img-'+i+'-container',
-						'width'              : current_square_size + 'px',
-						'height'             : current_square_size + 'px'
+						'class'              : 'site-thumbnail',
+						// 'width'              : current_square_size
+						// 'height'             : current_square_size + 'px'
 					}).css({
-						'display'            : 'inline-block',
-						'background-image'   : 'url('+display_src+')',
-						'background-position': 'center',
-						'background-repeat'  : 'no-repeat',
-						'background-size'    : 'auto '+current_square_size+'px',
-						'margin'             : '15px 15px 0 0'
+						// 'display'            : 'inline-block',
+						'background-image'   : 'url('+display_src+')'
+						// 'width'              : current_square_size,
+						// 'padding'            : current_square_size+' 0 0 '+current_square_size
+						// 'background-position': 'center',
+						// 'background-repeat'  : 'no-repeat',
+						// 'background-size'    : 'auto '+current_square_size+'px',
+						// 'margin'             : '15px 15px 0 0'
 					}).click(function(){
 						$('#wppt_selected_img_field').val(src);
 						alert(src);
@@ -254,7 +259,8 @@
 				img_switch.text(
 					site_config.i18n['Show other images']
 				).click(function(){
-					$('#wppt_other_images_container').toggle( 500 );
+					// $('#wppt_other_images_container').toggle( 500 );
+					$('.featured-image-container').toggleClass('other-images--visible');
 					if ( img_switch.text() == site_config.i18n['Show other images'] )
 						img_switch.text( site_config.i18n['Hide other images'] );
 					else
