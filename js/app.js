@@ -84,7 +84,11 @@
 
 				var title='';
 
-				if ( data._meta ) {
+				if ( data._t ) {
+					title = data._t;
+				}
+
+				if ( ! title.length && data._meta ) {
 					if (data._meta['twitter:title'] && data._meta['twitter:title'].length) {
 						title = data._meta['twitter:title'];
 					} else if (data._meta['og:title'] && data._meta['og:title'].length) {
@@ -92,10 +96,6 @@
 					} else if (data._meta['title'] && data._meta['title'].length) {
 						title = data._meta['title'];
 					}
-				}
-
-				if ( ! title.length && data._t ) {
-					title = data._t;
 				}
 
 				if ( ! title.length)
