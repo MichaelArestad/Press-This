@@ -7,6 +7,7 @@ var d=document,
 	l=d.location,
 	e=encodeURIComponent,
 	metas=d.head.getElementsByTagName('meta'),
+	links=d.head.getElementsByTagName('link'),
 	imgs=d.body.getElementsByTagName('img'),
 	r=new Image(),
 	now= new Date().getTime(),
@@ -31,6 +32,25 @@ for (var m = 0; m < metas.length; m++) {
 		fAdd('_meta['+q_name+']',q_cont);
 	}else if(q_prop){
 		fAdd('_meta['+q_prop+']',q_cont);
+	}
+}
+
+for (var y = 0; y < links.length; y++) {
+	var g=links[y];
+	g_rel=g.getAttribute("rel");
+	if( g_rel ){
+		switch ( g_rel ) {
+			case 'canonical':
+			case 'icon':
+			case 'shortlink':
+				fAdd('_links['+g_rel+']',g.getAttribute("href"));
+				break;
+			case 'alternate':
+				if ( 'application/json+oembed' == g.getAttribute("type") )
+					fAdd('_links['+g_rel+']',g.getAttribute("href"));
+				else if ( 'handheld' == g.getAttribute("media") )
+					fAdd('_links['+g_rel+']',g.getAttribute("href"));
+		}
 	}
 }
 

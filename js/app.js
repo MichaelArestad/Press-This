@@ -30,18 +30,66 @@
 				return $('<div/>').text(str).html();
 			}
 
+			function full_size_src( src ) {
+				return src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
+			}
+
+			function canonical_link( data ) {
+				if ( ! data || data.length )
+					return '';
+
+				var link = '';
+
+				if ( data._links ) {
+					if (data._links['canonical'] && data._links['canonical'].length) {
+						link = data._links['canonical'];
+					}
+				} else if ( data._meta ) {
+					if (data._meta['twitter:url'] && data._meta['twitter:url'].length) {
+						link = data._meta['twitter:url'];
+					} else if (data._meta['og:url'] && data._meta['og:url'].length) {
+						link = data._meta['og:url'];
+					}
+				} else if ( data._u ) {
+					link = data._u;
+				}
+
+				return decodeURI( link );
+			}
+
+			function source_site_name( data ) {
+				if ( ! data || data.length )
+					return '';
+
+				var name='';
+
+				if ( data._meta ) {
+					if (data._meta['og:site_name'] && data._meta['og:site_name'].length) {
+						name = data._meta['og:site_name'];
+					} else if (data._meta['application-name'] && data._meta['application-name'].length) {
+						name = data._meta['application-name'];
+					}
+				}
+
+				return name.replace(/\\/g, '');
+			}
+
 			function suggested_title( data ) {
 				if ( ! data || data.length )
 					return __( 'New Post' );
 
 				var title='';
 
-				if ( data._meta && data._meta['og:title'] && data._meta['og:title'].length ) {
-					title = data._meta['og:title'];
-					// console.log('og:title', title);
-				} else if ( data._t && data._t.length ) {
+				if ( data._meta ) {
+					if (data._meta['twitter:title'] && data._meta['twitter:title'].length) {
+						title = data._meta['twitter:title'];
+					} else if (data._meta['og:title'] && data._meta['og:title'].length) {
+						title = data._meta['og:title'];
+					} else if (data._meta['title'] && data._meta['title'].length) {
+						title = data._meta['title'];
+					}
+				} else if ( data._t ) {
 					title = data._t;
-					// console.log('_t', title);
 				}
 
 				if ( ! title.length)
@@ -54,9 +102,12 @@
 				if ( ! data || data.length )
 					return __( 'Start typing here.' );
 
-				var content = '',
-					title   = suggested_title( data),
-					url     = data._u || '' ;
+				var content   = '',
+					title     = suggested_title( data ),
+					url       = canonical_link( data),
+					site_name = source_site_name( data );
+
+				console.log(site_name);
 
 				if (data._s && data._s.length) {
 					content = data._s;
@@ -80,10 +131,10 @@
 					: '' );
 
 				// Add a source attribution if there is one available.
-				if ( title.length && url.length ) {
+				if ( ( title.length || site_name.length ) && url.length ) {
 					content += '<p>'
 					+ __( 'Source:' )
-					+ ' <cite id="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'" target="_blank">'+ html_encode( title ) +'</a></cite>'
+					+ ' <cite id="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'" target="_blank">'+ html_encode( title || site_name ) +'</a></cite>'
 					+ '</p>';
 				}
 
@@ -91,10 +142,6 @@
 					content = __( 'Start typing here.' );
 
 				return content.replace(/\\/g, '');
-			}
-
-			function full_size_src( src ) {
-				return src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
 			}
 
 			function featured_image( data ) {
@@ -134,7 +181,7 @@
 				if ( ! title || ! title.length )
 					return;
 
-				$('#wppt_title_container').on('input', function(e){
+				$('#wppt_title_container').on('input', function(){
 					$('#wppt_title_field').val($(this).text());
 				}).text( title );
 			}
@@ -145,7 +192,7 @@
 
 				$('#wppt_suggested_content_container').css({
 					'display' : 'block'
-				}).on('input', function(e){
+				}).on('input', function(){
 					$('#wppt_content_field').val( $(this).html() );
 				}).html( content );
 			}
