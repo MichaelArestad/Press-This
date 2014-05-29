@@ -47,6 +47,9 @@ body {
 }
 
 .post__title {
+	margin: 0;
+	padding: .83em 0;
+	border-bottom: 1px solid $gray--light;
 	line-height: 1.4;
 }
 
@@ -55,7 +58,6 @@ body {
 .featured-image-container {
 	position: relative;
 	padding: 2px 0;
-	border-top: 1px solid $gray--light;
 	border-bottom: 1px solid $gray--light;
 	// background-position: center;
 	// background-repeat: no-repeat;
@@ -76,7 +78,7 @@ body {
 	display: none;
 	margin: 0 0 46px;
 	padding-bottom: 2px;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid $gray--light;
 }
 
 .site-thumbnail {
