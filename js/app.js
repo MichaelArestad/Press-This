@@ -250,11 +250,11 @@
 
 					if (num < 3) {
 						css_size_class = 'thumbs-large';
-					} else if (num < 9) {
+					} else if (num < 7) {
 						css_size_class = 'thumbs-medium';
 					}
 
-					if ( 0 == num || 3 == num || 9 == num )
+					if ( 0 == num || 3 == num || 7 == num )
 						current_width   = parseInt(current_width / 3);
 
 					if ( current_width < smallest_width )
