@@ -18,12 +18,21 @@
  * LOGIC FUNCTIONS
  *************************************************************** */
 
+			function __( str ) {
+				return ( ! site_config || ! site_config.i18n || ! site_config.i18n[str] || ! site_config.i18n[str].length )
+					? str : site_config.i18n[str];
+			}
+
+			// Source: https://stackoverflow.com/questions/1219860/html-encoding-in-javascript-jquery/1219983#1219983
+			function html_encode( str ){
+				//create a in-memory div, set it's inner text(which jQuery automatically encodes)
+				//then grab the encoded contents back out.  The div never exists on the page.
+				return $('<div/>').text(str).html();
+			}
+
 			function suggested_title( data ) {
-				if ( !data ) {
-					if ( site_config && site_config.i18n && site_config.i18n['New Post'] )
-						return site_config.i18n['New Post'];
-					return '';
-				}
+				if ( ! data || data.length )
+					return __( 'New Post' );
 
 				var title='';
 
@@ -35,22 +44,19 @@
 					// console.log('_t', title);
 				}
 
-				if ( ! title.length && site_config && site_config.i18n && site_config.i18n['New Post'])
-					title = site_config.i18n['New Post'];
+				if ( ! title.length)
+					title = __( 'New Post' );
 
 				return title.replace(/\\/g, '');
 			}
 
 			function suggested_content( data ) {
-				var default_content = ( site_config && site_config.i18n && site_config.i18n['Start typing here.'] )
-						? site_config.i18n['Start typing here.']
-						: 'Start typing here.',
-					content = '',
+				if ( ! data || data.length )
+					return __( 'Start typing here.' );
+
+				var content = '',
 					title   = suggested_title( data),
 					url     = data._u || '' ;
-
-				if ( !data )
-					return default_content;
 
 				if (data._s && data._s.length) {
 					content = data._s;
@@ -70,19 +76,19 @@
 
 				// Wrap suggested content in blockquote tag, if we have any.
 				content = ( (content.length)
-						? '<blockquote id="wppt_suggested_content">' + content.replace(/\\/g, '') + '</blockquote>'
-						: '' );
+					? '<blockquote id="wppt_suggested_content">' + html_encode( content.replace(/\\/g, '') ) + '</blockquote>'
+					: '' );
 
 				// Add a source attribution if there is one available.
 				if ( title.length && url.length ) {
 					content += '<p>'
-							+ ( ( site_config.i18n['Source:'] ) ? site_config.i18n['Source:'] : '' )
-							+ ' <cite id="wppt_suggested_content_source"><a href="'+ url +'" target="_blank">'+ title +'</a></cite>'
-							+ '</p>';
+					+ __( 'Source:' )
+					+ ' <cite id="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'" target="_blank">'+ html_encode( title ) +'</a></cite>'
+					+ '</p>';
 				}
 
 				if ( ! content.length )
-					content = default_content;
+					content = __( 'Start typing here.' );
 
 				return content.replace(/\\/g, '');
 			}
@@ -261,10 +267,10 @@
 				).click(function(){
 					// $('#wppt_other_images_container').toggle( 500 );
 					$('.featured-image-container').toggleClass('other-images--visible');
-					if ( img_switch.text() == site_config.i18n['Show other images'] )
-						img_switch.text( site_config.i18n['Hide other images'] );
+					if ( img_switch.text() == __( 'Show other images' ) )
+						img_switch.text( __( 'Hide other images' ) );
 					else
-						img_switch.text( site_config.i18n['Show other images'] );
+						img_switch.text( __( 'Show other images' ) );
 				}).show();
 			}
 
@@ -280,8 +286,8 @@
 				$('#wppt_title_field').val( default_title_str );
 				$('#wppt_selected_img_field').val( default_img_src );
 				$('#wppt_content_field').val( default_content_str );
-				$('#wppt_publish').val( site_config.i18n['Publish'] );
-				$('#wppt_draft').val( site_config.i18n['Save Draft'] );
+				$('#wppt_publish').val( __( 'Publish' ) );
+				$('#wppt_draft').val( __( 'Save Draft' ) );
 			}
 
 /* ***************************************************************
@@ -295,7 +301,7 @@
 
 			function render(){
 				// We're on!
-				$("head title").text(site_config.i18n['Welcome to Press This!']);
+				$("head title").text(__( 'Welcome to Press This!' ));
 				render_suggested_title( suggested_title_str );
 				render_prioritized_images( featured, all_images );
 				render_suggested_content( suggested_content_str );
