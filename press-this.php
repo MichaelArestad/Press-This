@@ -121,6 +121,10 @@ class WpPressThis {
 		if ( false === strpos( self::runtime_url(), $_SERVER['SCRIPT_NAME'] ) )
 			return;
 
+		if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
+		}
+
 		// Decide what to do based on requested action, or lack there of
 		if ( ! empty( $_POST['wppt_publish'] ) ) {
 			self::publish();
