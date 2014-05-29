@@ -178,7 +178,7 @@ class WpPressThis {
 		}
 
 		if ( ! empty( $_POST['wppt_selected_img'] ) ) {
-			$content = '<img src="'.esc_url( $_POST['wppt_selected_img'] ).'" />'
+			$content = '<a href="'.esc_url( $_POST['wppt_source_url'] ).'"><img src="'.esc_url( $_POST['wppt_selected_img'] ).'" /></a>'
 					. $content;
 		}
 
@@ -263,10 +263,12 @@ class WpPressThis {
 		<form id="wppt_form" class="post-actions" name="wppt_form" method="POST" action="{$form_action}" target="_self">
 			<input type="hidden" name="wppt_nonce" id="wppt_nonce_field" value="{$nonce}"/>
 			<input type="hidden" name="wppt_title" id="wppt_title_field" value=""/>
-			<input type="hidden" name="wppt_selected_img" id="wppt_selected_img_field" value=""/>
 			<input type="hidden" name="wppt_content" id="wppt_content_field" value=""/>
-			<input type="submit" class="button--subtle" name="wppt_draft" id="wppt_draft" value=""/>
-			<input type="submit" class="button--primary" name="wppt_publish" id="wppt_publish" value=""/>
+			<input type="hidden" name="wppt_selected_img" id="wppt_selected_img_field" value=""/>
+			<input type="hidden" name="wppt_source_url" id="wppt_source_url_field" value=""/>
+			<input type="hidden" name="wppt_source_name" id=wppt_source_name_field" value=""/>
+			<input type="submit" class="button--subtle" name="wppt_draft" id="wppt_draft_field" value=""/>
+			<input type="submit" class="button--primary" name="wppt_publish" id="wppt_publish_field" value=""/>
 		</form>
 	</div>
 </body>
