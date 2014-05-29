@@ -7,11 +7,36 @@
 
 html {
 	background: #fff;
-	border-left: 1px solid $gray--light;
+	// border-left: 1px solid $gray--light;
+}
+
+body { // Goofy way to keep left border full height. Could do it with a gradient as well.
+	margin-left: 1px;
+
+	&:before {
+		content: '';
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 1px;
+		background: $gray--light;
+	}
+
+	@include breakpoint(phablet){
+		font-size: 16px;
+	}
+	@include breakpoint(phone){
+		font-size: 14px;
+	}
 }
 
 .editor {
-	padding: 0 30px 95px;
+	padding: 0 em(30) em(95);
+}
+
+.editor--content {
+	min-height: 8em;
 }
 
 [contenteditable] {
@@ -20,6 +45,10 @@ html {
 
 .post__title {
 	line-height: 1.4;
+}
+
+.source {
+
 }
 
 
@@ -41,10 +70,11 @@ img {
 
 .featured-image {
 	display: block;
-	padding-left: 100%;
+	padding: 62.5% 0 0 100%;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	cursor: pointer;
 }
 
 .other-images {
@@ -64,6 +94,7 @@ img {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	cursor: pointer;
 
 	&:after {
 		content: '';
@@ -97,7 +128,7 @@ img {
 	bottom: 0;
 	left: 1px;
 	width: 100%;
-	height: 65px;
+	height: em(65);
 	background: $gray--ultralight;
 	background: transparentize($gray--ultralight, .1);
 	border-top: 1px solid $gray--light;
@@ -105,5 +136,5 @@ img {
 
 .post-actions {
 	float: right;
-	margin: 14px 30px;
+	margin: em(14) em(30);
 }

@@ -242,7 +242,7 @@ class WpPressThis {
 				<div id='wppt_other_images_container'></div>
 			</div>
 		</div>
-		<div id='wppt_suggested_content_container' contenteditable="true"></div>
+		<div id='wppt_suggested_content_container' class="editor--content" contenteditable="true"></div>
 	</div>
 	<div class="actions">
 		<form id="wppt_form" class="post-actions" name="wppt_form" method="POST" action="{$form_action}" target="_self">
