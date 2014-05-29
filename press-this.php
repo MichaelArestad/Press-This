@@ -153,11 +153,11 @@ class WpPressThis {
 	/**
 	 * WpPressThis::format_post_data_for_save()
 	 *
-	 * @return array('post_title', 'post_content')
+	 * @return array('post_title' => $title, 'post_content' => $content, 'post_status' => $post_status)
 	 *
 	 * @uses $_POST
 	 */
-	public function format_post_data_for_save() {
+	public function format_post_data_for_save( $status = 'draft' ) {
 		if ( empty( $_POST ) ) {
 			$site_settings = self::press_this_site_settings();
 			return array(
@@ -184,7 +184,38 @@ class WpPressThis {
 
 		$post['post_content'] = $content;
 
+		if ( 'publish' == $status ) {
+			if ( current_user_can( 'publish_posts' ) )
+				$post['post_status'] = $status;
+			else
+				$post['post_status'] = 'pending';
+		} else {
+			$post['post_status'] = 'draft';
+		}
+
 		return $post;
+	}
+
+	public function side_load_images( $post_id, $content ) {
+		$upload = false;
+		if ( !empty($_POST['wppt_selected_img']) && current_user_can('upload_files') ) {
+			foreach( (array) $_POST['wppt_selected_img'] as $key => $image) {
+				// see if files exist in content - we don't want to upload non-used selected files.
+				if ( strpos($content, htmlspecialchars($image)) !== false ) {
+					$upload = media_sideload_image($image, $post_id);
+
+					// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
+					if ( !is_wp_error($upload) )
+						$content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote(htmlspecialchars($image), '/').'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
+				}
+			}
+		}
+
+		// error handling for media_sideload
+		if ( is_wp_error($upload) )
+			return $upload;
+
+		return $content;
 	}
 
 	/**
@@ -196,21 +227,42 @@ class WpPressThis {
 	 */
 	public function save( $post_status = 'draft' ) {
 		$wp_error      = false;
-		$data          = self::format_post_data_for_save();
-
-		if ( 'publish' != $post_status )
-			$post_status = 'draft';
+		$data          = self::format_post_data_for_save( $post_status );
 
 		$post = array(
 			'post_title'     => $data['post_title'],
 			'post_content'   => $data['post_content'],
-			'post_status'    => $post_status,
+			'post_status'    => 'draft',
 			'post_type'      => 'post',
 		);
 
 		$post_id = wp_insert_post( $post, $wp_error );
 
-		return ( ! empty( $wp_error ) ) ? $wp_error : $post_id;
+		if ( ! empty( $wp_error ) && is_wp_error( $wp_error ) )
+			return $wp_error;
+
+		$post['ID']           = $post_id;
+		$post['post_content'] = self::side_load_images( $post_id, $post['post_content'] );
+		$post['post_status']  = $data['post_status'];
+
+		$new_content = self::side_load_images( $post_id, $post['post_content'] );
+
+		if ( is_wp_error( $new_content ) ) {
+			wp_delete_post($post_id);
+			return $new_content;
+		}
+
+		// Update the post if needed
+		if ( $new_content != $post['post_content'] || 'draft' != $post['post_status'] ) {
+			$post_id = wp_update_post($post, $wp_error);
+
+			if ( ! empty( $wp_error ) && is_wp_error( $wp_error ) ) {
+				wp_delete_post($post_id);
+				return $wp_error;
+			}
+		}
+
+		return $post_id;
 	}
 
 	/**
