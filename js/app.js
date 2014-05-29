@@ -134,7 +134,9 @@
 				if ( ! title || ! title.length )
 					return;
 
-				$('#wppt_title_container').text( title );
+				$('#wppt_title_container').on('input', function(e){
+					$('#wppt_title_field').val($(this).text());
+				}).text( title );
 			}
 
 			function render_suggested_content( content ) {
@@ -143,6 +145,8 @@
 
 				$('#wppt_suggested_content_container').css({
 					'display' : 'block'
+				}).on('input', function(e){
+					$('#wppt_content_field').val( $(this).html() );
 				}).html( content );
 			}
 
