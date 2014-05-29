@@ -80,11 +80,12 @@ body {
 }
 
 .site-thumbnail {
+	$size: 25%;
 	position: relative;
 	display: block;
 	float: left;
-	width: 33.333%;
-	padding: 33.333% 0 0 33.333%;
+	width: $size;
+	padding: $size 0 0 $size;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -99,6 +100,23 @@ body {
 		width: 2px;
 		background: #fff;
 	}
+}
+
+.thumbs-large {
+	$size: 33.333%;
+
+	width: $size;
+	padding: $size 0 0 $size;
+}
+// .thumbs-medium {
+// 	width: 33.333%;
+// 	padding: 33.333% 0 0 33.333%;
+// }
+.thumbs-small {
+	$size: 12.5%;
+
+	width: $size;
+	padding: $size 0 0 $size;
 }
 
 .other-images--visible {
