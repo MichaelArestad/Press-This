@@ -10,10 +10,11 @@ html {
 	// border-left: 1px solid $gray--light;
 }
 
-body { // Goofy way to keep left border full height. Could do it with a gradient as well.
-	margin-left: 1px;
+body {
+	margin: 0 0 em(95) 1px;
 
 	&:before {
+		// Goofy way to keep left border full height. Could do it with a gradient as well.
 		content: '';
 		position: fixed;
 		top: 0;
@@ -31,15 +32,17 @@ body { // Goofy way to keep left border full height. Could do it with a gradient
 	}
 }
 
+
+// Editor stuff
 .editor {
-	padding: 0 em(30) em(95);
+	padding: 0 em(30) 0;
 }
 
 .editor--content {
 	min-height: 8em;
 }
 
-[contenteditable] {
+[contenteditable] { // Temporary
 	outline: 0;
 }
 
@@ -47,17 +50,8 @@ body { // Goofy way to keep left border full height. Could do it with a gradient
 	line-height: 1.4;
 }
 
-.source {
 
-}
-
-
-// Will put this in media.scss when fleshed out a bit more
-img {
-	max-width: 100%;
-	height: auto;
-}
-
+// Featured images
 .featured-image-container {
 	position: relative;
 	padding: 2px 0;
@@ -121,6 +115,7 @@ img {
 	bottom: 10px;
 	right: 10px;
 }
+
 
 // Footer/actions
 .actions {
