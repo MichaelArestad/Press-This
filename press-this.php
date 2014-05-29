@@ -3,7 +3,7 @@
 Plugin Name: Press This
 Plugin URI: http://wordpress.org/extend/plugins/press-this/
 Description: Posting images, links, and cat gifs will never be the same.
-Version: 0.1
+Version: 0.1a
 Author: Press This Team
 Author URI: https://corepressthis.wordpress.com/
 Text Domain: press-this
@@ -76,6 +76,20 @@ class WpPressThis {
 		}
 	}
 
+	public function set_url_scheme( $url ) {
+		if ( ( function_exists('force_ssl_admin') && force_ssl_admin() )
+		     || ( function_exists('force_ssl_login') && force_ssl_login() )
+		     || ( function_exists('force_ssl_content') && force_ssl_content() )
+		     || ( function_exists('is_ssl') && is_ssl() )) {
+			return set_url_scheme( $url, 'https' );
+		}
+		return set_url_scheme( $url, 'http' );
+	}
+
+	public function strip_url_scheme( $url ) {
+		return preg_replace( '/^https?:(\/\/.+)$/', '\1', $url );
+	}
+
 	/**
 	 * WpPressThis::runtime_url()
 	 *
@@ -83,7 +97,7 @@ class WpPressThis {
 	 * @uses admin_url()
 	 */
 	public function runtime_url() {
-		return admin_url( 'press-this.php' );
+		return self::set_url_scheme( admin_url( 'press-this.php' ) );
 	}
 
 	/**
@@ -103,7 +117,7 @@ class WpPressThis {
 	 * @uses __FILE__, plugin_dir_url()
 	 */
 	public function plugin_dir_url() {
-		return rtrim( plugin_dir_url( __FILE__ ), '/' );
+		return rtrim( self::strip_url_scheme( plugin_dir_url( __FILE__ ) ), '/' );
 	}
 
 	/**
@@ -205,20 +219,21 @@ class WpPressThis {
 	 * @uses $_POST, WpPressThis::runtime_url(), WpPressThis::plugin_dir_url()
 	 */
 	public function serve_app_html() {
+		$runtime_url              = self::strip_url_scheme( self::runtime_url() );
 		$plugin_data              = get_plugin_data( __FILE__, false, false );
 		$nonce                    = wp_create_nonce( 'press_this_site_settings' );
 		$_POST['_version']        = ( ! empty( $plugin_data ) && ! empty( $plugin_data['Version'] ) ) ? $plugin_data['Version'] : 0;
-		$_POST['_runtime_url']    = self::runtime_url();
+		$_POST['_runtime_url']    = $runtime_url;
 		$_POST['_plugin_dir_url'] = self::plugin_dir_url();
-		$_POST['_ajax_url']       = admin_url( 'admin-ajax.php' );
+		$_POST['_ajax_url']       = self::strip_url_scheme( admin_url( 'admin-ajax.php' ) );
 		$_POST['_nonce']          = $nonce;
 		$json                     = json_encode( $_POST );
-		$js_inc_dir               = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js', self::runtime_url() );
+		$js_inc_dir               = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js', $runtime_url );
 		$json_js_inc              = $js_inc_dir . '/json2.min.js';
 		$jquery_js_inc            = $js_inc_dir . '/jquery/jquery.js';
 		$app_css_inc              = self::plugin_dir_url() . '/css/press-this.css';
 		$load_js_inc              = self::plugin_dir_url() . '/js/load.js';
-		$form_action              = self::runtime_url();
+		$form_action              = $runtime_url;
 		echo <<<________HTMLDOC
 <!DOCTYPE html>
 <html>
