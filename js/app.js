@@ -255,7 +255,7 @@
 					}
 
 					if ( 0 == num || 3 == num || 7 == num )
-						current_width   = parseInt(current_width / 3);
+						current_width   = parseInt(current_width / 2);
 
 					if ( current_width < smallest_width )
 						current_width = smallest_width;
