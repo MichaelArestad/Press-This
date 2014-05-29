@@ -229,9 +229,9 @@
 					var img_div = $('<img />', {
 						'src'                : display_src,
 						'id'                 : 'img-'+i+'-container',
-						'class'              : 'site-thumbnail',
 						// 'width'              : current_square_size
 						// 'height'             : current_square_size + 'px'
+						'class'              : 'site-thumbnail'
 					}).css({
 						// 'display'            : 'inline-block',
 						'background-image'   : 'url('+display_src+')'
