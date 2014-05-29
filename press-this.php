@@ -133,36 +133,7 @@ class WpPressThis {
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
 		}
 
-		// Decide what to do based on requested action, or lack there of
-		if ( ! empty( $_POST['wppt_publish'] ) ) {
-			self::publish();
-		} else if ( ! empty( $_POST['wppt_draft'] ) ) {
-			self::save_draft();
-		} else {
-			self::serve_app_html();
-		}
-	}
-
-	/**
-	 * WpPressThis::report_and_redirect()
-	 *
-	 * @param $report
-	 * @param $redirect
-	 */
-	public function report_and_redirect( $report, $redirect, $target = 'self' ){
-		$report = esc_js( $report );
-		echo <<<________HTMLDOC
-<!DOCTYPE html>
-<html>
-<head lang="en">
-	<script language="JavaScript">
-		alert("{$report}");
-		window.{$target}.location.href = '{$redirect}';
-	</script>
-</head>
-</html>
-________HTMLDOC;
-		die();
+		self::serve_app_html();
 	}
 
 	/**
