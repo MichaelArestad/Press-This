@@ -72,8 +72,6 @@
 			}
 
 			function load_site_config() {
-				// @DEBUG
-				// console.log('Loading site config live...');
 				$.post(ajax_url, { action: site_config_callback}, function (response) {
 					site_config = response || {};
 					// Set the target URLs in site_config, for caching (but leave data._nonce and data._version, both time-sensitive)
@@ -85,6 +83,8 @@
 						// @TODO: couldn't save setting, [maybe] handle.
 						console.log("Couldn't save settings...", site_config);
 					}
+					// @DEBUG
+					// console.log('Loaded site config live...', site_config);
 					complete_loading();
 				});
 			}
