@@ -5,7 +5,7 @@
 				data                  = window.wp_pressthis_data || {},
 				largest_width         = parseInt( $( document ).width() - 60 ) || 450,
 				smallest_width        = 64,
-				current_square_size   = parseInt( largest_width ) || 450,
+				current_width         = parseInt( largest_width ) || 450,
 				preferred             = featured_image( data ),
 				all_images            = data._img || [],
 				featured              = ( preferred ) ? preferred : ( ( all_images.length ) ? full_size_src( all_images[0] ) : '' ),
@@ -204,39 +204,22 @@
 				}
 
 				var display_src = ( featured.indexOf('files.wordpress.com') > -1 )
-					? featured + '?w=' + current_square_size
+					? featured + '?w=' + current_width
 					: featured;
 
 				var img_div = $('<img />', {
 					'src'                : display_src,
 					'id'                 : 'img-featured-container',
 					'class'              : 'featured-image',
-					'width'              : current_square_size + 'px',
-					'height'             : parseInt( current_square_size / 1.6) + 'px'
+					'width'              : current_width + 'px',
+					'height'             : parseInt( current_width / 1.6) + 'px'
 				}).css({
-					// 'display'            : 'inline-block',
 					'background-image'   : 'url('+display_src+')'
-					// 'background-position': 'center',
-					// 'background-repeat'  : 'no-repeat',
-					// 'background-size'    : 'auto '+current_square_size+'px',
-					// 'margin'             : '15px 15px 0 0'
 				}).click(function(){
 					var real_src = featured ;
 					$('#wppt_selected_img_field').val(real_src);
 					alert(real_src);
 				}).appendTo('#wppt_featured_image_container');
-
-				/*
-				 * Might not need that img, or might only need it, decide as group later
-				var img_tag = $('<img />', {
-					'src'        : display_src,
-					'id'         : 'img-featured',
-					'width'      : current_square_size + 'px',
-					'height'     : 'auto'
-				}).css({
-					'visibility' : 'hidden'
-				}).appendTo(img_div);
-				*/
 
 				already_shown_img.push(featured);
 			}
@@ -257,55 +240,40 @@
 					src = full_size_src(src);
 
 					// Skip this image if already shown
-					if ( already_shown_img.indexOf(src) > -1 ) {
+					if (already_shown_img.indexOf(src) > -1) {
 						skipped++;
 						return;
 					}
 
-					var num = ( skipped ) ? i - skipped : i;
+					var num = ( skipped ) ? i - skipped : i,
+						css_size_class = 'thumbs-small';
 
-					if (0 == num || num % 3 == 0)
-						// current_square_size = parseInt( current_square_size / 3.25 );
-						current_square_size = '33%';
+					if (num < 3) {
+						css_size_class = 'thumbs-large';
+					} else if (num < 9) {
+						css_size_class = 'thumbs-medium';
+					}
 
-					if ( smallest_width >= current_square_size )
-						current_square_size = smallest_width;
+					if ( 0 == num || 3 == num || 9 == num )
+						current_width   = parseInt(current_width / 3);
+
+					if ( current_width < smallest_width )
+						current_width = smallest_width;
 
 					var display_src = ( src.indexOf('files.wordpress.com') > -1 )
-						? src + '?w=' + parseInt( current_square_size * 1.5 )
+						? src + '?w=' + parseInt( current_width * 1.5 )
 						: src;
 
 					var img_div = $('<img />', {
 						'src'                : display_src,
 						'id'                 : 'img-'+i+'-container',
-						// 'width'              : current_square_size
-						// 'height'             : current_square_size + 'px'
-						'class'              : 'site-thumbnail'
+						'class'              : 'site-thumbnail ' + css_size_class
 					}).css({
-						// 'display'            : 'inline-block',
 						'background-image'   : 'url('+display_src+')'
-						// 'width'              : current_square_size,
-						// 'padding'            : current_square_size+' 0 0 '+current_square_size
-						// 'background-position': 'center',
-						// 'background-repeat'  : 'no-repeat',
-						// 'background-size'    : 'auto '+current_square_size+'px',
-						// 'margin'             : '15px 15px 0 0'
 					}).click(function(){
 						$('#wppt_selected_img_field').val(src);
 						alert(src);
 					}).appendTo('#wppt_other_images_container');
-
-					/*
-					 * Might not need that img, or might only need it, decide as group later
-					var img_tag = $('<img />', {
-						'src'        : display_src,
-						'id'         : 'img-'+i,
-						'width'      : current_square_size + 'px',
-						'height'     : current_square_size + 'px'
-					}).css({
-						'visibility' : 'hidden'
-					}).appendTo(img_div);
-					*/
 
 					already_shown_img.push(src);
 				});
