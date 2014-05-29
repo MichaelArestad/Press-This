@@ -141,7 +141,7 @@ class WpPressThis {
 	 * @param $report
 	 * @param $redirect
 	 */
-	function report_and_redirect( $report, $redirect, $target = 'self' ){
+	public function report_and_redirect( $report, $redirect, $target = 'self' ){
 		$report = esc_js( $report );
 		echo <<<________HTMLDOC
 <!DOCTYPE html>
@@ -158,21 +158,86 @@ ________HTMLDOC;
 	}
 
 	/**
-	 * WpPressThis::publish()
+	 * WpPressThis::format_post_data_for_save()
+	 *
+	 * @return array('post_title', 'post_content')
 	 *
 	 * @uses $_POST
 	 */
-	function publish() {
-		self::report_and_redirect( 'Published Post ('.json_encode($_POST).'), should redirect to live post.', '../', 'top' );
+	public function format_post_data_for_save() {
+		if ( empty( $_POST ) ) {
+			$site_settings = self::press_this_site_settings();
+			return array(
+				'post_title'   => $site_settings['i18n']['New Post'],
+				'post_content' => '',
+			);
+		}
+
+		$post    = array();
+		$content = '';
+
+		if ( ! empty( $_POST['wppt_title'] ) ) {
+			$post['post_title'] = sanitize_text_field( $_POST['wppt_title'] );
+		}
+
+		if ( ! empty( $_POST['wppt_content'] ) ) {
+			$content = $_POST['wppt_content']; // we have to allow this one and let wp_insert_post() filter the content
+		}
+
+		if ( ! empty( $_POST['wppt_selected_img'] ) ) {
+			$content = '<img src="'.esc_url( $_POST['wppt_selected_img'] ).'" />'
+					. $content;
+		}
+
+		$post['post_content'] = $content;
+
+		return $post;
+	}
+
+	/**
+	 * WpPressThis::save()
+	 *
+	 * @param string $post_status
+	 *
+	 * @return bool|int|WP_Error
+	 */
+	public function save( $post_status = 'draft' ) {
+		$wp_error      = false;
+		$data          = self::format_post_data_for_save();
+
+		if ( 'publish' != $post_status )
+			$post_status = 'draft';
+
+		$post = array(
+			'post_title'     => $data['post_title'],
+			'post_content'   => $data['post_content'],
+			'post_status'    => $post_status,
+			'post_type'      => 'post',
+		);
+
+		$post_id = wp_insert_post( $post, $wp_error );
+
+		return ( ! empty( $wp_error ) ) ? $wp_error : $post_id;
+	}
+
+	/**
+	 * WpPressThis::publish()
+	 */
+	public function publish() {
+		$post_id = self::save( 'publish' );
+		if ( is_wp_error( $post_id ) )
+			wp_die( self::press_this_site_settings()['i18n']['Sorry, but an unexpected error occurred.'] );
+		wp_safe_redirect( get_permalink( $post_id ) );
 	}
 
 	/**
 	 * WpPressThis::save_draft()
-	 *
-	 * @uses $_POST
 	 */
-	function save_draft() {
-		self::report_and_redirect( 'Saved Draft ('.json_encode($_POST).'), should redir to post edit screen.', './post.php?post=1&action=edit', 'self' );
+	public function save_draft() {
+		$post_id = self::save( 'draft' );
+		if ( is_wp_error( $post_id ) )
+			wp_die( self::press_this_site_settings()['i18n']['Sorry, but an unexpected error occurred.'] );
+		wp_safe_redirect('./post.php?post='.$post_id.'&action=edit');
 	}
 
 	/**
@@ -222,10 +287,10 @@ ________HTMLDOC;
 	</div>
 	<div class="actions">
 		<form id="wppt_form" class="post-actions" name="wppt_form" method="POST" action="{$form_action}" target="_self">
-			<input type="hidden" name="wppt_nonce_field" id="wppt_nonce_field" value="{$nonce}"/>
-			<input type="hidden" name="wppt_title_field" id="wppt_title_field" value=""/>
-			<input type="hidden" name="wppt_selected_img_field" id="wppt_selected_img_field" value=""/>
-			<input type="hidden" name="wppt_content_field" id="wppt_content_field" value=""/>
+			<input type="hidden" name="wppt_nonce" id="wppt_nonce_field" value="{$nonce}"/>
+			<input type="hidden" name="wppt_title" id="wppt_title_field" value=""/>
+			<input type="hidden" name="wppt_selected_img" id="wppt_selected_img_field" value=""/>
+			<input type="hidden" name="wppt_content" id="wppt_content_field" value=""/>
 			<input type="submit" class="button--subtle" name="wppt_draft" id="wppt_draft" value=""/>
 			<input type="submit" class="button--primary" name="wppt_publish" id="wppt_publish" value=""/>
 		</form>
@@ -241,11 +306,10 @@ ________HTMLDOC;
 	 *
 	 * @uses admin_url(), wp_create_nonce()
 	 */
-	public function press_this_ajax_site_settings() {
+	public function press_this_site_settings() {
 		$domain      = 'press-this';
 		$plugin_data = get_plugin_data( __FILE__, false, false );
-		header( 'content-type: application/json' );
-		echo json_encode( array(
+		return array(
 			'version'        => ( ! empty( $plugin_data ) && ! empty( $plugin_data['Version'] ) ) ? $plugin_data['Version'] : 0,
 			'i18n'           => array(
 				'Welcome to Press This!' => __('Welcome to Press This!', $domain ),
@@ -256,8 +320,19 @@ ________HTMLDOC;
 				'Save Draft'             => __( 'Save Draft', $domain ),
 				'New Post'               => __( 'New Post', $domain ),
 				'Start typing here.'     => __( 'Start typing here.', $domain ),
+				'Sorry, but an unexpected error occurred.' => __( 'Sorry, but an unexpected error occurred.', $domain ),
 			),
-		) );
+		);
+	}
+
+	/**
+	 * WpPressThis::press_this_ajax_site_settings()
+	 *
+	 * @uses admin_url(), wp_create_nonce()
+	 */
+	public function press_this_ajax_site_settings() {
+		header( 'content-type: application/json' );
+		echo json_encode( self::press_this_site_settings() );
 		die();
 	}
 }
