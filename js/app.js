@@ -359,6 +359,48 @@
 				render_suggested_content( suggested_content_str );
 
 				render_default_form_field_values( nonce, suggested_title_str, featured, suggested_content_str );
+
+				return true;
+			}
+
+			function button_clicks(e, action) {
+				var form = $('#wppt_form');
+				if ( 'publish' !== action )
+					action = 'draft';
+				e.preventDefault();
+				$('<input type="hidden" name="action" id="wppt_action" value="press_this_'+action+'_post">').appendTo(form);
+				var data = form.serialize();
+				$.ajax({
+					type: "POST",
+					url: site_config.ajax_url,
+					data: data,
+					success: function(r){
+						if ( r.error ) {
+							console.log(r.error);
+							alert(__('Sorry, but an unexpected error occurred.'));
+						} else {
+							if ( 'published' == r.post_status )
+								window.top.location.href = r.post_permalink;
+							else
+								window.self.location.href = './post.php?post=' + r.post_id + '&action=edit';
+						}
+					}
+				});
+			}
+
+			function monitor(){
+				$('#wppt_form').on('submit', function(e){
+					e.preventDefault();
+					button_clicks(e, 'draft');
+				});
+
+				$('#wppt_draft').on('click', function(e){
+					button_clicks(e, 'draft');
+				});
+
+				$('#wppt_publish').on('click', function(e){
+					button_clicks(e, 'publish');
+				});
 			}
 
 /* ***************************************************************
@@ -367,9 +409,15 @@
 
 			// Let's go!
 			if ( initialize() ) {
-				render();
+				if ( render() ) {
+					monitor();
+				} else {
+					// @TODO: couldn't render, fail gracefully
+					console.log('Could not render...');
+				}
 			} else {
 				// @TODO: couldn't initialize, fail gracefully
+				console.log('Could not initialize...');
 			}
 		};
 

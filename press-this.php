@@ -50,9 +50,9 @@ class WpPressThis {
 			} else if ( false !== strpos( admin_url( 'post.php' ), $_SERVER['SCRIPT_NAME'] ) ) {
 				/*
 				 * Remove SAMEORIGIN header for /wp-admin/post.php so it can be used inside the modal's iframe,
-				 * after saving a draft, but only if referred from /wp-admin/press-this.php
+				 * after saving a draft, but only if referred from /wp-admin/press-this.php or itself
 				 */
-				if ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() ) )
+				if ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() ) || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) )
 					remove_action( 'admin_init', 'send_frame_options_header' );
 			} else if ( false !== strpos( admin_url( 'tools.php' ), $_SERVER['SCRIPT_NAME'] ) ) {
 				/*
@@ -61,9 +61,17 @@ class WpPressThis {
 				add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
 			} else if ( false !== strpos( admin_url( 'admin-ajax.php' ), $_SERVER['SCRIPT_NAME'] ) ) {
 				/*
+				 * Remove SAMEORIGIN header for /wp-admin/admin-ajax.php so it can be used from the modal's iframe,
+				 * after saving a draft, but only if referred from /wp-admin/press-this.php or /wp-admin/post.php
+				 */
+				if ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() ) || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) )
+					remove_action( 'admin_init', 'send_frame_options_header' );
+				/*
 				 * AJAX handling
 				 */
 				add_action( 'wp_ajax_press_this_site_settings', array( $this, 'press_this_ajax_site_settings' ) );
+				add_action( 'wp_ajax_press_this_publish_post', array( $this, 'press_this_ajax_publish_post' ) );
+				add_action( 'wp_ajax_press_this_draft_post', array( $this, 'press_this_ajax_draft_post' ) );
 			}
 		}
 	}
@@ -221,30 +229,6 @@ ________HTMLDOC;
 	}
 
 	/**
-	 * WpPressThis::publish()
-	 */
-	public function publish() {
-		$post_id = self::save( 'publish' );
-		if ( is_wp_error( $post_id ) || intval( $post_id ) < 1 ) {
-			$site_settings = self::press_this_site_settings();
-			wp_die( $site_settings['i18n']['Sorry, but an unexpected error occurred.'] );
-		}
-		wp_safe_redirect( get_permalink( (int) $post_id ) );
-	}
-
-	/**
-	 * WpPressThis::save_draft()
-	 */
-	public function save_draft() {
-		$post_id = self::save( 'draft' );
-		if ( is_wp_error( $post_id ) || intval( $post_id ) < 1 ) {
-			$site_settings = self::press_this_site_settings();
-			wp_die( $site_settings['i18n']['Sorry, but an unexpected error occurred.'] );
-		}
-		wp_safe_redirect('./post.php?post='.(int) $post_id.'&action=edit');
-	}
-
-	/**
 	 * WpPressThis::serve_app_html()
 	 *
 	 * @uses $_POST, WpPressThis::runtime_url(), WpPressThis::plugin_dir_url()
@@ -338,6 +322,25 @@ ________HTMLDOC;
 		header( 'content-type: application/json' );
 		echo json_encode( self::press_this_site_settings() );
 		die();
+	}
+
+	public function post_save_json_response( $post_id, $post_status = 'draft' ) {
+		header( 'content-type: application/json' );
+		if ( is_wp_error( $post_id ) || intval( $post_id ) < 1 ) {
+			$site_settings = self::press_this_site_settings();
+			echo json_encode( array( 'error' => $site_settings['i18n']['Sorry, but an unexpected error occurred.'] ) );
+		} else {
+			echo json_encode( array( 'post_id' => $post_id, 'post_permalink' => get_post_permalink( $post_id ), 'post_status' => $post_status ) );
+		}
+		die();
+	}
+
+	public function press_this_ajax_draft_post() {
+		self::post_save_json_response( self::save( 'draft' ) );
+	}
+
+	public function press_this_ajax_publish_post() {
+		self::post_save_json_response( self::save( 'publish' ), 'published' );
 	}
 }
 
