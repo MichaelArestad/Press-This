@@ -235,7 +235,7 @@ class WpPressThis {
 </head>
 <body>
 	<div id='wppt_app_container' class="editor">
-		<h2 id='wppt_title_container' contenteditable="true"></h2>
+		<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
 		<div id='wppt_featured_image_container' class="featured-image-container">
 			<a href="#" id="wppt_other_images_switch" class="other-images__switch button--secondary"></a>
 			<div id='wppt_other_images_widget' class="other-images">

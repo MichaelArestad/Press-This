@@ -14,6 +14,15 @@ html {
 	padding: 0 30px 95px;
 }
 
+[contenteditable] {
+	outline: 0;
+}
+
+.post__title {
+	line-height: 1.4;
+}
+
+
 // Will put this in media.scss when fleshed out a bit more
 img {
 	max-width: 100%;
@@ -41,7 +50,9 @@ img {
 .other-images {
 	@include clearfix;
 	display: none;
-	margin: 0 0 43px;
+	margin: 0 0 46px;
+	padding-bottom: 2px;
+	border-bottom: 1px solid #eee;
 }
 
 .site-thumbnail {
@@ -74,13 +85,6 @@ img {
 	}
 }
 
-.other-images {
-	// position: absolute;
-	// top: 0;
-	// left: 0;
-	// width: 100%;
-	// height: 100%;
-}
 .other-images__switch {
 	position: absolute;
 	bottom: 10px;
