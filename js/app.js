@@ -88,7 +88,9 @@
 					} else if (data._meta['title'] && data._meta['title'].length) {
 						title = data._meta['title'];
 					}
-				} else if ( data._t ) {
+				}
+
+				if ( ! title.length && data._t ) {
 					title = data._t;
 				}
 
@@ -106,8 +108,6 @@
 					title     = suggested_title( data ),
 					url       = canonical_link( data),
 					site_name = source_site_name( data );
-
-				console.log(site_name);
 
 				if (data._s && data._s.length) {
 					content = data._s;
@@ -198,8 +198,10 @@
 			}
 
 			function render_featured_image( featured ) {
-				if ( ! featured || ! featured.length )
+				if ( ! featured || ! featured.length ) {
+					$('#wppt_featured_image_container').hide();
 					return;
+				}
 
 				var display_src = ( featured.indexOf('files.wordpress.com') > -1 )
 					? featured + '?w=' + current_square_size
@@ -240,14 +242,14 @@
 			}
 
 			function render_other_images(all_images) {
-				var img_switch = $('#wppt_other_images_switch');
+				var img_switch     = $('#wppt_other_images_switch'),
+					imgs_container = $('#wppt_other_images_container');
 
 				if ( ! all_images || ! all_images.length ) {
 					img_switch.text('').hide();
+					imgs_container.hide();
 					return;
 				}
-
-				// $('#wppt_other_images_container').hide();
 
 				var skipped = 0;
 
@@ -310,11 +312,12 @@
 
 				if ( already_shown_img.length == 1 ) {
 					img_switch.text('').hide();
+					imgs_container.hide();
 					return;
 				}
 
 				img_switch.text(
-					site_config.i18n['Show other images']
+					__( 'Show other images' )
 				).click(function(){
 					// $('#wppt_other_images_container').toggle( 500 );
 					$('.featured-image-container').toggleClass('other-images--visible');
@@ -326,10 +329,8 @@
 			}
 
 			function render_prioritized_images( featured, all_images ){
-				if ( featured && featured.length )
-					render_featured_image( featured );
-				if ( all_images && all_images.length )
-					render_other_images( all_images );
+				render_featured_image( featured );
+				render_other_images( all_images );
 			}
 
 			function render_default_form_field_values( nonce, default_title_str, default_img_src, default_content_str ) {
