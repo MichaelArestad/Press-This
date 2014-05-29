@@ -29,7 +29,7 @@ class WpPressThis {
 		 */
 
 		if ( ! is_admin() ) {
-			if ( false !== strpos( site_url('wp-login.php'), $_SERVER['SCRIPT_NAME'] ) ) {
+			if ( false !== strpos( site_url( 'wp-login.php' ), $_SERVER['SCRIPT_NAME'] ) ) {
 				/*
 				 * Only remove SAMEORIGIN header for /wp-login.php, so it can be displayed in the modal/iframe if needed,
 				 * but only if then redirecting to /wp-admin/press-this.php
@@ -77,11 +77,11 @@ class WpPressThis {
 	}
 
 	public function set_url_scheme( $url ) {
-		if ( ( function_exists('force_ssl_admin') && force_ssl_admin() )
-		     || ( function_exists('force_ssl_login') && force_ssl_login() )
-		     || ( function_exists('force_ssl_content') && force_ssl_content() )
-		     || ( function_exists('is_ssl') && is_ssl() )) {
-			return set_url_scheme( $url, 'https' );
+		if ( ( function_exists( 'force_ssl_admin' ) && force_ssl_admin() )
+		     || ( function_exists( 'force_ssl_login' ) && force_ssl_login() )
+		     || ( function_exists( 'force_ssl_content' ) && force_ssl_content() )
+		     || ( function_exists( 'is_ssl' ) && is_ssl() )) {
+			return set_url_scheme(  $url, 'https' );
 		}
 		return set_url_scheme( $url, 'http' );
 	}
@@ -198,21 +198,21 @@ class WpPressThis {
 
 	public function side_load_images( $post_id, $content ) {
 		$upload = false;
-		if ( !empty($_POST['wppt_selected_img']) && current_user_can('upload_files') ) {
-			foreach( (array) $_POST['wppt_selected_img'] as $key => $image) {
+		if ( ! empty( $_POST['wppt_selected_img'] ) && current_user_can( 'upload_files' ) ) {
+			foreach( (array) $_POST['wppt_selected_img'] as $key => $image ) {
 				// see if files exist in content - we don't want to upload non-used selected files.
 				if ( strpos($content, htmlspecialchars($image)) !== false ) {
-					$upload = media_sideload_image($image, $post_id);
+					$upload = media_sideload_image( $image, $post_id );
 
 					// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
-					if ( !is_wp_error($upload) )
-						$content = preg_replace('/<img ([^>]*)src=\\\?(\"|\')'.preg_quote(htmlspecialchars($image), '/').'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content);
+					if ( !is_wp_error( $upload ) )
+						$content = preg_replace( '/<img ([^>]*)src=\\\?(\"|\')'.preg_quote( htmlspecialchars( $image ), '/' ).'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content );
 				}
 			}
 		}
 
 		// error handling for media_sideload
-		if ( is_wp_error($upload) )
+		if ( is_wp_error( $upload ) )
 			return $upload;
 
 		return $content;
@@ -248,7 +248,7 @@ class WpPressThis {
 		$new_content = self::side_load_images( $post_id, $post['post_content'] );
 
 		if ( is_wp_error( $new_content ) ) {
-			wp_delete_post($post_id);
+			wp_delete_post( $post_id );
 			return $new_content;
 		}
 
