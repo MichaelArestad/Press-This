@@ -225,9 +225,11 @@ ________HTMLDOC;
 	 */
 	public function publish() {
 		$post_id = self::save( 'publish' );
-		if ( is_wp_error( $post_id ) )
-			wp_die( self::press_this_site_settings()['i18n']['Sorry, but an unexpected error occurred.'] );
-		wp_safe_redirect( get_permalink( $post_id ) );
+		if ( is_wp_error( $post_id ) || intval( $post_id ) < 1 ) {
+			$site_settings = self::press_this_site_settings();
+			wp_die( $site_settings['i18n']['Sorry, but an unexpected error occurred.'] );
+		}
+		wp_safe_redirect( get_permalink( (int) $post_id ) );
 	}
 
 	/**
@@ -235,9 +237,11 @@ ________HTMLDOC;
 	 */
 	public function save_draft() {
 		$post_id = self::save( 'draft' );
-		if ( is_wp_error( $post_id ) )
-			wp_die( self::press_this_site_settings()['i18n']['Sorry, but an unexpected error occurred.'] );
-		wp_safe_redirect('./post.php?post='.$post_id.'&action=edit');
+		if ( is_wp_error( $post_id ) || intval( $post_id ) < 1 ) {
+			$site_settings = self::press_this_site_settings();
+			wp_die( $site_settings['i18n']['Sorry, but an unexpected error occurred.'] );
+		}
+		wp_safe_redirect('./post.php?post='.(int) $post_id.'&action=edit');
 	}
 
 	/**
