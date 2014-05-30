@@ -8,5 +8,9 @@
     "grunt-contrib-watch": "~0.5.3",
     "grunt-contrib-sass": "~0.7.1",
     "grunt-autoprefixer": "~0.6.5"
+  },
+  "repository" :{
+    "type" : "git",
+	"url" : "https://github.com/MichaelArestad/Press-This.git"
   }
 }
