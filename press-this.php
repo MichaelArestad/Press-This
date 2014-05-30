@@ -224,11 +224,10 @@ class WpPressThis {
 		if ( ! empty( $_POST['wppt_selected_img'] ) && current_user_can( 'upload_files' ) ) {
 			foreach( (array) $_POST['wppt_selected_img'] as $key => $image ) {
 				// see if files exist in content - we don't want to upload non-used selected files.
-				if ( strpos($content, htmlspecialchars($image)) !== false ) {
+				if ( false !== strpos( $content, htmlspecialchars( $image ) ) ) {
 					$upload = media_sideload_image( $image, $post_id );
-
 					// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
-					if ( !is_wp_error( $upload ) )
+					if ( ! is_wp_error( $upload ) )
 						$content = preg_replace( '/<img ([^>]*)src=\\\?(\"|\')'.preg_quote( htmlspecialchars( $image ), '/' ).'\\\?(\2)([^>\/]*)\/*>/is', $upload, $content );
 				}
 			}
@@ -265,7 +264,6 @@ class WpPressThis {
 			return $wp_error;
 
 		$post['ID']           = $post_id;
-		$post['post_content'] = self::side_load_images( $post_id, $post['post_content'] );
 		$post['post_status']  = $data['post_status'];
 
 		$new_content = self::side_load_images( $post_id, $post['post_content'] );
