@@ -1,5 +1,5 @@
 === Press This ===
-Contributors: michael-arestad, stephdau
+Contributors: michael-arestad, stephdau, georgestephanis, folletto, melchoyce
 Donate link: http://wordpressfoundation.org/donate/
 Tags: post, quick-post, photo-post
 Requires at least: 3.9
@@ -14,6 +14,8 @@ Posting images, links, and cat gifs will never be the same.
 
 Press This is a redesign of the Press This bookmarklet with a focus on automation and speed. It will have a simplified interface, efficient media upload, content scraping, and site switching.
 
+== Contributing ==
+
 You can see discussion and progress at [corepressthis.wordpress.com](corepressthis.wordpress.com).
 
 Development of this plugin is done on [Github](https://github.com/MichaelArestad/Press-This). Pull requests welcome.
@@ -26,3 +28,5 @@ Development of this plugin is done on [Github](https://github.com/MichaelArestad
 
 = 0.1 =
 Initial development version
+
+= 0.11 =
