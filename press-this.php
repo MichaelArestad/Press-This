@@ -275,8 +275,8 @@ class WpPressThis {
 
 		// Update the post if needed
 		if ( $new_content != $post['post_content'] || 'draft' != $post['post_status'] ) {
+			$post['post_content'] = $new_content;
 			$post_id = wp_update_post($post, $wp_error);
-
 			if ( ! empty( $wp_error ) && is_wp_error( $wp_error ) ) {
 				wp_delete_post($post_id);
 				return $wp_error;
