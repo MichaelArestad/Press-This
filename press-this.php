@@ -28,17 +28,23 @@ class WpPressThis {
 		 * @TODO: IMPORTANT: must come up with final solution for SAMEORIGIN handling when in modal context (detect, secure, serve).
 		 */
 
+		$script_name = self::script_name();
+
+		if ( empty( $script_name ) )
+			return;
+
 		if ( ! is_admin() ) {
-			if ( false !== strpos( site_url( 'wp-login.php' ), $_SERVER['SCRIPT_NAME'] ) ) {
+			if ( false !== strpos( site_url( 'wp-login.php' ), $script_name ) ) {
 				/*
 				 * Only remove SAMEORIGIN header for /wp-login.php, so it can be displayed in the modal/iframe if needed,
 				 * but only if then redirecting to /wp-admin/press-this.php
 				 */
-				if ( false !== strpos( $_GET['redirect_to'], self::runtime_url() ) )
+				if ( ! empty( $_GET['redirect_to'] )
+				     && false !== strpos( $_GET['redirect_to'], self::runtime_url() ) )
 					remove_action( 'login_init', 'send_frame_options_header' );
 			}
 		} else {
-			if ( false !== strpos( self::runtime_url(), $_SERVER['SCRIPT_NAME'] ) ) {
+			if ( false !== strpos( self::runtime_url(), $script_name ) ) {
 				/*
 				 * Remove SAMEORIGIN header for /wp-admin/press-this.php on targeted install so it can be used inside the modal's iframe
 				 */
@@ -47,24 +53,28 @@ class WpPressThis {
 				 * Take over /wp-admin/press-this.php
 				 */
 				add_action( 'admin_init', array( $this, 'press_this_php_override' ), 0 );
-			} else if ( false !== strpos( admin_url( 'post.php' ), $_SERVER['SCRIPT_NAME'] ) ) {
+			} else if ( false !== strpos( admin_url( 'post.php' ), $script_name ) ) {
 				/*
 				 * Remove SAMEORIGIN header for /wp-admin/post.php so it can be used inside the modal's iframe,
 				 * after saving a draft, but only if referred from /wp-admin/press-this.php or itself
 				 */
-				if ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() ) || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) )
+				if ( ! empty( $_SERVER['HTTP_REFERER'] )
+				     && ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() )
+						  || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) ) )
 					remove_action( 'admin_init', 'send_frame_options_header' );
-			} else if ( false !== strpos( admin_url( 'tools.php' ), $_SERVER['SCRIPT_NAME'] ) ) {
+			} else if ( false !== strpos( admin_url( 'tools.php' ),$script_name ) ) {
 				/*
 				 * Take over Press This bookmarklet code in /wp-admin/tools.php
 				 */
 				add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
-			} else if ( false !== strpos( admin_url( 'admin-ajax.php' ), $_SERVER['SCRIPT_NAME'] ) ) {
+			} else if ( false !== strpos( admin_url( 'admin-ajax.php' ), $script_name ) ) {
 				/*
 				 * Remove SAMEORIGIN header for /wp-admin/admin-ajax.php so it can be used from the modal's iframe,
 				 * after saving a draft, but only if referred from /wp-admin/press-this.php or /wp-admin/post.php
 				 */
-				if ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() ) || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) )
+				if ( ! empty( $_SERVER['HTTP_REFERER'] )
+					&& ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() )
+				     || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) ) )
 					remove_action( 'admin_init', 'send_frame_options_header' );
 				/*
 				 * AJAX handling
@@ -74,6 +84,19 @@ class WpPressThis {
 				add_action( 'wp_ajax_press_this_draft_post', array( $this, 'press_this_ajax_draft_post' ) );
 			}
 		}
+	}
+
+	public function script_name() {
+		$script_name = ( ! empty( $_SERVER['SCRIPT_NAME'] ) )
+			? $_SERVER['SCRIPT_NAME']
+			: ( ! empty( $_SERVER['PHP_SELF'] ) )
+				? $_SERVER['PHP_SELF']
+				: ( ! empty( $_SERVER['REQUEST_URI'] ) )
+					? preg_replace( '/^([^\?]+)(\?.*)?$/', '\1', $_SERVER['REQUEST_URI'] )
+					: '';
+		return ( preg_match('/\/wp-admin\/?$/', $script_name) || ! preg_match('/\.php$/', $script_name ) )
+			? rtrim( $script_name, '/' ) . '/index.php'
+			: $script_name;
 	}
 
 	public function set_url_scheme( $url ) {
@@ -140,7 +163,7 @@ class WpPressThis {
 	 */
 	public function press_this_php_override() {
 		// Simply drop the following test once/if this becomes the standard Press This code in core
-		if ( false === strpos( self::runtime_url(), $_SERVER['SCRIPT_NAME'] ) )
+		if ( false === strpos( self::runtime_url(), self::script_name() ) )
 			return;
 
 		if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
