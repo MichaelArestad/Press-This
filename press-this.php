@@ -226,7 +226,7 @@ class WpPressThis {
 			foreach( (array) $_POST['wppt_selected_img'] as $key => $image ) {
 				// Don't try to sideload file without a file extension, leads to WP upload error,
 				// then "PHP Notice:  Undefined offset: 0 in /Users/epsi/Sites/wptrunk/wp-admin/includes/media.php on line 811"
-				if ( preg_match( '/\/.+[\.]{1}[^\.]+$/', $image ) )
+				if ( ! preg_match( '/\/.+[\.]{1}[^\.]+$/', $image ) )
 				     continue;
 				// See if files exist in content - we don't want to upload non-used selected files.
 				if ( false !== strpos( $new_content, htmlspecialchars( $image ) ) ) {
