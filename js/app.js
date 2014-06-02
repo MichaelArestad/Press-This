@@ -138,7 +138,7 @@
 				if ( ( title.length || site_name.length ) && url.length ) {
 					content += '<p>'
 					+ __( 'Source:' )
-					+ ' <cite id="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'" target="_blank">'+ html_encode( title || site_name ) +'</a></cite>'
+					+ ' <cite id="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'">'+ html_encode( title || site_name ) +'</a></cite>'
 					+ '</p>';
 				}
 
