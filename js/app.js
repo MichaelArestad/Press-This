@@ -376,16 +376,15 @@
  *************************************************************** */
 
 			// Let's go!
-			if ( initialize() ) {
-				if ( render() ) {
-					monitor();
-				} else {
-					// @TODO: couldn't render, fail gracefully
-					console.log('Could not render...');
-				}
-			} else {
+			if ( ! initialize() ) {
 				// @TODO: couldn't initialize, fail gracefully
 				console.log('Could not initialize...');
+			} else if ( ! render() ) {
+				// @TODO: couldn't render, fail gracefully
+				console.log('Could not render...');
+			} else if ( ! monitor() ) {
+				// @TODO: couldn't render, fail gracefully
+				console.log('Could not monitor app...');
 			}
 		};
 
