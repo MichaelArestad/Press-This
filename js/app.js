@@ -115,17 +115,13 @@
 
 				if (data._s && data._s.length) {
 					content = data._s;
-					// console.log('_s', content);
 				} else if (data._meta) {
 					if (data._meta['twitter:description'] && data._meta['twitter:description'].length) {
 						content = data._meta['twitter:description'];
-						// console.log('twitter:description', content);
 					} else if (data._meta['og:description'] && data._meta['og:description'].length) {
 						content = data._meta['og:description'];
-						// console.log('og:description', content);
 					} else if (data._meta['description'] && data._meta['description'].length) {
 						content = data._meta['description'];
-						// console.log('description', content);
 					}
 				}
 
@@ -156,22 +152,16 @@
 
 				if (data._meta['twitter:image0:src'] && data._meta['twitter:image0:src'].length) {
 					featured = data._meta['twitter:image0:src'];
-					// console.log('', featured);
 				} else if (data._meta['twitter:image0'] && data._meta['twitter:image0'].length) {
 					featured = data._meta['twitter:image0'];
-					// console.log('', featured);
 				} else if (data._meta['twitter:image:src'] && data._meta['twitter:image:src'].length) {
 					featured = data._meta['twitter:image:src'];
-					// console.log('', featured);
 				} else if (data._meta['twitter:image'] && data._meta['twitter:image'].length) {
 					featured = data._meta['twitter:image'];
-					// console.log('', featured);
 				} else if (data._meta['og:image'] && data._meta['og:image'].length) {
 					featured = data._meta['og:image'];
-					// console.log('', featured);
 				} else if (data._meta['og:image:secure_url'] && data._meta['og:image:secure_url'].length) {
 					featured = data._meta['og:image:secure_url'];
-					// console.log('', featured);
 				}
 
 				return full_size_src( featured );
@@ -357,18 +347,20 @@
 			}
 
 			function monitor(){
-				$('#wppt_form').on('submit', function(e){
+				$( '#wppt_draft_field' ).on( 'click', function( e ){
+					button_clicks( e, 'draft');
+				});
+
+				$( '#wppt_publish_field' ).on( 'click', function( e ){
+					button_clicks( e, 'publish');
+				});
+
+				$( '#wppt_form' ).on( 'submit', function( e ){
 					e.preventDefault();
-					button_clicks(e, 'draft');
+					button_clicks( $( '#wppt_draft_field' ), 'draft');
 				});
 
-				$('#wppt_draft_field').on('click', function(e){
-					button_clicks(e, 'draft');
-				});
-
-				$('#wppt_publish_field').on('click', function(e){
-					button_clicks(e, 'publish');
-				});
+				return true;
 			}
 
 /* ***************************************************************
