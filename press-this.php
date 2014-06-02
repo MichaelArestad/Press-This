@@ -225,8 +225,9 @@ class WpPressThis {
 		if ( ! empty( $_POST['wppt_selected_img'] ) && current_user_can( 'upload_files' ) ) {
 			foreach( (array) $_POST['wppt_selected_img'] as $key => $image ) {
 				// Don't try to sideload file without a file extension, leads to WP upload error,
-				// then "PHP Notice:  Undefined offset: 0 in /Users/epsi/Sites/wptrunk/wp-admin/includes/media.php on line 811"
-				if ( ! preg_match( '/\/.+[\.]{1}[^\.]+$/', $image ) )
+				// then a "PHP Notice:  Undefined offset: 0 in /wp-admin/includes/media.php on line 811"
+				// Matching regex to skip from media_sideload_image() in otherwise erroring /wp-admin/includes/media.php
+				if ( ! preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $image ) )
 				     continue;
 				// See if files exist in content - we don't want to upload non-used selected files.
 				if ( false !== strpos( $new_content, htmlspecialchars( $image ) ) ) {
