@@ -307,33 +307,35 @@ class WpPressThis {
 
 		// If no _meta, _img or _links were passed via $_POST, fetch them from source as fallback, makes PT fully backward compatible
 		if ( empty( $data['_meta'] ) || empty( $data['_img'] ) || empty( $data['_links'] ) ) {
-			$source_content = ( !empty( $data['u'] ) ) ? download_url( $data['u'] ) : '';
-			$source_content = ( !empty( $source_content ) ) ? file_get_contents( $source_content ) : '';
-			// Fetch and gather <meta> data
-			preg_match_all( '/<meta (.+)[\s]?\/>/  ', $source_content, $matches );
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $key => $value ) {
-					if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"[^>]+\/>/', $value, $new_matches ) )
-						$data['_meta'][ $new_matches[2] ] = $new_matches[3];
-				}
-			}
-			// Fetch and gather <img> data
-			preg_match_all( '/<img (.+)[\s]?\/>/', $source_content, $matches );
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $value ) {
-					if ( preg_match( '/<img[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
-						$data['_img'][] = $new_matches[1];
+			$source_tmp_file = ( ! empty( $data['u'] ) ) ? download_url( $data['u'] ) : '';
+			if ( ! is_wp_error( $source_tmp_file ) && file_exists( $source_tmp_file ) ) {
+				$source_content = file_get_contents( $source_tmp_file );
+				// Fetch and gather <meta> data
+				preg_match_all( '/<meta (.+)[\s]?\/>/  ', $source_content, $matches );
+				if ( !empty( $matches[0] ) ) {
+					foreach ( $matches[0] as $key => $value ) {
+						if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"[^>]+\/>/', $value, $new_matches ) )
+							$data['_meta'][ $new_matches[2] ] = $new_matches[3];
 					}
-
 				}
-			}
-			// Fetch and gather <link> data
-			preg_match_all( '/<link (.+)[\s]?\/>/', $source_content, $matches );
-			if ( ! empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $key => $value ) {
-					if ( preg_match( '/<link[^>]+(rel|itemprop)="([^"]+)"[^>]+href="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
-						if ( 'alternate' == $new_matches[2] || 'thumbnailUrl' == $new_matches[2] || 'url' == $new_matches[2]  )
-							$data['_links'][ $new_matches[2] ] = $new_matches[3];
+				// Fetch and gather <img> data
+				preg_match_all( '/<img (.+)[\s]?\/>/', $source_content, $matches );
+				if ( !empty( $matches[0] ) ) {
+					foreach ( $matches[0] as $value ) {
+						if ( preg_match( '/<img[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
+							$data['_img'][] = $new_matches[1];
+						}
+
+					}
+				}
+				// Fetch and gather <link> data
+				preg_match_all( '/<link (.+)[\s]?\/>/', $source_content, $matches );
+				if ( !empty( $matches[0] ) ) {
+					foreach ( $matches[0] as $key => $value ) {
+						if ( preg_match( '/<link[^>]+(rel|itemprop)="([^"]+)"[^>]+href="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
+							if ( 'alternate' == $new_matches[2] || 'thumbnailUrl' == $new_matches[2] || 'url' == $new_matches[2] )
+								$data['_links'][ $new_matches[2] ] = $new_matches[3];
+						}
 					}
 				}
 			}
