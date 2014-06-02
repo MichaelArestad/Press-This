@@ -42,8 +42,8 @@
 
 				var link = '';
 
-				if ( data._u ) {
-					link = data._u;
+				if ( data.u ) {
+					link = data.u;
 				}
 
 				if ( ! link.length && data._links ) {
@@ -86,8 +86,8 @@
 
 				var title='';
 
-				if ( data._t ) {
-					title = data._t;
+				if ( data.t ) {
+					title = data.t;
 				}
 
 				if ( ! title.length && data._meta ) {
@@ -115,8 +115,8 @@
 					url       = canonical_link( data ),
 					site_name = source_site_name( data );
 
-				if (data._s && data._s.length) {
-					content = data._s;
+				if (data.s && data.s.length) {
+					content = data.s;
 				} else if (data._meta) {
 					if (data._meta['twitter:description'] && data._meta['twitter:description'].length) {
 						content = data._meta['twitter:description'];

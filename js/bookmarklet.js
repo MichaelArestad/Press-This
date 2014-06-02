@@ -65,9 +65,9 @@ for (var n = 0; n < imgs.length; n++) {
 	}
 }
 
-fAdd('_u',l.href);
-fAdd('_t',d.title);
-fAdd('_s',s);
+fAdd('u',l.href);
+fAdd('t',d.title);
+fAdd('s',s);
 
 f.setAttribute('method','POST');
 f.setAttribute('action', ( u + '?buster=' + now ));

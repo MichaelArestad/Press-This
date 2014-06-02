@@ -297,21 +297,72 @@ class WpPressThis {
 	 * @uses $_POST, WpPressThis::runtime_url(), WpPressThis::plugin_dir_url()
 	 */
 	public function serve_app_html() {
+		// Make Press This compatible with $_POST as well as $_GET, as appropriate ($_POST > $_GET), to remain backward compatible
+		$data = array_merge_recursive( $_POST, $_GET );
+
+		// Get the legacy QS params, or equiv POST data
+		$data['u'] = ( !empty( $data['u'] ) ) ? $data['u'] : '';
+		$data['s'] = ( !empty( $data['s'] ) ) ? $data['s'] : '';
+		$data['t'] = ( !empty( $data['t'] ) ) ? $data['t'] : '';
+
+		// If no _meta, _img or _links were passed via $_POST, fetch them from source as fallback, makes PT fully backward compatible
+		if ( empty( $data['_meta'] ) || empty( $data['_img'] ) || empty( $data['_links'] ) ) {
+			$source_content = ( !empty( $data['u'] ) ) ? download_url( $data['u'] ) : '';
+			$source_content = ( !empty( $source_content ) ) ? file_get_contents( $source_content ) : '';
+			// Fetch and gather <meta> data
+			preg_match_all( '/<meta (.+)[\s]?\/>/  ', $source_content, $matches );
+			if ( ! empty( $matches[0] ) ) {
+				foreach ( $matches[0] as $key => $value ) {
+					if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"[^>]+\/>/', $value, $new_matches ) )
+						$data['_meta'][ $new_matches[2] ] = $new_matches[3];
+				}
+			}
+			// Fetch and gather <img> data
+			preg_match_all( '/<img (.+)[\s]?\/>/', $source_content, $matches );
+			if ( ! empty( $matches[0] ) ) {
+				foreach ( $matches[0] as $value ) {
+					if ( preg_match( '/<img[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
+						$data['_img'][] = $new_matches[1];
+					}
+
+				}
+			}
+			// Fetch and gather <link> data
+			preg_match_all( '/<link (.+)[\s]?\/>/', $source_content, $matches );
+			if ( ! empty( $matches[0] ) ) {
+				foreach ( $matches[0] as $key => $value ) {
+					if ( preg_match( '/<link[^>]+(rel|itemprop)="([^"]+)"[^>]+href="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
+						if ( 'alternate' == $new_matches[2] || 'thumbnailUrl' == $new_matches[2] || 'url' == $new_matches[2]  )
+							$data['_links'][ $new_matches[2] ] = $new_matches[3];
+					}
+				}
+			}
+		}
+
+		// Get more env vars
 		$runtime_url              = self::strip_url_scheme( self::runtime_url() );
 		$plugin_data              = get_plugin_data( __FILE__, false, false );
 		$nonce                    = wp_create_nonce( 'press_this_site_settings' );
-		$_POST['_version']        = ( ! empty( $plugin_data ) && ! empty( $plugin_data['Version'] ) ) ? $plugin_data['Version'] : 0;
-		$_POST['_runtime_url']    = $runtime_url;
-		$_POST['_plugin_dir_url'] = self::plugin_dir_url();
-		$_POST['_ajax_url']       = self::strip_url_scheme( admin_url( 'admin-ajax.php' ) );
-		$_POST['_nonce']          = $nonce;
-		$json                     = json_encode( $_POST );
+
+		// Set the passed data
+		$data['_version']         = ( ! empty( $plugin_data ) && ! empty( $plugin_data['Version'] ) ) ? $plugin_data['Version'] : 0;
+		$data['_runtime_url']     = $runtime_url;
+		$data['_plugin_dir_url']  = self::plugin_dir_url();
+		$data['_ajax_url']        = self::strip_url_scheme( admin_url( 'admin-ajax.php' ) );
+		$data['_nonce']           = $nonce;
+
+		// JSON encode passed data
+		$json                     = json_encode( $data );
+
+		// Generate some include paths
 		$js_inc_dir               = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js', $runtime_url );
 		$json_js_inc              = $js_inc_dir . '/json2.min.js';
 		$jquery_js_inc            = $js_inc_dir . '/jquery/jquery.js';
 		$app_css_inc              = self::plugin_dir_url() . '/css/press-this.css';
 		$load_js_inc              = self::plugin_dir_url() . '/js/load.js';
 		$form_action              = $runtime_url;
+
+		// Echo HTML
 		echo <<<________HTMLDOC
 <!DOCTYPE html>
 <html>
