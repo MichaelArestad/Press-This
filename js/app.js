@@ -31,7 +31,9 @@
 			}
 
 			function full_size_src( src ) {
-				return src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
+				return ( src.indexOf('gravatar.com') > -1 || src.match( /\/avatars[\d]+\.githubusercontent\.com\// ) )
+					? src.replace(/^(http[^\?]+)(\?.*)?$/, '$1?s=' + largest_width)
+					: src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
 			}
 
 			function canonical_link( data ) {
