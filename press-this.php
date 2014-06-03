@@ -291,12 +291,7 @@ class WpPressThis {
 		return $post_id;
 	}
 
-	/**
-	 * WpPressThis::serve_app_html()
-	 *
-	 * @uses $_POST, WpPressThis::runtime_url(), WpPressThis::plugin_dir_url()
-	 */
-	public function serve_app_html() {
+	public function make_backward_compatible() {
 		// Make Press This compatible with $_POST as well as $_GET, as appropriate ($_POST > $_GET), to remain backward compatible
 		$data = array_merge_recursive( $_POST, $_GET );
 
@@ -313,7 +308,24 @@ class WpPressThis {
 				$source_tmp_file = ( ! empty( $data['u'] ) ) ? download_url( $data['u'] ) : '';
 				if ( ! is_wp_error( $source_tmp_file ) && file_exists( $source_tmp_file ) ) {
 					// Get the content of the source page from the tmp file.
-					$source_content = file_get_contents( $source_tmp_file );
+					$source_content = wp_kses(
+						file_get_contents( $source_tmp_file ),
+						array (
+							'img' => array(
+								'src'      => array(),
+							),
+							'link' => array(
+								'rel'      => array(),
+								'itemprop' => array(),
+								'href'     => array(),
+							),
+							'meta' => array(
+								'property' => array(),
+								'name'     => array(),
+								'content'  => array(),
+							)
+						)
+					);
 					// Fetch and gather <meta> data
 					if ( empty( $data['_meta'] ) ) {
 						if ( preg_match_all( '/<meta (.+)[\s]?\/>/  ', $source_content, $matches ) ) {
@@ -351,13 +363,22 @@ class WpPressThis {
 						}
 					}
 					// All done with backward compatibility
-				}
-				// Let's do some cleanup, for good measure :)
-				if ( file_exists( $source_tmp_file ) ) {
+					// Let's do some cleanup, for good measure :)
 					unlink( $source_tmp_file );
 				}
 			}
 		}
+		return $data;
+	}
+
+	/**
+	 * WpPressThis::serve_app_html()
+	 *
+	 * @uses $_POST, WpPressThis::runtime_url(), WpPressThis::plugin_dir_url()
+	 */
+	public function serve_app_html() {
+		// Get data, new (POST) and old (GET)
+		$data = self::make_backward_compatible();
 
 		// Get more env vars
 		$runtime_url              = self::strip_url_scheme( self::runtime_url() );
