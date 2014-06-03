@@ -194,6 +194,20 @@
 				});
 			}
 
+			function image_viewer_switch() {
+				$('.featured-image-container').toggleClass('other-images--visible');
+				var img_switch     = $('#wppt_other_images_switch');
+				if ( img_switch.text() == __( 'Show other images' ) )
+					img_switch.text( __( 'Hide other images' ) );
+				else
+					img_switch.text( __( 'Show other images' ) );
+			}
+
+			function set_selected_image( src, width ) {
+				$( '#wppt_selected_img_field' ).val( src );
+				$( 'img.featured-image' ).attr( 'src', src ).css('background-image', 'url(' + src + ')' );
+			}
+
 /* ***************************************************************
  * RENDERING FUNCTIONS
  *************************************************************** */
@@ -237,15 +251,11 @@
 				}).css({
 					'background-image'   : 'url('+display_src+')'
 				}).click(function(){
-					var real_src = featured ;
-					$('#wppt_selected_img_field').val(real_src);
-					alert(real_src);
+					set_selected_image( display_src, current_width );
 				}).appendTo('#wppt_featured_image_container');
-
-				already_shown_img.push(featured);
 			}
 
-			function render_other_images() {
+			function render_available_images() {
 				var img_switch     = $('#wppt_other_images_switch'),
 					imgs_container = $('#wppt_other_images_container');
 
@@ -292,8 +302,8 @@
 					}).css({
 						'background-image'   : 'url('+display_src+')'
 					}).click(function(){
-						$('#wppt_selected_img_field').val(src);
-						alert(src);
+						set_selected_image( display_src, current_width );
+						image_viewer_switch();
 					}).appendTo('#wppt_other_images_container');
 
 					already_shown_img.push(src);
@@ -308,12 +318,7 @@
 				img_switch.text(
 					__( 'Show other images' )
 				).click(function(){
-					// $('#wppt_other_images_container').toggle( 500 );
-					$('.featured-image-container').toggleClass('other-images--visible');
-					if ( img_switch.text() == __( 'Show other images' ) )
-						img_switch.text( __( 'Hide other images' ) );
-					else
-						img_switch.text( __( 'Show other images' ) );
+						image_viewer_switch();
 				}).show();
 			}
 
@@ -342,7 +347,7 @@
 				$("head title").text(__( 'Welcome to Press This!' ));
 				render_suggested_title();
 				render_featured_image();
-				render_other_images();
+				render_available_images();
 				render_suggested_content();
 				render_default_form_field_values();
 				return true;
