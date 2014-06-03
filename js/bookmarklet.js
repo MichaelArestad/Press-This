@@ -64,6 +64,8 @@ for (var n = 0; n < imgs.length; n++) {
 		}
 	}else if( imgs[n].original && imgs[n].original.length ) {
 		fAdd('_img[]',r.src);
+	}else if( r.src.indexOf( '/wp-content/uploads/' ) && ! r.src.match( /(\/share-?this[^\.]+?\.[a-z0-9]{3,})(\?.*)?/ ) ){
+		fAdd('_img[]',r.src);
 	}else if( r.width >= 256 && r.height >= 128){
 		fAdd('_img[]',r.src);
 	}
