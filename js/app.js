@@ -253,6 +253,12 @@
 				}).click(function(){
 					set_selected_image( display_src, current_width );
 				}).appendTo('#wppt_featured_image_container');
+
+				// Only if we already have some alternate images to show, and only if not already in said list
+				if ( all_images && all_images.length && -1 === all_images.indexOf( display_src ) ) {
+					// Then add our preferred images to the list of all images.
+					all_images.unshift( display_src );
+				}
 			}
 
 			function render_available_images() {
