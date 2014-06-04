@@ -113,6 +113,11 @@ class WpPressThis {
 		return preg_replace( '/^https?:(\/\/.+)$/', '\1', $url );
 	}
 
+	function plugin_version() {
+		$data = get_plugin_data( __FILE__, false, false );
+		return ( ! empty( $data ) && ! empty( $data['Version'] ) ) ? $data['Version'] : 0;
+	}
+
 	/**
 	 * WpPressThis::runtime_url()
 	 *
@@ -149,7 +154,7 @@ class WpPressThis {
 	 * @return mixed Press This bookmarklet JS trigger found in /wp-admin/tools.php
 	 */
 	public function shortcut_link_override() {
-		$url  = esc_js( self::runtime_url() );
+		$url  = esc_js( self::runtime_url() . '?v=' . self::plugin_version() );
 		$link = "javascript: var u='{$url}';\n";
 		$link .= file_get_contents( self::plugin_dir_path() . '/js/bookmarklet.js' );
 		return str_replace( array( "\r", "\n", "\t" ), '', $link );
@@ -382,11 +387,10 @@ class WpPressThis {
 
 		// Get more env vars
 		$runtime_url              = self::strip_url_scheme( self::runtime_url() );
-		$plugin_data              = get_plugin_data( __FILE__, false, false );
 		$nonce                    = wp_create_nonce( 'press_this_site_settings' );
 
 		// Set the passed data
-		$data['_version']         = ( ! empty( $plugin_data ) && ! empty( $plugin_data['Version'] ) ) ? $plugin_data['Version'] : 0;
+		$data['_version']         = self::plugin_version();
 		$data['_runtime_url']     = $runtime_url;
 		$data['_plugin_dir_url']  = self::plugin_dir_url();
 		$data['_ajax_url']        = self::strip_url_scheme( admin_url( 'admin-ajax.php' ) );
