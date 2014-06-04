@@ -22,6 +22,13 @@ You can see discussion and progress at [corepressthis.wordpress.com](corepressth
 
 Development of this plugin is done on [Github](https://github.com/MichaelArestad/Press-This). Pull requests welcome.
 
+== Screenshots ==
+
+1. Get and activate the plugin (see https://make.wordpress.org/ui/2014/06/04/press-this/)
+2. Install the bookmarklet to your browser's bookmark toolbar
+3. Use the bookmarklet on any web page
+4. Publish in 2 steps! :)
+
 == Changelog ==
 
 = 0.1 =
@@ -30,9 +37,9 @@ Initial development version
 = 0.11 =
 * Core architecture of the plugin/tools is an as-pure-Javascript app as possible
 * Currently AJAX driven, but ready to be switched to using the WP-API endpoints as they become available
-* Is backward compatible with the current versino of the Press This bookmarklet as bundled in WP, but also bring its own, more powerful one with it
+* Is backward compatible with the current version of the Press This bookmarklet as bundled in WP, but also bring its own, more powerful one with it
 * Can blog any web page found online, blockquoting an excerpt, including a selection of in-page images to choose from. Said images are augmented with meta data to sort them in the order the site advertises to be best
-* Overrides /wp-admin/press-this.php and its behavior, so that we’re 100% backward comaptible
+* Overrides /wp-admin/press-this.php and its behavior, so that we’re 100% backward compatible
 * Overrides the bookmarklet JS code provided in /wp-admin/tools.php
 * Quick featured image switching
 * Saving draft and publishing
