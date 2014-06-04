@@ -71,12 +71,10 @@ for (var n = 0; n < imgs.length; n++) {
 	}
 }
 
-fAdd('u',l.href);
-fAdd('t',d.title);
 fAdd('s',s);
 
 f.setAttribute('method','POST');
-f.setAttribute('action', ( u + '?buster=' + now ));
+f.setAttribute('action', ( u + '?u=' + encodeURI( l.href ) + '&t=' + encodeURI( d.title ) + '&buster=' + now ));
 f.setAttribute('target', tn);
 
 if ( top.location.href.match(/^https/) && ! u.match(/https/) ) {
