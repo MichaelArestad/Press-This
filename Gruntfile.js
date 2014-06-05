@@ -50,7 +50,11 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: 'images/icons/',
-                    src: ['*.svg', '*.png'],
+                    src: [
+                        '*.svg',
+                        '*.png',
+                        '!icons.svg'
+                    ],
                     dest: "images/icons/"
                 }],
                 options: {
@@ -70,7 +74,7 @@ module.exports = function(grunt) {
                 files: [{               // Dictionary of files
                     expand: true,       // Enable dynamic expansion.
                     cwd: 'images/icons',     // Src matches are relative to this path.
-                    src: ['*.svg'],  // Actual pattern(s) to match.
+                    src: ['*.svg', '!icons.svg'],  // Actual pattern(s) to match.
                     dest: 'images/icons',       // Destination path prefix.
                     ext: '.svg'     // Dest filepaths will have this extension.
                     // ie: optimise img/src/branding/logo.svg and store it in img/branding/logo.min.svg
@@ -82,7 +86,8 @@ module.exports = function(grunt) {
                 options: {
                     prefix : 'dashicons-', // This will prefix each ID
                     svg: { // will be added as attributes to the resulting SVG
-                        viewBox : '0 0 20 20'
+                        viewBox : '0 0 20 20',
+                        class : 'icon-defs'
                     }
                 },
                 files: {

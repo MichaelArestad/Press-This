@@ -695,6 +695,10 @@ body:before {
   }
 }
 
+.icon-defs {
+  display: none;
+}
+
 .editor {
   padding: 0 1.5em 0;
 }
