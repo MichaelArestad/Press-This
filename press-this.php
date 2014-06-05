@@ -405,6 +405,7 @@ class WpPressThis {
 		$jquery_js_inc            = $js_inc_dir . '/jquery/jquery.js';
 		$app_css_inc              = self::plugin_dir_url() . '/css/press-this.css';
 		$load_js_inc              = self::plugin_dir_url() . '/js/load.js';
+		$svg_icons_inc            = self::plugin_dir_path() . '/images/icons/icons.svg';
 		$form_action              = $runtime_url;
 
 		// Echo HTML
@@ -423,6 +424,13 @@ class WpPressThis {
 	<script src="{$load_js_inc}" language="JavaScript"></script>
 </head>
 <body>
+________HTMLDOC;
+
+		// Include generated SVG icons file
+		if ( file_exists( $svg_icons_inc ) )
+			require_once( $svg_icons_inc );
+
+		echo <<<________HTMLDOC
 	<div id='wppt_app_container' class="editor">
 		<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
 		<div id='wppt_featured_image_container' class="featured-image-container">
