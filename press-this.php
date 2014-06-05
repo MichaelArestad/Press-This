@@ -3,7 +3,7 @@
 Plugin Name: Press This
 Plugin URI: http://wordpress.org/extend/plugins/press-this/
 Description: Posting images, links, and cat gifs will never be the same.
-Version: 0.0.1a
+Version: 0.0.2
 Author: Press This Team
 Author URI: https://corepressthis.wordpress.com/
 Text Domain: press-this
@@ -79,9 +79,10 @@ class WpPressThis {
 				/*
 				 * AJAX handling
 				 */
-				add_action( 'wp_ajax_press_this_site_settings', array( $this, 'press_this_ajax_site_settings' ) );
-				add_action( 'wp_ajax_press_this_publish_post', array( $this, 'press_this_ajax_publish_post' ) );
-				add_action( 'wp_ajax_press_this_draft_post', array( $this, 'press_this_ajax_draft_post' ) );
+				add_action( 'wp_ajax_press_this_site_settings',       array( $this, 'press_this_ajax_site_settings' ) );
+				add_action( 'wp_ajax_press_this_publish_post',        array( $this, 'press_this_ajax_publish_post' ) );
+				add_action( 'wp_ajax_press_this_draft_post',          array( $this, 'press_this_ajax_draft_post' ) );
+				add_action( 'wp_ajax_press_this_chrome_ext_manifest', array( $this, 'press_this_ajax_chrome_ext_manifest' ) );
 			}
 		}
 	}
@@ -113,8 +114,12 @@ class WpPressThis {
 		return preg_replace( '/^https?:(\/\/.+)$/', '\1', $url );
 	}
 
-	function plugin_version() {
-		$data = get_plugin_data( __FILE__, false, false );
+	public function plugin_data() {
+		return get_plugin_data( __FILE__, false, false );
+	}
+
+	public function plugin_version() {
+		$data = self::plugin_data();
 		return ( ! empty( $data ) && ! empty( $data['Version'] ) ) ? $data['Version'] : 0;
 	}
 
@@ -470,6 +475,7 @@ ________HTMLDOC;
 		return array(
 			'version'        => ( ! empty( $plugin_data ) && ! empty( $plugin_data['Version'] ) ) ? $plugin_data['Version'] : 0,
 			'i18n'           => array(
+				'Press This!'            => __('Press This!', $domain ),
 				'Welcome to Press This!' => __('Welcome to Press This!', $domain ),
 				'Source:'                => __( 'Source:', $domain ),
 				'Show other images'      => __( 'Show other images', $domain ),
@@ -511,6 +517,77 @@ ________HTMLDOC;
 
 	public function press_this_ajax_publish_post() {
 		self::post_save_json_response( self::save( 'publish' ), 'published' );
+	}
+
+	public function  press_this_ajax_chrome_ext_manifest() {
+		$plugin_data = self::plugin_data();
+		$plugin_name = ( ! empty( $plugin_data['Name'] ) ) ? $plugin_data['Name'] : __( 'Press This!', 'press-this' );
+		$plugin_desc = ( ! empty( $plugin_data['Description'] ) ) ? $plugin_data['Description'] : __( 'Posting images, links, and cat gifs will never be the same.', 'press-this' );
+		$icon        = './images/wordpress-logo-notext-rgb.png';
+		$type        = ( true == false ) ? 'app' : 'extension';
+		$manifest = array(
+			'manifest_version' => 2,
+			'name'             => $plugin_name,
+			'description'      => $plugin_desc,
+			'version'          => self::plugin_version(),
+			'icons'            => array(
+				'128' => $icon,
+			),
+			'web_accessible_resources' => array( $icon ),
+		);
+
+		if ( 'app' == $type ) {
+			$manifest['permissions'] = array(
+				'unlimitedStorage',
+				'notifications',
+				'geolocation',
+				'clipboardRead',
+				'clipboardWrite',
+				'background',
+				// 'activeTab',
+				// preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/', self::runtime_url() ),
+			);
+			$manifest['app']         = array(
+				'launch' => array(
+					'web_url' => self::runtime_url(),
+				),
+			);
+		} else {
+			$manifest['permissions'] = array(
+				'activeTab',
+				// preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/', self::runtime_url() ),
+			);
+			$manifest['background'] = array(
+				'scripts'    => array(
+					'./js/ext-chrome-background.js'
+					// "vendor/jquery-2.0.3.min.js", "background-lib.js", "background.js"
+				),
+				'persistent' => false,
+			);
+			$manifest['browser_action'] = array(
+				'default_title' => $plugin_name,
+			);
+		}
+		/*
+		$manifest['urls'] = array(
+			preg_replace( '/^http(.+)\/wp-admin\/.+$/', '*://\1/', self::runtime_url() )
+		);
+		$manifest['intents'] = array(
+			'http://webintents.org/share' => array(
+				'type' => array(
+					'image/*',
+					'video/*',
+					'text/*'
+				),
+				'href' => self::runtime_url(),
+				'title' => 'Share this on your WordPress blog',
+				'disposition'=> 'window'
+			),
+		);
+		*/
+		header( 'content-type: application/json' );
+		echo json_encode( $manifest );
+		die();
 	}
 }
 
