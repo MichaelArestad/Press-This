@@ -1,1 +1,7 @@
+/*
+TEMP: this will likely end up being a generated file, but is necessary to have as static for extensions for now.
+You can generate a site's manifest by accessing /wp-admin/admin-ajax.php?action=press_this_chrome_ext_manifest
+Dev sample:
 {"manifest_version":2,"name":"Press This","description":"Posting images, links, and cat gifs will never be the same.","version":"0.0.2","icons":{"128":".\/images\/wordpress-logo-notext-rgb.png"},"web_accessible_resources":[".\/images\/wordpress-logo-notext-rgb.png"],"permissions":["activeTab"],"background":{"scripts":[".\/js\/ext-chrome-background.js"],"persistent":false},"browser_action":{"default_title":"Press This"}}
+ */
+{}
