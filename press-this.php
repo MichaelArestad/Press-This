@@ -202,8 +202,9 @@ class WpPressThis {
 	 */
 	public function shortcut_link_override() {
 		$url  = esc_js( self::runtime_url() . '?v=' . self::plugin_version() );
-		$link = "javascript: var u='{$url}';\n";
+		$link = "javascript:";
 		$link .= file_get_contents( self::plugin_dir_path() . '/js/bookmarklet.js' );
+		$link .= "WpPressThis_Bookmarklet('{$url}')";
 		return str_replace( array( "\r", "\n", "\t" ), '', $link );
 	}
 
