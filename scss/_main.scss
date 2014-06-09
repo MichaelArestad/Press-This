@@ -8,10 +8,11 @@
 html {
 	background: #fff;
 	// border-left: 1px solid $gray--light;
+	box-shadow: -10px 0 0 rgba(0,0,0,.3);
 }
 
 body {
-	margin: 0 0 em(95) 1px;
+	margin: em(65) 0 em(95) 1px;
 
 	&:before {
 		// Goofy way to keep left border full height. Could do it with a gradient as well.
@@ -156,4 +157,74 @@ body {
 .post-actions {
 	float: right;
 	margin: em(14) em(30);
+}
+
+
+// Adminbar
+.adminbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 0 16px;
+	min-height: em(65);
+	background: $gray--dark;
+	color: #fff;
+	overflow: hidden;
+	z-index: 9999;
+
+	.dashicons {
+		fill: #999;
+	}
+	@include breakpoint(phone) {
+		min-height: 45px;
+	}
+}
+.current-site {
+	font-size: 16px;
+	font-weight: $normal;
+
+	a {
+		color: #ededed;
+		text-decoration: none;
+
+		&:hover {
+			color: #fff;
+		}
+	}
+	@include breakpoint(tablet) {
+		margin: 3px 0 0;
+	}
+	@include breakpoint(phone) {
+		margin: 1px 0 0;
+	}
+}
+.dashicons-wordpress-alt {
+	position: relative;
+	top: -1px;
+}
+.dashicons-admin-settings {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	margin-top: -22px;
+}
+
+// Icons
+.dashicons {
+	display: inline-block;
+	width: 44px;
+	height: 44px;
+	padding: 12px;
+	line-height: 44px;
+	vertical-align: middle;
+	overflow: hidden;
+	fill: #79838c;
+
+	svg {
+		height: 20px;
+	}
+}
+svg  {
+	display: block;
 }

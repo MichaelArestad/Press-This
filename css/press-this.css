@@ -670,10 +670,12 @@ object {
 --------------------------------------------------------------*/
 html {
   background: #fff;
+  -webkit-box-shadow: -10px 0 0 rgba(0, 0, 0, 0.3);
+  box-shadow: -10px 0 0 rgba(0, 0, 0, 0.3);
 }
 
 body {
-  margin: 0 0 4.75em 1px;
+  margin: 3.25em 0 4.75em 1px;
 }
 body:before {
   content: '';
@@ -807,6 +809,79 @@ body:before {
 .post-actions {
   float: right;
   margin: 0.7em 1.5em;
+}
+
+.adminbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 0 16px;
+  min-height: 3.25em;
+  background: #222222;
+  color: #fff;
+  overflow: hidden;
+  z-index: 9999;
+}
+.adminbar .dashicons {
+  fill: #999;
+}
+@media (max-width: 320px) {
+  .adminbar {
+    min-height: 45px;
+  }
+}
+
+.current-site {
+  font-size: 16px;
+  font-weight: 400;
+}
+.current-site a {
+  color: #ededed;
+  text-decoration: none;
+}
+.current-site a:hover {
+  color: #fff;
+}
+@media (max-width: 384px) {
+  .current-site {
+    margin: 3px 0 0;
+  }
+}
+@media (max-width: 320px) {
+  .current-site {
+    margin: 1px 0 0;
+  }
+}
+
+.dashicons-wordpress-alt {
+  position: relative;
+  top: -1px;
+}
+
+.dashicons-admin-settings {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  margin-top: -22px;
+}
+
+.dashicons {
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  padding: 12px;
+  line-height: 44px;
+  vertical-align: middle;
+  overflow: hidden;
+  fill: #79838c;
+}
+.dashicons svg {
+  height: 20px;
+}
+
+svg {
+  display: block;
 }
 
 /*--------------------------------------------------------------
