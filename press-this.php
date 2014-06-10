@@ -3,7 +3,7 @@
 Plugin Name: Press This
 Plugin URI: http://wordpress.org/extend/plugins/press-this/
 Description: Posting images, links, and cat gifs will never be the same.
-Version: 0.0.2
+Version: 0.0.2.1
 Author: Press This Team
 Author URI: https://corepressthis.wordpress.com/
 Text Domain: press-this
@@ -120,10 +120,12 @@ class WpPressThis {
 	 * @uses WP's force_ssl_admin(), force_ssl_login(), force_ssl_content(), is_ssl(), and set_url_scheme()
 	 */
 	public function set_url_scheme( $url ) {
+		$current_user = get_current_user();
 		if ( ( function_exists( 'force_ssl_admin' ) && force_ssl_admin() )
 		     || ( function_exists( 'force_ssl_login' ) && force_ssl_login() )
 		     || ( function_exists( 'force_ssl_content' ) && force_ssl_content() )
-		     || ( function_exists( 'is_ssl' ) && is_ssl() )) {
+		     || ( function_exists( 'is_ssl' ) && is_ssl() )
+			 || ! empty( $current_user->use_ssl ) ) {
 			return set_url_scheme(  $url, 'https' );
 		}
 		return set_url_scheme( $url, 'http' );
@@ -472,30 +474,32 @@ class WpPressThis {
 	 */
 	public function serve_app_html() {
 		// Get data, new (POST) and old (GET)
-		$data = self::merge_or_fetch_data();
+		$data                     = self::merge_or_fetch_data();
 
-		// Get more env vars
-		$runtime_url              = self::strip_url_scheme( self::runtime_url() );
+		// Get site settings array/data
+		$site_settings            = self::press_this_site_settings();
+
+		// Get a fresh nonce
 		$nonce                    = wp_create_nonce( 'press_this_site_settings' );
 
 		// Set the passed data
-		$data['_version']         = self::plugin_version();
-		$data['_runtime_url']     = $runtime_url;
-		$data['_plugin_dir_url']  = self::plugin_dir_url();
-		$data['_ajax_url']        = self::strip_url_scheme( admin_url( 'admin-ajax.php' ) );
+		$data['_version']         = $site_settings['version'];
+		$data['_runtime_url']     = $site_settings['runtime_url'];
+		$data['_plugin_dir_url']  = $site_settings['plugin_dir_url'];
+		$data['_ajax_url']        = $site_settings['ajax_url'];
 		$data['_nonce']           = $nonce;
 
 		// JSON encode passed data
 		$json                     = json_encode( $data );
 
 		// Generate some include paths
-		$js_inc_dir               = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js', $runtime_url );
-		$json_js_inc              = $js_inc_dir . '/json2.min.js';
-		$jquery_js_inc            = $js_inc_dir . '/jquery/jquery.js';
-		$app_css_inc              = self::plugin_dir_url() . '/css/press-this.css';
-		$load_js_inc              = self::plugin_dir_url() . '/js/load.js';
+		$wp_js_inc_dir            = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js', $site_settings['runtime_url'] );
+		$json_js_inc              = $wp_js_inc_dir . '/json2.min.js';
+		$jquery_js_inc            = $wp_js_inc_dir . '/jquery/jquery.js';
+		$app_css_inc              = $site_settings['plugin_dir_url'] . '/css/press-this.css';
+		$load_js_inc              = $site_settings['plugin_dir_url'] . '/js/load.js';
+		$form_action              = $site_settings['runtime_url'];
 		$svg_icons_inc            = self::plugin_dir_path() . '/images/icons/icons.svg';
-		$form_action              = $runtime_url;
 
 		// Echo HTML
 		echo <<<________HTMLDOC
@@ -559,13 +563,27 @@ ________HTMLDOC;
 	 * @uses admin_url(), wp_create_nonce()
 	 */
 	public function press_this_site_settings() {
-		$domain      = 'press-this';
-		$plugin_data = get_plugin_data( __FILE__, false, false );
+		$domain       = 'press-this';
+		$current_user = wp_get_current_user();
+		$site_name    = get_bloginfo( 'name', 'display' );
+		$site_url     = self::strip_url_scheme( home_url( '/' ) );
+		$users_sites  = array();
+		foreach ( get_blogs_of_user( $current_user->ID ) as $site_id => $site_info ) {
+			// Do want to include self in the menu, with proper scheme. But just once.
+			if ( empty( $site_info->siteurl ) || isset( $users_sites[ $site_info->siteurl ] ) )
+				continue;
+			$users_sites[ self::set_url_scheme( $site_info->siteurl ) ] = $site_info->blogname;
+		}
 		return array(
-			'version'        => ( ! empty( $plugin_data ) && ! empty( $plugin_data['Version'] ) ) ? $plugin_data['Version'] : 0,
-			'blog_id'        => get_current_blog_id(),
-			'blog_name'      => get_bloginfo( 'name', 'display' ),
-			'blog_url'       => self::strip_url_scheme( home_url( '/' ) ),
+			'version'        => self::plugin_version(),
+			'user_id'        => (int) $current_user->ID,
+			'blog_id'        => (int) get_current_blog_id(),
+			'blog_name'      => $site_name,
+			'blog_url'       => $site_url,
+			'runtime_url'    => self::strip_url_scheme( self::runtime_url() ),
+			'plugin_dir_url' => self::plugin_dir_url(),
+			'ajax_url'       => self::strip_url_scheme( admin_url( 'admin-ajax.php' ) ),
+			'instance_sites' => $users_sites,
 			'i18n'           => array(
 				'Press This!'            => __('Press This!', $domain ),
 				'Welcome to Press This!' => __('Welcome to Press This!', $domain ),
