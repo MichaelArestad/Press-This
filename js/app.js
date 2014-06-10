@@ -214,10 +214,10 @@
 
 			function render_notice( msg, error ) {
 				error = ( true === error );
-				var error_div = $('#error-div');
-				if ( ! error_div || ! error_div.html() )
-					error_div = $('<div id="error-div" class="' + ( ( error ) ? 'error': 'notice' ) +'"></div>').insertBefore('#wppt_app_container');
-				error_div.append( msg );
+				var messages_div = $( '#messages-div' );
+				if ( ! messages_div || ! messages_div.html() )
+					messages_div = $('<div id="messages-div"></div>').insertBefore('#wppt_app_container');
+				messages_div.append( '<p class="' + ( ( error ) ? 'error': 'notice' ) +'">' + msg + '</p>' );
 			}
 
 			function render_error( msg ) {
