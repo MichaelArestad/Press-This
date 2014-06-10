@@ -212,6 +212,24 @@
  * RENDERING FUNCTIONS
  *************************************************************** */
 
+			function render_notice( msg, error ) {
+				error = ( true === error );
+				var error_div = $('#error-div');
+				if ( ! error_div || ! error_div.html() )
+					error_div = $('<div id="error-div" class="' + ( ( error ) ? 'error': 'notice' ) +'"></div>').insertBefore('#wppt_app_container');
+				error_div.append( msg );
+			}
+
+			function render_error( msg ) {
+				render_notice( msg, true );
+			}
+
+			function render_startup_notices() {
+				if ( data.v && data._version && data.v != data._version ) {
+					render_notice( __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!').replace( '%s', site_config.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php' ) ) );
+				}
+			}
+
 			function render_admin_bar() {
 				$('.current-site a').on( 'click', function(){
 				}).attr( 'href', site_config.blog_url ).text( site_config.blog_name );
@@ -362,6 +380,7 @@
 				render_available_images();
 				render_suggested_content();
 				render_default_form_field_values();
+				render_startup_notices();
 				return true;
 			}
 

@@ -3,7 +3,7 @@
 Plugin Name: Press This
 Plugin URI: http://wordpress.org/extend/plugins/press-this/
 Description: Posting images, links, and cat gifs will never be the same.
-Version: 0.0.2.1
+Version: 0.0.2
 Author: Press This Team
 Author URI: https://corepressthis.wordpress.com/
 Text Domain: press-this
@@ -595,6 +595,7 @@ ________HTMLDOC;
 				'New Post'               => __( 'New Post', $domain ),
 				'Start typing here.'     => __( 'Start typing here.', $domain ),
 				'Sorry, but an unexpected error occurred.' => __( 'Sorry, but an unexpected error occurred.', $domain ),
+				'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', $domain )
 			),
 		);
 	}
