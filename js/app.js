@@ -212,6 +212,14 @@
  * RENDERING FUNCTIONS
  *************************************************************** */
 
+			function render_admin_bar() {
+				$('.current-site a').on( 'click', function(){
+				}).attr({
+					'href'    : site_config.blog_url,
+					'target'  : '_blank'
+				}).text( site_config.blog_name );
+			}
+
 			function render_suggested_title() {
 				if ( ! suggested_title_str || ! suggested_title_str.length )
 					return;
@@ -351,6 +359,7 @@
 			function render(){
 				// We're on!
 				$("head title").text(__( 'Welcome to Press This!' ));
+				render_admin_bar();
 				render_suggested_title();
 				render_featured_image();
 				render_available_images();

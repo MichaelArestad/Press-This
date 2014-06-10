@@ -496,8 +496,6 @@ class WpPressThis {
 		$load_js_inc              = self::plugin_dir_url() . '/js/load.js';
 		$svg_icons_inc            = self::plugin_dir_path() . '/images/icons/icons.svg';
 		$form_action              = $runtime_url;
-		$site_title               = 'yoursite.com';
-		$site_url                 = '#';
 
 		// Echo HTML
 		echo <<<________HTMLDOC
@@ -523,7 +521,7 @@ ________HTMLDOC;
 
 		echo <<<________HTMLDOC
 	<div class="adminbar">
-		<h1 class="current-site"><div href="#" class="dashicons dashicons-wordpress-alt"><svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg></div><a href="${site_url}">${site_title}</a></h1>
+		<h1 class="current-site"><div href="#" class="dashicons dashicons-wordpress-alt"><svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg></div><a href="#"></a></h1>
 		<a href="#" class="dashicons dashicons-admin-settings"><svg class="icon"><use xlink:href="#dashicons-admin-settings" /></svg>Settings</a>
 	</div>
 	<div id='wppt_app_container' class="editor">
@@ -565,6 +563,9 @@ ________HTMLDOC;
 		$plugin_data = get_plugin_data( __FILE__, false, false );
 		return array(
 			'version'        => ( ! empty( $plugin_data ) && ! empty( $plugin_data['Version'] ) ) ? $plugin_data['Version'] : 0,
+			'blog_id'        => get_current_blog_id(),
+			'blog_name'      => get_bloginfo( 'name', 'display' ),
+			'blog_url'       => self::strip_url_scheme( home_url( '/' ) ),
 			'i18n'           => array(
 				'Press This!'            => __('Press This!', $domain ),
 				'Welcome to Press This!' => __('Welcome to Press This!', $domain ),
