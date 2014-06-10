@@ -214,10 +214,7 @@
 
 			function render_admin_bar() {
 				$('.current-site a').on( 'click', function(){
-				}).attr({
-					'href'    : site_config.blog_url,
-					'target'  : '_blank'
-				}).text( site_config.blog_name );
+				}).attr( 'href', site_config.blog_url ).text( site_config.blog_name );
 			}
 
 			function render_suggested_title() {

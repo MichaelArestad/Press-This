@@ -521,7 +521,7 @@ ________HTMLDOC;
 
 		echo <<<________HTMLDOC
 	<div class="adminbar">
-		<h1 class="current-site"><div href="#" class="dashicons dashicons-wordpress-alt"><svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg></div><a href="#"></a></h1>
+		<h1 class="current-site"><div href="#" class="dashicons dashicons-wordpress-alt"><svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg></div><a href="#" target="_blank"></a></h1>
 		<a href="#" class="dashicons dashicons-admin-settings"><svg class="icon"><use xlink:href="#dashicons-admin-settings" /></svg>Settings</a>
 	</div>
 	<div id='wppt_app_container' class="editor">
