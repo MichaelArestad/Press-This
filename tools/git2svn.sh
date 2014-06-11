@@ -25,8 +25,10 @@ if [ $(git pull) -ne "Already up-to-date." ]
  exit
 fi
 
-perl -pi -e "s/Stable tag: .*/Stable tag: $VERSION/" $DEST_DIR/readme.txt
-git 
+# Change the stable tag ref in the readme.txt to what it will be once pushed to svn
+perl -pi -e "s/Stable tag: .*/Stable tag: $VERSION/" $SRC_DIR/readme.txt
+git add $SRC_DIR/readme.txt
+git commit -m "Changing the stable tag ref in the readme.txt to $VERSION"
 
 # Tag Git release with plugin version
 git tag $VERSION
