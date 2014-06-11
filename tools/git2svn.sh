@@ -97,6 +97,6 @@ svn stat
 
 svn ci -m "Releasing version $VERSION from https://github.com/MichaelArestad/Press-This/tree/master"
 
-svn copy $SVN_URL/$BRANCH $SVN_URL/$VERSION -m "Tagging version $VERSION, from $SVN_URL/$BRANCH."
+svn copy $SVN_URL/$BRANCH $SVN_URL/tags/$VERSION -m "Tagging version $VERSION, from $SVN_URL/$BRANCH."
 
 echo "All done! See $SVN_URL\n"
