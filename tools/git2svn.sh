@@ -53,10 +53,9 @@ rsync -r --exclude='*.git*' $SRC_DIR/* $DEST_DIR
 
 cd $DEST_DIR
 
-# check .svnignore
-for file in $(cat "$SRC_DIR/.svnignore" 2>/dev/null)
-do
-	rm $file -rf
+# check .gitignore, delete related files
+for file in $(cat "$SRC_DIR/.gitignore" 2>/dev/null); do
+	rm -rf $file
 done
 
 # delete readme.md, readme.txt has diff info and points to it on Github
@@ -65,10 +64,6 @@ rm $(find $DEST_DIR -iname 'README.m*')
 # Moves ./assets/* to ../assets/
 mv $DEST_DIR/assets/* $ASSETS_DIR/
 rm -rf $DEST_DIR/assets
-
-# delete node_modules dor from $DEST_DIR, not to be checked in
-rm -rf $DEST_DIR/node_modules
-rm -rf $DEST_DIR/tools
 
 # svn addremove in $ASSETS_DIR
 cd $ASSETS_DIR
@@ -88,6 +83,6 @@ svn stat
 
 svn ci -m "Releasing version $VERSION from https://github.com/MichaelArestad/Press-This/tree/master"
 
-svn copy $SVN_URL/$BRANCH $SVN_URL/$VERSION -m "Tagging the $VERSION release of the $DIR_NAME project, from $SVN_URL/$BRANCH."
+svn copy $SVN_URL/$BRANCH $SVN_URL/$VERSION -m "Tagging version $VERSION, from $SVN_URL/$BRANCH."
 
 echo "All done! See $SVN_URL\n"
