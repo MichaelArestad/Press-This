@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # args
-CHECKOUT_DIR=${1-'~/svn/wp-plugins/'}
+CHECKOUT_DIR=${1-'/tmp'}
 BRANCH='trunk'
 
+# make sure the dir in which we expect to svn co exists
 if [ ! -d $CHECKOUT_DIR ]; then
 	echo "$SRC_DIR doesn't seem to exist."
 	exit
