@@ -32,7 +32,7 @@ git add $SRC_DIR/readme.txt
 git commit -m "Changing the stable tag ref in the readme.txt to $VERSION"
 
 # Tag Git release with plugin version
-git tag $VERSION
+git tag $VERSION -m "Tagging version $VERSION, matched at $SVN_URL/$VERSION"
 git push
 git push --tags
 
