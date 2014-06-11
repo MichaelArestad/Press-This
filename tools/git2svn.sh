@@ -21,11 +21,6 @@ VERSION=$(cat $SRC_DIR/press-this.php | grep 'Version: ' | cut -d ' ' -f 2)
 
 cd $SRC_DIR
 
-if [ $(git pull) -ne "Already up-to-date." ]
- echo "Git pull told us there are changes to sync 1st"
- exit
-fi
-
 # Change the stable tag ref in the readme.txt to what it will be once pushed to svn
 perl -pi -e "s/Stable tag: .*/Stable tag: $VERSION/" $SRC_DIR/readme.txt
 git add $SRC_DIR/readme.txt
@@ -84,8 +79,8 @@ cd $ASSETS_DIR
 svn stat | grep '^\?' | awk '{print $2}' | xargs svn add > /dev/null 2>&1
 svn stat | grep '^\!' | awk '{print $2}' | xargs svn rm  > /dev/null 2>&1
 
+# commit assets
 svn stat
-
 svn ci -m "Releasing version $VERSION from https://github.com/MichaelArestad/Press-This/tree/master"
 
 # svn addremove in #DEST_DIR
@@ -93,10 +88,14 @@ cd $DEST_DIR
 svn stat | grep '^\?' | awk '{print $2}' | xargs svn add > /dev/null 2>&1
 svn stat | grep '^\!' | awk '{print $2}' | xargs svn rm  > /dev/null 2>&1
 
+# commit trunk
 svn stat
-
 svn ci -m "Releasing version $VERSION from https://github.com/MichaelArestad/Press-This/tree/master"
 
+# Tag trunk with new version number
 svn copy $SVN_URL/$BRANCH $SVN_URL/tags/$VERSION -m "Tagging version $VERSION, from $SVN_URL/$BRANCH."
 
-echo "All done! See $SVN_URL\n"
+# Cleanup
+rm -rf $SVN_DIR
+
+echo "All done! See $SVN_URL"
