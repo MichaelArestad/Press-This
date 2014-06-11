@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# args
+# args: pass a dir or defaults to /tmp
 CHECKOUT_DIR=${1-'/tmp'}
 BRANCH='trunk'
 
