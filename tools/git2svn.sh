@@ -20,6 +20,14 @@ VERSION=$(cat $SRC_DIR/press-this.php | grep 'Version: ' | cut -d ' ' -f 2)
 
 cd $SRC_DIR
 
+if [ $(git pull) -ne "Already up-to-date." ]
+ echo "Git pull told us there are changes to sync 1st"
+ exit
+fi
+
+perl -pi -e "s/Stable tag: .*/Stable tag: $VERSION/" $DEST_DIR/readme.txt
+git 
+
 # Tag Git release with plugin version
 git tag $VERSION
 git push
@@ -64,6 +72,9 @@ rm $(find $DEST_DIR -iname 'README.m*')
 # Moves ./assets/* to ../assets/
 mv $DEST_DIR/assets/* $ASSETS_DIR/
 rm -rf $DEST_DIR/assets
+
+# Make sure to change the stable tag in the readme.txt in svn trunk, to never forget
+perl -pi -e "s/Stable tag: .*/Stable tag: $VERSION/" $DEST_DIR/readme.txt
 
 # svn addremove in $ASSETS_DIR
 cd $ASSETS_DIR
