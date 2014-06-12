@@ -6,11 +6,10 @@
 				largest_width         = parseInt( $( document ).width() - 60 ) || 450,
 				smallest_width        = 64,
 				current_width         = parseInt( largest_width ) || 450,
-				preferred             = featured_image( data ),
-				all_images            = data._img || [],
-				featured              = ( preferred ) ? preferred : ( ( all_images.length ) ? full_size_src( all_images[0] ) : '' ),
-				suggested_title_str   = suggested_title( data ),
-				suggested_content_str = suggested_content( data ),
+				interesting_images	  = get_interesting_images( data ) || [],
+				featured              = ( interesting_images.length ) ? interesting_images[0] : '',
+				suggested_title_str   = get_suggested_title( data ),
+				suggested_content_str = get_suggested_content( data ),
 				already_shown_img     = [],
 				nonce                 = data._nonce || '';
 
@@ -30,13 +29,13 @@
 				return $('<div/>').text(str).html();
 			}
 
-			function full_size_src( src ) {
+			function get_full_size_src( src ) {
 				return ( src.indexOf('gravatar.com') > -1 || src.match( /\/avatars[\d]+\.githubusercontent\.com\// ) )
 					? src.replace(/^(http[^\?]+)(\?.*)?$/, '$1?s=' + largest_width)
 					: src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
 			}
 
-			function canonical_link( data ) {
+			function get_canonical_link( data ) {
 				if ( ! data || data.length )
 					return '';
 
@@ -63,7 +62,7 @@
 				return decodeURI( link );
 			}
 
-			function source_site_name( data ) {
+			function get_source_site_name( data ) {
 				if ( ! data || data.length )
 					return '';
 
@@ -80,7 +79,7 @@
 				return name.replace(/\\/g, '');
 			}
 
-			function suggested_title( data ) {
+			function get_suggested_title( data ) {
 				if ( ! data || data.length )
 					return __( 'New Post' );
 
@@ -106,14 +105,14 @@
 				return title.replace(/\\/g, '');
 			}
 
-			function suggested_content( data ) {
+			function get_suggested_content( data ) {
 				if ( ! data || data.length )
 					return __( 'Start typing here.' );
 
 				var content   = '',
-					title     = suggested_title( data ),
-					url       = canonical_link( data ),
-					site_name = source_site_name( data );
+					title     = get_suggested_title( data ),
+					url       = get_canonical_link( data ),
+					site_name = get_source_site_name( data );
 
 				if (data.s && data.s.length) {
 					content = data.s;
@@ -146,7 +145,20 @@
 				return content.replace(/\\/g, '');
 			}
 
-			function featured_image( data ) {
+			function is_src_uninteresting_path( src ) {
+				return (
+				src.match(/\/ad[sx]{1}?\//) // ads
+				|| src.match(/(\/share-?this[^\.]+?\.[a-z0-9]{3,4})(\?.*)?$/) // share-this type button
+				|| src.match(/\/(spinner|loading|spacer|blank|rss)\.(gif|jpg|png)/) // loaders, spinners, spacers
+				|| src.match(/\/([^\.\/]+[-_]{1})?(spinner|loading|spacer|blank)s?([-_]{1}[^\.\/]+)?\.[a-z0-9]{3,4}/) // fancy loaders, spinners, spacers
+				|| src.match(/([^\.\/]+[-_]{1})?thumb[^.]*\.(gif|jpg|png)$/) // thumbnails, too small, usually irrelevant to context
+				|| src.match(/\/wp-includes\//) // classic WP interface images
+				|| src.indexOf('/g.gif') > -1 // classic WP stats gif
+				|| src.indexOf('/pixel.mathtag.com') > -1 // classic WP stats gif
+				);
+			}
+
+			function get_featured_image( data ) {
 				if ( ! data || ! data._meta )
 					return '';
 
@@ -166,7 +178,49 @@
 					featured = data._meta['og:image:secure_url'];
 				}
 
-				return full_size_src( featured );
+				featured = get_full_size_src( featured );
+
+				return ( is_src_uninteresting_path( featured ) ) ? '' : featured;
+			}
+
+			function get_interesting_images( data ) {
+				var imgs             = data._img || [],
+					featured_pict    = get_featured_image( data ) || '',
+					interesting_imgs = [],
+					already_selected = [];
+
+				if ( featured_pict.length ) {
+					interesting_imgs.push(featured_pict);
+					already_selected.push(get_full_size_src(featured_pict).replace(/^https?:/, ''));
+				}
+
+				if ( imgs.length ) {
+					$.each( imgs, function ( i, src ) {
+						src = get_full_size_src( src );
+						src = src.replace(/http:\/\/[\d]+\.gravatar\.com\//, 'https://secure.gravatar.com/');
+
+						var schemeless_src = src.replace(/^https?:/, '');
+
+						if (!src || !src.length) {
+							// Skip: no src value
+							return;
+						} else if ( already_selected.indexOf( schemeless_src ) > -1 ) {
+							// Skip: already shown
+							return;
+						} else if (is_src_uninteresting_path(src)) {
+							// Skip: spinner, stat, ad, or spacer pict
+							return;
+						} else if (src.indexOf('avatar') > -1 && interesting_imgs.length >= 15) {
+							// Skip:  some type of avatar and we've already gathered more than 23 diff images to show
+							return;
+						}
+
+						interesting_imgs.push(src);
+						already_selected.push(schemeless_src);
+					});
+				}
+
+				return interesting_imgs;
 			}
 
 			function button_clicks(e, action) {
@@ -203,7 +257,7 @@
 					img_switch.text( __( 'Show other images' ) );
 			}
 
-			function set_selected_image( src, width ) {
+			function set_selected_image( src ) {
 				$( '#wppt_selected_img_field' ).val( src );
 				$( 'img.featured-image' ).attr( 'src', src ).css('background-image', 'url(' + src + ')' );
 			}
@@ -265,7 +319,7 @@
 					? featured + '?w=' + current_width
 					: featured;
 
-				var img_div = $('<img />', {
+				$('<img />', {
 					'src'                : display_src,
 					'id'                 : 'img-featured-container',
 					'class'              : 'featured-image',
@@ -274,47 +328,31 @@
 				}).css({
 					'background-image'   : 'url('+display_src+')'
 				}).click(function(){
-					set_selected_image( display_src, current_width );
+					set_selected_image( display_src );
 				}).appendTo('#wppt_featured_image_container');
-
-				// Only if we already have some alternate images to show, and only if not already in said list
-				if ( all_images && all_images.length && -1 === all_images.indexOf( display_src ) ) {
-					// Then add our preferred images to the list of all images.
-					all_images.unshift( display_src );
-				}
 			}
 
-			function render_available_images() {
+			function render_interesting_images() {
 				var img_switch     = $('#wppt_other_images_switch'),
 					imgs_container = $('#wppt_other_images_container');
 
-				if ( ! all_images || ! all_images.length ) {
+				if ( ! interesting_images || interesting_images.length < 2 ) {
 					img_switch.text('').hide();
 					imgs_container.hide();
 					return;
 				}
 
-				var skipped = 0;
+				$.each( interesting_images, function( i, src ) {
+					src = get_full_size_src(src);
 
-				$.each( all_images, function( i, src ) {
-					src = full_size_src(src);
+					var css_size_class = 'thumbs-small';
 
-					// Skip this image if already shown
-					if (already_shown_img.indexOf(src) > -1) {
-						skipped++;
-						return;
-					}
-
-					var num = ( skipped ) ? i - skipped : i,
-						css_size_class = 'thumbs-small';
-
-					if (num < 3) {
+					if (i < 3)
 						css_size_class = 'thumbs-large';
-					} else if (num < 7) {
+					else if (i < 7)
 						css_size_class = 'thumbs-medium';
-					}
 
-					if ( 0 == num || 3 == num || 7 == num )
+					if ( 0 == i || 3 == i || 7 == i )
 						current_width   = parseInt(current_width / 2);
 
 					if ( current_width < smallest_width )
@@ -324,25 +362,17 @@
 						? src + '?w=' + parseInt( current_width * 1.5 )
 						: src;
 
-					var img_div = $('<img />', {
+					$('<img />', {
 						'src'                : display_src,
 						'id'                 : 'img-'+i+'-container',
 						'class'              : 'site-thumbnail ' + css_size_class
 					}).css({
 						'background-image'   : 'url('+display_src+')'
 					}).click(function(){
-						set_selected_image( display_src, current_width );
+						set_selected_image( display_src );
 						image_viewer_switch();
 					}).appendTo('#wppt_other_images_container');
-
-					already_shown_img.push(src);
 				});
-
-				if ( already_shown_img.length == 1 ) {
-					img_switch.text('').hide();
-					imgs_container.hide();
-					return;
-				}
 
 				img_switch.text(
 					__( 'Show other images' )
@@ -356,8 +386,8 @@
 				$('#wppt_title_field').val( suggested_title_str );
 				$('#wppt_content_field').val( suggested_content_str );
 				$('#wppt_selected_img_field').val( featured );
-				$('#wppt_source_url_field').val( canonical_link( data ) );
-				$('#wppt_source_name_field').val( source_site_name( data ) );
+				$('#wppt_source_url_field').val( get_canonical_link( data ) );
+				$('#wppt_source_name_field').val( get_source_site_name( data ) );
 				$('#wppt_publish_field').val( __( 'Publish' ) );
 				$('#wppt_draft_field').val( __( 'Save Draft' ) );
 			}
@@ -377,7 +407,7 @@
 				render_admin_bar();
 				render_suggested_title();
 				render_featured_image();
-				render_available_images();
+				render_interesting_images();
 				render_suggested_content();
 				render_default_form_field_values();
 				render_startup_notices();

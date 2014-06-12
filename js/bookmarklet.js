@@ -1,4 +1,4 @@
-var WpPressThis_Bookmarklet = function(u) {
+var WpPressThis_Bookmarklet = function(pt_url) {
 	var d = document,
 		w = window,
 		z = w.getSelection,
@@ -25,6 +25,8 @@ var WpPressThis_Bookmarklet = function(u) {
 		tn = '_press_this_app';
 
 	for (var m = 0; m < metas.length; m++) {
+		if ( m >= 50 )
+			break;
 		var q = metas[m];
 		q_name = q.getAttribute("name");
 		q_prop = q.getAttribute("property");
@@ -37,6 +39,8 @@ var WpPressThis_Bookmarklet = function(u) {
 	}
 
 	for (var y = 0; y < links.length; y++) {
+		if ( y >= 50 )
+			break;
 		var g = links[y];
 		g_rel = g.getAttribute("rel");
 		if (g_rel) {
@@ -56,33 +60,36 @@ var WpPressThis_Bookmarklet = function(u) {
 	}
 
 	for (var n = 0; n < imgs.length; n++) {
+		if ( n >= 100 )
+			break;
 		r.src = imgs[n].src;
 		if (imgs[n].className && imgs[n].className.length) {
-			if (imgs[n].className.indexOf('gravatar') > -1) {
+			if (imgs[n].className.indexOf('gravatar') > -1 && n <= 30) {
 				fAdd('_img[]', r.src.replace(/^(http[^\?]+)(\?.*)?$/, '$1?s=640'));
-			} else if (imgs[n].className.match(/size-(large|full|medium)/)) {
+			} else {
 				fAdd('_img[]', r.src);
 			}
 		} else if (imgs[n].original && imgs[n].original.length) {
 			fAdd('_img[]', r.src);
-		} else if (r.src.indexOf('/wp-content/uploads/') && !r.src.match(/(\/share-?this[^\.]+?\.[a-z0-9]{3,})(\?.*)?/)) {
+		} else if (r.src.indexOf('/wp-content/uploads/')) {
 			fAdd('_img[]', r.src);
-		} else if (r.width >= 256 && r.height >= 128) {
+		} else if (r.width && r.height && r.width >= 256 && r.height >= 128) {
 			fAdd('_img[]', r.src);
 		}
 	}
 
 	fAdd('s', s);
+	fAdd('t', d.title);
 
 	f.setAttribute('method', 'POST');
-	f.setAttribute('action', ( u + ( ( u.indexOf('?') > -1 ) ? '&' : '?' ) + 'u=' + encodeURI(l.href) + '&t=' + encodeURI(d.title) + '&buster=' + now ));
+	f.setAttribute('action', ( pt_url + ( ( pt_url.indexOf('?') > -1 ) ? '&' : '?' ) + 'u=' + encodeURI(l.href) + '&buster=' + now ));
 	f.setAttribute('target', tn);
 
-	if (top.location.href.match(/^https/) && !u.match(/https/)) {
-		p = w.open('about: blank', tn, "width=500,height=700");
+	if (top.location.href.match(/^https/) && !pt_url.match(/^https/)) {
+		p = w.open('about:blank', tn, "width=500,height=700");
 	} else {
 		i = d.createElement('iframe');
-		i.setAttribute('src', 'about: blank');
+		i.setAttribute('src', 'about:blank');
 		i.setAttribute('name', tn);
 		i.setAttribute('id', i.name);
 		i.setAttribute('style', 'position:fixed;top:0px;right:0px;z-index:999999999999999;border:0;min-width:320px;max-width:760px;width:50%;height:' + '100%');
