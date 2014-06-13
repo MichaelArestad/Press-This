@@ -309,6 +309,12 @@ blockquote {
   font-size: 1.25em;
   font-style: italic;
 }
+@media (max-width: 320px) {
+  blockquote {
+    margin: 1em 0;
+    font-size: 1.28571em;
+  }
+}
 
 address {
   margin: 0 0 1.5em;
