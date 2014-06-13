@@ -136,10 +136,18 @@ body {
 .editor {
 	padding: 0 em(30) 0;
 	transform: translateZ(0);
+
+	@include breakpoint(phone) {
+		padding: 0;
+	}
 }
 
 .editor--content {
 	min-height: 8em;
+
+	@include breakpoint(phone) {
+		padding: 0 em(20,14);
+	}
 }
 
 [contenteditable] { // Temporary
@@ -151,6 +159,12 @@ body {
 	padding: .83em 0;
 	border-bottom: 1px solid $gray--light;
 	line-height: 1.4;
+
+	@include breakpoint(phone) {
+		font-size: 1em;
+		font-weight: 600;
+		padding: em(16,14) em(20,14);
+	}
 }
 
 
@@ -309,6 +323,7 @@ body {
 	}
 	@include breakpoint(phone) {
 		margin: 1px 0 0;
+		font-size: 14px;
 	}
 }
 .dashicons-wordpress-alt {

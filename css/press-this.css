@@ -775,9 +775,19 @@ body:before {
   -ms-transform: translateZ(0);
   transform: translateZ(0);
 }
+@media (max-width: 320px) {
+  .editor {
+    padding: 0;
+  }
+}
 
 .editor--content {
   min-height: 8em;
+}
+@media (max-width: 320px) {
+  .editor--content {
+    padding: 0 1.42857em;
+  }
 }
 
 [contenteditable] {
@@ -789,6 +799,13 @@ body:before {
   padding: .83em 0;
   border-bottom: 1px solid #e5e5e5;
   line-height: 1.4;
+}
+@media (max-width: 320px) {
+  .post__title {
+    font-size: 1em;
+    font-weight: 600;
+    padding: 1.14286em 1.42857em;
+  }
 }
 
 .featured-image-container {
@@ -939,6 +956,7 @@ body:before {
 @media (max-width: 320px) {
   .current-site {
     margin: 1px 0 0;
+    font-size: 14px;
   }
 }
 
