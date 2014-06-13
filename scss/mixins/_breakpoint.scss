@@ -6,25 +6,23 @@
 
 // Add or remove breakpoints as you desire
 $breakpoints:(
-  phone: 320px,
-  phablet: 500px,
-  tablet: .5*768px,
-  desktop: 960px,
+	phone: 320px,
+	tablet: 500px
 );
 
 @mixin breakpoint($size){
-  @each $breakpoint, $value in $breakpoints {
-   @if $size == $breakpoint {
-     @media (max-width: map-get($breakpoints, $breakpoint)){
-       @content;
-     }
-   }
-  }
+	@each $breakpoint, $value in $breakpoints {
+		@if $size == $breakpoint {
+			@media (max-width: map-get($breakpoints, $breakpoint)){
+				@content;
+			}
+		}
+	}
 }
 
 // EXAMPLE
 // body {
-//   @include breakpoint(tablet){
-//     font-size: 14px;
-//   };
+//     @include breakpoint(tablet){
+//         font-size: 14px;
+//     };
 // }

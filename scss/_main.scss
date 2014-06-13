@@ -25,10 +25,12 @@ body {
 		background: $gray--light;
 	}
 
-	@include breakpoint(phablet){
+	@include breakpoint(tablet) {
+		margin: em(52,16) 0 em(95,16) 1px;
 		font-size: 16px;
 	}
-	@include breakpoint(phone){
+	@include breakpoint(phone) {
+		margin: em(45,14) 0 em(95,14) 1px;
 		font-size: 14px;
 	}
 }
@@ -87,6 +89,49 @@ body {
 // }
 
 
+// Scan styles
+.scan {
+	position: relative;
+	// padding: 10px;
+	// background: $gray--ultralight;
+	// background: transparentize($gray--ultralight, .1);
+	border-bottom: 1px solid $gray--light;
+}
+.scan__url {
+	display: block;
+	border: 0;
+	padding: em(12,14) em(15,14);
+	font-size: 14px;
+	width: 100%;
+}
+.scan__submit {
+	@extend %button;
+	@extend %button--secondary;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: em(12,14) em(15,14);
+	border: 0;
+	border-left: 1px solid $gray--ultralight;
+	border-radius: 0;
+	font-size: 14px;
+	line-height: 1.6;
+
+	&:hover,
+	&:focus {
+		background: darken( $blue--light, 5% );
+		border-color: darken( $blue--light, 15% );
+		color: #fff;
+	}
+
+	&:active {
+		background: darken( $blue--light, 10% );
+		border-color: darken( $blue--light, 15% );
+		color: #fff;
+	}
+}
+
+
 // Editor stuff
 .editor {
 	padding: 0 em(30) 0;
@@ -125,6 +170,7 @@ body {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	height: 0!important; // NOOOOOOOOOO
 	cursor: pointer;
 }
 
@@ -216,7 +262,7 @@ body {
 	top: 0;
 	left: 0;
 	width: 100%;
-	padding: 0 16px;
+	padding: 0 em(16);
 	min-height: em(65);
 	background: $gray--dark;
 	color: #fff;
@@ -228,6 +274,14 @@ body {
 	}
 	@include breakpoint(phone) {
 		min-height: 45px;
+		background: #fff;
+		background: transparentize(#fff, .1);
+		border-left: 1px solid $gray--light;
+		border-bottom: 1px solid $gray--light;
+
+		.dashicons-wordpress-alt {
+			fill: $blue--light;
+		}
 	}
 }
 .current-site {
@@ -240,6 +294,14 @@ body {
 
 		&:hover {
 			color: #fff;
+		}
+		@include breakpoint(phone) {
+			color: #3f3f3f;
+			font-weight: 600;
+
+			&:hover {
+				color: $blue--light;
+			}
 		}
 	}
 	@include breakpoint(tablet) {

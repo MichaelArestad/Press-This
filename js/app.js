@@ -141,7 +141,7 @@
 				}
 
 				if ( ! content.length )
-					content = __( 'Start typing here.' );
+					content = __( '<p>Start typing here.</p>' );
 
 				return content.replace(/\\/g, '');
 			}
@@ -286,7 +286,7 @@
 				$('#wppt_publish_field').val( __( 'Publish' ) );
 				$('#wppt_draft_field').val( __( 'Save Draft' ) );
 
-				$('#wppt_url_scan').attr('placeholder', __( 'Enter any public URL' )).val( ( data.u && data.u.match(/^https?:/ ) ) ? data.u : '' );
+				$('#wppt_url_scan').attr('placeholder', __( 'Enter a URL to scan' )).val( ( data.u && data.u.match(/^https?:/ ) ) ? data.u : '' );
 				$('#wppt_url_scan_submit').val(__( 'Scan' ) );
 
 				$('#wppt_new_site').attr('placeholder', __( 'Enter any WordPress URL' ) );

@@ -15,17 +15,17 @@ textarea {
 	*vertical-align: middle; // Improves appearance and consistency in IE6/IE7
 }
 
-input[type="checkbox"],
-input[type="radio"] {
+[type="checkbox"],
+[type="radio"] {
 	padding: 0; // Addresses excess padding in IE8/9
 }
 
-input[type="search"] {
+[type="search"] {
 	-webkit-appearance: textfield; // Addresses appearance set to searchfield in S5, Chrome
 	box-sizing: content-box; // Addresses box sizing set to border-box in S5, Chrome
 }
 
-input[type="search"]::-webkit-search-decoration { // Corrects inner padding displayed oddly in S5, Chrome on OSX
+[type="search"]::-webkit-search-decoration { // Corrects inner padding displayed oddly in S5, Chrome on OSX
 	-webkit-appearance: none;
 }
 
@@ -35,11 +35,11 @@ input::-moz-focus-inner { // Corrects inner padding and border displayed oddly i
 	padding: 0;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="url"],
-input[type="password"],
-input[type="search"],
+[type="text"],
+[type="email"],
+[type="url"],
+[type="password"],
+[type="search"],
 textarea {
 	@extend %form-field;
 }

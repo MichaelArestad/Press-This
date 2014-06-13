@@ -548,10 +548,10 @@ ________HTMLDOC;
 			</ul>
 		<a href="#" class="dashicons dashicons-admin-settings"><svg class="icon"><use xlink:href="#dashicons-admin-settings" /></svg>Settings</a>
 	</div>
-	<div id="wppt_scanbar" class="scanbar">
+	<div id="wppt_scanbar" class="scan">
 		<form action="{$form_action}" method="GET">
-			<input type="text" name="u" id="wppt_url_scan" class="" value="" placeholder="Enter any public URL" />
-			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="" value="Scan" />
+			<input type="url" name="u" id="wppt_url_scan" class="scan__url" value="" placeholder="Enter a URL to scan" />
+			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan__submit" value="Scan" />
 		</form>
 	</div>
 	<div id='wppt_app_container' class="editor">
@@ -620,7 +620,7 @@ ________HTMLDOC;
 				'Save Draft'             => __( 'Save Draft', $domain ),
 				'New Post'               => __( 'New Post', $domain ),
 				'Start typing here.'     => __( 'Start typing here.', $domain ),
-				'Enter any public URL'   => __( 'Enter any public URL', $domain ),
+				'Enter a URL to scan'    => __( 'Enter a URL to scan', $domain ),
 				'Scan'                   => __( 'Scan', $domain ),
 				'Enter a WordPress URL'  => __( 'Enter a WordPress URL', $domain ),
 				'Add'                    => __( 'Add', $domain ),
