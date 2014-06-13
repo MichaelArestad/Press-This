@@ -38,9 +38,59 @@ body {
 	display: none;
 }
 
+
+// Alerts
+.alerts {
+	overflow: hidden; // lazy clearfix
+	padding: em(18) 0;
+	border-bottom: 1px solid $gray--light;
+	transform: translateZ(0);
+}
+.notice {
+	position: relative;
+	margin: 0 em(30,14);
+	padding: em(5, 14) em(20, 14);
+	font-size: em(14);
+
+	&:before {
+		$dot-size: 8px;
+
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 0;
+		width: $dot-size;
+		height: $dot-size;
+		margin-top: -0.5 * $dot-size;
+		border-radius: 50%;
+		background: $blue--light;
+	}
+}
+.error {
+	&:before {
+		background: red;
+	}
+}
+// Messing with animation
+// .notice,
+// .alerts,
+// .alerts + .editor {
+// 	animation: single-alert 2s ease-in-out;
+// }
+// @keyframes single-alert {
+// 	0% {
+// 		transform: translateY(-65px);
+// 	}
+// 	75% {
+// 		transform: translateY(-65px);
+// 	}
+// }
+
+
 // Editor stuff
 .editor {
 	padding: 0 em(30) 0;
+	transform: translateZ(0);
 }
 
 .editor--content {

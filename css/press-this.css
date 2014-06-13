@@ -701,8 +701,42 @@ body:before {
   display: none;
 }
 
+.alerts {
+  overflow: hidden;
+  padding: 0.9em 0;
+  border-bottom: 1px solid #e5e5e5;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.notice {
+  position: relative;
+  margin: 0 2.14286em;
+  padding: 0.35714em 1.42857em;
+  font-size: 0.7em;
+}
+.notice:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: #2ea2cc;
+}
+
+.error:before {
+  background: red;
+}
+
 .editor {
   padding: 0 1.5em 0;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .editor--content {

@@ -295,9 +295,9 @@
 
 			function render_notice( msg, error ) {
 				error = ( true === error );
-				var messages_div = $( '#messages-div' );
+				var messages_div = $( '#alerts' );
 				if ( ! messages_div || ! messages_div.html() )
-					messages_div = $('<div id="messages-div"></div>').insertBefore('#wppt_app_container');
+					messages_div = $('<div id="alerts" class="alerts"></div>').insertBefore('#wppt_app_container');
 				messages_div.append( '<p class="' + ( ( error ) ? 'error': 'notice' ) +'">' + msg + '</p>' );
 			}
 
