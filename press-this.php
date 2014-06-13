@@ -106,7 +106,7 @@ class WpPressThis {
 					? preg_replace( '/^([^\?]+)(\?.*)?$/', '\1', $_SERVER['REQUEST_URI'] )
 					: '';
 		return ( preg_match('/\/wp-admin\/?$/', $script_name) || ! preg_match('/\.php$/', $script_name ) )
-			? rtrim( $script_name, '/' ) . '/index.php'
+			? untrailingslashit( $script_name ) . '/index.php'
 			: $script_name;
 	}
 
@@ -183,7 +183,7 @@ class WpPressThis {
 	 * @uses __FILE__, plugin_dir_path()
 	 */
 	public function plugin_dir_path() {
-		return rtrim( plugin_dir_path( __FILE__ ), '/' );
+		return untrailingslashit( plugin_dir_path( __FILE__ ) );
 	}
 
 	/**
@@ -193,7 +193,7 @@ class WpPressThis {
 	 * @uses __FILE__, plugin_dir_url()
 	 */
 	public function plugin_dir_url() {
-		return rtrim( self::strip_url_scheme( plugin_dir_url( __FILE__ ) ), '/' );
+		return untrailingslashit( self::strip_url_scheme( plugin_dir_url( __FILE__ ) ) );
 	}
 
 	/**
@@ -489,8 +489,9 @@ class WpPressThis {
 		$data['_ajax_url']        = $site_settings['ajax_url'];
 		$data['_nonce']           = $nonce;
 
-		// JSON encode passed data
-		$json                     = json_encode( $data );
+		// JSON encode passed data and site settings
+		$json_data                = json_encode( $data );
+		$json_site_settings       = json_encode( $site_settings );
 
 		// Generate some include paths
 		$wp_js_inc_dir            = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js', $site_settings['runtime_url'] );
@@ -500,6 +501,15 @@ class WpPressThis {
 		$load_js_inc              = $site_settings['plugin_dir_url'] . '/js/load.js';
 		$form_action              = $site_settings['runtime_url'];
 		$svg_icons_inc            = self::plugin_dir_path() . '/images/icons/icons.svg';
+		$sites_list               = '';
+
+		foreach( (array) $site_settings['instance_sites'] as $instance_url => $instance_name ) {
+			$instance_url = untrailingslashit( $instance_url );
+			$sites_list .= '<li '
+						.  ' class="wppt_site_entry ' . ( ( untrailingslashit( $site_settings['blog_url'] ) == self::strip_url_scheme( $instance_url ) ) ? 'entry-selected': '' ) . '" '
+						.  ' data-url="' . esc_url( $instance_url ) . '">'
+			            .  esc_html( $instance_name ) . '</li>';
+		}
 
 		// Echo HTML
 		echo <<<________HTMLDOC
@@ -507,10 +517,11 @@ class WpPressThis {
 <html>
 <head lang="en">
 	<meta charset="UTF-8">
-	<title></title>
+	<title>Press This</title>
 	<link rel='stylesheet' id='all-css' href='{$app_css_inc}' type='text/css' media='all' />
 	<script language="JavaScript">
-		window.wp_pressthis_data = {$json};
+		window.wp_pressthis_data   = {$json_data};
+		window.wp_pressthis_config = {$json_site_settings};
 	</script>
 	<script src="{$json_js_inc}" language="JavaScript"></script>
 	<script src="{$jquery_js_inc}" language="JavaScript"></script>
@@ -524,9 +535,24 @@ ________HTMLDOC;
 			require_once( $svg_icons_inc );
 
 		echo <<<________HTMLDOC
-	<div class="adminbar">
+	<div id="wppt_adminbar" class="adminbar">
 		<h1 class="current-site"><div href="#" class="dashicons dashicons-wordpress-alt"><svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg></div><a href="#" target="_blank"></a></h1>
+			<ul id="wppt_sites" class="">
+				{$sites_list}
+				<li>
+					<form action="{$form_action}" method="GET" class="">
+						<input type="text" name="wppt_new_site" id="wppt_new_site" class="" value="" placeholder="Enter any WordPress URL" />
+						<input type="submit" name="wppt_new_site_submit" id="wppt_new_site_submit" class="" value="Add" />
+					</form>
+				</li>
+			</ul>
 		<a href="#" class="dashicons dashicons-admin-settings"><svg class="icon"><use xlink:href="#dashicons-admin-settings" /></svg>Settings</a>
+	</div>
+	<div id="wppt_scanbar" class="scanbar">
+		<form action="{$form_action}" method="GET">
+			<input type="text" name="u" id="wppt_url_scan" class="" value="" placeholder="Enter any public URL" />
+			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="" value="Scan" />
+		</form>
 	</div>
 	<div id='wppt_app_container' class="editor">
 		<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
@@ -546,8 +572,8 @@ ________HTMLDOC;
 			<input type="hidden" name="wppt_selected_img" id="wppt_selected_img_field" value=""/>
 			<input type="hidden" name="wppt_source_url" id="wppt_source_url_field" value=""/>
 			<input type="hidden" name="wppt_source_name" id=wppt_source_name_field" value=""/>
-			<input type="submit" class="button--subtle" name="wppt_draft" id="wppt_draft_field" value=""/>
-			<input type="submit" class="button--primary" name="wppt_publish" id="wppt_publish_field" value=""/>
+			<input type="submit" class="button--subtle" name="wppt_draft" id="wppt_draft_field" value="Save Draft"/>
+			<input type="submit" class="button--primary" name="wppt_publish" id="wppt_publish_field" value="New Post"/>
 		</form>
 	</div>
 </body>
@@ -572,14 +598,14 @@ ________HTMLDOC;
 			// Do want to include self in the menu, with proper scheme. But just once.
 			if ( empty( $site_info->siteurl ) || isset( $users_sites[ $site_info->siteurl ] ) )
 				continue;
-			$users_sites[ self::set_url_scheme( $site_info->siteurl ) ] = $site_info->blogname;
+			$users_sites[ rtrim( self::set_url_scheme( $site_info->siteurl ), '/' ) ] = $site_info->blogname;
 		}
 		return array(
 			'version'        => self::plugin_version(),
 			'user_id'        => (int) $current_user->ID,
 			'blog_id'        => (int) get_current_blog_id(),
 			'blog_name'      => $site_name,
-			'blog_url'       => $site_url,
+			'blog_url'       => rtrim( $site_url, '/' ),
 			'runtime_url'    => self::strip_url_scheme( self::runtime_url() ),
 			'plugin_dir_url' => self::plugin_dir_url(),
 			'ajax_url'       => self::strip_url_scheme( admin_url( 'admin-ajax.php' ) ),
@@ -594,6 +620,10 @@ ________HTMLDOC;
 				'Save Draft'             => __( 'Save Draft', $domain ),
 				'New Post'               => __( 'New Post', $domain ),
 				'Start typing here.'     => __( 'Start typing here.', $domain ),
+				'Enter any public URL'   => __( 'Enter any public URL', $domain ),
+				'Scan'                   => __( 'Scan', $domain ),
+				'Enter a WordPress URL'  => __( 'Enter a WordPress URL', $domain ),
+				'Add'                    => __( 'Add', $domain ),
 				'Sorry, but an unexpected error occurred.' => __( 'Sorry, but an unexpected error occurred.', $domain ),
 				'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', $domain )
 			),

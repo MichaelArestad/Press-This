@@ -3,6 +3,7 @@
 		var WpPressThis_App = function() {
 			var site_config           = window.wp_pressthis_config || {},
 				data                  = window.wp_pressthis_data || {},
+				ux_context            = window.wp_pressthis_ux || 'top',
 				largest_width         = parseInt( $( document ).width() - 60 ) || 450,
 				smallest_width        = 64,
 				current_width         = parseInt( largest_width ) || 450,
@@ -266,6 +267,15 @@
  * RENDERING FUNCTIONS
  *************************************************************** */
 
+			function render_tools_visibility() {
+				if ( 'top' != ux_context && data.u && data.u.length ) {
+					$('#wppt_scanbar').hide();
+				}
+
+				// Only while being developed, looking ugly otherwise :)
+				$('#wppt_sites').hide();
+			}
+
 			function render_notice( msg, error ) {
 				error = ( true === error );
 				var messages_div = $( '#messages-div' );
@@ -390,6 +400,12 @@
 				$('#wppt_source_name_field').val( get_source_site_name( data ) );
 				$('#wppt_publish_field').val( __( 'Publish' ) );
 				$('#wppt_draft_field').val( __( 'Save Draft' ) );
+
+				$('#wppt_url_scan').attr('placeholder', __( 'Enter any public URL' )).val( ( data.u && data.u.length ) ? data.u : '' );
+				$('#wppt_url_scan_submit').val(__( 'Scan' ) );
+
+				$('#wppt_new_site').attr('placeholder', __( 'Enter any WordPress URL' ) );
+				$('#wppt_new_site_submit').val(__( 'Add' ) );
 			}
 
 /* ***************************************************************
@@ -404,6 +420,7 @@
 			function render(){
 				// We're on!
 				$("head title").text(__( 'Welcome to Press This!' ));
+				render_tools_visibility();
 				render_admin_bar();
 				render_suggested_title();
 				render_featured_image();
