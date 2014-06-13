@@ -9,7 +9,33 @@
 				ls_site_config_key   = 'WpPressThis_SiteConfig',
 				ls_site_config       = {},
 				site_config          = {},
-				site_config_callback = 'press_this_site_settings';
+				site_config_callback = 'press_this_site_settings',
+				ux_context           = get_ux_context();
+
+			function is_in_iframe() {
+				try {
+					return window.self !== window.top;
+				} catch (e) {
+					return true;
+				}
+			}
+
+			function is_in_popup(){
+				try {
+					return '' !== window.top.name;
+				} catch (e) {
+					return true;
+				}
+			}
+
+			function get_ux_context() {
+				var context = 'top';
+				if ( is_in_iframe() )
+					context = 'iframe';
+				else if ( is_in_popup() )
+					context = 'popup';
+				return context;
+			}
 
 			// @DEBUG
 			// localStorage.removeItem( 'WpPressThis_SiteConfig' );
@@ -60,7 +86,13 @@
 					// console.log('Press This site config loaded from localStorage cache.', site_config);
 				}
 
-				// Still no site configs? Guess we have to load them live then.
+				// See if the site configs are maybe already in the markup (onload), avoid extra remote query
+				if ( ! site_config.length && window.wp_pressthis_config && window.wp_pressthis_config.length ) {
+					site_config = window.wp_pressthis_config;
+					complete_loading();
+				}
+
+				// Still no site configs? Guess we have to load them live from the url then.
 				if ( ! site_config.runtime_url || ! site_config.plugin_dir_url || ! site_config.ajax_url )
 					load_site_config();
 				// Have site configs, but having a version mismatch between app and cached configs.
@@ -105,6 +137,7 @@
 					delete data._ajax_url;
 
 				window.wp_pressthis_config = site_config;
+				window.wp_pressthis_ux     = ux_context;
 
 				// That's it for the loader, now load the real app.js and let it take over.
 				$.getScript( plugin_js_dir_url + app_logic_file );
