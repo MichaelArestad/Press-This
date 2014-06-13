@@ -268,12 +268,29 @@
  *************************************************************** */
 
 			function render_tools_visibility() {
-				if ( 'top' != ux_context && data.u && data.u.length ) {
+				if ( 'top' != ux_context && data.u && data.u.match(/^https?:/ ) ) {
 					$('#wppt_scanbar').hide();
 				}
 
 				// Only while being developed, looking ugly otherwise :)
 				$('#wppt_sites').hide();
+			}
+
+			function render_default_form_field_values() {
+				$('#wppt_nonce_field').val( nonce );
+				$('#wppt_title_field').val( suggested_title_str );
+				$('#wppt_content_field').val( suggested_content_str );
+				$('#wppt_selected_img_field').val( featured );
+				$('#wppt_source_url_field').val( get_canonical_link( data ) );
+				$('#wppt_source_name_field').val( get_source_site_name( data ) );
+				$('#wppt_publish_field').val( __( 'Publish' ) );
+				$('#wppt_draft_field').val( __( 'Save Draft' ) );
+
+				$('#wppt_url_scan').attr('placeholder', __( 'Enter any public URL' )).val( ( data.u && data.u.match(/^https?:/ ) ) ? data.u : '' );
+				$('#wppt_url_scan_submit').val(__( 'Scan' ) );
+
+				$('#wppt_new_site').attr('placeholder', __( 'Enter any WordPress URL' ) );
+				$('#wppt_new_site_submit').val(__( 'Add' ) );
 			}
 
 			function render_notice( msg, error ) {
@@ -391,23 +408,6 @@
 				}).show();
 			}
 
-			function render_default_form_field_values() {
-				$('#wppt_nonce_field').val( nonce );
-				$('#wppt_title_field').val( suggested_title_str );
-				$('#wppt_content_field').val( suggested_content_str );
-				$('#wppt_selected_img_field').val( featured );
-				$('#wppt_source_url_field').val( get_canonical_link( data ) );
-				$('#wppt_source_name_field').val( get_source_site_name( data ) );
-				$('#wppt_publish_field').val( __( 'Publish' ) );
-				$('#wppt_draft_field').val( __( 'Save Draft' ) );
-
-				$('#wppt_url_scan').attr('placeholder', __( 'Enter any public URL' )).val( ( data.u && data.u.length ) ? data.u : '' );
-				$('#wppt_url_scan_submit').val(__( 'Scan' ) );
-
-				$('#wppt_new_site').attr('placeholder', __( 'Enter any WordPress URL' ) );
-				$('#wppt_new_site_submit').val(__( 'Add' ) );
-			}
-
 /* ***************************************************************
  * PROCESSING FUNCTIONS
  *************************************************************** */
@@ -421,12 +421,12 @@
 				// We're on!
 				$("head title").text(__( 'Welcome to Press This!' ));
 				render_tools_visibility();
+				render_default_form_field_values();
 				render_admin_bar();
 				render_suggested_title();
 				render_featured_image();
 				render_interesting_images();
 				render_suggested_content();
-				render_default_form_field_values();
 				render_startup_notices();
 				return true;
 			}

@@ -455,7 +455,7 @@ class WpPressThis {
 		$data = array_merge_recursive( $_POST, $_GET );
 
 		// Get the legacy QS params, or equiv POST data
-		$data['u'] = ( !empty( $data['u'] ) ) ? $data['u'] : '';
+		$data['u'] = ( !empty( $data['u'] ) && preg_match( '/^https?:/', $data['u'] ) ) ? $data['u'] : '';
 		$data['s'] = ( !empty( $data['s'] ) ) ? $data['s'] : '';
 		$data['t'] = ( !empty( $data['t'] ) ) ? $data['t'] : '';
 
