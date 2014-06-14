@@ -579,12 +579,18 @@ ________HTMLDOC;
 		echo <<<________HTMLDOC
 	<div id="wppt_adminbar" class="adminbar">
 		<h1 class="current-site"><div href="#" class="dashicons dashicons-wordpress-alt"><svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg></div><a href="#" target="_blank"></a></h1>
-		<ul id="wppt_sites" class="">
+		<ul id="wppt_sites" class="site-list">
 			{$sites_list}
-			<li>
-				<form id="wppt_sites_form" name="wppt_sites_form" action="{$upload_action}" method="GET" class="">
-					<input type="text" name="wppt_new_site" id="wppt_new_site" class="" value="" placeholder="Enter any WordPress URL" />
-					<input type="submit" name="wppt_new_site_submit" id="wppt_new_site_submit" class="" value="Add" />
+			<li class="add-site">
+				<form id="wppt_sites_form" name="wppt_sites_form" action="{$upload_action}" method="GET">
+					<input type="text" name="wppt_new_site" id="wppt_new_site" class="add-site__url" value="" placeholder="Enter any WordPress URL" />
+					<input type="submit" name="wppt_new_site_submit" id="wppt_new_site_submit" class="add-site__submit" value="Add" style="display:none"/>
+					<a href="" class="add-site__submit">
+						<div href="#" class="dashicons dashicons-plus">
+							<svg class="icon"><use xlink:href="#dashicons-plus" /></svg>
+						</div>
+						Add
+					</a>
 				</form>
 			</li>
 		</ul>

@@ -280,7 +280,7 @@ body {
 	min-height: em(65);
 	background: $gray--dark;
 	color: #fff;
-	overflow: hidden;
+	// overflow: hidden;
 	z-index: 9999;
 
 	.dashicons {
@@ -336,6 +336,48 @@ body {
 	right: 0;
 	margin-top: -22px;
 }
+.site-list {
+	// display: block !important;
+	position: absolute;
+	top: 100%;
+	left: 30px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	background: #fff;
+	color: #404040;
+	font-size: 14px;
+	box-shadow: 0 2px 3px rgba(0,0,0,0.15);
+
+	li {
+		position: relative;
+		padding: em(11,14) em(54,14) em(11,14) em(15,14);
+		border-bottom: 1px solid $gray--ultralight;
+		cursor: pointer;
+	}
+	.add-site {
+		padding: 0;
+	}
+}
+
+.add-site__url {
+	padding: em(11,14) em(15,14);
+	width: 100%;
+	border: 0;
+}
+.add-site__submit {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+
+	.dashicons-plus {
+		display: block;
+	}
+}
+
 
 // Icons
 .dashicons {

@@ -18,7 +18,15 @@
 
 .icon-icons { background-image: url('png/icons.png'); background-repeat: no-repeat; }
 
+.icon-images-alt2 { background-image: url('png/images-alt2.png'); background-repeat: no-repeat; }
+
 .icon-no { background-image: url('png/no.png'); background-repeat: no-repeat; }
+
+.icon-plus { background-image: url('png/plus.png'); background-repeat: no-repeat; }
+
+.icon-press-this--icons_images-alt2 { background-image: url('png/press-this--icons_images-alt2.png'); background-repeat: no-repeat; }
+
+.icon-press-this--icons_plus { background-image: url('png/press-this--icons_plus.png'); background-repeat: no-repeat; }
 
 .icon-wordpress-alt { background-image: url('png/wordpress-alt.png'); background-repeat: no-repeat; }
 
