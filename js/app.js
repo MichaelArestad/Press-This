@@ -250,16 +250,25 @@
 			}
 
 			function show_other_images() {
-				$( '#wppt_other_images_switch' ).text( __( 'Hide other images' ) );
+				$( '#wppt_other_images_switch' ).on('click', function(){
+					show_selected_image();
+				}).text( __( 'Hide other images' ) );
 				$( '#wppt_featured_image_container' ).addClass( 'other-images--visible').show();
 				$( '#wppt_selected_img').hide();
 			}
 
-			function set_selected_image( src ) {
-				$( '#wppt_other_images_switch' ).text( __( 'Show other images' ) );
-				$( '#wppt_selected_img_field' ).val( src );
-				$( '#wppt_selected_img' ).attr( 'src', src ).css('background-image', 'url(' + src + ')' ).show();
+			function show_selected_image() {
+				$( '#wppt_other_images_switch').on('click', function(){
+					show_other_images();
+				}).text( __( 'Show other images' ) );
+				$( '#wppt_selected_img').show();
 				$( '#wppt_featured_image_container' ).removeClass('other-images--visible').show();
+			}
+
+			function set_selected_image( src ) {
+				$( '#wppt_selected_img_field' ).val( src );
+				$( '#wppt_selected_img' ).attr( 'src', src ).css('background-image', 'url(' + src + ')' );
+				show_selected_image();
 			}
 
 			function set_upload_autosubmit() {
@@ -427,7 +436,7 @@
 				img_switch.text(
 					__( 'Show other images' )
 				).click(function(){
-						show_other_images();
+					show_other_images();
 				}).show();
 			}
 
