@@ -225,7 +225,54 @@ class WpPressThis {
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
 		}
 
-		self::serve_app_html();
+		if ( ! empty( $_FILES['wppt_file'] ) ) {
+			if ( current_user_can('upload_files') )
+				self::process_file_upload( $_FILES['wppt_file'], $_POST['wppt_nonce'] );
+			else
+				self::refuse_file_upload();
+		} else {
+			self::serve_app_html();
+		}
+	}
+
+	public function process_file_upload( $file, $nonce ) {
+		if ( ! wp_verify_nonce( $nonce, 'press_this' ) ) {
+			self::refuse_file_upload();
+			return;
+		}
+
+		if ( ! function_exists( 'wp_handle_upload' ) )
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+
+		$file_data = wp_handle_upload( $file, array( 'test_form' => false ) );
+
+		if ( empty( $file_data ) || empty( $file_data['url'] ) ) {
+			self::refuse_file_upload();
+			return;
+		}
+		?>
+		<script language="javascript" type="text/javascript">
+			parent.jQuery( '#wppt_selected_img_field' ).val('<?php echo esc_url( $file_data['url'] ); ?>');
+			parent.jQuery( '#wppt_selected_img' ).attr(
+				'src', '<?php echo esc_url( $file_data['url'] ); ?>'
+			).css(
+				'background-image', 'url(<?php echo esc_url( $file_data['url'] ); ?>)'
+			).show();
+
+			parent.jQuery('#wppt_featured_image_container').show();
+		</script>
+		<?php
+		die();
+	}
+
+	public function refuse_file_upload() {
+		?>
+		<script language="javascript" type="text/javascript">
+			alert('<?php echo esc_js( __( 'Sorry, upload failed.' ) ) ?>');
+			window.top.window.wppt_upload_res = false;
+		</script>
+		<?php
+		die();
 	}
 
 	/**
@@ -316,6 +363,10 @@ class WpPressThis {
 	 * @return bool|int|WP_Error
 	 */
 	public function save( $post_status = 'draft' ) {
+		if ( ! wp_verify_nonce( $_POST['wppt_nonce'], 'press_this' ) ) {
+			return false;
+		}
+
 		$wp_error      = false;
 		$data          = self::format_post_data_for_save( $post_status );
 
@@ -480,7 +531,7 @@ class WpPressThis {
 		$site_settings            = self::press_this_site_settings();
 
 		// Get a fresh nonce
-		$nonce                    = wp_create_nonce( 'press_this_site_settings' );
+		$nonce                    = wp_create_nonce( 'press_this' );
 
 		// Set the passed data
 		$data['_version']         = $site_settings['version'];
@@ -500,6 +551,7 @@ class WpPressThis {
 		$app_css_inc              = $site_settings['plugin_dir_url'] . '/css/press-this.css';
 		$load_js_inc              = $site_settings['plugin_dir_url'] . '/js/load.js';
 		$form_action              = $site_settings['runtime_url'];
+		$upload_action            = preg_replace( '/^(.+)\/press-this\.php$/', '\1/media-upload.php', $site_settings['runtime_url'] ) . '?referer=wptuts-settings&type=image&TB_iframe=true&post_id=0';
 		$svg_icons_inc            = self::plugin_dir_path() . '/images/icons/icons.svg';
 		$sites_list               = '';
 
@@ -537,15 +589,15 @@ ________HTMLDOC;
 		echo <<<________HTMLDOC
 	<div id="wppt_adminbar" class="adminbar">
 		<h1 class="current-site"><div href="#" class="dashicons dashicons-wordpress-alt"><svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg></div><a href="#" target="_blank"></a></h1>
-			<ul id="wppt_sites" class="">
-				{$sites_list}
-				<li>
-					<form action="{$form_action}" method="GET" class="">
-						<input type="text" name="wppt_new_site" id="wppt_new_site" class="" value="" placeholder="Enter any WordPress URL" />
-						<input type="submit" name="wppt_new_site_submit" id="wppt_new_site_submit" class="" value="Add" />
-					</form>
-				</li>
-			</ul>
+		<ul id="wppt_sites" class="">
+			{$sites_list}
+			<li>
+				<form id="wppt_sites_form" name="wppt_sites_form" action="{$upload_action}" method="GET" class="">
+					<input type="text" name="wppt_new_site" id="wppt_new_site" class="" value="" placeholder="Enter any WordPress URL" />
+					<input type="submit" name="wppt_new_site_submit" id="wppt_new_site_submit" class="" value="Add" />
+				</form>
+			</li>
+		</ul>
 		<a href="#" class="dashicons dashicons-admin-settings"><svg class="icon"><use xlink:href="#dashicons-admin-settings" /></svg>Settings</a>
 	</div>
 	<div id="wppt_scanbar" class="scan">
@@ -557,6 +609,7 @@ ________HTMLDOC;
 	<div id='wppt_app_container' class="editor">
 		<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
 		<div id='wppt_featured_image_container' class="featured-image-container">
+			<img src="" id="wppt_selected_img" class="featured-image" width="400" height="300" />
 			<a href="#" id="wppt_other_images_switch" class="other-images__switch button--secondary"></a>
 			<div id='wppt_other_images_widget' class="other-images">
 				<div id='wppt_other_images_container'></div>
@@ -565,6 +618,13 @@ ________HTMLDOC;
 		<div id='wppt_suggested_content_container' class="editor--content" contenteditable="true"></div>
 	</div>
 	<div class="actions">
+		<form id="wppt_file_upload" name="wppt_file_upload" action="{$form_action}" method="POST" enctype="multipart/form-data" target="wppt_upload_iframe" class="" style="display:inline-block;width:35%;margin:0.7em 1.5em;">
+			<input type="hidden" name="wppt_nonce" id="wppt_upload_nonce_field" value="{$nonce}"/>
+			<input type="button" class="button--primary" name="wppt_file_button" id="wppt_file_button" value="Upload image/video"/>
+			<input type="file" name="wppt_file" id="wppt_file" value="" style="width:0;height:0;visibility:hidden;" />
+			<iframe id="wppt_upload_iframe" name="wppt_upload_iframe" src="about:blank" style="width:0;height:0;visibility:hidden;"></iframe>
+		</form>
+
 		<form id="wppt_form" class="post-actions" name="wppt_form" method="POST" action="{$form_action}" target="_self">
 			<input type="hidden" name="wppt_nonce" id="wppt_nonce_field" value="{$nonce}"/>
 			<input type="hidden" name="wppt_title" id="wppt_title_field" value=""/>
@@ -624,6 +684,7 @@ ________HTMLDOC;
 				'Scan'                   => __( 'Scan', $domain ),
 				'Enter a WordPress URL'  => __( 'Enter a WordPress URL', $domain ),
 				'Add'                    => __( 'Add', $domain ),
+				'Upload'                 => __( 'Add', $domain ),
 				'Sorry, but an unexpected error occurred.' => __( 'Sorry, but an unexpected error occurred.', $domain ),
 				'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', $domain )
 			),

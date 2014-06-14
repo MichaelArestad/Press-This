@@ -260,7 +260,16 @@
 
 			function set_selected_image( src ) {
 				$( '#wppt_selected_img_field' ).val( src );
-				$( 'img.featured-image' ).attr( 'src', src ).css('background-image', 'url(' + src + ')' );
+				$( '#wppt_selected_img' ).attr( 'src', src ).css('background-image', 'url(' + src + ')' );
+			}
+
+			function set_upload_autosubmit() {
+				$( '#wppt_file' ).on('change', function(){
+					$( '#wppt_file_upload' ).submit();
+				});
+				$('#wppt_file_button').on('click', function(){
+					$( '#wppt_file').click();
+				});
 			}
 
 /* ***************************************************************
@@ -271,7 +280,6 @@
 				if ( 'top' != ux_context && data.u && data.u.match(/^https?:/ ) ) {
 					$('#wppt_scanbar').hide();
 				}
-
 				// Only while being developed, looking ugly otherwise :)
 				$('#wppt_sites').hide();
 			}
@@ -346,14 +354,10 @@
 					? featured + '?w=' + current_width
 					: featured;
 
-				$('<img />', {
-					'src'                : display_src,
-					'id'                 : 'img-featured-container',
-					'class'              : 'featured-image',
+				$('#wppt_selected_img').attr('src', display_src ).css({
+					'background-image'   : 'url('+display_src+')',
 					'width'              : current_width + 'px',
 					'height'             : parseInt( current_width / 1.6) + 'px'
-				}).css({
-					'background-image'   : 'url('+display_src+')'
 				}).click(function(){
 					set_selected_image( display_src );
 				}).appendTo('#wppt_featured_image_container');
@@ -419,6 +423,7 @@
 
 			function render(){
 				// We're on!
+				set_upload_autosubmit();
 				$("head title").text(__( 'Welcome to Press This!' ));
 				render_tools_visibility();
 				render_default_form_field_values();
@@ -463,6 +468,9 @@
 				// @TODO: couldn't render, fail gracefully
 				console.log('Could not monitor app...');
 			}
+
+			this.set_selected_image = set_selected_image;
+			this.set_selected_image = set_selected_image;
 		};
 
 		window.wp_pressthis_app = new WpPressThis_App();
