@@ -221,23 +221,21 @@ class WpPressThis {
 		if ( false === strpos( self::runtime_url(), self::script_name() ) )
 			return;
 
-		if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
-			wp_die( __( 'Cheatin&#8217; uh?' ) );
-		}
-
 		if ( ! empty( $_FILES['wppt_file'] ) ) {
 			if ( current_user_can('upload_files') )
 				self::process_file_upload( $_FILES['wppt_file'], $_POST['wppt_nonce'] );
 			else
-				self::refuse_file_upload();
+				self::refuse_file_upload( 'current_user_can' );
 		} else {
+			if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) )
+				wp_die( __( 'Cheatin&#8217; uh?' ) );
 			self::serve_app_html();
 		}
 	}
 
 	public function process_file_upload( $file, $nonce ) {
 		if ( ! wp_verify_nonce( $nonce, 'press_this' ) ) {
-			self::refuse_file_upload();
+			self::refuse_file_upload( 'wp_verify_nonce' );
 			return;
 		}
 
@@ -247,23 +245,21 @@ class WpPressThis {
 		$file_data = wp_handle_upload( $file, array( 'test_form' => false ) );
 
 		if ( empty( $file_data ) || empty( $file_data['url'] ) ) {
-			self::refuse_file_upload();
+			self::refuse_file_upload( 'file_data' );
 			return;
 		}
 		?>
 		<script language="javascript" type="text/javascript">
-			parent.wp_pressthis_app.set_selected_image('<?php echo esc_url( $file_data['url'] ); ?>');
-			parent.jQuery('#wppt_featured_image_container').show();
+			parent.wp_pressthis_app.file_upload_success( '<?php echo esc_url( $file_data['url'] ); ?>', '<?php echo esc_js( strtolower( $file_data['type'] ) ); ?>' );
 		</script>
 		<?php
 		die();
 	}
 
-	public function refuse_file_upload() {
+	public function refuse_file_upload( $context ) {
 		?>
 		<script language="javascript" type="text/javascript">
-			alert('<?php echo esc_js( __( 'Sorry, upload failed.' ) ) ?>');
-			window.top.window.wppt_upload_res = false;
+			parent.wp_pressthis_app.render_error( '<?php echo esc_js( __( 'Sorry, but your upload failed.' ) ); ?> [<?php echo $context; ?>]' );
 		</script>
 		<?php
 		die();
@@ -614,7 +610,7 @@ ________HTMLDOC;
 	<div class="actions">
 		<form id="wppt_file_upload" name="wppt_file_upload" action="{$form_action}" method="POST" enctype="multipart/form-data" target="wppt_upload_iframe" class="" style="display:inline-block;width:35%;margin:0.7em 1.5em;">
 			<input type="hidden" name="wppt_nonce" id="wppt_upload_nonce_field" value="{$nonce}"/>
-			<input type="button" class="button--primary" name="wppt_file_button" id="wppt_file_button" value="Upload image/video"/>
+			<input type="button" class="button--primary" name="wppt_file_button" id="wppt_file_button" value="Upload Photo"/>
 			<input type="file" name="wppt_file" id="wppt_file" value="" style="width:0;height:0;visibility:hidden;" />
 			<iframe id="wppt_upload_iframe" name="wppt_upload_iframe" src="about:blank" style="width:0;height:0;visibility:hidden;"></iframe>
 		</form>
@@ -678,9 +674,11 @@ ________HTMLDOC;
 				'Scan'                   => __( 'Scan', $domain ),
 				'Enter a WordPress URL'  => __( 'Enter a WordPress URL', $domain ),
 				'Add'                    => __( 'Add', $domain ),
-				'Upload'                 => __( 'Add', $domain ),
+				'Upload Photo'           => __( 'Upload Photo', $domain ),
+				'Sorry, but your upload failed.' => __( 'Sorry, but your upload failed.', $domain ),
 				'Sorry, but an unexpected error occurred.' => __( 'Sorry, but an unexpected error occurred.', $domain ),
-				'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', $domain )
+				'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', $domain ),
+				'Please limit your uploads to photos. The file is still in the media library, and can be used in a new post, or <a href="%s" target="_blank">downloaded here</a>.' => __( 'Please limit your uploads to photos. The file is still in the media library, and can be used in a new post, or <a href="%s" target="_blank">downloaded here</a>.', $domain ),
 			),
 		);
 	}
