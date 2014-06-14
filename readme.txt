@@ -51,3 +51,12 @@ Development of this plugin is done on [Github](https://github.com/MichaelArestad
 * Major code refactoring for easier code reuse and better performance/stability
 * Started backend work on Chrome extension, not functional, but a start
 * Started work on adding/editing/removing a user's different Press This instances
+
+= 0.0.3 =
+ * Photo upload (without page reload, and with preview), take 1!
+ * Handy field for users to enter a URL to scan for media, if accessed without providing one.
+ * Refined algorithm that selects what picts to present as interesting/worthy to the user.
+ * Continued work on adding/editing/removing a user's different Press This instances.
+ * Major UI/UX improvements.
+ * Major backend improvements.
+ * Still alpha level code.
