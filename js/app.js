@@ -470,7 +470,6 @@
 			}
 
 			this.set_selected_image = set_selected_image;
-			this.set_selected_image = set_selected_image;
 		};
 
 		window.wp_pressthis_app = new WpPressThis_App();

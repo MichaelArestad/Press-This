@@ -252,13 +252,7 @@ class WpPressThis {
 		}
 		?>
 		<script language="javascript" type="text/javascript">
-			parent.jQuery( '#wppt_selected_img_field' ).val('<?php echo esc_url( $file_data['url'] ); ?>');
-			parent.jQuery( '#wppt_selected_img' ).attr(
-				'src', '<?php echo esc_url( $file_data['url'] ); ?>'
-			).css(
-				'background-image', 'url(<?php echo esc_url( $file_data['url'] ); ?>)'
-			).show();
-
+			parent.wp_pressthis_app.set_selected_image('<?php echo esc_url( $file_data['url'] ); ?>');
 			parent.jQuery('#wppt_featured_image_container').show();
 		</script>
 		<?php
