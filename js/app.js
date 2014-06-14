@@ -271,6 +271,11 @@
 				show_selected_image();
 			}
 
+			function add_new_image_to_list( src ) {
+				interesting_images.unshift( src );
+				render_interesting_images();
+			}
+
 			function set_upload_autosubmit() {
 				$( '#wppt_file' ).on('change', function(){
 					$( '#wppt_file_upload' ).submit();
@@ -286,6 +291,7 @@
 					return;
 				}
 				if (type.match(/^image\//)) {
+					add_new_image_to_list(url);
 					set_selected_image(url);
 					clear_errors();
 				} else {
