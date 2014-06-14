@@ -272,14 +272,22 @@
 			}
 
 			function file_upload_success( url, type ) {
-				if ( ! url || ! type || ! url.match( /^https?:/ ) || ! type.match( /^[\w]+\/.+$/ ) ) {
-					render_error( __( 'Sorry, but your upload failed.' ) + ' [app_js.file_upload_success]' );
+				if (!url || !type || !url.match(/^https?:/) || !type.match(/^[\w]+\/.+$/)) {
+					render_error(__('Sorry, but your upload failed.') + ' [app_js.file_upload_success]');
 					return;
 				}
-				if ( type.match( /^image\// ) )
-					set_selected_image( url );
-				else
-					render_error( __( 'Please limit your uploads to photos. The file is still in the media library, and can be used in a new post, or <a href="%s" target="_blank">downloaded here</a>.' ).replace( '%s', encodeURI( url ) ) );
+				if (type.match(/^image\//)) {
+					set_selected_image(url);
+					clear_errors();
+				} else {
+					render_error(__('Please limit your uploads to photos. The file is still in the media library, and can be used in a new post, or <a href="%s" target="_blank">downloaded here</a>.').replace('%s', encodeURI(url)));
+				}
+			}
+
+			function clear_errors() {
+				var messages_div = $( '#alerts' );
+				if ( messages_div && messages_div.remove )
+					messages_div.remove();
 			}
 
 /* ***************************************************************
