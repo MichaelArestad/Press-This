@@ -45,12 +45,14 @@ Development of this plugin is done on [Github](https://github.com/MichaelArestad
  * Direct access: quick post of sort, more to come with media and formatting tools
  * Modal: when accessed via new bookmarklet code: will show in an iframe within the visited page itself
  * Popup: if the currently visited page is SSL but the target install is not, we open Press This in a popup instead. We also do that if the”legacy” bookmarklet code is used. It’s pretty awesome for pressing from your sweet smartphone.
+ * Alpha level code
 
 = 0.0.2 =
 * Added the start of an admin bar
 * Major code refactoring for easier code reuse and better performance/stability
 * Started backend work on Chrome extension, not functional, but a start
 * Started work on adding/editing/removing a user's different Press This instances
+* Still alpha level code
 
 = 0.0.3 =
  * Photo upload (without page reload, and with preview), take 1!
