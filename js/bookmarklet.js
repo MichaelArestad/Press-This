@@ -6,10 +6,12 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 
 	var d   = document,
 		w   = window,
-		l   = d.location,
+		l   = top.location,
 		now = new Date().getTime();
 
-	pt_url = ( pt_url + ( ( pt_url.indexOf('?') > -1 ) ? '&' : '?' ) + 'u=' + encodeURI( l.href ) + '&buster=' + now );
+	pt_url += ( ( pt_url.indexOf('?') > -1 ) ? '&' : '?' ) + 'buster=' + now;
+	if ( l.href.match(/^https?:/) )
+		pt_url += '&u=' + encodeURI( l.href );
 
 	var z = w.getSelection,
 		k = d.getSelection,
@@ -97,12 +99,13 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		fs = true;
 		f.setAttribute('method', 'POST');
 		f.setAttribute('action', pt_url);
-		f.setAttribute('target', tn);
+		if ( l.href.match(/^https?:/) )
+			f.setAttribute('target', tn);
 	}
 
 	if (top.location.href.match(/^https/) && !pt_url.match(/^https/)) {
 		w.open(tnu, tn, "width=500,height=700");
-	} else {
+	} else if ( l.href.match(/^https?:/) ) {
 		i = d.createElement('iframe');
 		i.setAttribute('src', tnu);
 		i.setAttribute('name', tn);

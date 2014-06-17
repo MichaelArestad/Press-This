@@ -292,8 +292,12 @@ class WpPressThis {
 		}
 
 		if ( ! empty( $_POST['wppt_selected_img'] ) ) {
+			if ( empty( $_POST['wppt_source_url'] ) || false !== strpos( $_POST['wppt_selected_img'], preg_replace( '/^(http:.+)\/wp-admin\/.+/', '\1/wp-content/', self::script_name() ) ) )
+				$img_link = $_POST['wppt_selected_img'];
+			else
+				$img_link = $_POST['wppt_source_url'];
 			$content = '<a href="'.esc_url( $_POST['wppt_source_url'] ).'"><img src="'.esc_url( $_POST['wppt_selected_img'] ).'" /></a>'
-					. $content;
+					 . $content;
 		}
 
 		$post['post_content'] = $content;
