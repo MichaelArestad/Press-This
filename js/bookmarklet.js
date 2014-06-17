@@ -1,17 +1,22 @@
 var WpPressThis_Bookmarklet = function(pt_url) {
-	if ( !pt_url || !pt_url.match(/^http/) ) {
+	if (!pt_url || !pt_url.match(/^http/)) {
 		alert('Sorry, no Press This URL provided.');
 		return;
 	}
 
-	var d   = document,
-		w   = window,
-		l   = top.location,
+	var d = document,
+		w = window,
+		l = top.location,
 		now = new Date().getTime();
 
 	pt_url += ( ( pt_url.indexOf('?') > -1 ) ? '&' : '?' ) + 'buster=' + now;
-	if ( l.href.match(/^https?:/) )
-		pt_url += '&u=' + encodeURI( l.href );
+
+	if (l.href.match(/^https?:/)) {
+		pt_url += '&u=' + encodeURI(l.href);
+	} else {
+		top.location.href = pt_url;
+		return;
+	}
 
 	var z = w.getSelection,
 		k = d.getSelection,
@@ -103,9 +108,9 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 			f.setAttribute('target', tn);
 	}
 
-	if (top.location.href.match(/^https/) && !pt_url.match(/^https/)) {
+	if (l.href.match(/^https/) && !pt_url.match(/^https/)) {
 		w.open(tnu, tn, "width=500,height=700");
-	} else if ( l.href.match(/^https?:/) ) {
+	} else {
 		i = d.createElement('iframe');
 		i.setAttribute('src', tnu);
 		i.setAttribute('name', tn);
