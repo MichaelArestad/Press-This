@@ -1,28 +1,39 @@
 var WpPressThis_Bookmarklet = function(pt_url) {
-	var d = document,
-		w = window,
-		z = w.getSelection,
+	if ( !pt_url || !pt_url.match(/^http/) ) {
+		alert('Sorry, no Press This URL provided.');
+		return;
+	}
+
+	var d   = document,
+		w   = window,
+		l   = d.location,
+		now = new Date().getTime();
+
+	pt_url = ( pt_url + ( ( pt_url.indexOf('?') > -1 ) ? '&' : '?' ) + 'u=' + encodeURI( l.href ) + '&buster=' + now );
+
+	var z = w.getSelection,
 		k = d.getSelection,
 		x = d.selection,
 		s = (z ? z() : (k) ? k() : (x ? x.createRange().text : 0)),
-		l = d.location,
 		e = encodeURIComponent,
 		metas = d.head.getElementsByTagName('meta'),
 		links = d.head.getElementsByTagName('link'),
-		imgs = d.body.getElementsByTagName('img'),
-		r = new Image(),
-		now = new Date().getTime(),
-		f = d.createElement('form'),
-		fAdd = function (n, v) {
+		imgs  = d.body.getElementsByTagName('img'),
+		r     = new Image(),
+		f     = d.createElement('form'),
+		h     = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
+		tn    = '_press_this_app',
+		tnu   = pt_url,
+		fs    = false,
+		i     = null,
+		fAdd  = function (n, v) {
 			if (typeof(v) === 'undefined')return;
-			e = d.createElement('input');
-			e.name = n;
+			e       = d.createElement('input');
+			e.name  = n;
 			e.value = v;
-			e.type = 'hidden';
+			e.type  = 'hidden';
 			f.appendChild(e);
-		},
-		h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
-		tn = '_press_this_app';
+		};
 
 	for (var m = 0; m < metas.length; m++) {
 		if ( m >= 50 )
@@ -81,15 +92,19 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 	fAdd('s', s);
 	fAdd('t', d.title);
 
-	f.setAttribute('method', 'POST');
-	f.setAttribute('action', ( pt_url + ( ( pt_url.indexOf('?') > -1 ) ? '&' : '?' ) + 'u=' + encodeURI(l.href) + '&buster=' + now ));
-	f.setAttribute('target', tn);
+	if ( navigator && navigator.userAgent && navigator.userAgent.length && ! navigator.userAgent.match(/firefox\//i) ) {
+		tnu = 'about:blank';
+		fs = true;
+		f.setAttribute('method', 'POST');
+		f.setAttribute('action', pt_url);
+		f.setAttribute('target', tn);
+	}
 
 	if (top.location.href.match(/^https/) && !pt_url.match(/^https/)) {
-		p = w.open('about:blank', tn, "width=500,height=700");
+		w.open(tnu, tn, "width=500,height=700");
 	} else {
 		i = d.createElement('iframe');
-		i.setAttribute('src', 'about:blank');
+		i.setAttribute('src', tnu);
 		i.setAttribute('name', tn);
 		i.setAttribute('id', i.name);
 		i.setAttribute('style', 'position:fixed;top:0px;right:0px;z-index:999999999999999;border:0;min-width:320px;max-width:760px;width:50%;height:' + '100%');
@@ -97,6 +112,8 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		d.body.appendChild(i);
 	}
 
-	f.style = 'visibility:hidden;';
-	f.submit();
+	if ( true == fs ) {
+		f.style = 'visibility:hidden;';
+		f.submit();
+	}
 };
