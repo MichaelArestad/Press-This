@@ -995,7 +995,7 @@ body:before {
   top: -1px;
 }
 
-.dashicons-admin-settings {
+.adminbar__actions {
   position: absolute;
   top: 50%;
   right: 0;

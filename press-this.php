@@ -607,7 +607,10 @@ ________HTMLDOC;
 				</form>
 			</li>
 		</ul>
-		<a href="#" class="dashicons dashicons-admin-settings"><svg class="icon"><use xlink:href="#dashicons-admin-settings" /></svg>Settings</a>
+		<div class="adminbar__actions">
+			<a href="#" title="Settings" class="dashicons dashicons-admin-settings"><svg class="icon"><use xlink:href="#dashicons-admin-settings" /></svg>Settings</a>
+			<a href="#" title="Close Press This" class="dashicons dashicons-no"><svg class="icon"><use xlink:href="#dashicons-no" /></svg>Close</a>
+		</div>
 	</div>
 	<div id="wppt_scanbar" class="scan">
 		<form action="{$form_action}" method="GET">
