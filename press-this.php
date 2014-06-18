@@ -366,7 +366,7 @@ class WpPressThis {
 
 		$post = array(
 			'post_title'     => $data['post_title'],
-			'post_content'   => $data['post_content'],
+			'post_content'   => str_replace( __( 'Start typing here.' ), '', $data['post_content'] ),
 			'post_status'    => 'draft',
 			'post_type'      => 'post',
 		);

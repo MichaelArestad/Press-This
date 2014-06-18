@@ -252,13 +252,13 @@
 						if ( r.error ) {
 							console.log(r.error);
 							alert(__('Sorry, but an unexpected error occurred.'));
+							enable_form_buttons();
 						} else {
 							if ( 'published' == r.post_status )
 								window.top.location.href = r.post_permalink;
 							else
 								window.self.location.href = './post.php?post=' + r.post_id + '&action=edit';
 						}
-						enable_form_buttons();
 					}
 				});
 			}
@@ -283,6 +283,7 @@
 				$( '#wppt_selected_img_field' ).val( src );
 				$( '#wppt_selected_img' ).attr( 'src', src ).css('background-image', 'url(' + src + ')' );
 				show_selected_image();
+				var $content = $('#wppt_suggested_content_container');
 			}
 
 			function add_new_image_to_list( src ) {
@@ -290,18 +291,10 @@
 				render_interesting_images();
 			}
 
-			function set_upload_autosubmit() {
-				$( '#wppt_file' ).on('change', function(){
-					$( '#wppt_file_upload' ).submit();
-				});
-				$('#wppt_file_button').on('click', function(){
-					$( '#wppt_file').click();
-				});
-			}
-
 			function file_upload_success( url, type ) {
 				if (!url || !type || !url.match(/^https?:/) || !type.match(/^[\w]+\/.+$/)) {
 					render_error(__('Sorry, but your upload failed.') + ' [app_js.file_upload_success]');
+					enable_form_buttons();
 					return;
 				}
 				if (type.match(/^image\//)) {
@@ -311,6 +304,7 @@
 				} else {
 					render_error(__('Please limit your uploads to photos. The file is still in the media library, and can be used in a new post, or <a href="%s" target="_blank">downloaded here</a>.').replace('%s', encodeURI(url)));
 				}
+				enable_form_buttons();
 			}
 
 			function clear_errors() {
@@ -478,7 +472,6 @@
 
 			function render(){
 				// We're on!
-				set_upload_autosubmit();
 				$("head title").text(__( 'Welcome to Press This!' ));
 				render_tools_visibility();
 				render_default_form_field_values();
@@ -494,6 +487,8 @@
 			function monitor(){
 				disable_form_buttons();
 
+				// Publish and Draft buttons and submit
+
 				$( '#wppt_draft_field' ).on( 'click', function( e ){
 					submit_post( e, 'draft');
 				});
@@ -505,6 +500,17 @@
 				$( '#wppt_form' ).on( 'submit', function( e ){
 					e.preventDefault();
 					submit_post( $( '#wppt_draft_field' ), 'draft');
+				});
+
+				// File upload button and autosubmit
+
+				$( '#wppt_file' ).on('change', function(){
+					disable_form_buttons();
+					$( '#wppt_file_upload' ).submit();
+				});
+
+				$('#wppt_file_button').on('click', function(){
+					$( '#wppt_file').click();
 				});
 
 				enable_form_buttons();
