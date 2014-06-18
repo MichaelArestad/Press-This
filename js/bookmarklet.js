@@ -7,9 +7,22 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 	var d = document,
 		w = window,
 		l = top.location,
+		z = w.getSelection,
+		k = d.getSelection,
+		x = d.selection,
+		s = (z ? z() : (k) ? k() : (x ? x.createRange().text : 0)),
+		es = encodeURI( s),
 		now = new Date().getTime();
 
 	pt_url += ( ( pt_url.indexOf('?') > -1 ) ? '&' : '?' ) + 'buster=' + now;
+
+	if (d.title.length && d.title.length <= 512)
+		pt_url += '&t=' + encodeURI( d.title );
+
+	if (es.length && es.length <= 512)
+		pt_url += '&s=' + es;
+
+	console.log(encodeURI( s ));
 
 	if (l.href.match(/^https?:/)) {
 		pt_url += '&u=' + encodeURI(l.href);
@@ -18,11 +31,7 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		return;
 	}
 
-	var z = w.getSelection,
-		k = d.getSelection,
-		x = d.selection,
-		s = (z ? z() : (k) ? k() : (x ? x.createRange().text : 0)),
-		e = encodeURIComponent,
+	var e = encodeURIComponent,
 		metas = d.head.getElementsByTagName('meta'),
 		links = d.head.getElementsByTagName('link'),
 		imgs  = d.body.getElementsByTagName('img'),
@@ -96,9 +105,6 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		}
 	}
 
-	fAdd('s', s);
-	fAdd('t', d.title);
-
 	if ( navigator && navigator.userAgent && navigator.userAgent.length && ! navigator.userAgent.match(/firefox\//i) ) {
 		tnu = 'about:blank';
 		fs = true;
@@ -108,20 +114,40 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 			f.setAttribute('target', tn);
 	}
 
+	i = d.createElement('iframe');
+	i.addEventListener('load', function () {
+		try {
+			if( i.contentWindow.location.href && ! i.contentWindow.location.href.match(/^http/) && true == fs ) {
+				console.log('worked, submitting');
+				f.submit();
+			}
+		}catch (e) {
+			console.log('failed');
+
+			if ( true == fs ) {
+				f.setAttribute('target', '_top');
+				f.submit();
+			} else {
+				top.location.href = pt_url;
+			}
+		}
+	});
+
+	if (d.title && d.title > 512)
+		fAdd('t', d.title);
+
+	if (es.length && es.length > 512)
+		fAdd('s', s);
+
+	console.log(f);
+
 	if (l.href.match(/^https/) && !pt_url.match(/^https/)) {
 		w.open(tnu, tn, "width=500,height=700");
 	} else {
-		i = d.createElement('iframe');
 		i.setAttribute('src', tnu);
 		i.setAttribute('name', tn);
 		i.setAttribute('id', i.name);
 		i.setAttribute('style', 'position:fixed;top:0px;right:0px;z-index:999999999999999;border:0;min-width:320px;max-width:760px;width:50%;height:' + '100%');
-
 		d.body.appendChild(i);
-	}
-
-	if ( true == fs ) {
-		f.style = 'visibility:hidden;';
-		f.submit();
 	}
 };
