@@ -224,20 +224,22 @@
 				return interesting_imgs;
 			}
 
-			function disable_form_buttons() {
+			function show_spinner() {
+				$('#wppt_spinner').addClass('show');
 				$('[class^="button--"]').each(function(k, v){
 					$(this).attr('disabled', 'disabled');
 				});
 			}
 
-			function enable_form_buttons() {
+			function hide_spinner() {
+				$('#wppt_spinner').removeClass('show');
 				$('[class^="button--"]').each(function(k, v){
 					$(this).removeAttr('disabled');
 				});
 			}
 
 			function submit_post(e, action) {
-				disable_form_buttons();
+				show_spinner();
 				var form = $('#wppt_form');
 				if ( 'publish' !== action )
 					action = 'draft';
@@ -252,7 +254,7 @@
 						if ( r.error ) {
 							console.log(r.error);
 							alert(__('Sorry, but an unexpected error occurred.'));
-							enable_form_buttons();
+							hide_spinner();
 						} else {
 							if ( 'published' == r.post_status )
 								window.top.location.href = r.post_permalink;
@@ -294,7 +296,7 @@
 			function file_upload_success( url, type ) {
 				if (!url || !type || !url.match(/^https?:/) || !type.match(/^[\w]+\/.+$/)) {
 					render_error(__('Sorry, but your upload failed.') + ' [app_js.file_upload_success]');
-					enable_form_buttons();
+					hide_spinner();
 					return;
 				}
 				if (type.match(/^image\//)) {
@@ -304,7 +306,7 @@
 				} else {
 					render_error(__('Please limit your uploads to photos. The file is still in the media library, and can be used in a new post, or <a href="%s" target="_blank">downloaded here</a>.').replace('%s', encodeURI(url)));
 				}
-				enable_form_buttons();
+				hide_spinner();
 			}
 
 			function clear_errors() {
@@ -485,7 +487,7 @@
 			}
 
 			function monitor(){
-				disable_form_buttons();
+				show_spinner();
 
 				// Publish and Draft buttons and submit
 
@@ -505,7 +507,7 @@
 				// File upload button and autosubmit
 
 				$( '#wppt_file' ).on('change', function(){
-					disable_form_buttons();
+					show_spinner();
 					$( '#wppt_file_upload' ).submit();
 				});
 
@@ -513,7 +515,7 @@
 					$( '#wppt_file').click();
 				});
 
-				enable_form_buttons();
+				hide_spinner();
 
 				return true;
 			}
