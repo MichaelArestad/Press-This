@@ -296,7 +296,7 @@ class WpPressThis {
 				$img_link = $_POST['wppt_selected_img'];
 			else
 				$img_link = $_POST['wppt_source_url'];
-			$content = '<a href="'.esc_url( $_POST['wppt_source_url'] ).'"><img src="'.esc_url( $_POST['wppt_selected_img'] ).'" /></a>'
+			$content = '<a href="'.esc_url( $img_link ).'"><img src="'.esc_url( $_POST['wppt_selected_img'] ).'" /></a>'
 					 . $content;
 		}
 
@@ -327,6 +327,9 @@ class WpPressThis {
 		$new_content = $content;
 		if ( ! empty( $_POST['wppt_selected_img'] ) && current_user_can( 'upload_files' ) ) {
 			foreach( (array) $_POST['wppt_selected_img'] as $key => $image ) {
+				//Don't sideload images already hosted on our WP instance
+				if ( false !== strpos( $image, preg_replace( '/^(http:.+)\/wp-admin\/.+/', '\1/wp-content/', self::script_name() ) ) )
+					continue;
 				// Don't try to sideload file without a file extension, leads to WP upload error,
 				// then a "PHP Notice:  Undefined offset: 0 in /wp-admin/includes/media.php on line 811"
 				// Matching regex to skip from media_sideload_image() in otherwise erroring /wp-admin/includes/media.php
@@ -366,7 +369,7 @@ class WpPressThis {
 
 		$post = array(
 			'post_title'     => $data['post_title'],
-			'post_content'   => str_replace( __( 'Start typing here.' ), '', $data['post_content'] ),
+			'post_content'   => str_replace( __( 'Start typing here.', 'press-this' ), '', trim( $data['post_content'] ) ),
 			'post_status'    => 'draft',
 			'post_type'      => 'post',
 		);
