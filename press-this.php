@@ -33,6 +33,37 @@ class WpPressThis {
 		if ( empty( $script_name ) )
 			return;
 
+		// Only needed with experimental iframe mode
+		// self::handle_sameorigin_policy();
+
+		if ( is_admin() ) {
+			if ( false !== strpos( self::runtime_url(), $script_name ) ) {
+				/*
+				 * Take over /wp-admin/press-this.php
+				 */
+				add_action( 'admin_init', array( $this, 'press_this_php_override' ), 0 );
+			} else if ( false !== strpos( admin_url( 'tools.php' ),$script_name ) ) {
+				/*
+				 * Take over Press This bookmarklet code in /wp-admin/tools.php
+				 */
+				add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
+			} else if ( false !== strpos( admin_url( 'admin-ajax.php' ), $script_name ) ) {
+				/*
+				 * AJAX emdpoints
+				 */
+				// Site settings
+				add_action( 'wp_ajax_press_this_site_settings',       array( $this, 'press_this_ajax_site_settings' ) );
+				// Post draft and publish
+				add_action( 'wp_ajax_press_this_publish_post',        array( $this, 'press_this_ajax_publish_post' ) );
+				add_action( 'wp_ajax_press_this_draft_post',          array( $this, 'press_this_ajax_draft_post' ) );
+				// Chrome extension manifest
+				// add_action( 'wp_ajax_press_this_chrome_ext_manifest', array( $this, 'press_this_ajax_chrome_ext_manifest' ) );
+			}
+		}
+	}
+
+	function handle_sameorigin_policy() {
+		$script_name = self::script_name();
 		if ( ! is_admin() ) {
 			if ( false !== strpos( site_url( 'wp-login.php' ), $script_name ) ) {
 				/*
@@ -49,10 +80,6 @@ class WpPressThis {
 				 * Remove SAMEORIGIN header for /wp-admin/press-this.php on targeted install so it can be used inside the modal's iframe
 				 */
 				remove_action( 'admin_init', 'send_frame_options_header' );
-				/*
-				 * Take over /wp-admin/press-this.php
-				 */
-				add_action( 'admin_init', array( $this, 'press_this_php_override' ), 0 );
 			} else if ( false !== strpos( admin_url( 'post.php' ), $script_name ) ) {
 				/*
 				 * Remove SAMEORIGIN header for /wp-admin/post.php so it can be used inside the modal's iframe,
@@ -60,32 +87,17 @@ class WpPressThis {
 				 */
 				if ( ! empty( $_SERVER['HTTP_REFERER'] )
 				     && ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() )
-						  || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) ) )
+				          || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) ) )
 					remove_action( 'admin_init', 'send_frame_options_header' );
-			} else if ( false !== strpos( admin_url( 'tools.php' ),$script_name ) ) {
-				/*
-				 * Take over Press This bookmarklet code in /wp-admin/tools.php
-				 */
-				add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
 			} else if ( false !== strpos( admin_url( 'admin-ajax.php' ), $script_name ) ) {
 				/*
 				 * Remove SAMEORIGIN header for /wp-admin/admin-ajax.php so it can be used from the modal's iframe,
 				 * after saving a draft, but only if referred from /wp-admin/press-this.php or /wp-admin/post.php
 				 */
 				if ( ! empty( $_SERVER['HTTP_REFERER'] )
-					&& ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() )
-				     || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) ) )
+				     && ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() )
+				          || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) ) )
 					remove_action( 'admin_init', 'send_frame_options_header' );
-				/*
-				 * AJAX emdpoints
-				 */
-				// Site settings
-				add_action( 'wp_ajax_press_this_site_settings',       array( $this, 'press_this_ajax_site_settings' ) );
-				// Post draft and publish
-				add_action( 'wp_ajax_press_this_publish_post',        array( $this, 'press_this_ajax_publish_post' ) );
-				add_action( 'wp_ajax_press_this_draft_post',          array( $this, 'press_this_ajax_draft_post' ) );
-				// Chrome extension manifest
-				// add_action( 'wp_ajax_press_this_chrome_ext_manifest', array( $this, 'press_this_ajax_chrome_ext_manifest' ) );
 			}
 		}
 	}
