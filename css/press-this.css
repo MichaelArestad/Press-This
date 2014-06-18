@@ -705,10 +705,6 @@ body:before {
   }
 }
 
-.icon-defs {
-  display: none;
-}
-
 .alerts {
   overflow: hidden;
   padding: 0.9em 0;
@@ -740,6 +736,17 @@ body:before {
 
 .error:before {
   background: red;
+}
+
+.visually-hidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
 }
 
 .scan {
@@ -897,15 +904,31 @@ body:before {
   bottom: 0;
   left: 1px;
   width: 100%;
-  height: 3.25em;
   background: #f1f1f1;
   background: rgba(241, 241, 241, 0.9);
   border-top: 1px solid #e5e5e5;
 }
 
+.add-media {
+  float: left;
+  margin: 14px 0 14px 30px;
+  font-size: 0;
+}
+@media (max-width: 320px) {
+  .add-media {
+    margin: 10px 0 10px 10px;
+  }
+}
+
 .post-actions {
   float: right;
-  margin: 0.7em 1.5em;
+  margin: 14px 30px 14px 0;
+  font-size: 0;
+}
+@media (max-width: 320px) {
+  .post-actions {
+    margin: 10px 10px 10px 0;
+  }
 }
 
 .adminbar {
@@ -1018,6 +1041,10 @@ body:before {
 }
 .add-site__submit .dashicons-plus {
   display: block;
+}
+
+.icon-defs {
+  display: none;
 }
 
 .dashicons {

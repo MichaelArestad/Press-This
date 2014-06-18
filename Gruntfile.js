@@ -108,16 +108,8 @@ module.exports = function(grunt) {
             // },
             css: {
                 files: ['scss/*.scss', 'scss/**/*.scss'],
-                tasks: ['sass'],
+                tasks: ['sass', 'autoprefixer'],
                 options: {
-                    spawn: false,
-                }
-            },
-            autoprefixer: {
-                files: ['css/*.css', 'css/**/*.css'],
-                tasks: ['autoprefixer'],
-                options: {
-                    livereload: true,
                     spawn: false,
                 }
             },

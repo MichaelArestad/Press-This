@@ -627,11 +627,11 @@ ________HTMLDOC;
 		<div id='wppt_suggested_content_container' class="editor--content" contenteditable="true"></div>
 	</div>
 	<div class="actions">
-		<form id="wppt_file_upload" name="wppt_file_upload" action="{$form_action}" method="POST" enctype="multipart/form-data" target="wppt_upload_iframe" class="" style="display:inline-block;width:35%;margin:0.7em 1.5em;">
+		<form id="wppt_file_upload" name="wppt_file_upload" action="{$form_action}" method="POST" enctype="multipart/form-data" target="wppt_upload_iframe" class="add-media">
 			<input type="hidden" name="wppt_nonce" id="wppt_upload_nonce_field" value="{$nonce}"/>
 			<input type="button" class="button--primary" name="wppt_file_button" id="wppt_file_button" value="Upload Photo"/>
-			<input type="file" name="wppt_file" id="wppt_file" value="" style="width:0;height:0;visibility:hidden;" />
-			<iframe id="wppt_upload_iframe" name="wppt_upload_iframe" src="about:blank" style="width:0;height:0;visibility:hidden;"></iframe>
+			<input type="file" name="wppt_file" id="wppt_file" value="" class="visually-hidden"/>
+			<iframe id="wppt_upload_iframe" name="wppt_upload_iframe" src="about:blank" class="visually-hidden"></iframe>
 		</form>
 
 		<form id="wppt_form" class="post-actions" name="wppt_form" method="POST" action="{$form_action}" target="_self">

@@ -35,11 +35,6 @@ body {
 	}
 }
 
-// Icons
-.icon-defs {
-	display: none;
-}
-
 
 // Alerts
 .alerts {
@@ -48,6 +43,7 @@ body {
 	border-bottom: 1px solid $gray--light;
 	transform: translateZ(0);
 }
+
 .notice,
 .error {
 	position: relative;
@@ -88,6 +84,20 @@ body {
 // 		transform: translateY(-65px);
 // 	}
 // }
+
+
+// Helpers
+
+.visually-hidden {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}
 
 
 // Scan styles
@@ -253,22 +263,38 @@ body {
 }
 
 
-// Footer/actions
+// Footer
 .actions {
 	position: fixed;
 	bottom: 0;
 	left: 1px;
 	width: 100%;
-	height: em(65);
 	background: $gray--ultralight;
 	background: transparentize($gray--ultralight, .1);
 	border-top: 1px solid $gray--light;
 }
 
+.add-media {
+	float: left;
+	margin: 14px 0 14px 30px;
+	font-size: 0;
+
+	@include breakpoint(phone) {
+		margin: 10px 0 10px 10px;
+	}
+}
+
 .post-actions {
 	float: right;
-	margin: em(14) em(30);
+	margin: 14px 30px 14px 0;
+	font-size: 0;
+
+	@include breakpoint(phone) {
+		margin: 10px 10px 10px 0;
+	}
 }
+
+
 
 
 // Adminbar
@@ -299,6 +325,7 @@ body {
 		}
 	}
 }
+
 .current-site {
 	font-size: 16px;
 	font-weight: $normal;
@@ -327,16 +354,19 @@ body {
 		font-size: 14px;
 	}
 }
+
 .dashicons-wordpress-alt {
 	position: relative;
 	top: -1px;
 }
+
 .dashicons-admin-settings {
 	position: absolute;
 	top: 50%;
 	right: 0;
 	margin-top: -22px;
 }
+
 .site-list {
 	// display: block !important;
 	position: absolute;
@@ -366,6 +396,7 @@ body {
 	width: 100%;
 	border: 0;
 }
+
 .add-site__submit {
 	display: block;
 	position: absolute;
@@ -381,6 +412,10 @@ body {
 
 
 // Icons
+.icon-defs {
+	display: none;
+}
+
 .dashicons {
 	display: inline-block;
 	width: 44px;
