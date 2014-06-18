@@ -22,8 +22,6 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 	if (es.length && es.length <= 512)
 		pt_url += '&s=' + es;
 
-	console.log(encodeURI( s ));
-
 	if (l.href.match(/^https?:/)) {
 		pt_url += '&u=' + encodeURI(l.href);
 	} else {
@@ -118,12 +116,9 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 	i.addEventListener('load', function () {
 		try {
 			if( i.contentWindow.location.href && ! i.contentWindow.location.href.match(/^http/) && true == fs ) {
-				console.log('worked, submitting');
 				f.submit();
 			}
 		}catch (e) {
-			console.log('failed');
-
 			if ( true == fs ) {
 				f.setAttribute('target', '_top');
 				f.submit();
@@ -138,8 +133,6 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 
 	if (es.length && es.length > 512)
 		fAdd('s', s);
-
-	console.log(f);
 
 	if (l.href.match(/^https/) && !pt_url.match(/^https/)) {
 		w.open(tnu, tn, "width=500,height=700");
