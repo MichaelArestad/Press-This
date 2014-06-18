@@ -118,8 +118,30 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		f.setAttribute('target', tn);
 	}
 
-	w.open(tnu, tn, "width=500,height=700");
+	i = d.createElement('iframe');
+	i.addEventListener('load', function () {
+		try {
+			if( true == fs && ! tnu.match(/^http/) && false == il ) {
+				f.submit();
+				il = true;
+			}
+		}catch (e) {
+			if ( true == fs ) {
+				f.setAttribute('target', '_top');
+				f.submit();
+			} else {
+				top.location.href = pt_url;
+			}
+		}
+	});
 
-	if ( true == fs )
-		f.submit();
+	if (l.href.match(/^https/) && !pt_url.match(/^https/)) {
+		w.open(tnu, tn, "width=500,height=700");
+	} else {
+		i.setAttribute('src', tnu);
+		i.setAttribute('name', tn);
+		i.setAttribute('id', i.name);
+		i.setAttribute('style', 'position:fixed;top:0px;right:0px;z-index:999999999999999;border:0;min-width:320px;max-width:760px;width:50%;height:' + '100%');
+		d.body.appendChild(i);
+	}
 };
