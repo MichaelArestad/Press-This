@@ -224,7 +224,20 @@
 				return interesting_imgs;
 			}
 
-			function button_clicks(e, action) {
+			function disable_form_buttons() {
+				$('[class^="button--"]').each(function(k, v){
+					$(this).attr('disabled', 'disabled');
+				});
+			}
+
+			function enable_form_buttons() {
+				$('[class^="button--"]').each(function(k, v){
+					$(this).removeAttr('disabled');
+				});
+			}
+
+			function submit_post(e, action) {
+				disable_form_buttons();
 				var form = $('#wppt_form');
 				if ( 'publish' !== action )
 					action = 'draft';
@@ -245,6 +258,7 @@
 							else
 								window.self.location.href = './post.php?post=' + r.post_id + '&action=edit';
 						}
+						enable_form_buttons();
 					}
 				});
 			}
@@ -478,18 +492,22 @@
 			}
 
 			function monitor(){
+				disable_form_buttons();
+
 				$( '#wppt_draft_field' ).on( 'click', function( e ){
-					button_clicks( e, 'draft');
+					submit_post( e, 'draft');
 				});
 
 				$( '#wppt_publish_field' ).on( 'click', function( e ){
-					button_clicks( e, 'publish');
+					submit_post( e, 'publish');
 				});
 
 				$( '#wppt_form' ).on( 'submit', function( e ){
 					e.preventDefault();
-					button_clicks( $( '#wppt_draft_field' ), 'draft');
+					submit_post( $( '#wppt_draft_field' ), 'draft');
 				});
+
+				enable_form_buttons();
 
 				return true;
 			}
@@ -506,7 +524,7 @@
 				// @TODO: couldn't render, fail gracefully
 				console.log('Could not render...');
 			} else if ( ! monitor() ) {
-				// @TODO: couldn't render, fail gracefully
+				// @TODO: couldn't monitor, fail gracefully
 				console.log('Could not monitor app...');
 			}
 
