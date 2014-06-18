@@ -4,14 +4,14 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		return;
 	}
 
-	var d = document,
-		w = window,
-		l = top.location,
-		z = w.getSelection,
-		k = d.getSelection,
-		x = d.selection,
-		s = (z ? z() : (k) ? k() : (x ? x.createRange().text : 0)),
-		es = encodeURI( s),
+	var d   = document,
+		w   = window,
+		l   = top.location,
+		z   = w.getSelection,
+		k   = d.getSelection,
+		x   = d.selection,
+		s   = (z ? z() : (k) ? k() : (x ? x.createRange().text : 0)),
+		es  = encodeURI( s),
 		now = new Date().getTime();
 
 	pt_url += ( ( pt_url.indexOf('?') > -1 ) ? '&' : '?' ) + 'buster=' + now;
@@ -40,6 +40,7 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		tnu   = pt_url,
 		fs    = false,
 		i     = null,
+		il    = false,
 		fAdd  = function (n, v) {
 			if (typeof(v) === 'undefined')return;
 			e       = d.createElement('input');
@@ -114,16 +115,15 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		fs = true;
 		f.setAttribute('method', 'POST');
 		f.setAttribute('action', pt_url);
-		if ( l.href.match(/^https?:/) )
-			f.setAttribute('target', tn);
+		f.setAttribute('target', tn);
 	}
 
 	i = d.createElement('iframe');
 	i.addEventListener('load', function () {
 		try {
-			if( i.contentWindow && true == fs ) {
-				if ( ! i.contentWindow.location.href.match(/^http/) )
-					f.submit();
+			if( true == fs && ! tnu.match(/^http/) && false == il ) {
+				f.submit();
+				il = true;
 			}
 		}catch (e) {
 			if ( true == fs ) {
