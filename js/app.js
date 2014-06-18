@@ -224,7 +224,7 @@
 				return interesting_imgs;
 			}
 
-			function show_spinner() {
+			function show_spinner( messages ) {
 				$('#wppt_spinner').addClass('show');
 				$('[class^="button--"]').each(function(k, v){
 					$(this).attr('disabled', 'disabled');
