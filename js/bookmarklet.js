@@ -103,6 +103,12 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		}
 	}
 
+	if (d.title && d.title > 512)
+		fAdd('t', d.title);
+
+	if (es.length && es.length > 512)
+		fAdd('s', s);
+
 	if ( navigator && navigator.userAgent && navigator.userAgent.length && ! navigator.userAgent.match(/firefox\//i) ) {
 		tnu = 'about:blank';
 		fs = true;
@@ -115,8 +121,9 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 	i = d.createElement('iframe');
 	i.addEventListener('load', function () {
 		try {
-			if( i.contentWindow.location.href && ! i.contentWindow.location.href.match(/^http/) && true == fs ) {
-				f.submit();
+			if( i.contentWindow && true == fs ) {
+				if ( ! i.contentWindow.location.href.match(/^http/) )
+					f.submit();
 			}
 		}catch (e) {
 			if ( true == fs ) {
@@ -127,12 +134,6 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 			}
 		}
 	});
-
-	if (d.title && d.title > 512)
-		fAdd('t', d.title);
-
-	if (es.length && es.length > 512)
-		fAdd('s', s);
 
 	if (l.href.match(/^https/) && !pt_url.match(/^https/)) {
 		w.open(tnu, tn, "width=500,height=700");
