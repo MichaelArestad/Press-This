@@ -524,6 +524,11 @@
 					$( '#wppt_file').click();
 				});
 
+				// Close button
+				$('#wppt_close_button').on('click', function(){
+					close_self( get_canonical_link( data ) );
+				});
+
 				hide_spinner();
 
 				return true;
