@@ -431,6 +431,10 @@ class WpPressThis {
 			// All done with backward compatibility
 			// Let's do some cleanup, for good measure :)
 			unlink( $source_tmp_file );
+		} else if ( is_wp_error( $source_tmp_file ) ) {
+			$source_content = new WP_Error( 'upload-error',  sprintf( __( 'Error: %s', 'press-this' ), sprintf( __( 'Could not download the source URL (native error: %s).', 'press-this' ), $source_tmp_file->get_error_message() ) ) );
+		} else if ( ! file_exists( $source_tmp_file ) ) {
+			$source_content = new WP_Error( 'no-local-file',  sprintf( __( 'Error: %s', 'press-this' ), __( 'Could not save or locate the temporary download file for the source URL.', 'press-this' ) ) );
 		}
 		return $source_content;
 	}
@@ -450,6 +454,8 @@ class WpPressThis {
 			return array();
 		// Download source page to tmp file
 		$source_content = self::fetch_source_html( $url );
+		if ( is_wp_error( $source_content ) )
+			return array( 'errors' => $source_content->get_error_messages() );
 		// Fetch and gather <meta> data
 		if ( empty( $data['_meta'] ) ) {
 			if ( preg_match_all( '/<meta (.+)[\s]?\/>/  ', $source_content, $matches ) ) {

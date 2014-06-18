@@ -133,7 +133,7 @@
 					: '' );
 
 				// Add a source attribution if there is one available.
-				if ( ( title.length || site_name.length ) && url.length ) {
+				if ( ( ( title.length && __( 'New Post' ) != title ) || site_name.length ) && url.length ) {
 					content += '<p>'
 					+ __( 'Source:' )
 					+ ' <cite id="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'">'+ html_encode( title || site_name ) +'</a></cite>'
@@ -349,6 +349,13 @@
 			}
 
 			function render_startup_notices() {
+				// Render errors sent in the data, if any
+				if ( data.errors && data.errors.length ) {
+					$.each( data.errors, function(i, msg) {
+						render_error(msg);
+					} );
+				}
+				// Prompt user to upgrade their bookmarklet if there is a version mismatch.
 				if ( data.v && data._version && data.v != data._version ) {
 					render_notice( __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!').replace( '%s', site_config.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php' ) ) );
 				}
