@@ -718,13 +718,15 @@ body:before {
   transform: translateZ(0);
 }
 
-.notice {
+.notice,
+.error {
   position: relative;
   margin: 0 2.14286em;
   padding: 0.35714em 1.42857em;
   font-size: 0.7em;
 }
-.notice:before {
+.notice:before,
+.error:before {
   content: '';
   position: absolute;
   top: 50%;

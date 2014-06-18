@@ -48,7 +48,8 @@ body {
 	border-bottom: 1px solid $gray--light;
 	transform: translateZ(0);
 }
-.notice {
+.notice,
+.error {
 	position: relative;
 	margin: 0 em(30,14);
 	padding: em(5, 14) em(20, 14);
