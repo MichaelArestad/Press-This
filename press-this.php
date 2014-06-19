@@ -632,13 +632,13 @@ ________HTMLDOC;
 	</div>
 	<div id='wppt_app_container' class="editor">
 		<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
-		<div id='wppt_featured_image_container' class="featured-image-container">
+		<div id='wppt_featured_image_container' class="featured-container">
 			<img src="" id="wppt_selected_img" class="featured-image" width="400" height="300" />
 			<div role="group">
-			<a role="button" aria-label="Display all media" href="#" id="wppt_all_media_switch" class="other-images__switch button--secondary dashicons dashicons-images-alt2"><svg class="icon"><use xlink:href="#dashicons-images-alt2" /></svg></a>
-			<a role="button" aria-label="Remove media" href="#" id="wppt_no_image" class="other-images__switch button--secondary dashicons dashicons-no"><svg class="icon"><use xlink:href="#dashicons-no" /></svg></a>
+				<a role="button" aria-label="Display all media" href="#" id="wppt_all_media_switch" class="icon-button--dark dashicons dashicons-images-alt2"><svg class="icon"><use xlink:href="#dashicons-images-alt2" /></svg></a>
+				<a role="button" aria-label="Remove media" href="#" id="wppt_no_image" class="icon-button--dark dashicons dashicons-no"><svg class="icon"><use xlink:href="#dashicons-no" /></svg></a>
 			</div>
-			<div id='wppt_all_media_widget' class="other-images">
+			<div id='wppt_all_media_widget' class="all-media">
 				<div id='wppt_all_media_container'></div>
 			</div>
 		</div>

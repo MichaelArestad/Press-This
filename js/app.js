@@ -276,7 +276,7 @@
 				}).attr(
 					'aria-label', __( 'Show selected media' )
 				).show();
-				$( '#wppt_featured_image_container' ).addClass( 'other-images--visible').show();
+				$( '#wppt_featured_image_container' ).addClass( 'all-media--visible').show();
 				$( '#wppt_selected_img').hide();
 				$('#wppt_no_image').show();
 			}
@@ -290,9 +290,9 @@
 					show_all_media();
 				}).attr(
 					'aria-label', __( 'Show all media' )
-				).show();
-				$( '#wppt_selected_img').show();
-				$( '#wppt_featured_image_container' ).removeClass('other-images--visible').show();
+				);
+				$( '#wppt_selected_img').css( 'display', 'block' );
+				$( '#wppt_featured_image_container' ).removeClass('all-media--visible no-media').show();
 				$('#wppt_no_image').show();
 			}
 
@@ -303,13 +303,14 @@
 					'aria-label', __( 'Show all media' )
 				).show();
 				$( '#wppt_selected_img').hide();
-				$( '#wppt_featured_image_container' ).removeClass('other-images--visible').show();
+				$( '#wppt_featured_image_container' ).removeClass('all-media--visible no-media').show();
 				$('#wppt_no_image').hide();
 			}
 
 			function show_nomedia_button() {
 				$('#wppt_no_image').click(function(){
 						unset_selected_media();
+						$( '#wppt_featured_image_container' ).addClass('no-media');
 				}).attr(
 					'aria-label', __( 'No media' )
 				).show();
