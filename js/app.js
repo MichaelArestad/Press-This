@@ -256,7 +256,12 @@
 							hide_spinner();
 						} else {
 							if ( 'published' == r.post_status )
-								window.top.location.href = r.post_permalink;
+								if ( 'popup' == ux_context ) {
+									window.opener.location.href = r.post_permalink;
+									self.close();
+								} else {
+									window.top.location.href = r.post_permalink;
+								}
 							else
 								window.self.location.href = './post.php?post=' + r.post_id + '&action=edit';
 						}
