@@ -270,9 +270,11 @@
 			}
 
 			function show_all_media() {
-				$( '#wppt_all_media_switch' ).on('click', function(){
+				$( '#wppt_all_media_switch' ).click(function(){
 					show_selected_media();
-				}).text( __( 'Show selected media' )).show();
+				}).attr(
+					'aria-label', __( 'Show selected media' )
+				).show();
 				$( '#wppt_featured_image_container' ).addClass( 'other-images--visible').show();
 				$( '#wppt_selected_img').hide();
 				$('#wppt_no_image').show();
@@ -283,29 +285,33 @@
 					hide_selected_media();
 					return;
 				}
-				$( '#wppt_all_media_switch').on('click', function(){
+				$( '#wppt_all_media_switch').click(function(){
 					show_all_media();
-				}).text( __( 'Show all media' ) ).show();
+				}).attr(
+					'aria-label', __( 'Show all media' )
+				).show();
 				$( '#wppt_selected_img').show();
 				$( '#wppt_featured_image_container' ).removeClass('other-images--visible').show();
 				$('#wppt_no_image').show();
 			}
 
 			function hide_selected_media() {
-				$( '#wppt_all_media_switch').on('click', function(){
-					show_all_media();
-				}).text( __( 'Show all media' )).show();
+				$( '#wppt_all_media_switch').click(function(){
+						show_all_media();
+				}).attr(
+					'aria-label', __( 'Show all media' )
+				).show();
 				$( '#wppt_selected_img').hide();
 				$( '#wppt_featured_image_container' ).removeClass('other-images--visible').show();
 				$('#wppt_no_image').hide();
 			}
 
 			function show_nomedia_button() {
-				$('#wppt_no_image').text(
-					__( 'No media' )
-				).click(function(){
+				$('#wppt_no_image').click(function(){
 						unset_selected_media();
-				}).show();
+				}).attr(
+					'aria-label', __( 'No media' )
+				).show();
 			}
 
 			function set_selected_media( src ) {
@@ -465,7 +471,9 @@
 				imgs_container.empty();
 
 				if ( ! interesting_images || ! interesting_images.length ) {
-					img_switch.text('').hide();
+					img_switch.attr(
+						'aria-label', __( 'Show selected media' )
+					).hide();
 					imgs_container.hide();
 					return;
 				}
@@ -503,11 +511,11 @@
 
 				imgs_container.show();
 
-				img_switch.text(
-					__( 'Show all media' )
-				).click(function(){
+				img_switch.click(function(){
 					show_all_media();
-				}).show();
+				}).attr(
+					'aria-label', __( 'Show all media' )
+				).show();
 
 				show_nomedia_button();
 			}
