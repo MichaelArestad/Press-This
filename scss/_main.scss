@@ -263,6 +263,9 @@ body {
 .no-media {
 	padding: 10px 0;
 
+	#wppt_no_image {
+		display: none;
+	}
 	#wppt_all_media_switch {
 		position: relative;
 		top: 0;

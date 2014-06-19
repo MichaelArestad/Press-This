@@ -951,6 +951,9 @@ body:before {
 .no-media {
   padding: 10px 0;
 }
+.no-media #wppt_no_image {
+  display: none;
+}
 .no-media #wppt_all_media_switch {
   position: relative;
   top: 0;
