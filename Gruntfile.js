@@ -23,7 +23,6 @@ module.exports = function(grunt) {
                 options: {
                     // Can be nested, compact, compressed, expanded
                     style: 'expanded',
-                    require: 'susy',
                     sourcemap: true
                 },
                 files: {
