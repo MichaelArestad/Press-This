@@ -32,7 +32,8 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 	var e = encodeURIComponent,
 		metas = d.head.getElementsByTagName('meta'),
 		links = d.head.getElementsByTagName('link'),
-		imgs  = d.body.getElementsByTagName('img'),
+		it    = d.getElementById('content'),
+		imgs  = (null != it) ? it.getElementsByTagName('img') : [],
 		r     = new Image(),
 		f     = d.createElement('form'),
 		h     = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
@@ -49,6 +50,18 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 			e.type  = 'hidden';
 			f.appendChild(e);
 		};
+
+	if ( ! imgs.length ) {
+		it = d.body.getElementsByClassName('hfeed');
+		imgs = ( it.length ) ? it[0].getElementsByTagName('img') : [];
+		if ( ! imgs.length ) {
+			it = d.body.querySelectorAll("div[role=main]");
+			imgs = (it.length) ? it.getElementsByTagName('img') : [];
+			if ( ! imgs.length ) {
+				imgs = d.body.getElementsByTagName('img') || [];
+			}
+		}
+	}
 
 	for (var m = 0; m < metas.length; m++) {
 		if ( m >= 50 )
