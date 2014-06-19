@@ -296,11 +296,11 @@ class WpPressThis {
 		$content = '';
 
 		if ( ! empty( $_POST['wppt_title'] ) ) {
-			$post['post_title'] = sanitize_text_field( $_POST['wppt_title'] );
+			$post['post_title'] = sanitize_text_field( trim( $_POST['wppt_title'] ) );
 		}
 
 		if ( ! empty( $_POST['wppt_content'] ) ) {
-			$content = $_POST['wppt_content']; // we have to allow this one and let wp_insert_post() filter the content
+			$content = trim( $_POST['wppt_content'] ); // we have to allow this one and let wp_insert_post() filter the content below
 		}
 
 		if ( ! empty( $_POST['wppt_selected_img'] ) ) {
@@ -381,7 +381,7 @@ class WpPressThis {
 
 		$post = array(
 			'post_title'     => $data['post_title'],
-			'post_content'   => str_replace( __( 'Start typing here.', 'press-this' ), '', trim( $data['post_content'] ) ),
+			'post_content'   => $data['post_content'],
 			'post_status'    => 'draft',
 			'post_type'      => 'post',
 		);

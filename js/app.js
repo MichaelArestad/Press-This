@@ -438,6 +438,9 @@
 
 				$('#wppt_suggested_content_container').css({
 					'display' : 'block'
+				}).on('focus', function(){
+					if ( __( 'Start typing here.' ).toLowerCase() == $(this).text().toLowerCase() )
+						$(this).empty();
 				}).on('input', function(){
 					$('#wppt_content_field').val( $(this).html() );
 				}).html( suggested_content_str );
