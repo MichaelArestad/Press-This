@@ -428,6 +428,8 @@
 				var img_switch     = $('#wppt_other_images_switch'),
 					imgs_container = $('#wppt_other_images_container');
 
+				imgs_container.empty();
+
 				if ( ! interesting_images || interesting_images.length < 2 ) {
 					img_switch.text('').hide();
 					imgs_container.hide();
