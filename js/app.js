@@ -18,9 +18,9 @@
  * HELPER FUNCTIONS
  *************************************************************** */
 
-			function __( str ) {
-				return ( ! site_config || ! site_config.i18n || ! site_config.i18n[str] || ! site_config.i18n[str].length )
-					? str : site_config.i18n[str];
+			function __( key ) {
+				return ( ! site_config || ! site_config.i18n || ! site_config.i18n[key] || ! site_config.i18n[key].length )
+					? key : site_config.i18n[key];
 			}
 
 			// Source: https://stackoverflow.com/questions/1219860/html-encoding-in-javascript-jquery/1219983#1219983
@@ -82,7 +82,7 @@
 
 			function get_suggested_title( data ) {
 				if ( ! data || data.length )
-					return __( 'New Post' );
+					return __( 'new-post' );
 
 				var title='';
 
@@ -101,14 +101,14 @@
 				}
 
 				if ( ! title.length)
-					title = __( 'New Post' );
+					title = __( 'new-post' );
 
 				return title.replace(/\\/g, '');
 			}
 
 			function get_suggested_content( data ) {
 				if ( ! data || data.length )
-					return __( 'Start typing here.' );
+					return __( 'star-typing-here' );
 
 				var content   = '',
 					title     = get_suggested_title( data ),
@@ -133,15 +133,15 @@
 					: '' );
 
 				// Add a source attribution if there is one available.
-				if ( ( ( title.length && __( 'New Post' ) != title ) || site_name.length ) && url.length ) {
+				if ( ( ( title.length && __( 'new-post' ) != title ) || site_name.length ) && url.length ) {
 					content += '<p>'
-					+ __( 'Source:' )
+					+ __( 'source' )
 					+ ' <cite id="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'">'+ html_encode( title || site_name ) +'</a></cite>'
 					+ '</p>';
 				}
 
 				if ( ! content.length )
-					content = __( '<p>Start typing here.</p>' );
+					content = __( 'start-typing-here' );
 
 				return content.replace(/\\/g, '');
 			}
@@ -253,7 +253,7 @@
 					data: data,
 					success: function(r){
 						if ( r.error ) {
-							render_error( __('Sorry, but an unexpected error occurred.') );
+							render_error( __('unexpected-error') );
 							hide_spinner();
 						} else {
 							if ( 'published' == r.post_status )
@@ -274,7 +274,7 @@
 				$( '#wppt_all_media_switch' ).click(function(){
 					show_selected_media();
 				}).attr(
-					'aria-label', __( 'Show selected media' )
+					'title', __( 'show-selected-media' )
 				);
 				$( '#wppt_featured_image_container' ).addClass( 'all-media--visible').show();
 				$( '#wppt_selected_img').hide();
@@ -289,7 +289,7 @@
 				$( '#wppt_all_media_switch').click(function(){
 					show_all_media();
 				}).attr(
-					'aria-label', __( 'Show all media' )
+					'title', __( 'show-all-media' )
 				);
 				$( '#wppt_selected_img').css( 'display', 'block' );
 				$( '#wppt_featured_image_container' ).removeClass('all-media--visible no-media').show();
@@ -300,7 +300,7 @@
 				$( '#wppt_all_media_switch').click(function(){
 						show_all_media();
 				}).attr(
-					'aria-label', __( 'Show all media' )
+					'title', __( 'show-all-media' )
 				);
 				$( '#wppt_selected_img').hide();
 				$( '#wppt_featured_image_container' ).removeClass('all-media--visible no-media').show();
@@ -312,7 +312,7 @@
 						unset_selected_media();
 						$( '#wppt_featured_image_container' ).addClass('no-media');
 				}).attr(
-					'aria-label', __( 'No media' )
+					'title', __( 'no-media' )
 				);
 			}
 
@@ -335,7 +335,7 @@
 
 			function file_upload_success( url, type ) {
 				if (!url || !type || !url.match(/^https?:/) || !type.match(/^[\w]+\/.+$/)) {
-					render_error(__('Sorry, but your upload failed.') + ' [app_js.file_upload_success]');
+					render_error(__('upload-failed') + ' [app_js.file_upload_success]');
 					hide_spinner();
 					return;
 				}
@@ -344,7 +344,7 @@
 					set_selected_media(url);
 					clear_errors();
 				} else {
-					render_error(__('Please limit your uploads to photos. The file is still in the media library, and can be used in a new post, or <a href="%s" target="_blank">downloaded here</a>.').replace('%s', encodeURI(url)));
+					render_error(__('limit-uploads-to-photos').replace('%s', encodeURI(url)));
 				}
 				hide_spinner();
 			}
@@ -357,7 +357,7 @@
 
 			function maybe_clear_suggested_content_placeholder() {
 				var content_field = $('#wppt_suggested_content_container');
-				if ( __( 'Start typing here.' ).toLowerCase() == content_field.text().toLowerCase() ) {
+				if ( __( 'start-typing-here' ).toLowerCase() == content_field.text().toLowerCase() ) {
 					content_field.empty();
 					$('#wppt_content_field').val('');
 				}
@@ -377,8 +377,11 @@
  *************************************************************** */
 
 			function render_tools_visibility() {
-				if ( 'top' != ux_context && data.u && data.u.match(/^https?:/ ) ) {
-					$('#wppt_scanbar').hide();
+				if ( 'top' != ux_context  ) {
+					if ( data.u && data.u.match(/^https?:/ ) )
+						$('#wppt_scanbar').hide();
+				} else {
+					$('#wppt_close_button').hide();
 				}
 				// Only while being developed, looking ugly otherwise :)
 				$('#wppt_sites').hide();
@@ -391,16 +394,16 @@
 				$('#wppt_selected_img_field').val( featured );
 				$('#wppt_source_url_field').val( get_canonical_link( data ) );
 				$('#wppt_source_name_field').val( get_source_site_name( data ) );
-				$('#wppt_publish_field').val( __( 'Publish' ) );
-				$('#wppt_draft_field').val( __( 'Save Draft' ) );
+				$('#wppt_publish_field').val( __( 'publish' ) );
+				$('#wppt_draft_field').val( __( 'save-draft' ) );
 
-				$('#wppt_file_button').val(__( 'Upload Photo' ) );
+				$('#wppt_file_button').val(__( 'upload-photo' ) );
 
-				$('#wppt_url_scan').attr('placeholder', __( 'Enter a URL to scan' )).val( ( data.u && data.u.match(/^https?:/ ) ) ? data.u : '' );
-				$('#wppt_url_scan_submit').val(__( 'Scan' ) );
+				$('#wppt_url_scan').attr('placeholder', __( 'enter-url-to-scan' )).val( ( data.u && data.u.match(/^https?:/ ) ) ? data.u : '' );
+				$('#wppt_url_scan_submit').val(__( 'scan' ) );
 
-				$('#wppt_new_site').attr('placeholder', __( 'Enter any WordPress URL' ) );
-				$('#wppt_new_site_submit').val(__( 'Add' ) );
+				$('#wppt_new_site').attr('placeholder', __( 'enter-wp-url' ) );
+				$('#wppt_new_site_submit').val(__( 'add' ) );
 			}
 
 			function render_notice( msg, error ) {
@@ -424,7 +427,7 @@
 				}
 				// Prompt user to upgrade their bookmarklet if there is a version mismatch.
 				if ( data.v && data._version && data.v != data._version ) {
-					render_notice( __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!').replace( '%s', site_config.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php' ) ) );
+					render_notice( __( 'should-upgrade-bookmarklet').replace( '%s', site_config.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php' ) ) );
 				}
 			}
 
@@ -484,7 +487,7 @@
 
 				if ( ! interesting_images || ! interesting_images.length ) {
 					img_switch.attr(
-						'aria-label', __( 'Show selected media' )
+						'title', __( 'show-selected-media' )
 					).hide();
 					imgs_container.hide();
 					return;
@@ -526,7 +529,7 @@
 				img_switch.click(function(){
 					show_all_media();
 				}).attr(
-					'aria-label', __( 'Show all media' )
+					'title', __( 'show-all-media' )
 				).show();
 
 				show_nomedia_button();
@@ -543,7 +546,7 @@
 
 			function render(){
 				// We're on!
-				$("head title").text(__( 'Welcome to Press This!' ));
+				$("head title").text(__( 'welcome' ));
 				render_tools_visibility();
 				render_default_form_field_values();
 				render_admin_bar();
