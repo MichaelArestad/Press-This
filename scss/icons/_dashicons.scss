@@ -1,0 +1,25 @@
+// ==========================================================================
+// Dashicons
+// ==========================================================================
+
+.icon-defs {
+	display: none;
+}
+
+.dashicons {
+	display: inline-block;
+	width: 44px;
+	height: 44px;
+	padding: 12px;
+	line-height: 44px;
+	vertical-align: middle;
+	overflow: hidden;
+	fill: #79838c;
+
+	svg {
+		height: 20px;
+	}
+}
+svg  {
+	display: block;
+}

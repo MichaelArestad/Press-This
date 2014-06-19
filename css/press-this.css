@@ -7,22 +7,23 @@ Press This :)
 /*
 1.0 - Normalize or Reset
 2.0 - Typography
-3.0 - Elements
-	3.1 Links
-	3.2 Horizontal Rules
-	3.3 Lists
-	3.4 Tables
-4.0 - Forms
-5.0 - Buttons
-6.0 - Media
-7.0 - Navigation
-	7.1 - Menus
-8.0 - Accessibility
-9.0 - Alignments
-10.0 - Clearings
-11.0 - UI Patterns
-12.0 - Main
-13.0 - IE
+3.0 - Icons
+4.0 - Elements
+	4.1 Links
+	4.2 Horizontal Rules
+	4.3 Lists
+	4.4 Tables
+5.0 - Forms
+6.0 - Buttons
+7.0 - Media
+8.0 - Navigation
+	8.1 - Menus
+9.0 - Accessibility
+10.0 - Alignments
+11.0 - Clearings
+12.0 - UI Patterns
+13.0 - Main
+14.0 - IE
 
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
@@ -377,10 +378,35 @@ big {
 }
 
 /*--------------------------------------------------------------
-3.0 - Elements
+3.0 - Icons
+--------------------------------------------------------------*/
+.icon-defs {
+  display: none;
+}
+
+.dashicons {
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  padding: 12px;
+  line-height: 44px;
+  vertical-align: middle;
+  overflow: hidden;
+  fill: #79838c;
+}
+.dashicons svg {
+  height: 20px;
+}
+
+svg {
+  display: block;
+}
+
+/*--------------------------------------------------------------
+4.0 - Elements
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
-3.1 - Links
+4.1 - Links
 --------------------------------------------------------------*/
 a {
   color: #0074a2;
@@ -397,7 +423,7 @@ a:active {
 }
 
 /*--------------------------------------------------------------
-3.2 - Horizontal Rules
+4.2 - Horizontal Rules
 --------------------------------------------------------------*/
 hr {
   background-color: #e5e5e5;
@@ -407,7 +433,7 @@ hr {
 }
 
 /*--------------------------------------------------------------
-3.3 - Lists
+4.3 - Lists
 --------------------------------------------------------------*/
 ul,
 ol {
@@ -437,7 +463,7 @@ dd {
 }
 
 /*--------------------------------------------------------------
-3.4 - Tables
+4.4 - Tables
 --------------------------------------------------------------*/
 table {
   margin: 0 0 1.5em;
@@ -449,7 +475,7 @@ th {
 }
 
 /*--------------------------------------------------------------
-4.0 - Forms
+5.0 - Forms
 --------------------------------------------------------------*/
 [type="text"],
 [type="email"],
@@ -510,7 +536,7 @@ input::-moz-focus-inner {
 }
 
 /*--------------------------------------------------------------
-5.0 - Buttons
+6.0 - Buttons
 --------------------------------------------------------------*/
 .button--secondary, .scan__submit, .button--primary, .button--subtle {
   display: inline-block;
@@ -580,17 +606,34 @@ input::-moz-focus-inner {
 .button--subtle {
   background: none;
   border: 0;
-  color: #0074a2;
 }
-.button--subtle:focus, .button--subtle:hover, .button--subtle:active {
-  color: #2ea2cc;
+
+.icon-button--dark {
+  padding: 8px;
+  width: 36px;
+  height: 36px;
+  border-radius: 3px;
+  background: rgba(61, 62, 63, 0.9);
+  fill: #e5e5e5;
+  overflow: visible;
 }
-.button--subtle:visited {
-  color: #0074a2;
+.icon-button--dark:visited {
+  fill: #e5e5e5;
+}
+.icon-button--dark:focus, .icon-button--dark:hover, .icon-button--dark:active {
+  fill: white;
+}
+.icon-button--dark:before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  bottom: -4px;
+  left: -4px;
 }
 
 /*--------------------------------------------------------------
-6.0 - Media
+7.0 - Media
 --------------------------------------------------------------*/
 img {
   max-width: 100%;
@@ -604,13 +647,13 @@ object {
 }
 
 /*--------------------------------------------------------------
-7.0 - Navigation
+8.0 - Navigation
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
-7.1 - Menus
+8.1 - Menus
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
-8.0 - Accessibility
+9.0 - Accessibility
 --------------------------------------------------------------*/
 .screen-reader-text {
   clip: rect(1px, 1px, 1px, 1px);
@@ -637,7 +680,7 @@ object {
 }
 
 /*--------------------------------------------------------------
-9.0 - Alignments
+10.0 - Alignments
 --------------------------------------------------------------*/
 .alignleft {
   display: inline;
@@ -658,7 +701,7 @@ object {
 }
 
 /*--------------------------------------------------------------
-10.0 - Clearings
+11.0 - Clearings
 --------------------------------------------------------------*/
 .clear:before, .clear:after {
   content: "";
@@ -669,10 +712,10 @@ object {
 }
 
 /*--------------------------------------------------------------
-11.0 - UI Patterns
+12.0 - UI Patterns
 --------------------------------------------------------------*/
 /*--------------------------------------------------------------
-12.0 - Main
+13.0 - Main
 --------------------------------------------------------------*/
 html {
   background: #fff;
@@ -823,7 +866,7 @@ body:before {
   }
 }
 
-.featured-image-container {
+.featured-container {
   position: relative;
   padding: 2px 0;
   border-bottom: 1px solid #e5e5e5;
@@ -840,17 +883,14 @@ body:before {
   cursor: pointer;
 }
 
-.other-images {
+.all-media {
   display: none;
-  margin: 0 0 46px;
-  padding-bottom: 2px;
-  border-bottom: 1px solid #e5e5e5;
 }
-.other-images:before, .other-images:after {
+.all-media:before, .all-media:after {
   content: "";
   display: table;
 }
-.other-images:after {
+.all-media:after {
   clear: both;
 }
 
@@ -886,17 +926,36 @@ body:before {
   padding: 12.5% 0 0 12.5%;
 }
 
-.other-images--visible .featured-image {
-  display: none;
-}
-.other-images--visible .other-images {
-  display: block;
+#wppt_no_image {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-.other-images__switch {
+#wppt_all_media_switch {
   position: absolute;
   bottom: 10px;
   right: 10px;
+}
+
+.all-media--visible .featured-image,
+.all-media--visible #wppt_no_image,
+.all-media--visible #wppt_all_media_switch {
+  display: none;
+}
+.all-media--visible .all-media {
+  display: block;
+}
+
+.no-media {
+  padding: 10px 0;
+}
+.no-media #wppt_all_media_switch {
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .actions {
@@ -1043,30 +1102,8 @@ body:before {
   display: block;
 }
 
-.icon-defs {
-  display: none;
-}
-
-.dashicons {
-  display: inline-block;
-  width: 44px;
-  height: 44px;
-  padding: 12px;
-  line-height: 44px;
-  vertical-align: middle;
-  overflow: hidden;
-  fill: #79838c;
-}
-.dashicons svg {
-  height: 20px;
-}
-
-svg {
-  display: block;
-}
-
 /*--------------------------------------------------------------
-13.0 - IE
+14.0 - IE
 --------------------------------------------------------------*/
 
 /*# sourceMappingURL=press-this.css.map */

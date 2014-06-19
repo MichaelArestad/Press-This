@@ -180,13 +180,10 @@ body {
 
 
 // Featured images
-.featured-image-container {
+.featured-container {
 	position: relative;
 	padding: 2px 0;
 	border-bottom: 1px solid $gray--light;
-	// background-position: center;
-	// background-repeat: no-repeat;
-	// background-size: cover;
 }
 
 .featured-image {
@@ -195,16 +192,13 @@ body {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
-	height: 0!important; // NOOOOOOOOOO
+	height: 0 !important; // NOOOOOOOOOO
 	cursor: pointer;
 }
 
-.other-images {
+.all-media {
 	@include clearfix;
 	display: none;
-	margin: 0 0 46px;
-	padding-bottom: 2px;
-	border-bottom: 1px solid $gray--light;
 }
 
 .site-thumbnail {
@@ -236,10 +230,7 @@ body {
 	width: $size;
 	padding: $size 0 0 $size;
 }
-// .thumbs-medium {
-// 	width: 33.333%;
-// 	padding: 33.333% 0 0 33.333%;
-// }
+
 .thumbs-small {
 	$size: 12.5%;
 
@@ -247,19 +238,38 @@ body {
 	padding: $size 0 0 $size;
 }
 
-.other-images--visible {
-	.featured-image {
-		display: none;
-	}
-	.other-images {
-		display: block;
-	}
+#wppt_no_image {
+	position: absolute;
+	top: 10px;
+	right: 10px;
 }
 
-.other-images__switch {
+#wppt_all_media_switch {
 	position: absolute;
 	bottom: 10px;
 	right: 10px;
+}
+
+.all-media--visible {
+	.featured-image,
+	#wppt_no_image,
+	#wppt_all_media_switch {
+		display: none;
+	}
+	.all-media {
+		display: block;
+	}
+}
+.no-media {
+	padding: 10px 0;
+
+	#wppt_all_media_switch {
+		position: relative;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
 }
 
 
@@ -408,28 +418,4 @@ body {
 	.dashicons-plus {
 		display: block;
 	}
-}
-
-
-// Icons
-.icon-defs {
-	display: none;
-}
-
-.dashicons {
-	display: inline-block;
-	width: 44px;
-	height: 44px;
-	padding: 12px;
-	line-height: 44px;
-	vertical-align: middle;
-	overflow: hidden;
-	fill: #79838c;
-
-	svg {
-		height: 20px;
-	}
-}
-svg  {
-	display: block;
 }

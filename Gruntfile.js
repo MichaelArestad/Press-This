@@ -91,7 +91,7 @@ module.exports = function(grunt) {
                     }
                 },
                 files: {
-                    'images/icons/icons.svg': ['images/icons/*.svg']
+                    'images/icons/icons.svg': ['images/icons/*.svg', '!images/icons/icons.svg']
                 },
             }
         },
