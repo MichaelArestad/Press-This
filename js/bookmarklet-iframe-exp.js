@@ -51,13 +51,13 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 			f.appendChild(e);
 		};
 
-	if ( ! imgs.length ) {
-		it   = d.body.getElementsByClassName('hfeed');
+	if ( ! imgs || ! imgs.length ) {
+		it   = ( d.body.getElementsByClassName ) ? d.body.getElementsByClassName('hfeed') : [];
 		imgs = ( it.length ) ? it[0].getElementsByTagName('img') : [];
-		if ( ! imgs.length ) {
-			it   = d.body.querySelectorAll("div[role=main]");
+		if (  ! imgs || ! imgs.length ) {
+			it   = ( d.body.querySelectorAll ) ? d.body.querySelectorAll("div[role=main]") : [];
 			imgs = (it.length) ? it.getElementsByTagName('img') : [];
-			if ( ! imgs.length ) {
+			if (  ! imgs || ! imgs.length ) {
 				imgs = d.body.getElementsByTagName('img') || [];
 			}
 		}
