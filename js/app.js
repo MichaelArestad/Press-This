@@ -252,8 +252,7 @@
 					data: data,
 					success: function(r){
 						if ( r.error ) {
-							console.log(r.error);
-							alert(__('Sorry, but an unexpected error occurred.'));
+							render_error( __('Sorry, but an unexpected error occurred.') );
 							hide_spinner();
 						} else {
 							if ( 'published' == r.post_status )
