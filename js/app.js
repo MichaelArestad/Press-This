@@ -1,9 +1,10 @@
 ( function( $ ) {
 	$( document ).ready(function( $ ) {
 		var WpPressThis_App = function() {
-			var site_config           = window.wp_pressthis_config || {},
+			var loader                = window.wp_pressthis_loader || {},
+				site_config           = loader.site_config || {},
+				ux_context            = loader.ux_context || 'top',
 				data                  = window.wp_pressthis_data || {},
-				ux_context            = window.wp_pressthis_ux || 'top',
 				largest_width         = parseInt( $( document ).width() - 60 ) || 450,
 				smallest_width        = 64,
 				current_width         = parseInt( largest_width ) || 450,
@@ -425,6 +426,7 @@
 						render_error(msg);
 					} );
 				}
+
 				// Prompt user to upgrade their bookmarklet if there is a version mismatch.
 				if ( data.v && data._version && data.v != data._version ) {
 					render_notice( __( 'should-upgrade-bookmarklet').replace( '%s', site_config.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php' ) ) );
@@ -613,10 +615,9 @@
 				console.log('Could not monitor app...');
 			}
 
-			// Assign callback/public functions to returned object
+			// Assign callback/public properties/methods to returned object
 			this.file_upload_success = file_upload_success;
 			this.render_error        = render_error;
-			this.interesting_images  = interesting_images;
 		};
 
 		window.wp_pressthis_app = new WpPressThis_App();

@@ -136,14 +136,15 @@
 				if ( data._ajax_url )
 					delete data._ajax_url;
 
-				window.wp_pressthis_config = site_config;
-				window.wp_pressthis_ux     = ux_context;
-
 				// That's it for the loader, now load the real app.js and let it take over.
 				$.getScript( plugin_js_dir_url + app_logic_file );
 			}
 
 			initialize();
+
+			// Assign callback/public properties/methods to returned object
+			this.site_config = site_config;
+			this.ux_context  = ux_context;
 		};
 
 		window.wp_pressthis_loader = new WpPressThis_Loader();
