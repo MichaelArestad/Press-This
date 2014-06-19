@@ -269,27 +269,55 @@
 				});
 			}
 
-			function show_other_images() {
-				$( '#wppt_other_images_switch' ).on('click', function(){
-					show_selected_image();
-				}).text( __( 'Hide other images' ) );
+			function show_all_media() {
+				$( '#wppt_all_media_switch' ).on('click', function(){
+					show_selected_media();
+				}).text( __( 'Show selected media' )).show();
 				$( '#wppt_featured_image_container' ).addClass( 'other-images--visible').show();
 				$( '#wppt_selected_img').hide();
+				$('#wppt_no_image').show();
 			}
 
-			function show_selected_image() {
-				$( '#wppt_other_images_switch').on('click', function(){
-					show_other_images();
-				}).text( __( 'Show other images' ) );
+			function show_selected_media() {
+				if ( '' == $( '#wppt_selected_img_field' ).val() ) {
+					hide_selected_media();
+					return;
+				}
+				$( '#wppt_all_media_switch').on('click', function(){
+					show_all_media();
+				}).text( __( 'Show all media' ) ).show();
 				$( '#wppt_selected_img').show();
 				$( '#wppt_featured_image_container' ).removeClass('other-images--visible').show();
+				$('#wppt_no_image').show();
 			}
 
-			function set_selected_image( src ) {
+			function hide_selected_media() {
+				$( '#wppt_all_media_switch').on('click', function(){
+					show_all_media();
+				}).text( __( 'Show all media' )).show();
+				$( '#wppt_selected_img').hide();
+				$( '#wppt_featured_image_container' ).removeClass('other-images--visible').show();
+				$('#wppt_no_image').hide();
+			}
+
+			function show_nomedia_button() {
+				$('#wppt_no_image').text(
+					__( 'No media' )
+				).click(function(){
+						unset_selected_media();
+				}).show();
+			}
+
+			function set_selected_media( src ) {
 				$( '#wppt_selected_img_field' ).val( src );
 				$( '#wppt_selected_img' ).attr( 'src', src ).css('background-image', 'url(' + src + ')' );
-				show_selected_image();
-				var $content = $('#wppt_suggested_content_container');
+				show_selected_media();
+			}
+
+			function unset_selected_media() {
+				$( '#wppt_selected_img_field' ).val('');
+				$( '#wppt_selected_img' ).attr( 'src', '' ).css('background-image', 'none' );
+				hide_selected_media();
 			}
 
 			function add_new_image_to_list( src ) {
@@ -305,7 +333,7 @@
 				}
 				if (type.match(/^image\//)) {
 					add_new_image_to_list(url);
-					set_selected_image(url);
+					set_selected_media(url);
 					clear_errors();
 				} else {
 					render_error(__('Please limit your uploads to photos. The file is still in the media library, and can be used in a new post, or <a href="%s" target="_blank">downloaded here</a>.').replace('%s', encodeURI(url)));
@@ -424,17 +452,19 @@
 					'width'              : current_width + 'px',
 					'height'             : parseInt( current_width / 1.6) + 'px'
 				}).click(function(){
-					set_selected_image( display_src );
+					set_selected_media( display_src );
 				}).appendTo('#wppt_featured_image_container');
+
+				show_nomedia_button();
 			}
 
 			function render_interesting_images() {
-				var img_switch     = $('#wppt_other_images_switch'),
-					imgs_container = $('#wppt_other_images_container');
+				var img_switch     = $('#wppt_all_media_switch'),
+					imgs_container = $('#wppt_all_media_container');
 
 				imgs_container.empty();
 
-				if ( ! interesting_images || interesting_images.length < 2 ) {
+				if ( ! interesting_images || ! interesting_images.length ) {
 					img_switch.text('').hide();
 					imgs_container.hide();
 					return;
@@ -467,15 +497,19 @@
 					}).css({
 						'background-image'   : 'url('+display_src+')'
 					}).click(function(){
-						set_selected_image( display_src );
-					}).appendTo('#wppt_other_images_container');
+						set_selected_media( display_src );
+					}).appendTo(imgs_container);
 				});
 
+				imgs_container.show();
+
 				img_switch.text(
-					__( 'Show other images' )
+					__( 'Show all media' )
 				).click(function(){
-					show_other_images();
+					show_all_media();
 				}).show();
+
+				show_nomedia_button();
 			}
 
 /* ***************************************************************
@@ -559,6 +593,7 @@
 			// Assign callback/public functions to returned object
 			this.file_upload_success = file_upload_success;
 			this.render_error        = render_error;
+			this.interesting_images  = interesting_images;
 		};
 
 		window.wp_pressthis_app = new WpPressThis_App();

@@ -634,9 +634,10 @@ ________HTMLDOC;
 		<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
 		<div id='wppt_featured_image_container' class="featured-image-container">
 			<img src="" id="wppt_selected_img" class="featured-image" width="400" height="300" />
-			<a href="#" id="wppt_other_images_switch" class="other-images__switch button--secondary"></a>
-			<div id='wppt_other_images_widget' class="other-images">
-				<div id='wppt_other_images_container'></div>
+			<a href="#" id="wppt_all_media_switch" class="other-images__switch button--secondary"></a>
+			<a href="#" id="wppt_no_image" class="other-images__switch button--secondary"></a>
+			<div id='wppt_all_media_widget' class="other-images">
+				<div id='wppt_all_media_container'></div>
 			</div>
 		</div>
 		<div id='wppt_suggested_content_container' class="editor--content" contenteditable="true"></div>
@@ -698,8 +699,9 @@ ________HTMLDOC;
 				'Press This!'            => __('Press This!', $domain ),
 				'Welcome to Press This!' => __('Welcome to Press This!', $domain ),
 				'Source:'                => __( 'Source:', $domain ),
-				'Show other images'      => __( 'Show other images', $domain ),
-				'Hide other images'      => __( 'Hide other images', $domain ),
+				'No media'               => __( 'No media', $domain ),
+				'Show all media'         => __( 'Show all media', $domain ),
+				'Show selected media'    => __( 'Show selected media', $domain ),
 				'Publish'                => __( 'Publish', $domain ),
 				'Save Draft'             => __( 'Save Draft', $domain ),
 				'New Post'               => __( 'New Post', $domain ),
