@@ -325,7 +325,7 @@
 				else if ( 'iframe' == ux_context && source_url.length )
 					top.location.href = source_url;
 				else
-					top.location.href = self.location.href.replace(/^(.+)\/wp-admin\/.+$/, '\1/');
+					top.location.href = self.location.href.replace(/^(.+)\/wp-admin\/.+$/, '$1/');
 			}
 
 /* ***************************************************************
