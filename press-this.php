@@ -62,7 +62,14 @@ class WpPressThis {
 		}
 	}
 
-	function handle_sameorigin_policy() {
+	/**
+	 * WpPressThis::handle_sameorigin_policy()
+	 * Relax local sameorigin policy to allow PT and some parts of wp-admin to be used from within an iframe.
+	 * Experimental and currently unused until proven to be handled securely.
+	 *
+	 * @uses WpPressThis::script_name(), WpPressThis::runtime_url(), site_url(), admin_url(), remove_action()
+	 */
+	public function handle_sameorigin_policy() {
 		$script_name = self::script_name();
 		if ( ! is_admin() ) {
 			if ( false !== strpos( site_url( 'wp-login.php' ), $script_name ) ) {
@@ -159,7 +166,7 @@ class WpPressThis {
 	 * Returns this plugin's meta data, from in-code plugin header comment
 	 *
 	 * @return array
-	 *@uses WP's get_plugin_data()
+	 * @uses WP's get_plugin_data()
 	 */
 	public function plugin_data() {
 		return get_plugin_data( __FILE__, false, false );
@@ -208,6 +215,12 @@ class WpPressThis {
 		return untrailingslashit( self::strip_url_scheme( plugin_dir_url( __FILE__ ) ) );
 	}
 
+	/**
+	 * WpPressThis::i18n()
+	 * Centralized/keyed app caption store, used on both server and client sides.
+	 *
+	 * @return array
+	 */
 	public function i18n() {
 		$domain       = 'press-this';
 		return array(
@@ -303,6 +316,15 @@ class WpPressThis {
 		}
 	}
 
+	/**
+	 * WpPressThis::process_file_upload( $file, $nonce )
+	 * Uploads file to an iframe to not have to refresh the page, and feel AJAXy, then calls parent.wp_pressthis_app.file_upload_success()
+	 *
+	 * @param $file Single $_FILE key
+	 * @param $nonce Valid WP nonce
+	 *
+	 * @uses WpPressThis::refuse_file_upload(), wp_verify_nonce(), wp_handle_upload(), esc_url(), esc_js()
+	 */
 	public function process_file_upload( $file, $nonce ) {
 		if ( ! wp_verify_nonce( $nonce, 'press_this' ) ) {
 			self::refuse_file_upload( 'wp_verify_nonce' );
@@ -326,6 +348,14 @@ class WpPressThis {
 		die();
 	}
 
+	/**
+	 * WpPressThis::refuse_file_upload( $context )
+	 * Calls parent.wp_pressthis_app.render_error(), notifying the user her/his upload failed
+	 *
+	 * @param $context A key-type string to give developers a hint as to where it failed, when reported
+	 *
+	 * @uses esc_js(), WpPressThis::i18n()
+	 */
 	public function refuse_file_upload( $context ) {
 		?>
 		<script language="javascript" type="text/javascript">
