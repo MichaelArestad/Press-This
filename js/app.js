@@ -240,6 +240,7 @@
 
 			function submit_post(e, action) {
 				show_spinner();
+				maybe_clear_suggested_content_placeholder();
 				var form = $('#wppt_form');
 				if ( 'publish' !== action )
 					action = 'draft';
@@ -353,6 +354,14 @@
 					messages_div.remove();
 			}
 
+			function maybe_clear_suggested_content_placeholder() {
+				var content_field = $('#wppt_suggested_content_container');
+				if ( __( 'Start typing here.' ).toLowerCase() == content_field.text().toLowerCase() ) {
+					content_field.empty();
+					$('#wppt_content_field').val('');
+				}
+			}
+
 			function close_self( source_url ) {
 				if ( 'popup' == ux_context )
 					self.close();
@@ -439,8 +448,7 @@
 				$('#wppt_suggested_content_container').css({
 					'display' : 'block'
 				}).on('focus', function(){
-					if ( __( 'Start typing here.' ).toLowerCase() == $(this).text().toLowerCase() )
-						$(this).empty();
+					maybe_clear_suggested_content_placeholder();
 				}).on('input', function(){
 					$('#wppt_content_field').val( $(this).html() );
 				}).html( suggested_content_str );
