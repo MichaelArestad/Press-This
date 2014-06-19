@@ -108,7 +108,7 @@
 
 			function get_suggested_content( data ) {
 				if ( ! data || data.length )
-					return __( 'star-typing-here' );
+					return __( 'start-typing-here' );
 
 				var content   = '',
 					title     = get_suggested_title( data ),
