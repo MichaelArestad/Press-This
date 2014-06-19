@@ -395,6 +395,7 @@ big {
   fill: #79838c;
 }
 .dashicons svg {
+  width: 20px;
   height: 20px;
 }
 
