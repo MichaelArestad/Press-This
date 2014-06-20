@@ -383,12 +383,11 @@
  *************************************************************** */
 
 			function render_tools_visibility() {
-				if ( 'top' != ux_context  ) {
-					if ( data.u && data.u.match(/^https?:/ ) )
-						$('#wppt_scanbar').hide();
-				} else {
+				if ( data.u && data.u.match(/^https?:/ ) )
+					$('#wppt_scanbar').hide();
+
+				if ( 'iframe' != ux_context  )
 					$('#wppt_close_button').hide();
-				}
 			}
 
 			function render_default_form_field_values() {
