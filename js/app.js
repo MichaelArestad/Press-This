@@ -265,7 +265,7 @@
 									window.top.location.href = r.post_permalink;
 								}
 							else
-								window.self.location.href = './post.php?post=' + r.post_id + '&action=edit';
+								window.top.location.href = './post.php?post=' + r.post_id + '&action=edit';
 						}
 					}
 				});
