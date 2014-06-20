@@ -62,3 +62,11 @@ Development of this plugin is done on [Github](https://github.com/MichaelArestad
  * Major UI/UX improvements.
  * Major backend improvements.
  * Still alpha level code.
+
+= 0.0.4 =
+ * Dropped the iframe mode to an experimental file devs can play with, now defaulting to popup for better security and less fighting browsers on sameorigin policies.
+ * Improved UI/UX: new icons and related behaviors, etc.
+ * Better photo selection experience, including when uploading.
+ * Ability to dismiss having a photo.
+ * Lots of backend work to start moving towards multiple media types and selection.
+ * Still alpha level code.
