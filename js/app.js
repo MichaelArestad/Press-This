@@ -258,7 +258,7 @@
 							hide_spinner();
 						} else {
 							if ( 'published' == r.post_status )
-								if ( 'popup' == ux_context ) {
+								if ( 'popup' == ux_context && window.opener && window.opener.location ) {
 									window.opener.location.href = r.post_permalink;
 									self.close();
 								} else {
