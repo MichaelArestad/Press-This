@@ -37,9 +37,6 @@
 				return context;
 			}
 
-			// @DEBUG
-			// localStorage.removeItem( 'WpPressThis_SiteConfig' );
-
 			function ls_test(){
 				var x = 'y';
 				try {
@@ -68,6 +65,10 @@
 					return false;
 				localStorage.setItem( ls_site_config_key, JSON.stringify( site_config ) );
 				return true;
+			}
+
+			function  clear_cached_settings() {
+				localStorage.removeItem( ls_site_config_key );
 			}
 
 			function initialize() {
