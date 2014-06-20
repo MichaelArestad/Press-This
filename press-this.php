@@ -559,35 +559,40 @@ class WpPressThis {
 		if ( is_wp_error( $source_content ) )
 			return array( 'errors' => $source_content->get_error_messages() );
 		// Fetch and gather <meta> data
-		if ( empty( $data['_meta'] ) ) {
-			if ( preg_match_all( '/<meta (.+)[\s]?\/>/  ', $source_content, $matches ) ) {
-				if ( !empty( $matches[0] ) ) {
-					foreach ( $matches[0] as $key => $value ) {
-						if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"[^>]+\/>/', $value, $new_matches ) )
+		if ( empty( $data['_meta'] ) )
+			$data['_meta'] = array();
+		if ( preg_match_all( '/<meta (.+)[\s]?\/>/  ', $source_content, $matches ) ) {
+			if ( !empty( $matches[0] ) ) {
+				foreach ( $matches[0] as $key => $value ) {
+					if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"[^>]+\/>/', $value, $new_matches ) ) {
+						if ( empty( $data['_meta'][ $new_matches[2] ] ) )
 							$data['_meta'][ $new_matches[2] ] = $new_matches[3];
 					}
 				}
 			}
 		}
 		// Fetch and gather <img> data
-		if ( empty( $data['_img'] ) ) {
-			if ( preg_match_all( '/<img (.+)[\s]?\/>/', $source_content, $matches ) ) {
-				if ( !empty( $matches[0] ) ) {
-					foreach ( $matches[0] as $value ) {
-						if ( preg_match( '/<img[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
+		if ( empty( $data['_img'] ) )
+			$data['_img'] = array();
+		if ( preg_match_all( '/<img (.+)[\s]?\/>/', $source_content, $matches ) ) {
+			if ( !empty( $matches[0] ) ) {
+				foreach ( $matches[0] as $value ) {
+					if ( preg_match( '/<img[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
+						if ( ! in_array( $new_matches[1], $data['_img'] ) )
 							$data['_img'][] = $new_matches[1];
-						}
 					}
 				}
 			}
 		}
 		// Fetch and gather <link> data
-		if ( empty( $data['_links'] ) ) {
-			if ( preg_match_all( '/<link (.+)[\s]?\/>/', $source_content, $matches ) ) {
-				if ( !empty( $matches[0] ) ) {
-					foreach ( $matches[0] as $key => $value ) {
-						if ( preg_match( '/<link[^>]+(rel|itemprop)="([^"]+)"[^>]+href="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
-							if ( 'alternate' == $new_matches[2] || 'thumbnailUrl' == $new_matches[2] || 'url' == $new_matches[2] )
+		if ( empty( $data['_links'] ) )
+			$data['_links'] = array();
+		if ( preg_match_all( '/<link (.+)[\s]?\/>/', $source_content, $matches ) ) {
+			if ( !empty( $matches[0] ) ) {
+				foreach ( $matches[0] as $key => $value ) {
+					if ( preg_match( '/<link[^>]+(rel|itemprop)="([^"]+)"[^>]+href="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
+						if ( 'alternate' == $new_matches[2] || 'thumbnailUrl' == $new_matches[2] || 'url' == $new_matches[2] ) {
+							if ( empty( $data['_links'][ $new_matches[2] ] ) )
 								$data['_links'][ $new_matches[2] ] = $new_matches[3];
 						}
 					}
