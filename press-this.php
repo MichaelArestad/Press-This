@@ -684,7 +684,7 @@ class WpPressThis {
 				echo '<li '
 				               .  ' class="wppt_site_entry ' . ( ( untrailingslashit( $site_settings['blog_url'] ) == self::strip_url_scheme( $instance_url ) ) ? 'entry-selected': '' ) . '" '
 				               .  ' data-url="' . esc_url( $instance_url ) . '">'
-				               .  esc_html( $instance_name ) . '</li>';
+				               .  '<a class="wppt_site_entry_link" href="' . esc_url( $instance_url . '/wp-admin/press-this.php?v=' . self::plugin_version() . '&buster=' . time() ) . ( ( ! empty( $data['u'] ) ) ? '&u=' . urlencode( $data['u'] ) : '' ) . '">' . esc_html( $instance_name ) . '</a></li>';
 			}
 		?>
 			<li class="add-site">

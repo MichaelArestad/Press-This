@@ -373,6 +373,11 @@
 					top.location.href = self.location.href.replace(/^(.+)\/wp-admin\/.+$/, '$1/');
 			}
 
+			function set_current_site( url ) {
+				var no_scheme_url = url.replace(/^https?:/, '');
+				console.log(url, no_scheme_url);
+			}
+
 /* ***************************************************************
  * RENDERING FUNCTIONS
  *************************************************************** */
@@ -561,14 +566,21 @@
 			function monitor(){
 				show_spinner();
 
-				// Current site link click opens menu
-				$( '#wppt_current_site a, #wppt_current_site div').click(function( e ){
-					e.preventDefault();
-					e.parentNode().click();
-				});
-
+				// Sites list and related functionality
 				$( '#wppt_current_site').click(function( e ){
 					$('#wppt_sites').toggle();
+				});
+
+				$( '#wppt_current_site a, #wppt_current_site div').click(function( e ){
+					e.preventDefault();
+				});
+
+				$( '.wppt_site_entry').click(function(e){
+					set_current_site( $(this).data('url') );
+				});
+
+				$( '.wppt_site_entry_link').click(function( e ){
+					e.preventDefault();
 				});
 
 				// Publish and Draft buttons and submit
