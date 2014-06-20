@@ -77,3 +77,4 @@ Development of this plugin is done on [Github](https://github.com/MichaelArestad
 
 ### 0.0.4.2
  * Added <meta name="viewport" content="width=device-width"> to make it extra responsive on mobile.
+ * Still alpha level code.
