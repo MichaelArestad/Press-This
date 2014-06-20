@@ -3,7 +3,7 @@
 Plugin Name: Press This
 Plugin URI: http://wordpress.org/extend/plugins/press-this/
 Description: Posting images, links, and cat gifs will never be the same.
-Version: 0.0.4
+Version: 0.0.4.1
 Author: Press This Team
 Author URI: https://corepressthis.wordpress.com/
 Text Domain: press-this
@@ -357,9 +357,10 @@ class WpPressThis {
 	 * @uses esc_js(), WpPressThis::i18n()
 	 */
 	public function refuse_file_upload( $context ) {
+		$i18n = self::i18n();
 		?>
 		<script language="javascript" type="text/javascript">
-			parent.wp_pressthis_app.render_error( '<?php echo esc_js( self::i18n()['upload-failed'] ); ?> [<?php echo $context; ?>]' );
+			parent.wp_pressthis_app.render_error( '<?php echo esc_js( $i18n['upload-failed'] ); ?> [<?php echo $context; ?>]' );
 		</script>
 		<?php
 		die();
@@ -372,9 +373,10 @@ class WpPressThis {
 	 * @uses $_POST
 	 */
 	public function format_post_data_for_save( $status = 'draft' ) {
+		$i18n = self::i18n();
 		if ( empty( $_POST ) ) {
 			return array(
-				'post_title'   => self::i18n()['new-post'],
+				'post_title'   => $i18n['new-post'],
 				'post_content' => '',
 			);
 		}
@@ -631,6 +633,9 @@ class WpPressThis {
 	 * @uses $_POST, WpPressThis::runtime_url(), WpPressThis::plugin_dir_url()
 	 */
 	public function serve_app_html() {
+		// Get i18n strings
+		$i18n                     = self::i18n();
+
 		// Get data, new (POST) and old (GET)
 		$data                     = self::merge_or_fetch_data();
 
@@ -664,7 +669,7 @@ class WpPressThis {
 <html>
 <head lang="en">
 	<meta charset="UTF-8">
-	<title><?php echo esc_html( self::i18n()['press-this'] ) ?></title>
+	<title><?php echo esc_html( $i18n['press-this'] ) ?></title>
 	<link rel='stylesheet' id='all-css' href='<?php echo $app_css_inc ?>' type='text/css' media='all' />
 	<script language="JavaScript">
 		window.wp_pressthis_data   = <?php echo json_encode( $data ) ?>;
@@ -694,8 +699,8 @@ class WpPressThis {
 		?>
 			<li class="add-site">
 				<form id="wppt_sites_form" name="wppt_sites_form" action="<?php echo esc_url( $upload_action ) ?>" method="GET">
-					<input type="text" name="wppt_new_site" id="wppt_new_site" class="add-site__url" value="" placeholder="<?php echo esc_attr( self::i18n()['enter-wp-url'] ) ?>" />
-					<input type="submit" name="wppt_new_site_submit" id="wppt_new_site_submit" class="add-site__submit" value="<?php echo esc_attr( self::i18n()['add'] ) ?>" style="display:none"/>
+					<input type="text" name="wppt_new_site" id="wppt_new_site" class="add-site__url" value="" placeholder="<?php echo esc_attr( $i18n['enter-wp-url'] ) ?>" />
+					<input type="submit" name="wppt_new_site_submit" id="wppt_new_site_submit" class="add-site__submit" value="<?php echo esc_attr( $i18n['add'] ) ?>" style="display:none"/>
 					<a href="" class="add-site__submit">
 						<div href="#" class="dashicons dashicons-plus">
 							<svg class="icon"><use xlink:href="#dashicons-plus" /></svg>
@@ -706,14 +711,14 @@ class WpPressThis {
 			</li>
 		</ul>
 		<div class="adminbar__actions">
-			<a role="button" href="#" id="wppt_settings_button" title="<?php echo esc_attr( self::i18n()['settings'] ) ?>" class="dashicons dashicons-admin-settings"><svg class="icon"><use xlink:href="#dashicons-admin-settings" /></svg></a>
-			<a role="button" href="#" id="wppt_close_button" title="<?php echo esc_attr( self::i18n()['close'] ) ?>" class="dashicons dashicons-no"><svg class="icon"><use xlink:href="#dashicons-no" /></svg></a>
+			<a role="button" href="#" id="wppt_settings_button" title="<?php echo esc_attr( $i18n['settings'] ) ?>" class="dashicons dashicons-admin-settings"><svg class="icon"><use xlink:href="#dashicons-admin-settings" /></svg></a>
+			<a role="button" href="#" id="wppt_close_button" title="<?php echo esc_attr( $i18n['close'] ) ?>" class="dashicons dashicons-no"><svg class="icon"><use xlink:href="#dashicons-no" /></svg></a>
 		</div>
 	</div>
 	<div id="wppt_scanbar" class="scan">
 		<form action="<?php echo esc_url( $form_action ) ?>" method="GET">
-			<input type="url" name="u" id="wppt_url_scan" class="scan__url" value="" placeholder="<?php echo esc_attr( self::i18n()['enter-url-to-scan'] ) ?>" />
-			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan__submit" value="<?php echo esc_attr( self::i18n()['scan'] ) ?>" />
+			<input type="url" name="u" id="wppt_url_scan" class="scan__url" value="" placeholder="<?php echo esc_attr( $i18n['enter-url-to-scan'] ) ?>" />
+			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan__submit" value="<?php echo esc_attr( $i18n['scan'] ) ?>" />
 		</form>
 	</div>
 	<div id='wppt_app_container' class="editor">
@@ -721,8 +726,8 @@ class WpPressThis {
 		<div id='wppt_featured_image_container' class="featured-container">
 			<img src="" id="wppt_selected_img" class="featured-image" width="400" height="300" />
 			<div role="group">
-				<a role="button" href="#" title="<?php echo esc_attr( self::i18n()['show-all-media'] ) ?>" id="wppt_all_media_switch" class="icon-button--dark dashicons dashicons-images-alt2"><svg class="icon"><use xlink:href="#dashicons-images-alt2" /></svg></a>
-				<a role="button" href="#" title="<?php echo esc_attr( self::i18n()['no-media'] ) ?>" id="wppt_no_image" class="icon-button--dark dashicons dashicons-no"><svg class="icon"><use xlink:href="#dashicons-no" /></svg></a>
+				<a role="button" href="#" title="<?php echo esc_attr( $i18n['show-all-media'] ) ?>" id="wppt_all_media_switch" class="icon-button--dark dashicons dashicons-images-alt2"><svg class="icon"><use xlink:href="#dashicons-images-alt2" /></svg></a>
+				<a role="button" href="#" title="<?php echo esc_attr( $i18n['no-media'] ) ?>" id="wppt_no_image" class="icon-button--dark dashicons dashicons-no"><svg class="icon"><use xlink:href="#dashicons-no" /></svg></a>
 			</div>
 			<div id='wppt_all_media_widget' class="all-media">
 				<div id='wppt_all_media_container'></div>
@@ -733,7 +738,7 @@ class WpPressThis {
 	<div class="actions">
 		<form id="wppt_file_upload" name="wppt_file_upload" action="<?php echo esc_url( $form_action ) ?>" method="POST" enctype="multipart/form-data" target="wppt_upload_iframe" class="add-media">
 			<input type="hidden" name="wppt_nonce" id="wppt_upload_nonce_field" value="<?php echo $nonce ?>"/>
-			<input type="button" class="button--primary" name="wppt_file_button" id="wppt_file_button" value="<?php echo esc_attr( self::i18n()['upload-photo'] ) ?>"/>
+			<input type="button" class="button--primary" name="wppt_file_button" id="wppt_file_button" value="<?php echo esc_attr( $i18n['upload-photo'] ) ?>"/>
 			<input type="file" name="wppt_file" id="wppt_file" value="" class="visually-hidden"/>
 			<iframe id="wppt_upload_iframe" name="wppt_upload_iframe" src="about:blank" class="visually-hidden"></iframe>
 		</form>
@@ -745,8 +750,8 @@ class WpPressThis {
 			<input type="hidden" name="wppt_selected_img" id="wppt_selected_img_field" value=""/>
 			<input type="hidden" name="wppt_source_url" id="wppt_source_url_field" value=""/>
 			<input type="hidden" name="wppt_source_name" id=wppt_source_name_field" value=""/>
-			<input type="submit" class="button--subtle" name="wppt_draft" id="wppt_draft_field" value="<?php echo esc_attr( self::i18n()['save-draft'] ) ?>"/>
-			<input type="submit" class="button--primary" name="wppt_publish" id="wppt_publish_field" value="<?php echo esc_attr( self::i18n()['new-post'] ) ?>"/>
+			<input type="submit" class="button--subtle" name="wppt_draft" id="wppt_draft_field" value="<?php echo esc_attr( $i18n['save-draft'] ) ?>"/>
+			<input type="submit" class="button--primary" name="wppt_publish" id="wppt_publish_field" value="<?php echo esc_attr( $i18n['new-post'] ) ?>"/>
 		</form>
 	</div>
 </body>
@@ -772,9 +777,10 @@ class WpPressThis {
 	 * @param string $post_status
 	 */
 	public function post_save_json_response( $post_id, $post_status = 'draft' ) {
+		$i18n = self::i18n();
 		header( 'content-type: application/json' );
 		if ( is_wp_error( $post_id ) || intval( $post_id ) < 1 ) {
-			echo json_encode( array( 'error' => self::i18n()['unexpected-error'] ) );
+			echo json_encode( array( 'error' => $i18n['unexpected-error'] ) );
 		} else {
 			echo json_encode( array( 'post_id' => $post_id, 'post_permalink' => get_post_permalink( $post_id ), 'post_status' => $post_status ) );
 		}
@@ -799,8 +805,9 @@ class WpPressThis {
 	 * Experimental Ajax endpoint to publish a site-specific Chrome extension manifest
 	 */
 	public function  ajax_chrome_ext_manifest() {
+		$i18n        = self::i18n();
 		$plugin_data = self::plugin_data();
-		$plugin_name = ( ! empty( $plugin_data['Name'] ) ) ? $plugin_data['Name'] : self::i18n()[ 'press-this' ];
+		$plugin_name = ( ! empty( $plugin_data['Name'] ) ) ? $plugin_data['Name'] : $i18n[ 'press-this' ];
 		$plugin_desc = ( ! empty( $plugin_data['Description'] ) ) ? $plugin_data['Description'] : __( 'Posting images, links, and cat gifs will never be the same.', 'press-this' );
 		$icon        = './images/wordpress-logo-notext-rgb.png';
 		$type        = ( true == false ) ? 'app' : 'extension';
