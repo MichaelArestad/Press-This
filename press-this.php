@@ -676,7 +676,7 @@ class WpPressThis {
 			require_once( $svg_icons_inc );
 	?>
 	<div id="wppt_adminbar" class="adminbar">
-		<h1 class="current-site"><div href="#" class="dashicons dashicons-wordpress-alt"><svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg></div><a href="#" target="_blank"></a></h1>
+		<h1 id="wppt_current_site" class="current-site"><div href="#" class="dashicons dashicons-wordpress-alt"><svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg></div><a href="#" target="_blank"></a></h1>
 		<ul id="wppt_sites" class="site-list">
 		<?php
 			foreach( (array) $site_settings['instance_sites'] as $instance_url => $instance_name ) {

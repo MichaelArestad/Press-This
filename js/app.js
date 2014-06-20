@@ -384,8 +384,6 @@
 				} else {
 					$('#wppt_close_button').hide();
 				}
-				// Only while being developed, looking ugly otherwise :)
-				$('#wppt_sites').hide();
 			}
 
 			function render_default_form_field_values() {
@@ -562,6 +560,16 @@
 
 			function monitor(){
 				show_spinner();
+
+				// Current site link click opens menu
+				$( '#wppt_current_site a, #wppt_current_site div').click(function( e ){
+					e.preventDefault();
+					e.parentNode().click();
+				});
+
+				$( '#wppt_current_site').click(function( e ){
+					$('#wppt_sites').toggle();
+				});
 
 				// Publish and Draft buttons and submit
 
