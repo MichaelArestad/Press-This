@@ -70,3 +70,7 @@ Development of this plugin is done on [Github](https://github.com/MichaelArestad
  * Ability to dismiss having a photo.
  * Lots of backend work to start moving towards multiple media types and selection.
  * Still alpha level code.
+
+### 0.0.4.1
+ * PHP compatibility updates: some of our syntax could error on some PP versions.
+ * Still alpha level code.
