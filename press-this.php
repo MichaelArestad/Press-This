@@ -669,6 +669,7 @@ class WpPressThis {
 <html>
 <head lang="en">
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
 	<title><?php echo esc_html( $i18n['press-this'] ) ?></title>
 	<link rel='stylesheet' id='all-css' href='<?php echo $app_css_inc ?>' type='text/css' media='all' />
 	<script language="JavaScript">
