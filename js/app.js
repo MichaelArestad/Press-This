@@ -135,7 +135,7 @@
 
 				// Add a source attribution if there is one available.
 				if ( ( ( title.length && __( 'new-post' ) != title ) || site_name.length ) && url.length ) {
-					content += '<p>'
+					content += '<p class="wppt_source">'
 					+ __( 'source' )
 					+ ' <cite id="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'">'+ html_encode( title || site_name ) +'</a></cite>'
 					+ '</p>';
