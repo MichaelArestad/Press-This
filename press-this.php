@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Press This
-Plugin URI: http://wordpress.org/extend/plugins/press-this/
+Plugin URI: http://wordpress.org/plugins/press-this/
 Description: Posting images, links, and cat gifs will never be the same.
 Version: 0.0.4.3
 Author: Press This Team
