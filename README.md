@@ -10,13 +10,27 @@ Press This is a redesign of the Press This bookmarklet with a focus on automatio
 
 ## Contributing
 
-Current discussion should mainly take place here via Issues.
+### Discussion and updates
+
+Discussion should mainly take place here via Issues or in the #feature-pressthis channel on Slack.
 
 Weekly updates will be posted on [make.wordpress.org/core/](https://make.wordpress.org/core/)
 
 You can see initial planning and discussion at [corepressthis.wordpress.com](corepressthis.wordpress.com).
 
+
+### Development process
+
 Development of this plugin is done on [Github](https://github.com/MichaelArestad/Press-This). Pull requests welcome.
+
+Don't commit directly to `master`. Create a new branch per issue you're working on. Then, when ready open a PR for review.
+
+Example branches:
+```
+add/cool-thing
+fix/dumb-bug
+update/other-thing
+```
 
 ### Setting up Grunt (compiles/autoprefixes Sass)
 1. You need to have [Sass](http://sass-lang.com/install) installed.
