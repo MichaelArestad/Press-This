@@ -3,6 +3,7 @@
 .sass-cache
 node_modules
 .tmp
+.tmp-fallback
 
 # FILES
 .DS_Store

@@ -1080,6 +1080,17 @@ body:before {
   line-height: 44px;
   font-weight: 400;
 }
+@media (max-width: 500px) {
+  .current-site {
+    margin: 3px 0 0;
+  }
+}
+@media (max-width: 320px) {
+  .current-site {
+    margin: 1px 0 0;
+    font-size: 14px;
+  }
+}
 .current-site a {
   color: #ededed;
   text-decoration: none;
@@ -1096,22 +1107,12 @@ body:before {
     color: #2ea2cc;
   }
 }
-@media (max-width: 500px) {
-  .current-site {
-    margin: 3px 0 0;
-  }
-}
-@media (max-width: 320px) {
-  .current-site {
-    margin: 1px 0 0;
-    font-size: 14px;
-  }
-}
-
-.dashicons-wordpress-alt {
+.current-site .dashicons-wordpress-alt {
   position: relative;
   top: -2px;
   margin-right: 10px;
+  background: url(../images/icons/png/wordpress-alt-white.png) no-repeat center center;
+  background: none, none;
 }
 
 .site-list {

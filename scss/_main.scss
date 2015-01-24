@@ -325,6 +325,13 @@ body {
 	line-height: 44px;
 	font-weight: $normal;
 
+	@include breakpoint(tablet) {
+		margin: 3px 0 0;
+	}
+	@include breakpoint(phone) {
+		margin: 1px 0 0;
+		font-size: 14px;
+	}
 	a {
 		color: #ededed;
 		text-decoration: none;
@@ -341,19 +348,13 @@ body {
 			}
 		}
 	}
-	@include breakpoint(tablet) {
-		margin: 3px 0 0;
+	.dashicons-wordpress-alt {
+		position: relative;
+		top: -2px;
+		margin-right: 10px;
+		background: url(../images/icons/png/wordpress-alt-white.png) no-repeat center center;
+		background: none, none; // The magic
 	}
-	@include breakpoint(phone) {
-		margin: 1px 0 0;
-		font-size: 14px;
-	}
-}
-
-.dashicons-wordpress-alt {
-	position: relative;
-	top: -2px;
-	margin-right: 10px;
 }
 
 .site-list {
