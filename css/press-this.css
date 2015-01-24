@@ -322,7 +322,7 @@ address {
 }
 
 pre {
-  background: #eeeeee;
+  background: #eee;
   font-family: "Courier 10 Pitch", Courier, monospace;
   font-size: 15px;
   font-size: 1.5rem;
@@ -380,27 +380,81 @@ big {
 /*--------------------------------------------------------------
 3.0 - Icons
 --------------------------------------------------------------*/
-.icon-defs {
+.dashicons-bundle {
   display: none;
 }
 
 .dashicons {
   display: inline-block;
-  width: 44px;
-  height: 44px;
-  padding: 12px;
-  line-height: 44px;
-  vertical-align: middle;
-  overflow: hidden;
-  fill: #79838c;
-}
-.dashicons svg {
   width: 20px;
   height: 20px;
+  fill: #79838c;
+  vertical-align: middle;
+}
+.dashicons svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-svg {
-  display: block;
+.dashicons-admin-links {
+  background: url(../images/icons/png/admin-links.png) no-repeat center center;
+  background: none, none;
+}
+
+.dashicons-camera {
+  background: url(../images/icons/png/camera.png) no-repeat center center;
+  background: none, none;
+}
+
+.dashicons-edit {
+  background: url(../images/icons/png/edit.png) no-repeat center center;
+  background: none, none;
+}
+
+.dashicons-editor-bold {
+  background: url(../images/icons/png/editor-bold.png) no-repeat center center;
+  background: none, none;
+}
+
+.dashicons-editor-italic {
+  background: url(../images/icons/png/editor-italic.png) no-repeat center center;
+  background: none, none;
+}
+
+.dashicons-editor-quote {
+  background: url(../images/icons/png/editor-quote.png) no-repeat center center;
+  background: none, none;
+}
+
+.dashicons-editor-ul {
+  background: url(../images/icons/png/editor-ul.png) no-repeat center center;
+  background: none, none;
+}
+
+.dashicons-editor-unlink {
+  background: url(../images/icons/png/editor-unlink.png) no-repeat center center;
+  background: none, none;
+}
+
+.dashicons-images-alt2 {
+  background: url(../images/icons/png/images-alt2.png) no-repeat center center;
+  background: none, none;
+}
+
+.dashicons-no {
+  background: url(../images/icons/png/no.png) no-repeat center center;
+  background: none, none;
+}
+
+.dashicons-plus {
+  background: url(../images/icons/png/plus.png) no-repeat center center;
+  background: none, none;
+}
+
+.dashicons-wordpress-alt {
+  background: url(../images/icons/png/wordpress-alt.png) no-repeat center center;
+  background: none, none;
 }
 
 /*--------------------------------------------------------------
@@ -485,8 +539,8 @@ th {
 [type="search"],
 textarea {
   padding: 0.4em 0.75em;
-  color: #333333;
-  border: 1px solid #cccccc;
+  color: #333;
+  border: 1px solid #ccc;
 }
 [type="text"]:focus,
 [type="email"]:focus,
@@ -494,7 +548,7 @@ textarea {
 [type="password"]:focus,
 [type="search"]:focus,
 textarea:focus {
-  color: #333333;
+  color: #333;
   outline: 0;
 }
 
@@ -557,18 +611,18 @@ input::-moz-focus-inner {
 .button--secondary, .scan__submit {
   background: #f7f7f7;
   border-color: #dedede;
-  color: #555555;
+  color: #555;
 }
 .button--secondary:hover, .scan__submit:hover, .button--secondary:focus, .scan__submit:focus {
   background: #eaeaea;
   border-color: #d1d1d1;
-  color: #555555;
+  color: #555;
   outline: 0;
 }
 .button--secondary:active, .scan__submit:active {
   background: #dedede;
   border-color: #d1d1d1;
-  color: #555555;
+  color: #555;
 }
 [disabled].button--secondary, [disabled].scan__submit, .button--secondary:disabled, .scan__submit:disabled {
   color: #d1c7c7 !important;
@@ -576,24 +630,24 @@ input::-moz-focus-inner {
   border-color: #d1d1d1 !important;
 }
 .button--secondary:visited, .scan__submit:visited {
-  color: #555555;
+  color: #555;
 }
 
 .button--primary {
   background: #2ea2cc;
   border-color: #2581a2;
-  color: white;
+  color: #fff;
 }
 .button--primary:hover, .button--primary:focus {
   background: #2991b7;
   border-color: #20708e;
-  color: white;
+  color: #fff;
   outline: 0;
 }
 .button--primary:active {
   background: #2581a2;
   border-color: #20708e;
-  color: white;
+  color: #fff;
 }
 [disabled].button--primary, .button--primary:disabled {
   color: #c7ced1 !important;
@@ -601,7 +655,7 @@ input::-moz-focus-inner {
   border-color: #20708e !important;
 }
 .button--primary:visited {
-  color: white;
+  color: #fff;
 }
 
 .button--subtle {
@@ -622,7 +676,7 @@ input::-moz-focus-inner {
   fill: #e5e5e5;
 }
 .icon-button--dark:focus, .icon-button--dark:hover, .icon-button--dark:active {
-  fill: white;
+  fill: #fff;
 }
 .icon-button--dark:before {
   content: '';
@@ -1001,7 +1055,7 @@ body:before {
   width: 100%;
   padding: 0 0.8em;
   min-height: 3.25em;
-  background: #222222;
+  background: #222;
   color: #fff;
   z-index: 9999;
 }
@@ -1023,6 +1077,7 @@ body:before {
 
 .current-site {
   font-size: 16px;
+  line-height: 44px;
   font-weight: 400;
 }
 .current-site a {
@@ -1055,14 +1110,8 @@ body:before {
 
 .dashicons-wordpress-alt {
   position: relative;
-  top: -1px;
-}
-
-.adminbar__actions {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  margin-top: -22px;
+  top: -2px;
+  margin-right: 10px;
 }
 
 .site-list {

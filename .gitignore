@@ -1,6 +1,15 @@
-.DS_Store
+# FOLDERS
 /.idea/
 .sass-cache
 node_modules
+.tmp
+
+# FILES
+.DS_Store
 *css.map
 *.psd
+grunticon.loader.js
+icons.data.svg.css
+icons.data.png.css
+icons.fallback.css
+preview.html

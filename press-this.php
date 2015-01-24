@@ -660,7 +660,7 @@ class WpPressThis {
 		$load_js_inc              = $site_settings['plugin_dir_url'] . '/js/load.js';
 		$form_action              = $site_settings['runtime_url'];
 		$upload_action            = preg_replace( '/^(.+)\/press-this\.php$/', '\1/media-upload.php', $site_settings['runtime_url'] ) . '?referer=wptuts-settings&type=image&TB_iframe=true&post_id=0';
-		$svg_icons_inc            = self::plugin_dir_path() . '/images/icons/icons.svg';
+		$svg_icons_inc            = self::plugin_dir_path() . '/images/icons/dashicons.svg';
 		$txt_domain               = 'press-this';
 
 		// Echo HTML
@@ -687,7 +687,12 @@ class WpPressThis {
 			require_once( $svg_icons_inc );
 	?>
 	<div id="wppt_adminbar" class="adminbar">
-		<h1 id="wppt_current_site" class="current-site"><div href="#" class="dashicons dashicons-wordpress-alt"><svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg></div><a href="#" target="_blank"></a></h1>
+		<h1 id="wppt_current_site" class="current-site">
+			<div href="#" class="dashicons dashicons-wordpress-alt">
+				<svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg>
+			</div>
+			<a href="#" target="_blank"></a>
+		</h1>
 		<ul id="wppt_sites" class="site-list">
 		<?php
 			foreach( (array) $site_settings['instance_sites'] as $instance_url => $instance_name ) {
@@ -711,10 +716,6 @@ class WpPressThis {
 				</form>
 			</li>
 		</ul>
-		<div class="adminbar__actions">
-			<a role="button" href="#" id="wppt_settings_button" title="<?php echo esc_attr( $i18n['settings'] ) ?>" class="dashicons dashicons-admin-settings"><svg class="icon"><use xlink:href="#dashicons-admin-settings" /></svg></a>
-			<a role="button" href="#" id="wppt_close_button" title="<?php echo esc_attr( $i18n['close'] ) ?>" class="dashicons dashicons-no"><svg class="icon"><use xlink:href="#dashicons-no" /></svg></a>
-		</div>
 	</div>
 	<div id="wppt_scanbar" class="scan">
 		<form action="<?php echo esc_url( $form_action ) ?>" method="GET">

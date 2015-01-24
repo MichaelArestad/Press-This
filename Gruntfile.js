@@ -3,27 +3,11 @@ module.exports = function(grunt) {
     // 1. All configuration goes here
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-
-        // concat: {
-        //     dist: {
-        //         src: [
-        //             'js/main/*.js',
-        //         ],
-        //         dest: 'js/production.js', // needs a better name, doncha think?
-        //     }
-        // },
-        // uglify: {
-        //     build: {
-        //         src: 'js/production.js',
-        //         dest: 'js/production.min.js'
-        //     }
-        // },
         sass: {
             dist: {
                 options: {
                     // Can be nested, compact, compressed, expanded
-                    style: 'expanded',
-                    sourcemap: true
+                    style: 'expanded'
                 },
                 files: {
                     'css/press-this.css': 'scss/style.scss'
@@ -48,12 +32,8 @@ module.exports = function(grunt) {
             dashicons: {
                 files: [{
                     expand: true,
-                    cwd: 'images/icons/',
-                    src: [
-                        '*.svg',
-                        '*.png',
-                        '!icons.svg'
-                    ],
+                    cwd: 'images/icons/.tmp/',
+                    src: [ '*.svg' ],
                     dest: "images/icons/"
                 }],
                 options: {
@@ -70,41 +50,30 @@ module.exports = function(grunt) {
                 ]
             },
             dist: {
-                files: [{               // Dictionary of files
-                    expand: true,       // Enable dynamic expansion.
-                    cwd: 'images/icons',     // Src matches are relative to this path.
-                    src: ['*.svg', '!icons.svg'],  // Actual pattern(s) to match.
-                    dest: 'images/icons',       // Destination path prefix.
-                    ext: '.svg'     // Dest filepaths will have this extension.
-                    // ie: optimise img/src/branding/logo.svg and store it in img/branding/logo.min.svg
+                files: [{
+                    expand: true,
+                    cwd: 'images/icons/src/',
+                    src: [ '*.svg' ],
+                    dest: 'images/icons/.tmp',
+                    ext: '.svg'
                 }]
             }
         },
         svgstore: {
             defaults: {
                 options: {
-                    prefix : 'dashicons-', // This will prefix each ID
-                    svg: { // will be added as attributes to the resulting SVG
+                    prefix : 'dashicons-',
+                    svg: {
                         viewBox : '0 0 20 20',
-                        class : 'icon-defs'
+                        class : 'dashicons-bundle'
                     }
                 },
                 files: {
-                    'images/icons/icons.svg': ['images/icons/*.svg', '!images/icons/icons.svg']
+                    'images/icons/dashicons.svg': [ 'images/icons/.tmp/*.svg' ]
                 },
             }
         },
         watch: {
-            // options: {
-            //     livereload: true,
-            // },
-            // scripts: {
-            //     files: ['js/*.js'],
-            //     tasks: ['concat', 'uglify'],
-            //     options: {
-            //         spawn: false,
-            //     },
-            // },
             css: {
                 files: ['scss/*.scss', 'scss/**/*.scss'],
                 tasks: ['sass', 'autoprefixer'],
@@ -123,8 +92,6 @@ module.exports = function(grunt) {
     });
 
     // 3. Where we tell Grunt we plan to use this plug-in.
-    grunt.loadNpmTasks('grunt-contrib-concat');     // concatenate
-    grunt.loadNpmTasks('grunt-contrib-uglify');     // minify
     grunt.loadNpmTasks('grunt-contrib-watch');      // watch files for changes
     grunt.loadNpmTasks('grunt-contrib-sass');       // Gettin Sassy!
     grunt.loadNpmTasks('grunt-autoprefixer');       // Auto-freaking-prefixer!!!
