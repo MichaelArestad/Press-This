@@ -16,7 +16,7 @@ Discussion should mainly take place here via Issues or in the #feature-pressthis
 
 Weekly updates will be posted on [make.wordpress.org/core/](https://make.wordpress.org/core/)
 
-You can see initial planning and discussion at [corepressthis.wordpress.com](corepressthis.wordpress.com).
+You can see initial planning and discussion at [corepressthis.wordpress.com](https://corepressthis.wordpress.com/).
 
 
 ### Development process
