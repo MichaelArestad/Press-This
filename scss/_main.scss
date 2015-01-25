@@ -7,12 +7,11 @@
 
 html {
 	background: #fff;
-	// border-left: 1px solid $gray--light;
-	box-shadow: -10px 0 0 rgba(0,0,0,.3);
+	box-shadow: -10px 0 0 rgba( 0,0,0,.3 );
 }
 
 body {
-	margin: em(65) 0 em(95) 1px;
+	margin: em( 65px ) 0 em( 95px ) 1px;
 
 	&:before {
 		// Goofy way to keep left border full height. Could do it with a gradient as well.
@@ -25,12 +24,12 @@ body {
 		background: $gray--light;
 	}
 
-	@include breakpoint(tablet) {
-		margin: em(52,16) 0 em(95,16) 1px;
+	@include breakpoint( tablet ) {
+		margin: em( 52px, 16px ) 0 em( 95px, 16px ) 1px;
 		font-size: 16px;
 	}
 	@include breakpoint(phone) {
-		margin: em(45,14) 0 em(95,14) 1px;
+		margin: em( 45px, 14px ) 0 em( 95px, 14px ) 1px;
 		font-size: 14px;
 	}
 }
@@ -39,17 +38,17 @@ body {
 // Alerts
 .alerts {
 	overflow: hidden; // lazy clearfix
-	padding: em(18) 0;
+	padding: em( 18px ) 0;
 	border-bottom: 1px solid $gray--light;
-	transform: translateZ(0);
+	transform: translateZ( 0 );
 }
 
 .notice,
 .error {
 	position: relative;
-	margin: 0 em(30,14);
-	padding: em(5, 14) em(20, 14);
-	font-size: em(14);
+	margin: 0 em( 30px,14px );
+	padding: em( 5px, 14px ) em( 20px, 14px );
+	font-size: em( 14px );
 
 	&:before {
 		$dot-size: 8px;
@@ -76,7 +75,7 @@ body {
 
 .visually-hidden {
 	border: 0;
-	clip: rect(0 0 0 0);
+	clip: rect( 0 0 0 0 );
 	height: 1px;
 	margin: -1px;
 	overflow: hidden;
@@ -94,7 +93,7 @@ body {
 .scan__url {
 	display: block;
 	border: 0;
-	padding: em(12,14) em(15,14);
+	padding: em( 12px, 14px ) em( 15px, 14px );
 	font-size: 14px;
 	width: 100%;
 }
@@ -104,7 +103,7 @@ body {
 	position: absolute;
 	top: 0;
 	right: 0;
-	padding: em(12,14) em(15,14);
+	padding: em( 12px, 14px ) em( 15px, 14px );
 	border: 0;
 	border-left: 1px solid $gray--ultralight;
 	border-radius: 0;
@@ -128,10 +127,10 @@ body {
 
 // Editor stuff
 .editor {
-	padding: 0 em(30) 0;
-	transform: translateZ(0);
+	padding: 0 em( 30px ) 0;
+	transform: translateZ( 0 );
 
-	@include breakpoint(phone) {
+	@include breakpoint( phone ) {
 		padding: 0;
 	}
 }
@@ -139,8 +138,8 @@ body {
 .editor--content {
 	min-height: 8em;
 
-	@include breakpoint(phone) {
-		padding: 0 em(20,14);
+	@include breakpoint( phone ) {
+		padding: 0 em( 20px, 14px );
 	}
 }
 
@@ -153,12 +152,12 @@ body {
 	padding: .83em 0;
 	border-bottom: 1px solid $gray--light;
 	line-height: 1.4;
-	margin-bottom: em(16);
+	margin-bottom: em( 16px );
 
-	@include breakpoint(phone) {
+	@include breakpoint( phone ) {
 		font-size: 1em;
 		font-weight: 600;
-		padding: em(16,14) em(20,14);
+		padding: em( 16px, 14px ) em( 20px, 14px );
 	}
 }
 
@@ -267,7 +266,7 @@ body {
 	left: 1px;
 	width: 100%;
 	background: $gray--ultralight;
-	background: transparentize($gray--ultralight, .1);
+	background: transparentize( $gray--ultralight, .1 );
 	border-top: 1px solid $gray--light;
 }
 
@@ -276,7 +275,7 @@ body {
 	margin: 14px 0 14px 30px;
 	font-size: 0;
 
-	@include breakpoint(phone) {
+	@include breakpoint( phone ) {
 		margin: 10px 0 10px 10px;
 	}
 }
@@ -286,7 +285,7 @@ body {
 	margin: 14px 30px 14px 0;
 	font-size: 0;
 
-	@include breakpoint(phone) {
+	@include breakpoint( phone ) {
 		margin: 10px 10px 10px 0;
 	}
 }
@@ -298,20 +297,19 @@ body {
 	top: 0;
 	left: 0;
 	width: 100%;
-	padding: 0 em(16);
-	min-height: em(65);
+	padding: 0 em( 16px );
+	min-height: em( 65px );
 	background: $gray--dark;
 	color: #fff;
-	// overflow: hidden;
 	z-index: 9999;
 
 	.dashicons {
 		fill: #999;
 	}
-	@include breakpoint(phone) {
+	@include breakpoint( phone ) {
 		min-height: 45px;
 		background: #fff;
-		background: transparentize(#fff, .1);
+		background: transparentize( #fff, .1 );
 		border-left: 1px solid $gray--light;
 		border-bottom: 1px solid $gray--light;
 
@@ -326,10 +324,10 @@ body {
 	line-height: 44px;
 	font-weight: $normal;
 
-	@include breakpoint(tablet) {
+	@include breakpoint( tablet ) {
 		margin: 3px 0 0;
 	}
-	@include breakpoint(phone) {
+	@include breakpoint( phone ) {
 		margin: 1px 0 0;
 		font-size: 14px;
 	}
@@ -340,7 +338,7 @@ body {
 		&:hover {
 			color: #fff;
 		}
-		@include breakpoint(phone) {
+		@include breakpoint( phone ) {
 			color: #3f3f3f;
 			font-weight: 600;
 
@@ -353,7 +351,7 @@ body {
 		position: relative;
 		top: -2px;
 		margin-right: 10px;
-		background: url(../images/icons/png/wordpress-alt-white.png) no-repeat center center;
+		background: url( ../images/icons/png/wordpress-alt-white.png ) no-repeat center center;
 		background: none, none; // The magic
 	}
 }
@@ -373,7 +371,7 @@ body {
 
 	li {
 		position: relative;
-		padding: em(11,14) em(54,14) em(11,14) em(15,14);
+		padding: em( 11px, 14px ) em( 54px, 14px ) em( 11px, 14px ) em( 15px, 14px );
 		border-bottom: 1px solid $gray--ultralight;
 		cursor: pointer;
 	}
@@ -383,7 +381,7 @@ body {
 }
 
 .add-site__url {
-	padding: em(11,14) em(15,14);
+	padding: em( 11px, 14px ) em( 15px, 14px );
 	width: 100%;
 	border: 0;
 }

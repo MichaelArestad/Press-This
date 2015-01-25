@@ -23,6 +23,6 @@ $button-types: secondary, primary;
 @each $item in $button-types {
 	%button--#{$item} {
 		@extend %button;
-		@include button(map-get($buttons, #{$item}__background), map-get($buttons, #{$item}__color));
+		@include button( map-get( $buttons, #{$item}__background ), map-get( $buttons, #{$item}__color ) );
 	}
 }

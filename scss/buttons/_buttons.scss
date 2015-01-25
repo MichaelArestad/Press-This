@@ -2,15 +2,12 @@
 // Buttons
 // ==========================================================================
 
-@import "variables";
-@import "mixins";
-@import "extends";
+@import
+	"variables",
+	"mixins",
+	"extends";
 
 
-// button,
-// input[type="button"],
-// input[type="reset"],
-// input[type="submit"],
 .button--secondary {
 	@extend %button--secondary;
 }
@@ -23,15 +20,15 @@
 	@extend %button;
 	background: none;
 	border: 0;
-	color: map-get($buttons, subtle__text);
+	color: map-get( $buttons, subtle__text );
 
 	&:visited {
-		color: map-get($buttons, subtle__text);
+		color: map-get( $buttons, subtle__text );
 	}
 	&:focus,
 	&:hover,
 	&:active {
-		color: map-get($buttons, subtle__text--hover);
+		color: map-get( $buttons, subtle__text--hover );
 	}
 }
 
@@ -40,17 +37,17 @@
 	width: 36px;
 	height: 36px;
 	border-radius: 3px;
-	background: transparentize(map-get($buttons, dark__background), .1);
-	fill: map-get($buttons, dark__color);
+	background: transparentize( map-get( $buttons, dark__background ), .1 );
+	fill: map-get( $buttons, dark__color );
 	overflow: visible;
 
 	&:visited {
-		fill: map-get($buttons, dark__color);
+		fill: map-get( $buttons, dark__color );
 	}
 	&:focus,
 	&:hover,
 	&:active {
-		fill: map-get($buttons, dark__color--hover);
+		fill: map-get( $buttons, dark__color--hover );
 	}
 	&:before {
 		content: '';

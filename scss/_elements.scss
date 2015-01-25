@@ -2,10 +2,11 @@
 // Elements
 // ==========================================================================
 
-@import "modules/elements/links";
-@import "modules/elements/lists";
-@import "modules/elements/tables";
-@import "modules/elements/horizontal-rules";
+@import
+	"modules/elements/links",
+	"modules/elements/lists",
+	"modules/elements/tables",
+	"modules/elements/horizontal-rules";
 
 // Sets box-sizing default to border-box on all elements
 *,
@@ -15,8 +16,8 @@
 	// http://www.paulirish.com/2012/box-sizing-border-box-ftw/
 	box-sizing: border-box;
 
-	@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-	only screen and (min-resolution: 144dpi) {
+	@media only screen and ( -webkit-min-device-pixel-ratio: 1.5 ),
+	only screen and ( min-resolution: 144dpi ) {
 		// Style adjustments for high resolution devices
 
 		// Only looks good on HiDPI and on icons
