@@ -153,6 +153,7 @@ body {
 	padding: .83em 0;
 	border-bottom: 1px solid $gray--light;
 	line-height: 1.4;
+	margin-bottom: em(16);
 
 	@include breakpoint(phone) {
 		font-size: 1em;
