@@ -3,12 +3,12 @@
 // ==========================================================================
 
 %form-field {
-	padding: em(8) em(15);
-	color: map-get($form-field, color);
-	border: 1px solid map-get($form-field, border-color);
+	padding: em( 8px ) em( 15px );
+	color: map-get( $form-field, color );
+	border: 1px solid map-get( $form-field, border-color );
 
 	&:focus {
-		color: map-get($form-field, color);
+		color: map-get( $form-field, color );
 		outline: 0;
 	}
 }

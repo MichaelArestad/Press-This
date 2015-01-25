@@ -5,18 +5,18 @@
 @import "variables";
 @import "functions";
 
-@import url(//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,600,700);
+@import url( fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,600,700 );
 
 body,
 button,
 input,
 select,
 textarea {
-	color: map-get($root-font, color);
+	color: map-get( $root-font, color );
 	font-family: $open-sans;
-	font-size: map-get($root-font, font-size) * 1px;
+	font-size: map-get( $root-font, font-size );
 	font-weight: $normal;
-	line-height: map-get($root-font, line-height);
+	line-height: map-get( $root-font, line-height );
 }
 h1,
 h2,
@@ -42,12 +42,12 @@ i {
 blockquote {
 	color: $gray--middle;
 	margin: 1em 1.5em;
-	font-size: em(25);
+	font-size: em( 25px );
 	font-style: italic;
 
-	@include breakpoint(phone) {
+	@include breakpoint( phone ) {
 		margin: 1em 0;
-		font-size: em(18,14);
+		font-size: em( 18px, 14px );
 	}
 }
 address {

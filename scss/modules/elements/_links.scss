@@ -3,13 +3,15 @@
 // ==========================================================================
 
 a {
-	color: map-get($link-color, color);
+	color: map-get( $link-color, color );
 }
+
 a:visited {
-	color: map-get($link-color, color--visited);
+	color: map-get( $link-color, color--visited );
 }
+
 a:hover,
 a:focus,
 a:active {
-	color: map-get($link-color, color--hover);
+	color: map-get( $link-color, color--hover );
 }

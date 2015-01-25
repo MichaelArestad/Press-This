@@ -36,7 +36,7 @@ $dashicons:
 
 @each $icon in $dashicons {
 	.dashicons-#{$icon} {
-		background: url(../images/icons/png/#{$icon}.png) no-repeat center center;
+		background: url( ../images/icons/png/#{$icon}.png ) no-repeat center center;
 		background: none, none; // The magic
 	}
 }
