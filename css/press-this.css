@@ -1,34 +1,6 @@
 /*
 Press This :)
 */
-/*--------------------------------------------------------------
->>> TABLE OF CONTENTS:
---------------------------------------------------------------*/
-/*
-1.0 - Normalize or Reset
-2.0 - Typography
-3.0 - Icons
-4.0 - Elements
-	4.1 Links
-	4.2 Horizontal Rules
-	4.3 Lists
-	4.4 Tables
-5.0 - Forms
-6.0 - Buttons
-7.0 - Media
-8.0 - Navigation
-	8.1 - Menus
-9.0 - Accessibility
-10.0 - Alignments
-11.0 - Clearings
-12.0 - UI Patterns
-13.0 - Main
-14.0 - IE
-
---------------------------------------------------------------*/
-/*--------------------------------------------------------------
-1.0 - Normalize or Reset
---------------------------------------------------------------*/
 /*! normalize.css v3.0.0 | MIT License | git.io/normalize */
 @import url(fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,600,700);
 html {
@@ -44,12 +16,16 @@ body {
 *,
 *:before,
 *:after {
-  /* apply a natural box layout model to all elements; see http://www.paulirish.com/2012/box-sizing-border-box-ftw/ */
   -webkit-box-sizing: border-box;
-  /* Not needed for modern webkit but still used by Blackberry Browser 7.0; see http://caniuse.com/#search=box-sizing */
   -moz-box-sizing: border-box;
-  /* Still needed for Firefox 28; see http://caniuse.com/#search=box-sizing */
   box-sizing: border-box;
+}
+@media only screen and (-webkit-min-device-pixel-ratio: 1.5), only screen and (min-resolution: 144dpi) {
+  *,
+  *:before,
+  *:after {
+    -webkit-font-smoothing: antialiased;
+  }
 }
 
 article,
@@ -264,9 +240,100 @@ th {
   padding: 0;
 }
 
-/*--------------------------------------------------------------
-2.0 - Typography
---------------------------------------------------------------*/
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}
+
+.screen-reader-text {
+  clip: rect(1px, 1px, 1px, 1px);
+  position: absolute !important;
+}
+.screen-reader-text:hover, .screen-reader-text:active, .screen-reader-text:focus {
+  background-color: #f1f1f1;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+  clip: auto !important;
+  color: #21759b t;
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  height: auto;
+  left: 5px;
+  line-height: normal;
+  padding: 15px 23px 14px;
+  text-decoration: none;
+  top: 5px;
+  width: auto;
+  z-index: 100000;
+}
+
+@media print {
+  * {
+    background: transparent !important;
+    color: #000 !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  a,
+  a:visited {
+    text-decoration: underline;
+  }
+
+  a[href]:after {
+    content: " ( " attr(href) " )";
+  }
+
+  abbr[title]:after {
+    content: " ( " attr(title) " )";
+  }
+
+  .ir a:after,
+  a[href^="javascript:"]:after,
+  a[href^="#"]:after {
+    content: "";
+  }
+
+  pre,
+  blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page {
+    margin: 0.5cm;
+  }
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+}
 body,
 button,
 input,
@@ -377,9 +444,6 @@ big {
   font-size: 125%;
 }
 
-/*--------------------------------------------------------------
-3.0 - Icons
---------------------------------------------------------------*/
 .dashicons-bundle {
   display: none;
 }
@@ -457,142 +521,6 @@ big {
   background: none, none;
 }
 
-/*--------------------------------------------------------------
-4.0 - Elements
---------------------------------------------------------------*/
-/*--------------------------------------------------------------
-4.1 - Links
---------------------------------------------------------------*/
-a {
-  color: #0074a2;
-}
-
-a:visited {
-  color: #0074a2;
-}
-
-a:hover,
-a:focus,
-a:active {
-  color: #2ea2cc;
-}
-
-/*--------------------------------------------------------------
-4.2 - Horizontal Rules
---------------------------------------------------------------*/
-hr {
-  background-color: #e5e5e5;
-  border: 0;
-  height: 1px;
-  margin-bottom: 1.5em;
-}
-
-/*--------------------------------------------------------------
-4.3 - Lists
---------------------------------------------------------------*/
-ul,
-ol {
-  margin: 0 0 1.5em 3em;
-}
-
-ul {
-  list-style: disc;
-}
-
-ol {
-  list-style: decimal;
-}
-
-li > ul,
-li > ol {
-  margin-bottom: 0;
-  margin-left: 1.5em;
-}
-
-dt {
-  font-weight: 700;
-}
-
-dd {
-  margin: 0 1.5em 1.5em;
-}
-
-/*--------------------------------------------------------------
-4.4 - Tables
---------------------------------------------------------------*/
-table {
-  margin: 0 0 1.5em;
-  width: 100%;
-}
-
-th {
-  font-weight: 700;
-}
-
-/*--------------------------------------------------------------
-5.0 - Forms
---------------------------------------------------------------*/
-[type="text"],
-[type="email"],
-[type="url"],
-[type="password"],
-[type="search"],
-textarea {
-  padding: 0.4em 0.75em;
-  color: #333;
-  border: 1px solid #ccc;
-}
-[type="text"]:focus,
-[type="email"]:focus,
-[type="url"]:focus,
-[type="password"]:focus,
-[type="search"]:focus,
-textarea:focus {
-  color: #333;
-  outline: 0;
-}
-
-textarea {
-  overflow: auto;
-  padding-left: 3px;
-  vertical-align: top;
-}
-
-button,
-input,
-select,
-textarea {
-  font-size: 100%;
-  margin: 0;
-  vertical-align: baseline;
-  *vertical-align: middle;
-}
-
-[type="checkbox"],
-[type="radio"] {
-  padding: 0;
-}
-
-[type="search"] {
-  -webkit-appearance: textfield;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-}
-
-[type="search"]::-webkit-search-decoration {
-  -webkit-appearance: none;
-}
-
-button::-moz-focus-inner,
-input::-moz-focus-inner {
-  border: 0;
-  padding: 0;
-}
-
-/*--------------------------------------------------------------
-6.0 - Buttons
---------------------------------------------------------------*/
 .button--secondary, .scan__submit, .button--primary, .button--subtle {
   display: inline-block;
   margin: 0;
@@ -687,9 +615,121 @@ input::-moz-focus-inner {
   left: -4px;
 }
 
-/*--------------------------------------------------------------
-7.0 - Media
---------------------------------------------------------------*/
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  margin: 0;
+  vertical-align: baseline;
+  *vertical-align: middle;
+}
+
+[type="checkbox"],
+[type="radio"] {
+  padding: 0;
+}
+
+[type="search"] {
+  -webkit-appearance: textfield;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+[type="text"],
+[type="email"],
+[type="url"],
+[type="password"],
+[type="search"],
+textarea {
+  padding: 0.4em 0.75em;
+  color: #333;
+  border: 1px solid #ccc;
+}
+[type="text"]:focus,
+[type="email"]:focus,
+[type="url"]:focus,
+[type="password"]:focus,
+[type="search"]:focus,
+textarea:focus {
+  color: #333;
+  outline: 0;
+}
+
+textarea {
+  overflow: auto;
+  padding-left: 3px;
+  vertical-align: top;
+}
+
+a {
+  color: #0074a2;
+}
+
+a:visited {
+  color: #0074a2;
+}
+
+a:hover,
+a:focus,
+a:active {
+  color: #2ea2cc;
+}
+
+hr {
+  background-color: #e5e5e5;
+  border: 0;
+  height: 1px;
+  margin-bottom: 1.5em;
+}
+
+ul,
+ol {
+  margin: 0 0 1.5em 3em;
+}
+
+ul {
+  list-style: disc;
+}
+
+ol {
+  list-style: decimal;
+}
+
+li > ul,
+li > ol {
+  margin-bottom: 0;
+  margin-left: 1.5em;
+}
+
+dt {
+  font-weight: 700;
+}
+
+dd {
+  margin: 0 1.5em 1.5em;
+}
+
+table {
+  margin: 0 0 1.5em;
+  width: 100%;
+}
+
+th {
+  font-weight: 700;
+}
+
 img {
   max-width: 100%;
   height: auto;
@@ -701,42 +741,6 @@ object {
   max-width: 100%;
 }
 
-/*--------------------------------------------------------------
-8.0 - Navigation
---------------------------------------------------------------*/
-/*--------------------------------------------------------------
-8.1 - Menus
---------------------------------------------------------------*/
-/*--------------------------------------------------------------
-9.0 - Accessibility
---------------------------------------------------------------*/
-.screen-reader-text {
-  clip: rect(1px, 1px, 1px, 1px);
-  position: absolute !important;
-}
-.screen-reader-text:hover, .screen-reader-text:active, .screen-reader-text:focus {
-  background-color: #f1f1f1;
-  border-radius: 3px;
-  -webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-  clip: auto !important;
-  color: #21759b;
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-  height: auto;
-  left: 5px;
-  line-height: normal;
-  padding: 15px 23px 14px;
-  text-decoration: none;
-  top: 5px;
-  width: auto;
-  z-index: 100000;
-}
-
-/*--------------------------------------------------------------
-10.0 - Alignments
---------------------------------------------------------------*/
 .alignleft {
   display: inline;
   float: left;
@@ -755,23 +759,6 @@ object {
   margin: 0 auto;
 }
 
-/*--------------------------------------------------------------
-11.0 - Clearings
---------------------------------------------------------------*/
-.clear:before, .clear:after {
-  content: "";
-  display: table;
-}
-.clear:after {
-  clear: both;
-}
-
-/*--------------------------------------------------------------
-12.0 - UI Patterns
---------------------------------------------------------------*/
-/*--------------------------------------------------------------
-13.0 - Main
---------------------------------------------------------------*/
 html {
   background: #fff;
   -webkit-box-shadow: -10px 0 0 rgba(0, 0, 0, 0.3);
@@ -790,7 +777,7 @@ body:before {
   width: 1px;
   background: #e5e5e5;
 }
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   body {
     margin: 3.25em 0 5.9375em 1px;
     font-size: 16px;
@@ -887,11 +874,6 @@ body:before {
   -webkit-transform: translateZ(0);
   -ms-transform: translateZ(0);
   transform: translateZ(0);
-}
-@media (max-width: 320px) {
-  .editor {
-    padding: 0;
-  }
 }
 
 .editor--content {
@@ -1043,11 +1025,6 @@ body:before {
   margin: 14px 30px 14px 0;
   font-size: 0;
 }
-@media (max-width: 320px) {
-  .post-actions {
-    margin: 10px 10px 10px 0;
-  }
-}
 
 .adminbar {
   position: fixed;
@@ -1081,7 +1058,7 @@ body:before {
   line-height: 44px;
   font-weight: 400;
 }
-@media (max-width: 500px) {
+@media (max-width: 600px) {
   .current-site {
     margin: 3px 0 0;
   }
@@ -1157,9 +1134,5 @@ body:before {
 .add-site__submit .dashicons-plus {
   display: block;
 }
-
-/*--------------------------------------------------------------
-14.0 - IE
---------------------------------------------------------------*/
 
 /*# sourceMappingURL=press-this.css.map */

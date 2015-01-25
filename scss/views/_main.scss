@@ -1,0 +1,400 @@
+// ==========================================================================
+// Main
+// ==========================================================================
+
+// I'm sure you can think of some awesome code to put here. I usually use it
+// as a scratchpad before moving code into their own modules.
+
+html {
+	background: #fff;
+	box-shadow: -10px 0 0 rgba( 0,0,0,.3 );
+}
+
+body {
+	margin: em( 65px ) 0 em( 95px ) 1px;
+
+	&:before {
+		// Goofy way to keep left border full height. Could do it with a gradient as well.
+		content: '';
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 1px;
+		background: $gray--light;
+	}
+
+	@include breakpoint( M- ) {
+		margin: em( 52px, 16px ) 0 em( 95px, 16px ) 1px;
+		font-size: 16px;
+	}
+	@include breakpoint( S- ) {
+		margin: em( 45px, 14px ) 0 em( 95px, 14px ) 1px;
+		font-size: 14px;
+	}
+}
+
+
+// Alerts
+.alerts {
+	overflow: hidden; // lazy clearfix
+	padding: em( 18px ) 0;
+	border-bottom: 1px solid $gray--light;
+	transform: translateZ( 0 );
+}
+
+.notice,
+.error {
+	position: relative;
+	margin: 0 em( 30px,14px );
+	padding: em( 5px, 14px ) em( 20px, 14px );
+	font-size: em( 14px );
+
+	&:before {
+		$dot-size: 8px;
+
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 0;
+		width: $dot-size;
+		height: $dot-size;
+		margin-top: -0.5 * $dot-size;
+		border-radius: 50%;
+		background: $blue--light;
+	}
+}
+.error {
+	&:before {
+		background: red;
+	}
+}
+
+
+// Helpers
+
+.visually-hidden {
+	border: 0;
+	clip: rect( 0 0 0 0 );
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
+}
+
+
+// Scan styles
+.scan {
+	position: relative;
+	border-bottom: 1px solid $gray--light;
+}
+.scan__url {
+	display: block;
+	border: 0;
+	padding: em( 12px, 14px ) em( 15px, 14px );
+	font-size: 14px;
+	width: 100%;
+}
+.scan__submit {
+	@extend %button;
+	@extend %button--secondary;
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: em( 12px, 14px ) em( 15px, 14px );
+	border: 0;
+	border-left: 1px solid $gray--ultralight;
+	border-radius: 0;
+	font-size: 14px;
+	line-height: 1.6;
+
+	&:hover,
+	&:focus {
+		background: darken( $blue--light, 5% );
+		border-color: darken( $blue--light, 15% );
+		color: #fff;
+	}
+
+	&:active {
+		background: darken( $blue--light, 10% );
+		border-color: darken( $blue--light, 15% );
+		color: #fff;
+	}
+}
+
+
+// Editor stuff
+.editor {
+	padding: 0 em( 30px ) 0;
+	transform: translateZ( 0 );
+
+	@include breakpoint( phone ) {
+		padding: 0;
+	}
+}
+
+.editor--content {
+	min-height: 8em;
+
+	@include breakpoint( S- ) {
+		padding: 0 em( 20px, 14px );
+	}
+}
+
+[contenteditable] { // Temporary
+	outline: 0;
+}
+
+.post__title {
+	margin: 0;
+	padding: .83em 0;
+	border-bottom: 1px solid $gray--light;
+	line-height: 1.4;
+	margin-bottom: em( 16px );
+
+	@include breakpoint( S- ) {
+		font-size: 1em;
+		font-weight: 600;
+		padding: em( 16px, 14px ) em( 20px, 14px );
+	}
+}
+
+
+// Featured images
+.featured-container {
+	position: relative;
+	padding: 2px 0;
+	border-bottom: 1px solid $gray--light;
+}
+
+.featured-image {
+	display: block;
+	padding: 62.5% 0 0 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 0 !important; // NOOOOOOOOOO
+	cursor: pointer;
+}
+
+.all-media {
+	@include clearfix;
+	display: none;
+}
+
+.site-thumbnail {
+	$size: 25%;
+	position: relative;
+	display: block;
+	float: left;
+	width: $size;
+	padding: $size 0 0 $size;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+	cursor: pointer;
+
+	&:after {
+		content: '';
+		position: absolute;
+		top: 0;
+		right: 0;
+		height: 100%;
+		width: 2px;
+		background: #fff;
+	}
+}
+
+.thumbs-large {
+	$size: 33.333%;
+
+	width: $size;
+	padding: $size 0 0 $size;
+}
+
+.thumbs-small {
+	$size: 12.5%;
+
+	width: $size;
+	padding: $size 0 0 $size;
+}
+
+#wppt_no_image {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+
+#wppt_all_media_switch {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+
+.all-media--visible {
+	.featured-image,
+	#wppt_no_image,
+	#wppt_all_media_switch {
+		display: none;
+	}
+	.all-media {
+		display: block;
+	}
+}
+.no-media {
+	padding: 10px 0;
+
+	#wppt_no_image {
+		display: none;
+	}
+	#wppt_all_media_switch {
+		position: relative;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	}
+}
+
+
+// Footer
+.actions {
+	position: fixed;
+	bottom: 0;
+	left: 1px;
+	width: 100%;
+	background: $gray--ultralight;
+	background: transparentize( $gray--ultralight, .1 );
+	border-top: 1px solid $gray--light;
+}
+
+.add-media {
+	float: left;
+	margin: 14px 0 14px 30px;
+	font-size: 0;
+
+	@include breakpoint( S- ) {
+		margin: 10px 0 10px 10px;
+	}
+}
+
+.post-actions {
+	float: right;
+	margin: 14px 30px 14px 0;
+	font-size: 0;
+
+	@include breakpoint( phone ) {
+		margin: 10px 10px 10px 0;
+	}
+}
+
+
+// Adminbar
+.adminbar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 0 em( 16px );
+	min-height: em( 65px );
+	background: $gray--dark;
+	color: #fff;
+	z-index: 9999;
+
+	.dashicons {
+		fill: #999;
+	}
+	@include breakpoint( S- ) {
+		min-height: 45px;
+		background: #fff;
+		background: transparentize( #fff, .1 );
+		border-left: 1px solid $gray--light;
+		border-bottom: 1px solid $gray--light;
+
+		.dashicons-wordpress-alt {
+			fill: $blue--light;
+		}
+	}
+}
+
+.current-site {
+	font-size: 16px;
+	line-height: 44px;
+	font-weight: $normal;
+
+	@include breakpoint( M- ) {
+		margin: 3px 0 0;
+	}
+	@include breakpoint( S- ) {
+		margin: 1px 0 0;
+		font-size: 14px;
+	}
+	a {
+		color: #ededed;
+		text-decoration: none;
+
+		&:hover {
+			color: #fff;
+		}
+		@include breakpoint( S- ) {
+			color: #3f3f3f;
+			font-weight: 600;
+
+			&:hover {
+				color: $blue--light;
+			}
+		}
+	}
+	.dashicons-wordpress-alt {
+		position: relative;
+		top: -2px;
+		margin-right: 10px;
+		background: url( ../images/icons/png/wordpress-alt-white.png ) no-repeat center center;
+		background: none, none; // The magic
+	}
+}
+
+.site-list {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 30px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	background: #fff;
+	color: #404040;
+	font-size: 14px;
+	box-shadow: 0 2px 3px rgba(0,0,0,0.15);
+
+	li {
+		position: relative;
+		padding: em( 11px, 14px ) em( 54px, 14px ) em( 11px, 14px ) em( 15px, 14px );
+		border-bottom: 1px solid $gray--ultralight;
+		cursor: pointer;
+	}
+	.add-site {
+		padding: 0;
+	}
+}
+
+.add-site__url {
+	padding: em( 11px, 14px ) em( 15px, 14px );
+	width: 100%;
+	border: 0;
+}
+
+.add-site__submit {
+	display: block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+
+	.dashicons-plus {
+		display: block;
+	}
+}
