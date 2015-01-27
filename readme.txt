@@ -18,7 +18,7 @@ Press This is a redesign of the Press This bookmarklet with a focus on automatio
 
 == Contributing ==
 
-You can see discussion and progress at [corepressthis.wordpress.com](corepressthis.wordpress.com).
+You can see discussion and progress at [corepressthis.wordpress.com](http://corepressthis.wordpress.com).
 
 Development of this plugin is done on [Github](https://github.com/MichaelArestad/Press-This). Pull requests welcome.
 
