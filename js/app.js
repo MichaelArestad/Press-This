@@ -130,14 +130,14 @@
 
 				// Wrap suggested content in blockquote tag, if we have any.
 				content = ( (content.length)
-					? '<blockquote id="wppt_suggested_content">' + html_encode( content.replace(/\\/g, '') ) + '</blockquote>'
+					? '<blockquote class="wppt_suggested_content">' + html_encode( content.replace(/\\/g, '') ) + '</blockquote>'
 					: '' );
 
 				// Add a source attribution if there is one available.
 				if ( ( ( title.length && __( 'new-post' ) != title ) || site_name.length ) && url.length ) {
 					content += '<p class="wppt_source">'
 					+ __( 'source' )
-					+ ' <cite id="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'">'+ html_encode( title || site_name ) +'</a></cite>'
+					+ ' <cite class="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'">'+ html_encode( title || site_name ) +'</a></cite>'
 					+ '</p>';
 				}
 
