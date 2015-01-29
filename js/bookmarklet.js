@@ -102,14 +102,12 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		if ( n >= 100 )
 			break;
 		r.src = imgs[n].src;
-		if (imgs[n].className && imgs[n].className.length) {
-			if (imgs[n].className.indexOf('gravatar') > -1 && n <= 30) {
-				fAdd('_img[]', r.src.replace(/^(http[^\?]+)(\?.*)?$/, '$1?s=640'));
-			} else {
-				fAdd('_img[]', r.src);
-			}
-		} else if (imgs[n].original && imgs[n].original.length) {
-			fAdd('_img[]', r.src);
+		if ( r.src.indexOf('gravatar.com') > -1 )
+			continue;
+		else if ( imgs[n].className && imgs[n].className.length && imgs[n].className.indexOf('avatar') > -1 )
+			continue;
+		if (imgs[n].original && imgs[n].original.length) {
+			fAdd('_img[]', imgs[n].original);
 		} else if (r.src.indexOf('/wp-content/uploads/')) {
 			fAdd('_img[]', r.src);
 		} else if (r.width && r.height && r.width >= 256 && r.height >= 128) {
