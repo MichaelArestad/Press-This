@@ -111,7 +111,7 @@ class WpPressThis {
 	}
 
 	/** TODO: maybe not needed, see above.
-	 * WpPressThis::script_name() 
+	 * WpPressThis::script_name()
 	 * Returns the current app's fully qualified script name/url based on system-level tests
 	 *
 	 * @return mixed|string
@@ -572,7 +572,7 @@ class WpPressThis {
 		if ( empty( $data['_meta'] ) ) {
 			$data['_meta'] = array();
 		}
-		
+
 		if ( preg_match_all( '/<meta (.+)[\s]?\/>/  ', $source_content, $matches ) ) {
 			if ( !empty( $matches[0] ) ) {
 				foreach ( $matches[0] as $key => $value ) {
@@ -655,7 +655,7 @@ class WpPressThis {
 	 */
 	public function serve_app_html() {
 		global $wp_locale;
-		
+
 		// Get i18n strings
 		$i18n                     = self::i18n();
 
@@ -683,7 +683,7 @@ class WpPressThis {
 		$load_js_inc              = $site_settings['plugin_dir_url'] . '/js/load.js';
 		$form_action              = $site_settings['runtime_url'];
 		$upload_action            = preg_replace( '/^(.+)\/press-this\.php$/', '\1/media-upload.php', $site_settings['runtime_url'] ) . '?referer=wptuts-settings&type=image&TB_iframe=true&post_id=0';
-		$svg_icons_inc            = self::plugin_dir_path() . '/images/icons/icons.svg';
+		$svg_icons_inc            = self::plugin_dir_path() . '/images/icons/dashicons.svg';
 		$txt_domain               = 'press-this';
 
 		// Echo HTML
@@ -702,7 +702,7 @@ class WpPressThis {
 	<script src="<?php echo esc_url( $json_js_inc ) ?>" language="JavaScript"></script>
 	<script src="<?php echo esc_url( $jquery_js_inc ) ?>" language="JavaScript"></script>
 	<script src="<?php echo esc_url( $load_js_inc ) ?>" language="JavaScript"></script>
-	
+
 	<script type="text/javascript">
 		var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
 		pagenow = 'press-this',
@@ -712,14 +712,14 @@ class WpPressThis {
 		decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
 		isRtl = <?php echo (int) is_rtl(); ?>;
 	</script>
-	
+
 	<?php
 		// $post->ID is needed for the embed shortcode so we can show oEmbed previews in the editor. Maybe find a way without it.
 		$post = get_default_post_to_edit( 'post', true );
-		
+
 		wp_enqueue_media( array( 'post' => $post->ID ) );
 		wp_enqueue_script( 'editor' );
-		
+
 		wp_enqueue_script( 'press-this-app', self::strip_url_scheme( plugin_dir_url( __FILE__ ) ) . 'js/app.js', array(), false, true );
 	?>
 </head>
@@ -730,7 +730,12 @@ class WpPressThis {
 			require_once( $svg_icons_inc );
 	?>
 	<div id="wppt_adminbar" class="adminbar">
-		<h1 id="wppt_current_site" class="current-site"><div href="#" class="dashicons dashicons-wordpress-alt"><svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg></div><a href="#" target="_blank"></a></h1>
+		<h1 id="wppt_current_site" class="current-site">
+			<div href="#" class="dashicons dashicons-wordpress-alt">
+				<svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg>
+			</div>
+			<a href="#" target="_blank"></a>
+		</h1>
 		<ul id="wppt_sites" class="site-list">
 		<?php
 			foreach( (array) $site_settings['instance_sites'] as $instance_url => $instance_name ) {
@@ -754,10 +759,6 @@ class WpPressThis {
 				</form>
 			</li>
 		</ul>
-		<div class="adminbar__actions">
-			<a role="button" href="#" id="wppt_settings_button" title="<?php echo esc_attr( $i18n['settings'] ) ?>" class="dashicons dashicons-admin-settings"><svg class="icon"><use xlink:href="#dashicons-admin-settings" /></svg></a>
-			<a role="button" href="#" id="wppt_close_button" title="<?php echo esc_attr( $i18n['close'] ) ?>" class="dashicons dashicons-no"><svg class="icon"><use xlink:href="#dashicons-no" /></svg></a>
-		</div>
 	</div>
 	<div id="wppt_scanbar" class="scan">
 		<form action="<?php echo esc_url( $form_action ) ?>" method="GET">
@@ -765,7 +766,7 @@ class WpPressThis {
 			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan__submit" value="<?php echo esc_attr( $i18n['scan'] ) ?>" />
 		</form>
 	</div>
-	
+
 	<form id="wppt_form" name="wppt_form" method="POST" action="<?php echo esc_url( $form_action ) ?>" target="_self">
 		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo esc_attr( $post->ID ); ?>" />
 		<input type="hidden" name="wppt_nonce" id="wppt_nonce_field" value="<?php echo esc_attr( $nonce ) ?>"/>
@@ -773,7 +774,7 @@ class WpPressThis {
 		<input type="hidden" name="wppt_selected_img" id="wppt_selected_img_field" value=""/>
 		<input type="hidden" name="wppt_source_url" id="wppt_source_url_field" value=""/>
 		<input type="hidden" name="wppt_source_name" id=wppt_source_name_field" value=""/>
-	
+
 	<div id='wppt_app_container' class="editor">
 		<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
 		<div id='wppt_featured_image_container' class="featured-container">
@@ -786,7 +787,7 @@ class WpPressThis {
 				<div id='wppt_all_media_container'></div>
 			</div>
 		</div>
-		
+
 		<?php
 
 		wp_editor( '', 'pressthis', array(
@@ -804,13 +805,15 @@ class WpPressThis {
 			),
 			'quicktags' => false,
 		) );
-		
+
 		?>
 	</div>
 
 	<div class="actions">
+		<div class="post-actions">
 			<input type="submit" class="button--subtle" name="wppt_draft" id="wppt_draft_field" value="<?php echo esc_attr( $i18n['save-draft'] ) ?>"/>
 			<input type="submit" class="button--primary" name="wppt_publish" id="wppt_publish_field" value="<?php echo esc_attr( $i18n['new-post'] ) ?>"/>
+		</div>
 	</div>
 	</form>
 

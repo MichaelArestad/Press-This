@@ -6,6 +6,29 @@
 	display: none;
 }
 
+// Dashicons reset
+// TODO Remove need for this
+a,
+div {
+	&.dashicons,
+	&.dashicons:before {
+		font-size: inherit;
+		line-height: inherit;
+		font-family: inherit;
+		font-weight: inherit;
+		font-style: inherit;
+		vertical-align: inherit;
+		text-align: inherit;
+		-webkit-transition: none;
+		transition: none;
+		-webkit-font-smoothing: auto;
+		-moz-osx-font-smoothing: auto;
+	}
+	&.dashicons:before {
+		display: none;
+	}
+}
+
 .dashicons {
 	display: inline-block;
 	width: 20px;

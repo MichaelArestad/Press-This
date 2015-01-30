@@ -32,7 +32,8 @@
 	}
 }
 
-.icon-button--dark {
+// TODO Remove need for extra selector (dashicons override)
+a.icon-button--dark {
 	padding: 8px;
 	width: 36px;
 	height: 36px;
