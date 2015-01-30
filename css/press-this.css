@@ -449,8 +449,8 @@ big {
 }
 
 a.dashicons, a.dashicons:before,
-div.dashicons,
-div.dashicons:before {
+span.dashicons,
+span.dashicons:before {
   font-size: inherit;
   line-height: inherit;
   font-family: inherit;
@@ -464,7 +464,7 @@ div.dashicons:before {
   -moz-osx-font-smoothing: auto;
 }
 a.dashicons:before,
-div.dashicons:before {
+span.dashicons:before {
   display: none;
 }
 

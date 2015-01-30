@@ -731,9 +731,9 @@ class WpPressThis {
 	?>
 	<div id="wppt_adminbar" class="adminbar">
 		<h1 id="wppt_current_site" class="current-site">
-			<div href="#" class="dashicons dashicons-wordpress-alt">
+			<span href="#" class="dashicons dashicons-wordpress-alt">
 				<svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg>
-			</div>
+			</span>
 			<a href="#" target="_blank"></a>
 		</h1>
 		<ul id="wppt_sites" class="site-list">
