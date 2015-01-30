@@ -1007,6 +1007,11 @@ body:before {
   background: #f1f1f1;
   background: rgba(241, 241, 241, 0.9);
   border-top: 1px solid #e5e5e5;
+  padding: 14px 30px;
+}
+
+.actions input[type="submit"] {
+	float: right;
 }
 
 .add-media {

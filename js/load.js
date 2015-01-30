@@ -3,8 +3,8 @@
 		var WpPressThis_Loader = function() {
 			// Defines base variables
 			var data                 = window.wp_pressthis_data || {},
-				ajax_url             = ( data && data._ajax_url && data._ajax_url.length ) ? data._ajax_url : './admin-ajax.php',
-				plugin_js_dir_url    = ( data && data._plugin_dir_url ) ? data._plugin_dir_url + '/js' : '../wp-content/plugins/press-this/js',
+				ajax_url             = data._ajax_url || window.ajaxurl || '',
+				plugin_js_dir_url    = data._plugin_dir_url ? data._plugin_dir_url + '/js' : '../wp-content/plugins/press-this/js',
 				app_logic_file       = '/app.js',
 				ls_site_config_key   = 'WpPressThis_SiteConfig',
 				ls_site_config       = {},
@@ -84,7 +84,7 @@
 				} else {
 					site_config    = ls_site_config || {};
 					// @DEBUG
-					// console.log('Press This site config loaded from localStorage cache.', site_config);
+					// window.console && window.console.log('Press This site config loaded from localStorage cache.', site_config);
 				}
 
 				// See if the site configs are maybe already in the markup (onload), avoid extra remote query
@@ -105,7 +105,7 @@
 			}
 
 			function load_site_config() {
-				$.post(ajax_url, { action: site_config_callback}, function (response) {
+				$.post( ajax_url, { action: site_config_callback }, function ( response ) {
 					site_config = response || {};
 					// Set the target URLs in site_config, for caching (but leave data._nonce and data._version, both time-sensitive)
 					site_config.runtime_url    = data._runtime_url;
@@ -114,7 +114,7 @@
 					// And cache them
 					if ( ! save_cached_settings( site_config ) ) {
 						// @TODO: couldn't save setting, [maybe] handle.
-						console.log("Couldn't save settings...", site_config);
+						window.console && window.console.log("Couldn't save settings...", site_config);
 					}
 					// @DEBUG
 					// console.log('Loaded site config live...', site_config);
@@ -138,7 +138,7 @@
 					delete data._ajax_url;
 
 				// That's it for the loader, now load the real app.js and let it take over.
-				$.getScript( plugin_js_dir_url + app_logic_file );
+		//		$.getScript( plugin_js_dir_url + app_logic_file );
 			}
 
 			initialize();
