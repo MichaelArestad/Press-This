@@ -793,15 +793,17 @@ class WpPressThis {
 		wp_editor( '', 'pressthis', array(
 			'drag_drop_upload' => true,
 	//		'tabfocus_elements' => 'content-html,save-post',
+			`editor_class` => 'press-thiss__editor',
 			'editor_height' => 350,
 			'teeny' => true,
 			'tinymce' => array(
 				'resize' => false,
+				'wordpress_adv_hidden' => false,
 	//			'add_unload_trigger' => false,
 	//			'statusbar' => false,
 				'plugins' => 'lists,media,paste,tabfocus,fullscreen,wordpress,wpeditimage,wpgallery,wplink,wpview',
-				'toolbar1' => 'bold,italic,bullist,numlist,blockquote,link,unlink,undo,redo',
-				'toolbar2' => '',
+				'toolbar1' => 'bold,italic,bullist,numlist,blockquote,link,unlink',
+				'toolbar2' => 'undo,redo'
 			),
 			'quicktags' => false,
 		) );

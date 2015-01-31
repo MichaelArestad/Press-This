@@ -1205,9 +1205,25 @@ body:before {
   content: '\f306';
 }
 .wp-editor-wrap div.mce-toolbar-grp {
+  margin-bottom: 2.14286em;
   padding: 0.71429em 0;
   background: none;
   border-color: #e5e5e5;
+}
+
+.mce-stack-layout:before, .mce-stack-layout:after {
+  content: "";
+  display: table;
+}
+.mce-stack-layout:after {
+  clear: both;
+}
+
+.mce-container.mce-toolbar {
+  float: left;
+}
+.mce-container.mce-toolbar:nth-child(2) {
+  float: right;
 }
 
 @media (max-width: 600px) {

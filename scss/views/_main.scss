@@ -447,11 +447,25 @@ body {
 		}
 	}
 	div.mce-toolbar-grp {
+		margin-bottom: em( 30px, 14px );
 		padding: em( 10px, 14px ) 0;
 		background: none;
 		border-color: $gray--light;
 	}
 }
+
+.mce-stack-layout {
+	@include clearfix;
+}
+
+.mce-container.mce-toolbar {
+	float: left;
+
+	&:nth-child( 2 ) {
+		float: right;
+	}
+}
+
 
 @include breakpoint( M- ) {
 	#mceu_11,
