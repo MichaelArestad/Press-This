@@ -128,7 +128,6 @@ body {
 // Editor stuff
 .editor {
 	padding: 0 em( 30px ) 0;
-	transform: translateZ( 0 );
 
 	@include breakpoint( S- ) {
 		padding: 0;
@@ -141,10 +140,6 @@ body {
 	@include breakpoint( S- ) {
 		padding: 0 em( 20px, 14px );
 	}
-}
-
-[contenteditable] { // Temporary
-	outline: 0;
 }
 
 .post__title {
@@ -402,14 +397,49 @@ body {
 
 // TinyMCE
 .wp-editor-wrap {
-	margin: em( 30px ) 0 0;
-
 	.wp-media-buttons {
 		float: none;
 	}
-	.add_media {
-		width: 100%;
-		text-align: center;
+	.button.add_media {
+		position: fixed;
+			bottom: 0;
+			left: 0;
+		width: 67px;
+		height: 58px;
+		z-index: 2;
+
+		// remove button styles
+		margin: 0;
+		padding: 11px;
+		border: 0;
+		border-right: 1px solid $gray--light;
+		border-radius: 0;
+		background: none;
+		box-shadow: none;
+		overflow: hidden;
+
+		&:hover,
+		&:focus,
+		&:active {
+			position: fixed;
+				top: auto;
+				bottom: 0;
+				left: 0;
+			margin: 0;
+			background: none;
+			border-color: $gray--light;
+			color: #222;
+		}
+		.wp-media-buttons-icon {
+			width: 67px;
+			height: 50px;
+			margin: 0 20px 0 0;
+
+			&:before {
+				font-size: 40px;
+				content: '\f306';
+			}
+		}
 	}
 	div.mce-toolbar-grp {
 		padding: em( 10px, 14px ) 0;
