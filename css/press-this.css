@@ -1165,7 +1165,7 @@ body:before {
   position: fixed;
   bottom: 0;
   left: 0;
-  width: 67px;
+  width: 63px;
   height: 58px;
   z-index: 2;
   margin: 0;
@@ -1178,6 +1178,13 @@ body:before {
   box-shadow: none;
   overflow: hidden;
 }
+@media (max-width: 320px) {
+  .wp-editor-wrap .button.add_media {
+    width: 55px;
+    height: 50px;
+    padding: 7px;
+  }
+}
 .wp-editor-wrap .button.add_media:hover, .wp-editor-wrap .button.add_media:focus, .wp-editor-wrap .button.add_media:active {
   position: fixed;
   top: auto;
@@ -1189,8 +1196,8 @@ body:before {
   color: #222;
 }
 .wp-editor-wrap .button.add_media .wp-media-buttons-icon {
-  width: 67px;
-  height: 50px;
+  width: auto;
+  height: auto;
   margin: 0 20px 0 0;
 }
 .wp-editor-wrap .button.add_media .wp-media-buttons-icon:before {

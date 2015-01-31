@@ -404,7 +404,7 @@ body {
 		position: fixed;
 			bottom: 0;
 			left: 0;
-		width: 67px;
+		width: 63px;
 		height: 58px;
 		z-index: 2;
 
@@ -418,6 +418,11 @@ body {
 		box-shadow: none;
 		overflow: hidden;
 
+		@include breakpoint( S- ) {
+			width: 55px;
+			height: 50px;
+			padding: 7px;
+		}
 		&:hover,
 		&:focus,
 		&:active {
@@ -431,8 +436,8 @@ body {
 			color: #222;
 		}
 		.wp-media-buttons-icon {
-			width: 67px;
-			height: 50px;
+			width: auto;
+			height: auto;
 			margin: 0 20px 0 0;
 
 			&:before {
