@@ -156,6 +156,7 @@
 				|| src.match(/\/([^\.\/]+[-_]{1})?(spinner|loading|spacer|blank)s?([-_]{1}[^\.\/]+)?\.[a-z0-9]{3,4}/) // fancy loaders, spinners, spacers
 				|| src.match(/([^\.\/]+[-_]{1})?thumb[^.]*\.(gif|jpg|png)$/) // thumbnails, too small, usually irrelevant to context
 				|| src.match(/\/wp-includes\//) // classic WP interface images
+				|| src.match(/[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/) // most often tiny buttons/thumbs (< 100px wide)
 				|| src.indexOf('/g.gif') > -1 // classic WP stats gif
 				|| src.indexOf('/pixel.mathtag.com') > -1 // classic WP stats gif
 				);
