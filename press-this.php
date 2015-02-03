@@ -573,12 +573,16 @@ class WpPressThis {
 			$data['_meta'] = array();
 		}
 
-		if ( preg_match_all( '/<meta (.+)[\s]?\/>/  ', $source_content, $matches ) ) {
+		if ( preg_match_all( '/<meta (.+)[\s]?\/?>/  ', $source_content, $matches ) ) {
 			if ( !empty( $matches[0] ) ) {
 				foreach ( $matches[0] as $key => $value ) {
-					if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"[^>]+\/>/', $value, $new_matches ) ) {
+					if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"/', $value, $new_matches ) ) {
 						if ( empty( $data['_meta'][ $new_matches[2] ] ) ) {
-							$data['_meta'][ $new_matches[2] ] = $new_matches[3];
+							if ( preg_match( '/:?(title|description|keywords)$/', $new_matches[2] ) ) {
+								$data['_meta'][ $new_matches[2] ] = str_replace( '&#039;', "'", str_replace( '&#034;', '', html_entity_decode( $new_matches[3] ) ) );
+							} else {
+								$data['_meta'][ $new_matches[2] ] = $new_matches[3];
+							}
 						}
 					}
 				}
