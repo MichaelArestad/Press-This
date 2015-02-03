@@ -143,9 +143,7 @@
 
 				// Use embeddable URL if recognized, and hide selected images (but leave them selectable)
 				if ( data.u && is_embeddable( data ) ) {
-					content = data.u
-							+ "\n\n"
-							+ content;
+					content = '[embed]' + data.u + "[/embed]\n" + content;
 				}
 
 				if ( ! content.length ) {
