@@ -347,9 +347,12 @@
 			}
 
 			function set_selected_media( src ) {
+				editor && editor.setContent( '<p><img src="' + src + '" /></p>' + editor.getContent() );
+				/*
 				$( '#wppt_selected_img_field' ).val( src );
 				$( '#wppt_selected_img' ).attr( 'src', src ).css('background-image', 'url(' + src + ')' );
 				show_selected_media();
+				*/
 			}
 
 			function unset_selected_media() {
