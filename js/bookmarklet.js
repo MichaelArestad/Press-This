@@ -34,6 +34,7 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		links = d.head.getElementsByTagName('link'),
 		it    = d.getElementById('content'),
 		imgs  = (null != it) ? it.getElementsByTagName('img') : [],
+		ifrs  = d.body.getElementsByTagName('iframe') || [],
 		r     = new Image(),
 		f     = d.createElement('form'),
 		h     = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
@@ -108,6 +109,21 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 			fAdd('_img[]', r.src);
 		} else if (r.width && r.height && r.width >= 256 && r.height >= 128) {
 			fAdd('_img[]', r.src);
+		}
+	}
+
+	var vid;
+	for (var p = 0; p < ifrs.length; p++) {
+		if ( p >= 100 )
+			break;
+		vid = ifrs[p].src.match(/\/\/www\.youtube\.com\/embed\/([^\?]+)\?.+$/);
+		if ( vid && 2 == vid.length ) {
+			fAdd('_embed[]', 'https://www.youtube.com/watch?v=' + vid[1]);
+		}
+
+		vid = ifrs[p].src.match(/\/\/player\.vimeo\.com\/video\/([\d]+)$/);
+		if ( vid && 2 == vid.length ) {
+			fAdd('_embed[]', 'https://vimeo.com/' + vid[1]);
 		}
 	}
 

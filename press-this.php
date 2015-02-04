@@ -508,6 +508,43 @@ class WpPressThis {
 			return array( 'errors' => $source_content->get_error_messages() );
 		}
 
+		// Fetch and gather <img> data
+		if ( empty( $data['_img'] ) ) {
+			$data['_img'] = array();
+		}
+
+		if ( preg_match_all( '/<img (.+)[\s]?\/>/', $source_content, $matches ) ) {
+			if ( !empty( $matches[0] ) ) {
+				foreach ( $matches[0] as $value ) {
+					if ( preg_match( '/<img[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
+						if ( ! in_array( $new_matches[1], $data['_img'] ) ) {
+							$data['_img'][] = $new_matches[1];
+						}
+					}
+				}
+			}
+		}
+
+		// Fetch and gather <iframe> data
+		if ( empty( $data['_embed'] ) ) {
+			$data['_embed'] = array();
+		}
+
+		if ( preg_match_all( '/<iframe (.+)[\s]?\/>/', $source_content, $matches ) ) {
+			if ( !empty( $matches[0] ) ) {
+				foreach ( $matches[0] as $value ) {
+					if ( preg_match( '/<iframe[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
+						if ( ! in_array( $new_matches[1], $data['_embed'] ) ) {
+							if ( preg_match( '/\/\/www\.youtube\.com\/embed\/([^\?]+)\?.+$/', $new_matches[1], $src_matches )
+								|| preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)$/', $new_matches[1], $src_matches ) ) {
+								$data['_embed'][] = $src_matches[1];
+							}
+						}
+					}
+				}
+			}
+		}
+
 		// Fetch and gather <meta> data
 		if ( empty( $data['_meta'] ) ) {
 			$data['_meta'] = array();
@@ -522,24 +559,22 @@ class WpPressThis {
 								$data['_meta'][ $new_matches[2] ] = str_replace( '&#039;', "'", str_replace( '&#034;', '', html_entity_decode( $new_matches[3] ) ) );
 							} else {
 								$data['_meta'][ $new_matches[2] ] = $new_matches[3];
+								if ( 'og:video' == $new_matches[2] || 'og:video:secure_url' == $new_matches[2] ) {
+									if ( preg_match( '/\/\/www\.youtube\.com\/v\/([^\?]+)/', $new_matches[3], $src_matches ) ) {
+										if ( ! in_array( 'https://www.youtube.com/watch?v=' . $src_matches[1], $data['_embed'] ) ) {
+											$data['_embed'][] = 'https://www.youtube.com/watch?v=' . $src_matches[1];
+										}
+									} else if ( preg_match( '/\/\/vimeo.com\/moogaloop\.swf\?clip_id=([\d]+)$/', $new_matches[3], $src_matches ) ) {
+										if ( ! in_array( 'https://vimeo.com/' . $src_matches[1], $data['_embed'] ) ) {
+											$data['_embed'][] = 'https://vimeo.com/' . $src_matches[1];
+										}
+									}
+								} else if ( 'og:image' == $new_matches[2] || 'og:image:secure_url' == $new_matches[2] ) {
+									if ( ! in_array( $new_matches[3], $data['_img'] ) ) {
+										$data['_img'][] = $new_matches[3];
+									}
+								}
 							}
-						}
-					}
-				}
-			}
-		}
-
-		// Fetch and gather <img> data
-		if ( empty( $data['_img'] ) ) {
-			$data['_img'] = array();
-		}
-
-		if ( preg_match_all( '/<img (.+)[\s]?\/>/', $source_content, $matches ) ) {
-			if ( !empty( $matches[0] ) ) {
-				foreach ( $matches[0] as $value ) {
-					if ( preg_match( '/<img[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
-						if ( ! in_array( $new_matches[1], $data['_img'] ) ) {
-							$data['_img'][] = $new_matches[1];
 						}
 					}
 				}
