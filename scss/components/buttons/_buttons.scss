@@ -32,30 +32,21 @@
 	}
 }
 
-// TODO Remove need for extra selector (dashicons override)
 a.icon-button--dark {
 	padding: 8px;
-	width: 36px;
-	height: 36px;
+	width: auto;
+	height: auto;
 	border-radius: 3px;
 	background: transparentize( map-get( $buttons, dark__background ), .1 );
-	fill: map-get( $buttons, dark__color );
+	color: map-get( $buttons, dark__color );
 	overflow: visible;
 
 	&:visited {
-		fill: map-get( $buttons, dark__color );
+		color: map-get( $buttons, dark__color );
 	}
 	&:focus,
 	&:hover,
 	&:active {
-		fill: map-get( $buttons, dark__color--hover );
-	}
-	&:before {
-		content: '';
-		position: absolute;
-		top: -4px;
-		right: -4px;
-		bottom: -4px;
-		left: -4px;
+		color: map-get( $buttons, dark__color--hover );
 	}
 }

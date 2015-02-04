@@ -31,77 +31,10 @@ grunt.initConfig({
     },
   },
 
-  grunticon: {
-    dashicons: {
-      files: [{
-        expand: true,
-        cwd: 'images/icons/.tmp-fallbacks/',
-        src: [ '*.svg' ],
-        dest: "images/icons/"
-      }],
-      options: {
-        defaultWidth: '20px',
-        defaultHeight: '20px',
-        colors: {
-          white: "#ffffff"
-        }
-      }
-    }
-  },
-
-  svgmin: {
-    options: {
-      plugins: [
-        { removeViewBox: false },
-        { removeUselessStrokeAndFill: false }
-      ]
-    },
-    dist: {
-      files: [{
-        expand: true,
-        cwd: 'images/icons/src/',
-        src: [ '*.svg' ],
-        dest: 'images/icons/.tmp',
-        ext: '.svg'
-      }]
-    },
-    fallbacks: {
-      files: [{
-        expand: true,
-        cwd: 'images/icons/src/',
-        src: [ '*.svg' ],
-        dest: 'images/icons/.tmp-fallbacks',
-        ext: '.colors-white.svg'
-      }]
-    }
-  },
-
-  svgstore: {
-    defaults: {
-      options: {
-        prefix : 'dashicons-',
-        svg: {
-          viewBox : '0 0 20 20',
-          class : 'dashicons-bundle'
-        }
-      },
-      files: {
-        'images/icons/dashicons.svg': [ 'images/icons/.tmp/*.svg' ]
-      },
-    }
-  },
-
   watch: {
     css: {
       files: ['scss/*.scss', 'scss/**/*.scss'],
       tasks: ['sass', 'autoprefixer'],
-      options: {
-        spawn: false,
-      }
-    },
-    svg: {
-      files: ['images/icons/*.svg'],
-      tasks: ['svgmin', 'svgstore', 'grunticon'],
       options: {
         spawn: false,
       }
@@ -113,9 +46,6 @@ grunt.initConfig({
 grunt.loadNpmTasks('grunt-contrib-watch');      // watch files for changes
 grunt.loadNpmTasks('grunt-contrib-sass');       // Gettin Sassy!
 grunt.loadNpmTasks('grunt-autoprefixer');       // Auto-freaking-prefixer!!!
-grunt.loadNpmTasks('grunt-grunticon');          // Grunticon!
-grunt.loadNpmTasks( 'grunt-svgmin' );           // SVG minifier
-grunt.loadNpmTasks('grunt-svgstore');           // SVG combiner
 
 // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
 grunt.registerTask('default', ['watch']);

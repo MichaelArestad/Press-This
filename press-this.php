@@ -687,7 +687,6 @@ class WpPressThis {
 		$load_js_inc              = $site_settings['plugin_dir_url'] . '/js/load.js';
 		$form_action              = $site_settings['runtime_url'];
 		$upload_action            = preg_replace( '/^(.+)\/press-this\.php$/', '\1/media-upload.php', $site_settings['runtime_url'] ) . '?referer=wptuts-settings&type=image&TB_iframe=true&post_id=0';
-		$svg_icons_inc            = self::plugin_dir_path() . '/images/icons/dashicons.svg';
 		$txt_domain               = 'press-this';
 
 		// Echo HTML
@@ -728,16 +727,9 @@ class WpPressThis {
 	?>
 </head>
 <body>
-	<?php
-		// Include generated SVG icons file
-		if ( file_exists( $svg_icons_inc ) )
-			require_once( $svg_icons_inc );
-	?>
 	<div id="wppt_adminbar" class="adminbar">
 		<h1 id="wppt_current_site" class="current-site">
-			<span href="#" class="dashicons dashicons-wordpress-alt">
-				<svg class="icon"><use xlink:href="#dashicons-wordpress-alt" /></svg>
-			</span>
+			<span class="dashicons dashicons-wordpress-alt"></span>
 			<a href="#" target="_blank"></a>
 		</h1>
 		<ul id="wppt_sites" class="site-list">
@@ -755,9 +747,7 @@ class WpPressThis {
 					<input type="text" name="wppt_new_site" id="wppt_new_site" class="add-site__url" value="" placeholder="<?php echo esc_attr( $i18n['enter-wp-url'] ) ?>" />
 					<input type="submit" name="wppt_new_site_submit" id="wppt_new_site_submit" class="add-site__submit" value="<?php echo esc_attr( $i18n['add'] ) ?>" style="display:none"/>
 					<a href="" class="add-site__submit">
-						<div href="#" class="dashicons dashicons-plus">
-							<svg class="icon"><use xlink:href="#dashicons-plus" /></svg>
-						</div>
+						<span class="dashicons dashicons-plus"></span>
 						Add
 					</a>
 				</form>
@@ -784,8 +774,8 @@ class WpPressThis {
 		<div id='wppt_featured_image_container' class="featured-container">
 			<img src="" id="wppt_selected_img" class="featured-image" width="400" height="300" />
 			<div role="group">
-				<a role="button" href="#" title="<?php echo esc_attr( $i18n['show-all-media'] ) ?>" id="wppt_all_media_switch" class="icon-button--dark dashicons dashicons-images-alt2"><svg class="icon"><use xlink:href="#dashicons-images-alt2" /></svg></a>
-				<a role="button" href="#" title="<?php echo esc_attr( $i18n['no-media'] ) ?>" id="wppt_no_image" class="icon-button--dark dashicons dashicons-no"><svg class="icon"><use xlink:href="#dashicons-no" /></svg></a>
+				<a role="button" href="#" title="<?php echo esc_attr( $i18n['show-all-media'] ) ?>" id="wppt_all_media_switch" class="icon-button--dark dashicons dashicons-images-alt2"><span class="screen-reader-text"><?php _e( 'Switch featured image' ); ?></span></a>
+				<a role="button" href="#" title="<?php echo esc_attr( $i18n['no-media'] ) ?>" id="wppt_no_image" class="icon-button--dark dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Remove featured image' ); ?></span></a>
 			</div>
 			<div id='wppt_all_media_widget' class="all-media">
 				<div id='wppt_all_media_container'></div>

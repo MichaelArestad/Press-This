@@ -298,7 +298,7 @@ body {
 	z-index: 9999;
 
 	.dashicons {
-		fill: #999;
+		color: #999;
 	}
 	@include breakpoint( S- ) {
 		min-height: 45px;
@@ -308,7 +308,7 @@ body {
 		border-bottom: 1px solid $gray--light;
 
 		.dashicons-wordpress-alt {
-			fill: $blue--light;
+			color: $blue--light;
 		}
 	}
 }
@@ -343,7 +343,7 @@ body {
 	}
 	.dashicons-wordpress-alt {
 		position: relative;
-		top: -2px;
+		top: -1px;
 		margin-right: 10px;
 		background: url( ../images/icons/png/wordpress-alt-white.png ) no-repeat center center;
 		background: none, none; // The magic

@@ -4,12 +4,8 @@
   "devDependencies": {
     "grunt": "~0.4.5",
     "grunt-autoprefixer": "~0.6.5",
-    "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-sass": "~0.7.1",
-    "grunt-contrib-uglify": "~0.3.2",
-    "grunt-contrib-watch": "~0.5.3",
-    "grunt-grunticon": "^1.2.6",
-    "grunt-svgmin": "^0.4.0"
+    "grunt-contrib-watch": "~0.5.3"
   },
   "repository": {
     "type": "git",

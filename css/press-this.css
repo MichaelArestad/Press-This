@@ -444,103 +444,6 @@ big {
   font-size: 125%;
 }
 
-.dashicons-bundle {
-  display: none;
-}
-
-a.dashicons, a.dashicons:before,
-span.dashicons,
-span.dashicons:before {
-  font-size: inherit;
-  line-height: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  font-style: inherit;
-  vertical-align: inherit;
-  text-align: inherit;
-  -webkit-transition: none;
-  transition: none;
-  -webkit-font-smoothing: auto;
-  -moz-osx-font-smoothing: auto;
-}
-a.dashicons:before,
-span.dashicons:before {
-  display: none;
-}
-
-.dashicons {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  fill: #79838c;
-  vertical-align: middle;
-}
-.dashicons svg {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.dashicons-admin-links {
-  background: url(../images/icons/png/admin-links.png) no-repeat center center;
-  background: none, none;
-}
-
-.dashicons-camera {
-  background: url(../images/icons/png/camera.png) no-repeat center center;
-  background: none, none;
-}
-
-.dashicons-edit {
-  background: url(../images/icons/png/edit.png) no-repeat center center;
-  background: none, none;
-}
-
-.dashicons-editor-bold {
-  background: url(../images/icons/png/editor-bold.png) no-repeat center center;
-  background: none, none;
-}
-
-.dashicons-editor-italic {
-  background: url(../images/icons/png/editor-italic.png) no-repeat center center;
-  background: none, none;
-}
-
-.dashicons-editor-quote {
-  background: url(../images/icons/png/editor-quote.png) no-repeat center center;
-  background: none, none;
-}
-
-.dashicons-editor-ul {
-  background: url(../images/icons/png/editor-ul.png) no-repeat center center;
-  background: none, none;
-}
-
-.dashicons-editor-unlink {
-  background: url(../images/icons/png/editor-unlink.png) no-repeat center center;
-  background: none, none;
-}
-
-.dashicons-images-alt2 {
-  background: url(../images/icons/png/images-alt2.png) no-repeat center center;
-  background: none, none;
-}
-
-.dashicons-no {
-  background: url(../images/icons/png/no.png) no-repeat center center;
-  background: none, none;
-}
-
-.dashicons-plus {
-  background: url(../images/icons/png/plus.png) no-repeat center center;
-  background: none, none;
-}
-
-.dashicons-wordpress-alt {
-  background: url(../images/icons/png/wordpress-alt.png) no-repeat center center;
-  background: none, none;
-}
-
 .button--secondary, .scan__submit, .button--primary, .button--subtle {
   display: inline-block;
   margin: 0;
@@ -613,26 +516,18 @@ span.dashicons:before {
 
 a.icon-button--dark {
   padding: 8px;
-  width: 36px;
-  height: 36px;
+  width: auto;
+  height: auto;
   border-radius: 3px;
   background: rgba(61, 62, 63, 0.9);
-  fill: #e5e5e5;
+  color: #e5e5e5;
   overflow: visible;
 }
 a.icon-button--dark:visited {
-  fill: #e5e5e5;
+  color: #e5e5e5;
 }
 a.icon-button--dark:focus, a.icon-button--dark:hover, a.icon-button--dark:active {
-  fill: #fff;
-}
-a.icon-button--dark:before {
-  content: '';
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  bottom: -4px;
-  left: -4px;
+  color: #fff;
 }
 
 button,
@@ -1060,7 +955,7 @@ body:before {
   z-index: 9999;
 }
 .adminbar .dashicons {
-  fill: #999;
+  color: #999;
 }
 @media (max-width: 320px) {
   .adminbar {
@@ -1071,7 +966,7 @@ body:before {
     border-bottom: 1px solid #e5e5e5;
   }
   .adminbar .dashicons-wordpress-alt {
-    fill: #2ea2cc;
+    color: #2ea2cc;
   }
 }
 
@@ -1109,7 +1004,7 @@ body:before {
 }
 .current-site .dashicons-wordpress-alt {
   position: relative;
-  top: -2px;
+  top: -1px;
   margin-right: 10px;
   background: url(../images/icons/png/wordpress-alt-white.png) no-repeat center center;
   background: none, none;
