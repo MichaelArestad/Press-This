@@ -22,18 +22,10 @@ class WpPressThis {
 	 * @uses remove_action(), add_action()
 	 */
 	public function __construct() {
-
-		/*
-		 * @TODO: IMPORTANT: must come up with final solution for SAMEORIGIN handling when in modal context (detect, secure, serve).
-		 */
-
 		$script_name = self::script_name();
 
 		if ( empty( $script_name ) )
 			return;
-
-		// Only needed with experimental iframe mode
-		// self::handle_sameorigin_policy();
 
 		if ( is_admin() ) {
 			if ( false !== strpos( self::runtime_url(), $script_name ) ) {
@@ -61,55 +53,7 @@ class WpPressThis {
 		}
 	}
 
-	/** TODO: consider dropping iframe mode and this function. Iframes obstruct the "main" window, cannot be easily moved or resized, etc.
-	 * WpPressThis::handle_sameorigin_policy()
-	 *
-	 * Relax local sameorigin policy to allow PT and some parts of wp-admin to be used from within an iframe.
-	 * Experimental and currently unused until proven to be handled securely.
-	 *
-	 * @uses WpPressThis::script_name(), WpPressThis::runtime_url(), site_url(), admin_url(), remove_action()
-	 */
-	public function handle_sameorigin_policy() {
-		$script_name = self::script_name();
-		if ( ! is_admin() ) {
-			if ( false !== strpos( site_url( 'wp-login.php' ), $script_name ) ) {
-				/*
-				 * Only remove SAMEORIGIN header for /wp-login.php, so it can be displayed in the modal/iframe if needed,
-				 * but only if then redirecting to /wp-admin/press-this.php
-				 */
-				if ( ! empty( $_GET['redirect_to'] )
-				     && false !== strpos( $_GET['redirect_to'], self::runtime_url() ) )
-					remove_action( 'login_init', 'send_frame_options_header' );
-			}
-		} else {
-			if ( false !== strpos( self::runtime_url(), $script_name ) ) {
-				/*
-				 * Remove SAMEORIGIN header for /wp-admin/press-this.php on targeted install so it can be used inside the modal's iframe
-				 */
-				remove_action( 'admin_init', 'send_frame_options_header' );
-			} else if ( false !== strpos( admin_url( 'post.php' ), $script_name ) ) {
-				/*
-				 * Remove SAMEORIGIN header for /wp-admin/post.php so it can be used inside the modal's iframe,
-				 * after saving a draft, but only if referred from /wp-admin/press-this.php or itself
-				 */
-				if ( ! empty( $_SERVER['HTTP_REFERER'] )
-				     && ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() )
-				          || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) ) )
-					remove_action( 'admin_init', 'send_frame_options_header' );
-			} else if ( false !== strpos( admin_url( 'admin-ajax.php' ), $script_name ) ) {
-				/*
-				 * Remove SAMEORIGIN header for /wp-admin/admin-ajax.php so it can be used from the modal's iframe,
-				 * after saving a draft, but only if referred from /wp-admin/press-this.php or /wp-admin/post.php
-				 */
-				if ( ! empty( $_SERVER['HTTP_REFERER'] )
-				     && ( false !== strpos( $_SERVER['HTTP_REFERER'], self::runtime_url() )
-				          || false !== strpos( $_SERVER['HTTP_REFERER'], admin_url( 'post.php' ) ) ) )
-					remove_action( 'admin_init', 'send_frame_options_header' );
-			}
-		}
-	}
-
-	/** TODO: maybe not needed, see above.
+	/**
 	 * WpPressThis::script_name()
 	 * Returns the current app's fully qualified script name/url based on system-level tests
 	 *
@@ -129,7 +73,7 @@ class WpPressThis {
 			: $script_name;
 	}
 
-	/** TODO: maybe not needed, see above.
+	/**
 	 * WpPressThis::set_url_scheme( $url )
 	 * Sets the URL to https or http, depending on availability and related WP config settings/APIs.
 	 *
@@ -224,7 +168,6 @@ class WpPressThis {
 	 * @return array
 	 */
 	public function i18n() {
-		// TODO: remove redundant!
 		return array(
 			'press-this'                 => __( 'Press This!', 'press-this' ),
 			'welcome'                    => __( 'Welcome to Press This!', 'press-this' ),
