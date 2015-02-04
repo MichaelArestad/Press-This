@@ -160,7 +160,7 @@
 					return true;
 				} else if ( data.u.match(/\/\/vimeo\.com\/(.+\/)?[\d]+$/) ) {
 					return true;
-				} else if ( data.u.match(/\/\/dailymotion\.com\/video\/.+$/) ) {
+				} else if ( data.u.match(/\/\/(www\.)?dailymotion\.com\/video\/.+$/) ) {
 					return true;
 				} else if ( data.u.match(/\/\/soundcloud\.com\/.+$/) ) {
 					return true;
