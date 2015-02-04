@@ -156,9 +156,13 @@
 			function is_embeddable( data ) {
 				if ( ! data || ! data.u ) {
 					return false;
-				} else if ( data.u.match(/\/\/(m\.|www\.)?youtube\.com\/watch\?/) || data.u.match(/\/youtu\.be\/[\d]]+/) ) {
+				} else if ( data.u.match(/\/\/(m\.|www\.)?youtube\.com\/watch\?/) || data.u.match(/\/youtu\.be\/.+$/) ) {
 					return true;
-				} else if ( data.u.match(/\/\/vimeo\.com\/(.+\/)?[\d]+$/)) {
+				} else if ( data.u.match(/\/\/vimeo\.com\/(.+\/)?[\d]+$/) ) {
+					return true;
+				} else if ( data.u.match(/\/\/dailymotion\.com\/video\/.+$/) ) {
+					return true;
+				} else if ( data.u.match(/\/\/soundcloud\.com\/.+$/) ) {
 					return true;
 				}
 				return false;
