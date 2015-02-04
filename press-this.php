@@ -7,7 +7,6 @@ Version: 0.0.4.3
 Author: Press This Team
 Author URI: https://corepressthis.wordpress.com/
 Text Domain: press-this
-Domain Path: /languages
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -225,31 +224,29 @@ class WpPressThis {
 	 * @return array
 	 */
 	public function i18n() {
-		$domain = 'press-this';
-
 		// TODO: remove redundant!
 		return array(
-			'press-this'                 => __( 'Press This!', $domain ),
-			'welcome'                    => __( 'Welcome to Press This!', $domain ),
-			'source'                     => __( 'Source:', $domain ),
-			'settings'                   => __( 'Settings', $domain ),
-			'close'                      => __( 'Close', $domain ),
-			'no-media'                   => __( 'Clear selected media', $domain ),
-			'show-all-media'             => __( 'Display all media', $domain ),
-			'show-selected-media'        => __( 'Display selected media', $domain ),
-			'publish'                    => __( 'Publish', $domain ),
-			'save-draft'                 => __( 'Save Draft', $domain ),
-			'new-post'                   => __( 'New Post', $domain ),
-			'start-typing-here'          => __( 'Start typing here.', $domain ),
-			'enter-url-to-scan'          => __( 'Enter a URL to scan', $domain ),
-			'scan'                       => __( 'Scan', $domain ),
-			'enter-wp-url'               => __( 'Enter a WordPress URL', $domain ),
-			'add'                        => __( 'Add', $domain ),
-			'upload-photo'               => __( 'Upload Photo', $domain ),
-			'upload-failed'              => __( 'Sorry, but your upload failed.', $domain ),
-			'unexpected-error'           => __( 'Sorry, but an unexpected error occurred.', $domain ),
-			'should-upgrade-bookmarklet' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', $domain ),
-			'limit-uploads-to-photos'    => __( 'Please limit your uploads to photos. The file is still in the media library, and can be used in a new post, or <a href="%s" target="_blank">downloaded here</a>.', $domain ),
+			'press-this'                 => __( 'Press This!', 'press-this' ),
+			'welcome'                    => __( 'Welcome to Press This!', 'press-this' ),
+			'source'                     => __( 'Source:', 'press-this' ),
+			'settings'                   => __( 'Settings', 'press-this' ),
+			'close'                      => __( 'Close', 'press-this' ),
+			'no-media'                   => __( 'Clear selected media', 'press-this' ),
+			'show-all-media'             => __( 'Display all media', 'press-this' ),
+			'show-selected-media'        => __( 'Display selected media', 'press-this' ),
+			'publish'                    => __( 'Publish', 'press-this' ),
+			'save-draft'                 => __( 'Save Draft', 'press-this' ),
+			'new-post'                   => __( 'New Post', 'press-this' ),
+			'start-typing-here'          => __( 'Start typing here.', 'press-this' ),
+			'enter-url-to-scan'          => __( 'Enter a URL to scan', 'press-this' ),
+			'scan'                       => __( 'Scan', 'press-this' ),
+			'enter-wp-url'               => __( 'Enter a WordPress URL', 'press-this' ),
+			'add'                        => __( 'Add', 'press-this' ),
+			'upload-photo'               => __( 'Upload Photo', 'press-this' ),
+			'upload-failed'              => __( 'Sorry, but your upload failed.', 'press-this' ),
+			'unexpected-error'           => __( 'Sorry, but an unexpected error occurred.', 'press-this' ),
+			'should-upgrade-bookmarklet' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', 'press-this' ),
+			'limit-uploads-to-photos'    => __( 'Please limit your uploads to photos. The file is still in the media library, and can be used in a new post, or <a href="%s" target="_blank">downloaded here</a>.', 'press-this' ),
 		);
 	}
 
