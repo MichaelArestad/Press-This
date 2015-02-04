@@ -184,7 +184,7 @@
 
 			function get_featured_image( data ) {
 				var featured = '';
-				
+
 				if ( ! data || ! data._meta )
 					return '';
 
@@ -329,7 +329,7 @@
 
 			function hide_selected_media() {
 				$( '#wppt_all_media_switch').click(function(){
-						show_all_media();
+					show_all_media();
 				}).attr(
 					'title', __( 'show-all-media' )
 				);
@@ -340,7 +340,7 @@
 
 			function show_nomedia_button() {
 				$('#wppt_no_image').click(function(){
-						unset_selected_media();
+					unset_selected_media();
 				}).attr(
 					'title', __( 'no-media' )
 				);
@@ -482,45 +482,19 @@
 			}
 
 			function render_images() {
-				if ( data && ! is_embeddable( data ) ) {
-					render_featured_image();
-				} else {
+				if ( ! data || is_embeddable( data ) ) {
 					unset_selected_media();
+				} else {
+					render_interesting_images();
 				}
-				render_interesting_images();
-			}
-
-			function render_featured_image() {
-				if ( ! featured || ! featured.length ) {
-					$('#wppt_featured_image_container').hide();
-					return;
-				}
-
-				var display_src = ( featured.indexOf('files.wordpress.com') > -1 )
-					? featured + '?w=' + current_width
-					: featured;
-
-				$('#wppt_selected_img').attr('src', display_src ).css({
-					'background-image'   : 'url('+display_src+')',
-					'width'              : current_width + 'px',
-					'height'             : parseInt( current_width / 1.6) + 'px'
-				}).click(function(){
-					set_selected_media( display_src );
-				}).appendTo('#wppt_featured_image_container');
-
-				show_nomedia_button();
 			}
 
 			function render_interesting_images() {
-				var img_switch     = $('#wppt_all_media_switch'),
-					imgs_container = $('#wppt_all_media_container');
+				var imgs_container = $('#wppt_all_media_container');
 
 				imgs_container.empty();
 
 				if ( ! interesting_images || ! interesting_images.length ) {
-					img_switch.attr(
-						'title', __( 'show-selected-media' )
-					).hide();
 					imgs_container.hide();
 					return;
 				}
@@ -557,14 +531,7 @@
 				});
 
 				imgs_container.show();
-
-				img_switch.click(function(){
-					show_all_media();
-				}).attr(
-					'title', __( 'show-all-media' )
-				).show();
-
-				show_nomedia_button();
+				show_all_media();
 			}
 
 /* ***************************************************************
@@ -619,11 +586,11 @@
 					submit_post( e, 'publish');
 				});
 /*
-				$( '#wppt_form' ).on( 'submit', function( e ){
-					e.preventDefault();
-					submit_post( $( '#wppt_draft_field' ), 'draft');
-				});
-*/
+				 $( '#wppt_form' ).on( 'submit', function( e ){
+				 e.preventDefault();
+				 submit_post( $( '#wppt_draft_field' ), 'draft');
+				 });
+ */
 				// File upload button and autosubmit
 
 				$( '#wppt_file' ).on('change', function(){
