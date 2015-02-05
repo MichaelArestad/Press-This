@@ -7,8 +7,7 @@
 				ux_context            = loader.ux_context || 'top',
 				data                  = window.wp_pressthis_data || {},
 				largest_width         = parseInt( $( document ).width() - 60 ) || 450,
-				smallest_width        = 64,
-				current_width         = parseInt( largest_width ) || 450,
+				smallest_width        = 128,
 				interesting_images	  = get_interesting_images( data ) || [],
 				interesting_embeds	  = get_interesting_embeds( data ) || [],
 				suggested_title_str   = get_suggested_title( data ),
@@ -455,9 +454,9 @@
 
 						var display_src = 'a bundled thumb representing embed';
 						if ( src.indexOf('youtube.com/') > -1 ) {
-							display_src = 'https://i.ytimg.com/vi/' + src.replace(/.+v=([^&]+).*/, '$1') + '/default.jpg';
+							display_src = 'https://i.ytimg.com/vi/' + src.replace(/.+v=([^&]+).*/, '$1') + '/hqdefault.jpg';
 						} else if ( src.indexOf('youtu.be/') > -1 ) {
-							display_src = 'https://i.ytimg.com/vi/' + src.replace(/\/([^\/])$/, '$1') + '/default.jpg';
+							display_src = 'https://i.ytimg.com/vi/' + src.replace(/\/([^\/])$/, '$1') + '/hqdefault.jpg';
 						}
 
 						$('<div></div>', {
