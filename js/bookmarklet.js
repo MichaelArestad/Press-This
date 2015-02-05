@@ -43,6 +43,7 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		fs    = false,
 		i     = null,
 		il    = false,
+		vid   = null,
 		fAdd  = function (n, v) {
 			if (typeof(v) === 'undefined')return;
 			e       = d.createElement('input');
@@ -51,6 +52,16 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 			e.type  = 'hidden';
 			f.appendChild(e);
 		};
+
+	if (l.href.match(/\/\/www\.youtube\.com\/watch/) ) {
+		fAdd('_embed[]', l.href);
+	} else if ( l.href.match(/\/\/vimeo\.com\/(.+\/)?([\d]+)$/) ) {
+		fAdd('_embed[]', l.href);
+	}  else if ( l.href.match(/\/\/(www\.)?dailymotion\.com\/video\/.+$/) ) {
+		fAdd('_embed[]', l.href);
+	} else if ( l.href.match(/\/\/soundcloud\.com\/.+$/) ) {
+		fAdd('_embed[]', l.href);
+	}
 
 	if ( ! imgs || ! imgs.length ) {
 		it   = ( d.body.getElementsByClassName ) ? d.body.getElementsByClassName('hfeed') : [];
@@ -112,7 +123,6 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		}
 	}
 
-	var vid;
 	for (var p = 0; p < ifrs.length; p++) {
 		if ( p >= 100 )
 			break;

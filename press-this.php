@@ -345,17 +345,6 @@ class WpPressThis {
 			$content = trim( $_POST['pressthis'] ); // The editor textarea, we have to allow this one and let wp_insert_post() filter the content below
 		}
 
-		if ( ! empty( $_POST['wppt_selected_img'] ) ) {
-			if ( empty( $_POST['wppt_source_url'] ) || false !== strpos( $_POST['wppt_selected_img'], preg_replace( '/^(http:.+)\/wp-admin\/.+/', '\1/wp-content/', self::script_name() ) ) ) {
-				$img_link = $_POST['wppt_selected_img'];
-			} else {
-				$img_link = $_POST['wppt_source_url'];
-			}
-
-			// TODO: needs better filtering?
-			$content = '<a href="' . esc_url( $img_link ) . '"><img src="' . esc_url( $_POST['wppt_selected_img'] ) . '" /></a>' . $content;
-		}
-
 		$post['post_content'] = $content;
 
 		if ( 'publish' === $status ) {
@@ -383,6 +372,8 @@ class WpPressThis {
 	public function side_load_images( $post_id, $content = '' ) {
 		$new_content = $content;
 
+		/*
+		 * TODO: do this for content images, not wppt_selected_img
 		if ( ! empty( $_POST['wppt_selected_img'] ) && current_user_can( 'upload_files' ) ) {
 			foreach( (array) $_POST['wppt_selected_img'] as $key => $image ) {
 				//Don't sideload images already hosted on our WP instance
@@ -402,6 +393,7 @@ class WpPressThis {
 				}
 			}
 		}
+		 */
 
 		// Error handling for media_sideload, send original content back
 		if ( is_wp_error( $new_content ) )
@@ -740,18 +732,12 @@ class WpPressThis {
 		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo esc_attr( $post->ID ); ?>" />
 		<input type="hidden" name="wppt_nonce" id="wppt_nonce_field" value="<?php echo esc_attr( $nonce ) ?>"/>
 		<input type="hidden" name="wppt_title" id="wppt_title_field" value=""/>
-		<input type="hidden" name="wppt_selected_img" id="wppt_selected_img_field" value=""/>
 		<input type="hidden" name="wppt_source_url" id="wppt_source_url_field" value=""/>
 		<input type="hidden" name="wppt_source_name" id=wppt_source_name_field" value=""/>
 
 	<div id='wppt_app_container' class="editor">
 		<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
 		<div id='wppt_featured_image_container' class="featured-container">
-			<img src="" id="wppt_selected_img" class="featured-image" width="400" height="300" />
-			<div role="group">
-				<a role="button" href="#" title="<?php echo esc_attr( $i18n['show-all-media'] ) ?>" id="wppt_all_media_switch" class="icon-button--dark dashicons dashicons-images-alt2"><span class="screen-reader-text"><?php _e( 'Switch featured image' ); ?></span></a>
-				<a role="button" href="#" title="<?php echo esc_attr( $i18n['no-media'] ) ?>" id="wppt_no_image" class="icon-button--dark dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Remove featured image' ); ?></span></a>
-			</div>
 			<div id='wppt_all_media_widget' class="all-media">
 				<div id='wppt_all_media_container'></div>
 			</div>
