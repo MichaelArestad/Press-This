@@ -455,6 +455,9 @@ class WpPressThis {
 					'img' => array(
 						'src'      => array(),
 					),
+					'iframe' => array(
+						'src'      => array(),
+					),
 					'link' => array(
 						'rel'      => array(),
 						'itemprop' => array(),
@@ -522,14 +525,15 @@ class WpPressThis {
 			$data['_embed'] = array();
 		}
 
-		if ( preg_match_all( '/<iframe (.+)[\s]?\/>/', $source_content, $matches ) ) {
+		if ( preg_match_all( '/<iframe (.+)[\s][^>]*>/', $source_content, $matches ) ) {
 			if ( !empty( $matches[0] ) ) {
 				foreach ( $matches[0] as $value ) {
-					if ( preg_match( '/<iframe[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
-						if ( ! in_array( $new_matches[1], $data['_embed'] ) ) {
-							if ( preg_match( '/\/\/www\.youtube\.com\/embed\/([^\?]+)\?.+$/', $new_matches[1], $src_matches )
-								|| preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)$/', $new_matches[1], $src_matches ) ) {
-								$data['_embed'][] = $src_matches[1];
+					if ( preg_match( '/<iframe[^>]+src=(\'|")([^"]+)(\'|")/', $value, $new_matches ) ) {
+						if ( ! in_array( $new_matches[2], $data['_embed'] ) ) {
+							if ( preg_match( '/\/\/www\.youtube\.com\/embed\/([^\?]+)\?.+$/', $new_matches[2], $src_matches ) ) {
+								$data['_embed'][] = 'https://www.youtube.com/watch?v=' . $src_matches[1];
+							} else if ( preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)$/', $new_matches[2], $src_matches ) ) {
+								$data['_embed'][] = 'https://vimeo.com/' . $src_matches[2];
 							}
 						}
 					}
