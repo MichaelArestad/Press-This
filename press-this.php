@@ -33,11 +33,6 @@ class WpPressThis {
 				 * Take over /wp-admin/press-this.php
 				 */
 				add_action( 'admin_init', array( $this, 'press_this_php_override' ), 0 );
-			} else if ( false !== strpos( admin_url( 'tools.php' ),$script_name ) ) {
-				/*
-				 * Take over Press This bookmarklet code in /wp-admin/tools.php
-				 */
-				add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
 			} else if ( false !== strpos( admin_url( 'admin-ajax.php' ), $script_name ) ) {
 				/*
 				 * AJAX emdpoints
@@ -49,6 +44,11 @@ class WpPressThis {
 				add_action( 'wp_ajax_press_this_draft_post',          array( $this, 'ajax_draft_post' ) );
 				// Chrome extension manifest
 				// add_action( 'wp_ajax_press_this_chrome_ext_manifest', array( $this, 'ajax_chrome_ext_manifest' ) );
+			} else {
+				/*
+				 * Take over Press This bookmarklet code, wherever presented
+				 */
+				add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
 			}
 		}
 	}
