@@ -20,15 +20,15 @@
 	@extend %button;
 	background: none;
 	border: 0;
-	color: map-get( $buttons, subtle__text );
+	color: map-get( $buttons, subtle__color );
 
 	&:visited {
-		color: map-get( $buttons, subtle__text );
+		color: map-get( $buttons, subtle__color );
 	}
 	&:focus,
 	&:hover,
 	&:active {
-		color: map-get( $buttons, subtle__text--hover );
+		color: map-get( $buttons, subtle__color--hover );
 	}
 }
 

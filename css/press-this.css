@@ -512,6 +512,13 @@ big {
 .button--subtle {
   background: none;
   border: 0;
+  color: #0074a2;
+}
+.button--subtle:visited {
+  color: #0074a2;
+}
+.button--subtle:focus, .button--subtle:hover, .button--subtle:active {
+  color: #2ea2cc;
 }
 
 a.icon-button--dark {
@@ -786,6 +793,8 @@ body:before {
 
 .editor {
   padding: 0 1.5em 0;
+  max-width: 700px;
+  margin: 0 auto;
 }
 @media (max-width: 320px) {
   .editor {
@@ -835,6 +844,9 @@ body:before {
 
 .all-media {
   display: none;
+  overflow: auto;
+  max-height: 150px;
+  max-height: 40vw;
 }
 .all-media:before, .all-media:after {
   content: "";
@@ -843,20 +855,38 @@ body:before {
 .all-media:after {
   clear: both;
 }
+@media (min-width: 321px) {
+  .all-media {
+    max-height: 250px;
+    max-height: 40vw;
+  }
+}
+@media (min-width: 601px) {
+  .all-media {
+    max-height: 200px;
+    max-height: 18.75vw;
+  }
+}
 
-.site-thumbnail {
+.suggested-media-thumbnail {
   position: relative;
   display: block;
   float: left;
-  width: 25%;
-  padding: 25% 0 0 25%;
+  width: 16.66%;
+  padding: 16.66% 0 0 16.66%;
   background-position: center;
   background-repeat: no-repeat;
   -webkit-background-size: cover;
   background-size: cover;
   cursor: pointer;
 }
-.site-thumbnail:after {
+@media (min-width: 601px) {
+  .suggested-media-thumbnail {
+    width: 12.5%;
+    padding: 12.5% 0 0 12.5%;
+  }
+}
+.suggested-media-thumbnail:after {
   content: '';
   position: absolute;
   top: 0;
@@ -864,16 +894,6 @@ body:before {
   height: 100%;
   width: 2px;
   background: #fff;
-}
-
-.thumbs-large {
-  width: 33.333%;
-  padding: 33.333% 0 0 33.333%;
-}
-
-.thumbs-small {
-  width: 12.5%;
-  padding: 12.5% 0 0 12.5%;
 }
 
 #wppt_no_image {
@@ -965,7 +985,7 @@ body:before {
     border-left: 1px solid #e5e5e5;
     border-bottom: 1px solid #e5e5e5;
   }
-  .adminbar .dashicons-wordpress-alt {
+  .adminbar .dashicons-wordpress {
     color: #2ea2cc;
   }
 }
@@ -974,6 +994,9 @@ body:before {
   font-size: 16px;
   line-height: 44px;
   font-weight: 400;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 @media (max-width: 600px) {
   .current-site {
@@ -983,6 +1006,7 @@ body:before {
 @media (max-width: 320px) {
   .current-site {
     margin: 1px 0 0;
+    color: #404040;
     font-size: 14px;
   }
 }
@@ -1002,12 +1026,10 @@ body:before {
     color: #2ea2cc;
   }
 }
-.current-site .dashicons-wordpress-alt {
+.current-site .dashicons-wordpress {
   position: relative;
   top: -1px;
   margin-right: 10px;
-  background: url(../images/icons/png/wordpress-alt-white.png) no-repeat center center;
-  background: none, none;
   vertical-align: middle;
 }
 

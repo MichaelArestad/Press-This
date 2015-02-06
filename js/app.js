@@ -7,13 +7,11 @@
 				ux_context            = loader.ux_context || 'top',
 				data                  = window.wp_pressthis_data || {},
 				largest_width         = parseInt( $( document ).width() - 60 ) || 450,
-				smallest_width        = 64,
-				current_width         = parseInt( largest_width ) || 450,
+				smallest_width        = 128,
 				interesting_images	  = get_interesting_images( data ) || [],
-				featured              = ( interesting_images.length ) ? interesting_images[0] : '',
+				interesting_embeds	  = get_interesting_embeds( data ) || [],
 				suggested_title_str   = get_suggested_title( data ),
 				suggested_content_str = get_suggested_content( data ),
-				already_shown_img     = [],
 				nonce                 = data._nonce || '';
 
 /* ***************************************************************
@@ -141,11 +139,6 @@
 					+ '</p>';
 				}
 
-				// Use embeddable URL if recognized, and hide selected images (but leave them selectable)
-				if ( data.u && is_embeddable( data ) ) {
-					content = '[embed]' + data.u + "[/embed]\n" + content;
-				}
-
 				if ( ! content.length ) {
 					content = __( 'start-typing-here' );
 				}
@@ -153,16 +146,16 @@
 				return content.replace( /\\/g, '' );
 			}
 
-			function is_embeddable( data ) {
-				if ( ! data || ! data.u ) {
+			function is_embeddable( url ) {
+				if ( ! url || ! url ) {
 					return false;
-				} else if ( data.u.match(/\/\/(m\.|www\.)?youtube\.com\/watch\?/) || data.u.match(/\/youtu\.be\/.+$/) ) {
+				} else if ( url.match(/\/\/(m\.|www\.)?youtube\.com\/watch\?/) || url.match(/\/youtu\.be\/.+$/) ) {
 					return true;
-				} else if ( data.u.match(/\/\/vimeo\.com\/(.+\/)?[\d]+$/) ) {
+				} else if ( url.match(/\/\/vimeo\.com\/(.+\/)?[\d]+$/) ) {
 					return true;
-				} else if ( data.u.match(/\/\/(www\.)?dailymotion\.com\/video\/.+$/) ) {
+				} else if ( url.match(/\/\/(www\.)?dailymotion\.com\/video\/.+$/) ) {
 					return true;
-				} else if ( data.u.match(/\/\/soundcloud\.com\/.+$/) ) {
+				} else if ( url.match(/\/\/soundcloud\.com\/.+$/) ) {
 					return true;
 				}
 				return false;
@@ -182,9 +175,39 @@
 				);
 			}
 
+			function get_interesting_embeds() {
+				var embeds             = data._embed || [],
+					interesting_embeds = [],
+					already_selected   = [];
+
+				if ( embeds.length ) {
+					$.each( embeds, function ( i, src ) {
+						if (!src || !src.length) {
+							// Skip: no src value
+							return;
+						} else if ( !is_embeddable( src ) ) {
+							// Skip: not deemed embeddable
+							return;
+						}
+
+						var schemeless_src = src.replace(/^https?:/, '');
+
+						if ( already_selected.indexOf( schemeless_src ) > -1 ) {
+							// Skip: already shown
+							return;
+						}
+
+						interesting_embeds.push(src);
+						already_selected.push(schemeless_src);
+					});
+				}
+
+				return interesting_embeds;
+			}
+
 			function get_featured_image( data ) {
 				var featured = '';
-				
+
 				if ( ! data || ! data._meta )
 					return '';
 
@@ -223,12 +246,14 @@
 						src = get_full_size_src( src );
 						src = src.replace(/http:\/\/[\d]+\.gravatar\.com\//, 'https://secure.gravatar.com/');
 
-						var schemeless_src = src.replace(/^https?:/, '');
-
 						if (!src || !src.length) {
 							// Skip: no src value
 							return;
-						} else if ( already_selected.indexOf( schemeless_src ) > -1 ) {
+						}
+
+						var schemeless_src = src.replace(/^https?:/, '');
+
+						if ( already_selected.indexOf( schemeless_src ) > -1 ) {
 							// Skip: already shown
 							return;
 						} else if (is_src_uninteresting_path(src)) {
@@ -302,82 +327,17 @@
 			}
 
 			function show_all_media() {
-				$( '#wppt_all_media_switch' ).click(function(){
-					show_selected_media();
-				}).attr(
-					'title', __( 'show-selected-media' )
-				);
 				$( '#wppt_featured_image_container' ).addClass( 'all-media--visible').show();
-				$( '#wppt_selected_img').hide();
-				$('#wppt_no_image');
 			}
 
-			function show_selected_media() {
-				if ( '' == $( '#wppt_selected_img_field' ).val() ) {
-					hide_selected_media();
-					return;
-				}
-				$( '#wppt_all_media_switch').click(function(){
-					show_all_media();
-				}).attr(
-					'title', __( 'show-all-media' )
-				);
-				$( '#wppt_selected_img').css( 'display', 'block' );
-				$( '#wppt_featured_image_container' ).removeClass('all-media--visible no-media').show();
-				$('#wppt_no_image');
-			}
-
-			function hide_selected_media() {
-				$( '#wppt_all_media_switch').click(function(){
-						show_all_media();
-				}).attr(
-					'title', __( 'show-all-media' )
-				);
-				$( '#wppt_selected_img').hide();
-				$( '#wppt_featured_image_container' ).removeClass('all-media--visible no-media').show();
-				$('#wppt_no_image');
-			}
-
-			function show_nomedia_button() {
-				$('#wppt_no_image').click(function(){
-						unset_selected_media();
-				}).attr(
-					'title', __( 'no-media' )
-				);
-			}
-
-			function set_selected_media( src ) {
-				$( '#wppt_selected_img_field' ).val( src );
-				$( '#wppt_selected_img' ).attr( 'src', src ).css('background-image', 'url(' + src + ')' );
-				show_selected_media();
-			}
-
-			function unset_selected_media() {
-				$( '#wppt_selected_img_field' ).val('');
-				$( '#wppt_selected_img' ).attr( 'src', '' ).css('background-image', 'none' );
-				hide_selected_media();
-				$( '#wppt_featured_image_container' ).addClass('no-media');
-			}
-
-			function add_new_image_to_list( src ) {
-				interesting_images.unshift( src );
-				render_interesting_images();
-			}
-
-			function file_upload_success( url, type ) {
-				if (!url || !type || !url.match(/^https?:/) || !type.match(/^[\w]+\/.+$/)) {
-					render_error(__('upload-failed') + ' [app_js.file_upload_success]');
-					hide_spinner();
-					return;
-				}
-				if (type.match(/^image\//)) {
-					add_new_image_to_list(url);
-					set_selected_media(url);
-					clear_errors();
+			function insert_selected_media( type, src, link ) {
+				var new_content = '';
+				if ( 'img' == type ) {
+					new_content = '<p><a href="' + link + '"><img src="' + src + '" style="max-width:100%;" /></a></p>';
 				} else {
-					render_error(__('limit-uploads-to-photos').replace('%s', encodeURI(url)));
+					new_content = '<p>[embed]' + src + '[/embed]</p>'
 				}
-				hide_spinner();
+				editor && editor.setContent( new_content + editor.getContent() );
 			}
 
 			function clear_errors() {
@@ -415,7 +375,6 @@
 			function render_default_form_field_values() {
 				$('#wppt_nonce_field').val( nonce );
 				$('#wppt_title_field').val( suggested_title_str );
-				$('#wppt_selected_img_field').val( featured );
 				$('#wppt_source_url_field').val( get_canonical_link( data ) );
 				$('#wppt_source_name_field').val( get_source_site_name( data ) );
 				$('#wppt_publish_field').val( __( 'publish' ) );
@@ -481,90 +440,72 @@
 				editor && editor.setContent( suggested_content_str );
 			}
 
-			function render_images() {
-				if ( data && ! is_embeddable( data ) ) {
-					render_featured_image();
-				} else {
-					unset_selected_media();
-				}
-				render_interesting_images();
-			}
-
-			function render_featured_image() {
-				if ( ! featured || ! featured.length ) {
-					$('#wppt_featured_image_container').hide();
-					return;
-				}
-
-				var display_src = ( featured.indexOf('files.wordpress.com') > -1 )
-					? featured + '?w=' + current_width
-					: featured;
-
-				$('#wppt_selected_img').attr('src', display_src ).css({
-					'background-image'   : 'url('+display_src+')',
-					'width'              : current_width + 'px',
-					'height'             : parseInt( current_width / 1.6) + 'px'
-				}).click(function(){
-					set_selected_media( display_src );
-				}).appendTo('#wppt_featured_image_container');
-
-				show_nomedia_button();
-			}
-
-			function render_interesting_images() {
-				var img_switch     = $('#wppt_all_media_switch'),
-					imgs_container = $('#wppt_all_media_container');
+			function render_detected_media() {
+				var imgs_container = $('#wppt_all_media_container'),
+					found          = 0;
 
 				imgs_container.empty();
 
-				if ( ! interesting_images || ! interesting_images.length ) {
-					img_switch.attr(
-						'title', __( 'show-selected-media' )
-					).hide();
+				if ( interesting_embeds && interesting_embeds.length ) {
+					$.each(interesting_embeds, function (i, src) {
+						if ( ! is_embeddable( src ) ) {
+							return;
+						}
+
+						var display_src = 'a bundled thumb representing embed';
+						if ( src.indexOf('youtube.com/') > -1 ) {
+							display_src = 'https://i.ytimg.com/vi/' + src.replace(/.+v=([^&]+).*/, '$1') + '/hqdefault.jpg';
+						} else if ( src.indexOf('youtu.be/') > -1 ) {
+							display_src = 'https://i.ytimg.com/vi/' + src.replace(/\/([^\/])$/, '$1') + '/hqdefault.jpg';
+						}
+
+						$('<div></div>', {
+							'id': 'embed-' + i + '-container',
+							'class': 'suggested-media-thumbnail'
+						}).css({
+							'background-image': 'url(' + display_src + ')'
+						}).click(function () {
+							insert_selected_media('embed',src);
+						}).appendTo(imgs_container);
+
+						found++;
+					});
+				}
+
+				if ( interesting_images && interesting_images.length ) {
+					$.each(interesting_images, function (i, src) {
+						src = get_full_size_src(src);
+
+						var display_src;
+						if ( src.indexOf('files.wordpress.com/') > -1 ) {
+							display_src = src.replace(/\?.*$/, '') + '?w=' + smallest_width;
+						} else if ( src.indexOf('gravatar.com/') > -1 ) {
+							display_src = src.replace(/\?.*$/, '') + '?s=' + smallest_width;
+						} else {
+							display_src = src;
+						}
+
+						$('<img />', {
+							'src': display_src,
+							'id': 'img-' + i + '-container',
+							'class': 'suggested-media-thumbnail'
+						}).css({
+							'background-image': 'url(' + display_src + ')'
+						}).click(function () {
+							insert_selected_media('img', src, data.u);
+						}).appendTo(imgs_container);
+
+						found++;
+					});
+				}
+
+				if ( ! found ) {
 					imgs_container.hide();
 					return;
 				}
 
-				$.each( interesting_images, function( i, src ) {
-					src = get_full_size_src(src);
-
-					var css_size_class = 'thumbs-small';
-
-					if (i < 3)
-						css_size_class = 'thumbs-large';
-					else if (i < 7)
-						css_size_class = 'thumbs-medium';
-
-					if ( 0 == i || 3 == i || 7 == i )
-						current_width   = parseInt(current_width / 2);
-
-					if ( current_width < smallest_width )
-						current_width = smallest_width;
-
-					var display_src = ( src.indexOf('files.wordpress.com') > -1 )
-						? src + '?w=' + parseInt( current_width * 1.5 )
-						: src;
-
-					$('<img />', {
-						'src'                : display_src,
-						'id'                 : 'img-'+i+'-container',
-						'class'              : 'site-thumbnail ' + css_size_class
-					}).css({
-						'background-image'   : 'url('+display_src+')'
-					}).click(function(){
-						set_selected_media( display_src );
-					}).appendTo(imgs_container);
-				});
-
 				imgs_container.show();
-
-				img_switch.click(function(){
-					show_all_media();
-				}).attr(
-					'title', __( 'show-all-media' )
-				).show();
-
-				show_nomedia_button();
+				show_all_media();
 			}
 
 /* ***************************************************************
@@ -583,7 +524,7 @@
 				render_default_form_field_values();
 				render_admin_bar();
 				render_suggested_title();
-				render_images();
+				render_detected_media();
 				$( document ).on( 'tinymce-editor-init', render_suggested_content );
 				render_startup_notices();
 				return true;
@@ -619,11 +560,11 @@
 					submit_post( e, 'publish');
 				});
 /*
-				$( '#wppt_form' ).on( 'submit', function( e ){
-					e.preventDefault();
-					submit_post( $( '#wppt_draft_field' ), 'draft');
-				});
-*/
+				 $( '#wppt_form' ).on( 'submit', function( e ){
+				 e.preventDefault();
+				 submit_post( $( '#wppt_draft_field' ), 'draft');
+				 });
+ */
 				// File upload button and autosubmit
 
 				$( '#wppt_file' ).on('change', function(){
@@ -662,7 +603,6 @@
 			}
 
 			// Assign callback/public properties/methods to returned object
-			this.file_upload_success = file_upload_success;
 			this.render_error        = render_error;
 		};
 

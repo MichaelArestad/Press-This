@@ -24,11 +24,11 @@ body {
 		background: $gray--light;
 	}
 
-	@include breakpoint( M- ) {
+	@include breakpoint( '<600px' ) {
 		margin: em( 52px, 16px ) 0 em( 95px, 16px ) 1px;
 		font-size: 16px;
 	}
-	@include breakpoint( S- ) {
+	@include breakpoint( '<320px' ) {
 		margin: em( 45px, 14px ) 0 em( 95px, 14px ) 1px;
 		font-size: 14px;
 	}
@@ -128,8 +128,10 @@ body {
 // Editor stuff
 .editor {
 	padding: 0 em( 30px ) 0;
+	max-width: 700px;
+	margin: 0 auto;
 
-	@include breakpoint( S- ) {
+	@include breakpoint( '<320px' ) {
 		padding: 0;
 	}
 }
@@ -137,7 +139,7 @@ body {
 .editor--content {
 	min-height: 8em;
 
-	@include breakpoint( S- ) {
+	@include breakpoint( '<320px' ) {
 		padding: 0 em( 20px, 14px );
 	}
 }
@@ -148,7 +150,7 @@ body {
 	border-bottom: 1px solid $gray--light;
 	line-height: 1.4;
 
-	@include breakpoint( S- ) {
+	@include breakpoint( '<320px' ) {
 		font-size: 1em;
 		font-weight: 600;
 		padding: em( 16px, 14px ) em( 20px, 14px );
@@ -176,10 +178,22 @@ body {
 .all-media {
 	@include clearfix;
 	display: none;
+	overflow: auto;
+	max-height: 150px;
+	max-height: 40vw;
+
+	@include breakpoint ( '>320px' ) {
+		max-height: 250px;
+		max-height: 40vw;
+	}
+	@include breakpoint ( '>600px' ) {
+		max-height: 200px;
+		max-height: 18.75vw;
+	}
 }
 
-.site-thumbnail {
-	$size: 25%;
+.suggested-media-thumbnail {
+	$size: 16.66%;
 	position: relative;
 	display: block;
 	float: left;
@@ -190,6 +204,11 @@ body {
 	background-size: cover;
 	cursor: pointer;
 
+	@include breakpoint ( '>600px' ) {
+		$size: 12.5%;
+		width: $size;
+		padding: $size 0 0 $size;
+	}
 	&:after {
 		content: '';
 		position: absolute;
@@ -199,20 +218,6 @@ body {
 		width: 2px;
 		background: #fff;
 	}
-}
-
-.thumbs-large {
-	$size: 33.333%;
-
-	width: $size;
-	padding: $size 0 0 $size;
-}
-
-.thumbs-small {
-	$size: 12.5%;
-
-	width: $size;
-	padding: $size 0 0 $size;
 }
 
 #wppt_no_image {
@@ -269,7 +274,7 @@ body {
 	margin: 14px 0 14px 30px;
 	font-size: 0;
 
-	@include breakpoint( S- ) {
+	@include breakpoint( '<320px' ) {
 		margin: 10px 0 10px 10px;
 	}
 }
@@ -279,7 +284,7 @@ body {
 	margin: 14px 30px 14px 0;
 	font-size: 0;
 
-	@include breakpoint( S- ) {
+	@include breakpoint( '<320px' ) {
 		margin: 10px 10px 10px 0;
 	}
 }
@@ -300,14 +305,14 @@ body {
 	.dashicons {
 		color: #999;
 	}
-	@include breakpoint( S- ) {
+	@include breakpoint( '<320px' ) {
 		min-height: 45px;
 		background: #fff;
 		background: transparentize( #fff, .1 );
 		border-left: 1px solid $gray--light;
 		border-bottom: 1px solid $gray--light;
 
-		.dashicons-wordpress-alt {
+		.dashicons-wordpress {
 			color: $blue--light;
 		}
 	}
@@ -317,12 +322,16 @@ body {
 	font-size: 16px;
 	line-height: 44px;
 	font-weight: $normal;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 
-	@include breakpoint( M- ) {
+	@include breakpoint( '<600px' ) {
 		margin: 3px 0 0;
 	}
-	@include breakpoint( S- ) {
+	@include breakpoint( '<320px' ) {
 		margin: 1px 0 0;
+		color: #404040;
 		font-size: 14px;
 	}
 	a {
@@ -332,7 +341,7 @@ body {
 		&:hover {
 			color: #fff;
 		}
-		@include breakpoint( S- ) {
+		@include breakpoint( '<320px' ) {
 			color: #3f3f3f;
 			font-weight: 600;
 
@@ -341,12 +350,10 @@ body {
 			}
 		}
 	}
-	.dashicons-wordpress-alt {
+	.dashicons-wordpress {
 		position: relative;
 		top: -1px;
 		margin-right: 10px;
-		background: url( ../images/icons/png/wordpress-alt-white.png ) no-repeat center center;
-		background: none, none; // The magic
 		vertical-align: middle;
 	}
 }
@@ -418,7 +425,7 @@ body {
 		box-shadow: none;
 		overflow: hidden;
 
-		@include breakpoint( S- ) {
+		@include breakpoint( '<320px' ) {
 			width: 55px;
 			height: 50px;
 			padding: 7px;
@@ -467,7 +474,7 @@ body {
 }
 
 
-@include breakpoint( M- ) {
+@include breakpoint( '<600px' ) {
 	#mceu_11,
 	#mceu_12 {
 		display: none;

@@ -1,45 +1,64 @@
 // ==========================================================================
 // Breakpoint Mixin
-//
-// This mixin defualts to mobile-first code.
-// It uses shirt-sizes for variables (easy to remember and expandable)
-//
-// It has an optional `-` suffix to change behavior from min-width to
-// max-width. For example: `@include breakpoint( L- );`
 // ==========================================================================
 
-// Add or remove breakpoints as you desire
-$breakpoints:(
-	S: 320px, // phone
-	M: 600px, // tablet
-	L: 900px // desktop
-);
+$breakpoints: 320px, 600px, 900px; // Think very carefully before adding a new breakpoint
 
 @mixin breakpoint( $size ){
-	@if type-of( $size ) == string {
-		@each $breakpoint, $value in $breakpoints {
-			@if $size == $breakpoint {
-				@media ( min-width: map-get( $breakpoints, $breakpoint ) + 1 ) {
+	@if type-of($size) == string {
+		$approved-value: 0;
+		@each $breakpoint in $breakpoints {
+			$and-larger: ">" + $breakpoint;
+			$and-smaller: "<" + $breakpoint;
+
+			@if $size == $and-smaller {
+				$approved-value: 1;
+				@media ( max-width: $breakpoint ) {
 					@content;
 				}
 			}
-			$minus: $breakpoint + "-";
-			@if $size == $minus {
-				@media ( max-width: map-get( $breakpoints, $breakpoint ) ) {
-					@content;
+			@else {
+				@if $size == $and-larger {
+					$approved-value: 2;
+					@media ( min-width: $breakpoint + 1 ) {
+						@content;
+					}
+				}
+				@else {
+					@each $breakpoint-end in $breakpoints {
+						$range: $breakpoint + "-" + $breakpoint-end;
+						@if $size == $range {
+							$approved-value: 3;
+							@media ( min-width: $breakpoint + 1 ) and ( max-width: $breakpoint-end ) {
+								@content;
+							}
+						}
+					}
 				}
 			}
 		}
-	} @else {
-		@media ( min-width: $size + 1 ) {
-			@content;
+		@if $approved-value == 0 {
+			$sizes: "";
+			@each $breakpoint in $breakpoints {
+				$sizes: $sizes + " " + $breakpoint;
+			}
+			// TODO - change this to use @error, when it is supported by node-sass
+			@warn "ERROR in breakpoint( #{ $size } ): You can only use these sizes[ #{$sizes} ] using the following syntax [ <#{ nth( $breakpoints, 1 ) } >#{ nth( $breakpoints, 1 ) } #{ nth( $breakpoints, 1 ) }-#{ nth( $breakpoints, 2 ) } ]";
 		}
+	}
+	@else {
+		$sizes: "";
+		@each $breakpoint in $breakpoints {
+			$sizes: $sizes + " " + $breakpoint;
+		}
+		// TODO - change this to use @error, when it is supported by node-sass
+		@warn "ERROR in breakpoint( #{ $size } ): Please wrap the breakpoint $size in parenthesis. You can use these sizes[ #{$sizes} ] using the following syntax [ <#{ nth( $breakpoints, 1 ) } >#{ nth( $breakpoints, 1 ) } #{ nth( $breakpoints, 1 ) }-#{ nth( $breakpoints, 2 ) } ]";
 	}
 }
 
 // EXAMPLE
 // body {
-// 	@include breakpoint( M ){
+// 	@include breakpoint( '>320px' ){
 // 		font-size: 14px;
 // 	};
 // }
