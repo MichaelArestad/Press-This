@@ -786,6 +786,8 @@ body:before {
 
 .editor {
   padding: 0 1.5em 0;
+  max-width: 700px;
+  margin: 0 auto;
 }
 @media (max-width: 320px) {
   .editor {
@@ -835,6 +837,9 @@ body:before {
 
 .all-media {
   display: none;
+  overflow: auto;
+  height: 0;
+  padding-bottom: 41.666666668%;
 }
 .all-media:before, .all-media:after {
   content: "";
@@ -843,18 +848,29 @@ body:before {
 .all-media:after {
   clear: both;
 }
+@media (min-width: 601px) {
+  .all-media {
+    padding-bottom: 18.75%;
+  }
+}
 
 .site-thumbnail {
   position: relative;
   display: block;
   float: left;
-  width: 25%;
-  padding: 25% 0 0 25%;
+  width: 16.66%;
+  padding: 16.66% 0 0 16.66%;
   background-position: center;
   background-repeat: no-repeat;
   -webkit-background-size: cover;
   background-size: cover;
   cursor: pointer;
+}
+@media (min-width: 601px) {
+  .site-thumbnail {
+    width: 12.5%;
+    padding: 12.5% 0 0 12.5%;
+  }
 }
 .site-thumbnail:after {
   content: '';
@@ -864,16 +880,6 @@ body:before {
   height: 100%;
   width: 2px;
   background: #fff;
-}
-
-.thumbs-large {
-  width: 33.333%;
-  padding: 33.333% 0 0 33.333%;
-}
-
-.thumbs-small {
-  width: 12.5%;
-  padding: 12.5% 0 0 12.5%;
 }
 
 #wppt_no_image {
