@@ -461,7 +461,7 @@
 
 						$('<div></div>', {
 							'id': 'embed-' + i + '-container',
-							'class': 'site-thumbnail thumbs-small thumbs-embed'
+							'class': 'site-media-thumbnail thumbs-embed'
 						}).css({
 							'background-image': 'url(' + display_src + ')'
 						}).click(function () {
@@ -488,7 +488,7 @@
 						$('<img />', {
 							'src': display_src,
 							'id': 'img-' + i + '-container',
-							'class': 'site-thumbnail thumbs-small'
+							'class': 'suggested-media-thumbnail'
 						}).css({
 							'background-image': 'url(' + display_src + ')'
 						}).click(function () {

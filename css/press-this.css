@@ -861,7 +861,7 @@ body:before {
   }
 }
 
-.site-thumbnail {
+.suggested-media-thumbnail {
   position: relative;
   display: block;
   float: left;
@@ -874,12 +874,12 @@ body:before {
   cursor: pointer;
 }
 @media (min-width: 601px) {
-  .site-thumbnail {
+  .suggested-media-thumbnail {
     width: 12.5%;
     padding: 12.5% 0 0 12.5%;
   }
 }
-.site-thumbnail:after {
+.suggested-media-thumbnail:after {
   content: '';
   position: absolute;
   top: 0;
