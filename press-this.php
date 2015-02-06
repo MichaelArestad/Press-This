@@ -700,7 +700,7 @@ class WpPressThis {
 <body>
 	<div id="wppt_adminbar" class="adminbar">
 		<h1 id="wppt_current_site" class="current-site">
-			<span class="dashicons dashicons-wordpress-alt"></span>
+			<span class="dashicons dashicons-wordpress"></span>
 			<a href="#" target="_blank"></a>
 		</h1>
 		<ul id="wppt_sites" class="site-list">

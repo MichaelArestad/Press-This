@@ -307,7 +307,7 @@ body {
 		border-left: 1px solid $gray--light;
 		border-bottom: 1px solid $gray--light;
 
-		.dashicons-wordpress-alt {
+		.dashicons-wordpress {
 			color: $blue--light;
 		}
 	}
@@ -317,12 +317,16 @@ body {
 	font-size: 16px;
 	line-height: 44px;
 	font-weight: $normal;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 
 	@include breakpoint( '<600px' ) {
 		margin: 3px 0 0;
 	}
 	@include breakpoint( '<320px' ) {
 		margin: 1px 0 0;
+		color: #404040;
 		font-size: 14px;
 	}
 	a {
@@ -341,12 +345,10 @@ body {
 			}
 		}
 	}
-	.dashicons-wordpress-alt {
+	.dashicons-wordpress {
 		position: relative;
 		top: -1px;
 		margin-right: 10px;
-		background: url( ../images/icons/png/wordpress-alt-white.png ) no-repeat center center;
-		background: none, none; // The magic
 		vertical-align: middle;
 	}
 }
