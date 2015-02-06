@@ -512,6 +512,13 @@ big {
 .button--subtle {
   background: none;
   border: 0;
+  color: #0074a2;
+}
+.button--subtle:visited {
+  color: #0074a2;
+}
+.button--subtle:focus, .button--subtle:hover, .button--subtle:active {
+  color: #2ea2cc;
 }
 
 a.icon-button--dark {
