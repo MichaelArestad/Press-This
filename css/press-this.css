@@ -846,7 +846,7 @@ body:before {
   display: none;
   overflow: auto;
   max-height: 150px;
-  max-height: 41.666vw;
+  max-height: 40vw;
 }
 .all-media:before, .all-media:after {
   content: "";
@@ -858,6 +858,7 @@ body:before {
 @media (min-width: 321px) {
   .all-media {
     max-height: 250px;
+    max-height: 40vw;
   }
 }
 @media (min-width: 601px) {

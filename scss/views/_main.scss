@@ -180,10 +180,11 @@ body {
 	display: none;
 	overflow: auto;
 	max-height: 150px;
-	max-height: 41.666vw;
+	max-height: 40vw;
 
 	@include breakpoint ( '>320px' ) {
 		max-height: 250px;
+		max-height: 40vw;
 	}
 	@include breakpoint ( '>600px' ) {
 		max-height: 200px;

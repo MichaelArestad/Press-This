@@ -1,45 +1,5 @@
 // ==========================================================================
 // Breakpoint Mixin
-//
-// This mixin defualts to mobile-first code.
-// It uses shirt-sizes for variables (easy to remember and expandable)
-//
-// It has an optional `-` suffix to change behavior from min-width to
-// max-width. For example: `@include breakpoint( L- );`
-// ==========================================================================
-
-// Add or remove breakpoints as you desire
-// $breakpoints:(
-// 	S: 320px, // phone
-// 	M: 600px, // tablet
-// 	L: 900px // desktop
-// );
-//
-// @mixin breakpoint( $size ){
-// 	@if type-of( $size ) == string {
-// 		@each $breakpoint, $value in $breakpoints {
-// 			@if $size == $breakpoint {
-// 				@media ( min-width: map-get( $breakpoints, $breakpoint ) + 1 ) {
-// 					@content;
-// 				}
-// 			}
-// 			$minus: $breakpoint + "-";
-// 			@if $size == $minus {
-// 				@media ( max-width: map-get( $breakpoints, $breakpoint ) ) {
-// 					@content;
-// 				}
-// 			}
-// 		}
-// 	} @else {
-// 		@media ( min-width: $size + 1 ) {
-// 			@content;
-// 		}
-// 	}
-// }
-
-// ==========================================================================
-// Breakpoint Mixin
-// See https://wpcalypso.wordpress.com/devdocs/docs/coding-guidelines/css.md#media-queries
 // ==========================================================================
 
 $breakpoints: 320px, 600px, 900px; // Think very carefully before adding a new breakpoint
