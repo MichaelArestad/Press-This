@@ -49,6 +49,11 @@ class WpPressThis {
 				 * Take over Press This bookmarklet code, wherever presented
 				 */
 				add_filter( 'shortcut_link', array( $this, 'shortcut_link_override' ) );
+				/*
+				 * Register a new admin page for PT, so we can have our our instructions, etc.
+				 */
+				add_action( 'admin_menu', array( $this, 'register_options_page' ) );
+				add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 			}
 		}
 	}
@@ -906,6 +911,56 @@ class WpPressThis {
 		header( 'content-type: application/json' );
 		echo json_encode( $manifest );
 		die();
+	}
+
+	/**
+	 * Registers a new setting screen and menu item for PT in the Admin sidebar
+	 *
+	 * @see add_action( 'admin_menu', array( $this, 'register_options_page' ) );
+	 */
+	public function register_options_page() {
+		// To live under "Settings": https://cloudup.com/i5HzM3AQQl1
+		// add_options_page('Press This', 'Press This', 'edit_posts', 'press_this_options', array( $this, 'do_options_page' ));
+		// To live under Tools: https://cloudup.com/i7E6ZeJJ6PL
+		add_submenu_page('tools.php', 'Press This', 'Press This', 'edit_posts', 'press_this_options', array( $this, 'do_options_page' ));
+	}
+
+	/**
+	 * Prints a custom options page for PT
+	 *
+	 * @see self::register_options_page()
+	 */
+	public function do_options_page() {
+		?>
+		<div class="wrap">
+			<h2>Press This</h2>
+			<form>
+			<div class="tool-box">
+				<p><?php _e('Press This is a bookmarklet: a little app that runs in your browser and lets you grab bits of the web.');?></p>
+				<p><?php _e('Use Press This to clip text, images and videos from any web page. Then edit and add more straight from Press This before you save or publish it in a post on your site.'); ?></p>
+				<p class="description"><?php _e('Drag-and-drop the following link to your bookmarks bar or right click it and add it to your favorites for a posting shortcut.') ?></p>
+				<p class="pressthis"><a onclick="return false;" oncontextmenu="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><span><?php _e('Press This') ?></span></a></p>
+				<div class="pressthis-code" style="display:none;">
+					<p class="description"><?php _e('If your bookmarks toolbar is hidden: copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.') ?></p>
+					<p><textarea rows="5" cols="120" readonly="readonly"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
+				</div>
+				<h3>Bookmarklet code</h3>
+				<p><textarea rows="5" cols="120" readonly="readonly"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
+				<h3>Direct link</h3>
+				<p><textarea rows="1" cols="120" readonly="readonly"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea></p>
+			</div>
+			</form>
+		</div>
+	<?php
+	}
+
+	/**
+	 * Basic admin notice to prompt users to go to the related admin screen upon install
+	 */
+	public function admin_notices() {
+		if ( get_current_screen()->id == 'plugins' ) {
+			printf( '<div class="error"><p>%s</p></div>', sprintf( __( '<strong>Press This setup:</strong> Please visit our <a href="%s">admin screen</a> and select your preffered install method.', 'press-this' ), admin_url( 'tools.php?page=press_this_options' ) ) );
+		}
 	}
 }
 
