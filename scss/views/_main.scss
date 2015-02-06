@@ -179,11 +179,15 @@ body {
 	@include clearfix;
 	display: none;
 	overflow: auto;
-	height: 0;
-	padding-bottom: 41.666666668%;
+	max-height: 150px;
+	max-height: 41.666vw;
 
+	@include breakpoint ( '>320px' ) {
+		max-height: 250px;
+	}
 	@include breakpoint ( '>600px' ) {
-		padding-bottom: 18.75%;
+		max-height: 200px;
+		max-height: 18.75vw;
 	}
 }
 
