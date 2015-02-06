@@ -2,10 +2,9 @@
 	$( document ).ready(function( $ ) {
 		var WpPressThis_App = function() {
 			var editor,
-				loader                = window.wp_pressthis_loader || {},
-				site_config           = loader.site_config || {},
-				ux_context            = loader.ux_context || 'top',
+				site_config           = window.wp_pressthis_config || {},
 				data                  = window.wp_pressthis_data || {},
+				ux_context            = ( '' == window.top.name ) ? 'top' : 'popup',
 				largest_width         = parseInt( $( document ).width() - 60 ) || 450,
 				smallest_width        = 128,
 				interesting_images	  = get_interesting_images( data ) || [],

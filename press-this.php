@@ -660,7 +660,6 @@ class WpPressThis {
 		$json_js_inc              = $wp_js_inc_dir . '/json2.js';
 		$jquery_js_inc            = $wp_js_inc_dir . '/jquery/jquery.js';
 		$app_css_inc              = $site_settings['plugin_dir_url'] . '/css/press-this.css';
-		$load_js_inc              = $site_settings['plugin_dir_url'] . '/js/load.js';
 		$form_action              = $site_settings['runtime_url'];
 		$upload_action            = preg_replace( '/^(.+)\/press-this\.php$/', '\1/media-upload.php', $site_settings['runtime_url'] ) . '?referer=wptuts-settings&type=image&TB_iframe=true&post_id=0';
 		$txt_domain               = 'press-this';
@@ -680,7 +679,6 @@ class WpPressThis {
 	</script>
 	<script src="<?php echo esc_url( $json_js_inc ) ?>" language="JavaScript"></script>
 	<script src="<?php echo esc_url( $jquery_js_inc ) ?>" language="JavaScript"></script>
-	<script src="<?php echo esc_url( $load_js_inc ) ?>" language="JavaScript"></script>
 
 	<script type="text/javascript">
 		var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
