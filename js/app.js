@@ -11,7 +11,8 @@
 				interesting_embeds	  = get_interesting_embeds( data ) || [],
 				suggested_title_str   = get_suggested_title( data ),
 				suggested_content_str = get_suggested_content( data ),
-				nonce                 = data._nonce || '';
+				nonce                 = data._nonce || '',
+				has_set_focus         = false;
 
 /* ***************************************************************
  * HELPER FUNCTIONS
@@ -332,11 +333,18 @@
 			function insert_selected_media( type, src, link ) {
 				var new_content = '';
 				if ( 'img' == type ) {
-					new_content = '<p><a href="' + link + '"><img src="' + src + '" style="max-width:100%;" /></a></p>';
+					new_content = '<a href="' + link + '"><img src="' + src + '" style="max-width:100%;" />' + "</a>\n";
 				} else {
-					new_content = '<p>[embed]' + src + '[/embed]</p>'
+					new_content = '[embed]' + src + "[/embed]\n";
 				}
-				editor && editor.setContent( new_content + editor.getContent() );
+				if ( ! has_set_focus ) {
+					// Append to top of content on 1st media insert
+					editor && editor.setContent( new_content + editor.getContent() );
+				} else {
+					// Or add where the cursor was last positioned in TinyMCE
+					editor.execCommand( 'mceInsertContent', false, new_content );
+				}
+				has_set_focus = true;
 			}
 
 			function clear_errors() {
@@ -436,7 +444,12 @@
 					editor = tinymce.get( 'pressthis' );
 				}
 
-				editor && editor.setContent( suggested_content_str );
+				if ( editor ) {
+					editor.setContent( suggested_content_str );
+					editor.on( 'focus', function(e) {
+						has_set_focus = true;
+					});
+				}
 			}
 
 			function render_detected_media() {
