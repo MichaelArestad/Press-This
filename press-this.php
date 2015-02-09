@@ -726,7 +726,7 @@ class WpPressThis {
 
 		<div id='wppt_app_container' class="editor">
 			<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
-		<div id='wppt_featured_image_container' class="featured-container">
+		<div id='wppt_featured_media_container' class="featured-container no-media">
 			<div id='wppt_all_media_widget' class="all-media">
 				<div id='wppt_all_media_container'></div>
 			</div>
