@@ -108,6 +108,13 @@ body {
 	display: none;
 }
 
+@include breakpoint( '>900px' ) {
+	.options-open,
+	.options-close {
+		display: none;
+	}
+}
+
 
 // Alerts
 .alerts {
@@ -411,20 +418,60 @@ body {
 }
 
 
-// Post options container
+// Options panel container
 .editor-wrapper { // TODO move this
 	@include clearfix;
 	overflow: auto;
 }
 
 .options-panel {
-	width: 300px;
 	float: right;
+	width: 320px;
+	border-left: 1px solid $gray--light; // TODO hack better border
+	font-size: 14px;
 
 	@include breakpoint( '<900px' ) {
 		float: none;
 		display: none;
 	}
+	&:before {
+		content: '';
+		position: fixed;
+			top: 0;
+			right: 0;
+			bottom: 0;
+		width: 320px;
+		border-left: 1px solid $gray--light;
+		z-index: -1;
+	}
+}
+
+.post-options {
+	a {
+		position: relative;
+		display: block;
+		padding: 13px 37px 13px 14px; // TODO em() and responsive styles
+		border-bottom: 1px solid $gray--light;
+		text-decoration: none;
+		color: #9ea7af;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.post-option__contents {
+		margin-left: 3px;
+		color: #333;
+	}
+	.dashicons-arrow-right-alt2 {
+		position: absolute;
+			top: 50%;
+			right: 8px;
+		margin-top: -10px;
+	}
+}
+
+.setting-modal {
+	display: none;
 }
 
 

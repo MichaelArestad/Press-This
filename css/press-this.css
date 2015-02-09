@@ -793,6 +793,12 @@ body {
   display: none;
 }
 
+@media (min-width: 901px) {
+  .options-open,
+  .options-close {
+    display: none;
+  }
+}
 .alerts {
   overflow: hidden;
   padding: 0.9em 0;
@@ -1101,14 +1107,52 @@ body {
 }
 
 .options-panel {
-  width: 300px;
   float: right;
+  width: 320px;
+  border-left: 1px solid #e5e5e5;
+  font-size: 14px;
 }
 @media (max-width: 900px) {
   .options-panel {
     float: none;
     display: none;
   }
+}
+.options-panel:before {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 320px;
+  border-left: 1px solid #e5e5e5;
+  z-index: -1;
+}
+
+.post-options a {
+  position: relative;
+  display: block;
+  padding: 13px 37px 13px 14px;
+  border-bottom: 1px solid #e5e5e5;
+  text-decoration: none;
+  color: #9ea7af;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.post-options .post-option__contents {
+  margin-left: 3px;
+  color: #333;
+}
+.post-options .dashicons-arrow-right-alt2 {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  margin-top: -10px;
+}
+
+.setting-modal {
+  display: none;
 }
 
 .adminbar button,
