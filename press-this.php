@@ -795,10 +795,8 @@ class WpPressThis {
 	<div class="setting-modal">
 		<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
 		<div class="new-tag-box">
-			<form action="" method="GET">
-				<input type="text" name="" id="" class="tag-input" value="" />
-				<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
-			</form>
+			<input type="text" name="" id="" class="tag-input" value="" />
+			<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
 		</div>
 		<p class="howto"><?php _e('Separate categories with commas'); ?></p>
 		<div id="tags">
@@ -810,10 +808,8 @@ class WpPressThis {
 	<div class="setting-modal">
 		<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
 		<div class="new-tag-box">
-			<form action="" method="GET">
-				<input type="text" name="" id="" class="tag-input" value="" />
-				<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
-			</form>
+			<input type="text" name="" id="" class="tag-input" value="" />
+			<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
 		</div>
 		<p class="howto"><?php _e('Separate tags with commas'); ?></p>
 		<div id="tags">

@@ -24,6 +24,91 @@ body {
 }
 
 
+// Adminbar
+.adminbar {
+	@include clearfix;
+	position: relative;
+	width: 100%;
+	padding: 0 em( 16px );
+	min-height: em( 64px );
+	background: $gray--dark;
+	color: #fff;
+	z-index: 9999;
+
+	.dashicons {
+		color: #999;
+	}
+	button {
+		position: absolute;
+			top: 50%;
+			right: 6px;
+		margin-top: -13px;
+	}
+	@include breakpoint( '<320px' ) {
+		min-height: 45px;
+		background: #fff;
+		background: transparentize( #fff, .1 );
+		border-left: 1px solid $gray--light;
+		border-bottom: 1px solid $gray--light;
+
+		.dashicons {
+			color: $blue--light;
+		}
+	}
+}
+
+.current-site {
+	margin-top: em( 9px, 16px );
+	font-size: 16px;
+	line-height: 44px;
+	font-weight: $normal;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+
+	@include breakpoint( '<600px' ) {
+		margin: 3px 0 0;
+	}
+	@include breakpoint( '<320px' ) {
+		margin: 1px 0 0;
+		color: #404040;
+		font-size: 14px;
+	}
+	a {
+		color: #ededed;
+		text-decoration: none;
+
+		&:hover {
+			color: #fff;
+		}
+		@include breakpoint( '<320px' ) {
+			color: #3f3f3f;
+			font-weight: 600;
+
+			&:hover {
+				color: $blue--light;
+			}
+		}
+	}
+	.dashicons-wordpress {
+		position: relative;
+		top: -1px;
+		margin-right: 10px;
+		vertical-align: middle;
+	}
+}
+
+.options-open {
+	.dashicons {
+		margin-top: 3px;
+	}
+}
+
+.options-close {
+	display: none;
+}
+
+
 // Alerts
 .alerts {
 	overflow: hidden; // lazy clearfix
@@ -60,21 +145,7 @@ body {
 }
 
 
-// Helpers
-
-.visually-hidden {
-	border: 0;
-	clip: rect( 0 0 0 0 );
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
-}
-
-
-// Scan styles
+// Scanner form styles
 .scan {
 	position: relative;
 	border-bottom: 1px solid $gray--light;
@@ -147,7 +218,7 @@ body {
 }
 
 
-// Featured images
+// Suggested images
 .featured-container {
 	position: relative;
 	padding: 2px 0;
@@ -253,74 +324,6 @@ body {
 
 	@include breakpoint( '<320px' ) {
 		margin: 10px 10px 10px 0;
-	}
-}
-
-
-// Adminbar
-.adminbar {
-	@include clearfix;
-	width: 100%;
-	padding: 0 em( 16px );
-	min-height: em( 64px );
-	background: $gray--dark;
-	color: #fff;
-	z-index: 9999;
-
-	.dashicons {
-		color: #999;
-	}
-	@include breakpoint( '<320px' ) {
-		min-height: 45px;
-		background: #fff;
-		background: transparentize( #fff, .1 );
-		border-left: 1px solid $gray--light;
-		border-bottom: 1px solid $gray--light;
-
-		.dashicons-wordpress {
-			color: $blue--light;
-		}
-	}
-}
-
-.current-site {
-	margin-top: em( 9px, 16px );
-	font-size: 16px;
-	line-height: 44px;
-	font-weight: $normal;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
-
-	@include breakpoint( '<600px' ) {
-		margin: 3px 0 0;
-	}
-	@include breakpoint( '<320px' ) {
-		margin: 1px 0 0;
-		color: #404040;
-		font-size: 14px;
-	}
-	a {
-		color: #ededed;
-		text-decoration: none;
-
-		&:hover {
-			color: #fff;
-		}
-		@include breakpoint( '<320px' ) {
-			color: #3f3f3f;
-			font-weight: 600;
-
-			&:hover {
-				color: $blue--light;
-			}
-		}
-	}
-	.dashicons-wordpress {
-		position: relative;
-		top: -1px;
-		margin-right: 10px;
-		vertical-align: middle;
 	}
 }
 

@@ -703,6 +703,96 @@ body {
   }
 }
 
+.adminbar {
+  position: relative;
+  width: 100%;
+  padding: 0 0.8em;
+  min-height: 3.2em;
+  background: #222;
+  color: #fff;
+  z-index: 9999;
+}
+.adminbar:before, .adminbar:after {
+  content: "";
+  display: table;
+}
+.adminbar:after {
+  clear: both;
+}
+.adminbar .dashicons {
+  color: #999;
+}
+.adminbar button {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  margin-top: -13px;
+}
+@media (max-width: 320px) {
+  .adminbar {
+    min-height: 45px;
+    background: #fff;
+    background: rgba(255, 255, 255, 0.9);
+    border-left: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .adminbar .dashicons {
+    color: #2ea2cc;
+  }
+}
+
+.current-site {
+  margin-top: 0.5625em;
+  font-size: 16px;
+  line-height: 44px;
+  font-weight: 400;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+@media (max-width: 600px) {
+  .current-site {
+    margin: 3px 0 0;
+  }
+}
+@media (max-width: 320px) {
+  .current-site {
+    margin: 1px 0 0;
+    color: #404040;
+    font-size: 14px;
+  }
+}
+.current-site a {
+  color: #ededed;
+  text-decoration: none;
+}
+.current-site a:hover {
+  color: #fff;
+}
+@media (max-width: 320px) {
+  .current-site a {
+    color: #3f3f3f;
+    font-weight: 600;
+  }
+  .current-site a:hover {
+    color: #2ea2cc;
+  }
+}
+.current-site .dashicons-wordpress {
+  position: relative;
+  top: -1px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.options-open .dashicons {
+  margin-top: 3px;
+}
+
+.options-close {
+  display: none;
+}
+
 .alerts {
   overflow: hidden;
   padding: 0.9em 0;
@@ -734,17 +824,6 @@ body {
 
 .error:before {
   background: red;
-}
-
-.visually-hidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
 }
 
 .scan {
@@ -931,81 +1010,6 @@ body {
   .post-actions {
     margin: 10px 10px 10px 0;
   }
-}
-
-.adminbar {
-  width: 100%;
-  padding: 0 0.8em;
-  min-height: 3.2em;
-  background: #222;
-  color: #fff;
-  z-index: 9999;
-}
-.adminbar:before, .adminbar:after {
-  content: "";
-  display: table;
-}
-.adminbar:after {
-  clear: both;
-}
-.adminbar .dashicons {
-  color: #999;
-}
-@media (max-width: 320px) {
-  .adminbar {
-    min-height: 45px;
-    background: #fff;
-    background: rgba(255, 255, 255, 0.9);
-    border-left: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
-  }
-  .adminbar .dashicons-wordpress {
-    color: #2ea2cc;
-  }
-}
-
-.current-site {
-  margin-top: 0.5625em;
-  font-size: 16px;
-  line-height: 44px;
-  font-weight: 400;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-@media (max-width: 600px) {
-  .current-site {
-    margin: 3px 0 0;
-  }
-}
-@media (max-width: 320px) {
-  .current-site {
-    margin: 1px 0 0;
-    color: #404040;
-    font-size: 14px;
-  }
-}
-.current-site a {
-  color: #ededed;
-  text-decoration: none;
-}
-.current-site a:hover {
-  color: #fff;
-}
-@media (max-width: 320px) {
-  .current-site a {
-    color: #3f3f3f;
-    font-weight: 600;
-  }
-  .current-site a:hover {
-    color: #2ea2cc;
-  }
-}
-.current-site .dashicons-wordpress {
-  position: relative;
-  top: -1px;
-  margin-right: 10px;
-  vertical-align: middle;
 }
 
 .editor .wp-media-buttons {
