@@ -1059,10 +1059,13 @@ body {
   content: '\f306';
 }
 .editor div.mce-toolbar-grp {
-  margin-bottom: 2.14286em;
   padding: 0.71429em 0;
   background: none;
   border-color: #e5e5e5;
+}
+.editor div.mce-edit-area iframe {
+  padding-top: 2.14286em;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .mce-stack-layout:before, .mce-stack-layout:after {

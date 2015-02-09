@@ -811,7 +811,7 @@ class WpPressThis {
 					'resize' => false,
 					'wordpress_adv_hidden' => false,
 		//			'add_unload_trigger' => false,
-		//			'statusbar' => false,
+					'statusbar' => false,
 					'plugins' => 'lists,media,paste,tabfocus,fullscreen,wordpress,wpeditimage,wpgallery,wplink,wpview',
 					'toolbar1' => 'bold,italic,bullist,numlist,blockquote,link,unlink',
 					'toolbar2' => 'undo,redo'

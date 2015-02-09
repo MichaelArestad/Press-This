@@ -380,10 +380,13 @@ body {
 		}
 	}
 	div.mce-toolbar-grp {
-		margin-bottom: em( 30px, 14px );
 		padding: em( 10px, 14px ) 0;
 		background: none;
 		border-color: $gray--light;
+	}
+	div.mce-edit-area iframe {
+		padding-top: em( 30px, 14px );
+		border-bottom: 1px solid $gray--light;
 	}
 }
 
