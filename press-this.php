@@ -706,27 +706,6 @@ class WpPressThis {
 			<span class="dashicons dashicons-wordpress"></span>
 			<a href="#" target="_blank"></a>
 		</h1>
-		<ul id="wppt_sites" class="site-list">
-		<?php
-			foreach( (array) $site_settings['instance_sites'] as $instance_url => $instance_name ) {
-				$instance_url = untrailingslashit( $instance_url );
-				echo '<li '
-				               .  ' class="wppt_site_entry ' . ( ( untrailingslashit( $site_settings['blog_url'] ) == self::strip_url_scheme( $instance_url ) ) ? 'entry-selected': '' ) . '" '
-				               .  ' data-url="' . esc_url( $instance_url ) . '">'
-				               .  '<a class="wppt_site_entry_link" href="' . esc_url( $instance_url . '/wp-admin/press-this.php?v=' . self::plugin_version() . '&buster=' . time() ) . ( ( ! empty( $data['u'] ) ) ? '&u=' . urlencode( $data['u'] ) : '' ) . '">' . esc_html( $instance_name ) . '</a></li>';
-			}
-		?>
-			<li class="add-site">
-				<form id="wppt_sites_form" name="wppt_sites_form" action="<?php echo esc_url( $upload_action ) ?>" method="GET">
-					<input type="text" name="wppt_new_site" id="wppt_new_site" class="add-site__url" value="" placeholder="<?php echo esc_attr( $i18n['enter-wp-url'] ) ?>" />
-					<input type="submit" name="wppt_new_site_submit" id="wppt_new_site_submit" class="add-site__submit" value="<?php echo esc_attr( $i18n['add'] ) ?>" style="display:none"/>
-					<a href="" class="add-site__submit">
-						<span class="dashicons dashicons-plus"></span>
-						Add
-					</a>
-				</form>
-			</li>
-		</ul>
 	</div>
 	<div id="wppt_scanbar" class="scan">
 		<form action="<?php echo esc_url( $form_action ) ?>" method="GET">

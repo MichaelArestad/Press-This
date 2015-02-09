@@ -545,11 +545,6 @@
 			function monitor(){
 				show_spinner();
 
-				// Sites list and related functionality
-				$( '#wppt_current_site').click(function( e ){
-					// $('#wppt_sites').toggle();
-				});
-
 				$( '#wppt_current_site a, #wppt_current_site div').click(function( e ){
 					e.preventDefault();
 				});

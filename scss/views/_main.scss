@@ -359,49 +359,6 @@ body {
 	}
 }
 
-.site-list {
-	display: none;
-	position: absolute;
-	top: 100%;
-	left: 30px;
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	background: #fff;
-	color: #404040;
-	font-size: 14px;
-	box-shadow: 0 2px 3px rgba(0,0,0,0.15);
-
-	li {
-		position: relative;
-		padding: em( 11px, 14px ) em( 54px, 14px ) em( 11px, 14px ) em( 15px, 14px );
-		border-bottom: 1px solid $gray--ultralight;
-		cursor: pointer;
-	}
-	.add-site {
-		padding: 0;
-	}
-}
-
-.add-site__url {
-	padding: em( 11px, 14px ) em( 15px, 14px );
-	width: 100%;
-	border: 0;
-}
-
-.add-site__submit {
-	display: block;
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	overflow: hidden;
-
-	.dashicons-plus {
-		display: block;
-	}
-}
-
 
 // TinyMCE
 .wp-editor-wrap {
