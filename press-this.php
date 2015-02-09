@@ -3,7 +3,7 @@
 Plugin Name: Press This
 Plugin URI: https://wordpress.org/plugins/press-this/
 Description: Posting images, links, and cat gifs will never be the same.
-Version: 0.0.4.3
+Version: 0.0.5
 Author: Press This Team
 Author URI: https://corepressthis.wordpress.com/
 Text Domain: press-this
@@ -936,7 +936,7 @@ class WpPressThis {
 	 */
 	public function admin_notices() {
 		if ( get_current_screen()->id == 'plugins' ) {
-			printf( '<div class="error"><p>%s</p></div>', sprintf( __( '<strong>Press This setup:</strong> Please visit our <a href="%s">admin screen</a> and select your preffered install method.', 'press-this' ), admin_url( 'tools.php?page=press_this_options' ) ) );
+			printf( '<div class="error"><p>%s</p></div>', sprintf( __( '<strong>Press This setup:</strong> Please visit our <a href="%s">admin screen</a> and select your preferred install method.', 'press-this' ), admin_url( 'tools.php?page=press_this_options' ) ) );
 		}
 	}
 }
