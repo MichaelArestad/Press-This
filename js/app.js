@@ -30,12 +30,6 @@
 				return $('<div/>').text(str).html();
 			}
 
-			function get_full_size_src( src ) {
-				return ( src.indexOf('gravatar.com') > -1 || src.match( /\/avatars[\d]+\.githubusercontent\.com\// ) )
-					? src.replace(/^(http[^\?]+)(\?.*)?$/, '$1?s=' + largest_width)
-					: src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
-			}
-
 			function get_canonical_link( data ) {
 				if ( ! data || data.length )
 					return '';
@@ -225,8 +219,6 @@
 					featured = data._meta['og:image:secure_url'];
 				}
 
-				featured = get_full_size_src( featured );
-
 				return ( is_src_uninteresting_path( featured ) ) ? '' : featured;
 			}
 
@@ -238,12 +230,11 @@
 
 				if ( featured_pict.length ) {
 					interesting_imgs.push(featured_pict);
-					already_selected.push(get_full_size_src(featured_pict).replace(/^https?:/, ''));
+					already_selected.push(featured_pict.replace(/^https?:/, ''));
 				}
 
 				if ( imgs.length ) {
 					$.each( imgs, function ( i, src ) {
-						src = get_full_size_src( src );
 						src = src.replace(/http:\/\/[\d]+\.gravatar\.com\//, 'https://secure.gravatar.com/');
 
 						if (!src || !src.length) {
@@ -486,13 +477,11 @@
 
 				if ( interesting_images && interesting_images.length ) {
 					$.each(interesting_images, function (i, src) {
-						src = get_full_size_src(src);
-
-						var display_src;
+						var display_src = src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
 						if ( src.indexOf('files.wordpress.com/') > -1 ) {
-							display_src = src.replace(/\?.*$/, '') + '?w=' + smallest_width;
+							display_src = display_src.replace(/\?.*$/, '') + '?w=' + smallest_width;
 						} else if ( src.indexOf('gravatar.com/') > -1 ) {
-							display_src = src.replace(/\?.*$/, '') + '?s=' + smallest_width;
+							display_src = display_src.replace(/\?.*$/, '') + '?s=' + smallest_width;
 						} else {
 							display_src = src;
 						}
