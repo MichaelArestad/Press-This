@@ -1086,6 +1086,28 @@ body {
     display: none;
   }
 }
+.editor-wrapper {
+  overflow: auto;
+}
+.editor-wrapper:before, .editor-wrapper:after {
+  content: "";
+  display: table;
+}
+.editor-wrapper:after {
+  clear: both;
+}
+
+.options-panel {
+  width: 300px;
+  float: right;
+}
+@media (max-width: 900px) {
+  .options-panel {
+    float: none;
+    display: none;
+  }
+}
+
 .adminbar button,
 .post-options,
 .setting-modal {

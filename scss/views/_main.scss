@@ -408,6 +408,23 @@ body {
 }
 
 
+// Post options container
+.editor-wrapper { // TODO move this
+	@include clearfix;
+	overflow: auto;
+}
+
+.options-panel {
+	width: 300px;
+	float: right;
+
+	@include breakpoint( '<900px' ) {
+		float: none;
+		display: none;
+	}
+}
+
+
 // TODO TEMPORARY
 .adminbar button,
 .post-options,
