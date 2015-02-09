@@ -11,25 +11,14 @@ html {
 }
 
 body {
-	margin: em( 65px ) 0 em( 95px ) 1px;
-
-	&:before {
-		// Goofy way to keep left border full height. Could do it with a gradient as well.
-		content: '';
-		position: fixed;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		width: 1px;
-		background: $gray--light;
-	}
+	margin: 0 0 em( 95px ) 1px;
 
 	@include breakpoint( '<600px' ) {
-		margin: em( 52px, 16px ) 0 em( 95px, 16px ) 1px;
+		margin: 0 0 em( 95px, 16px ) 1px;
 		font-size: 16px;
 	}
 	@include breakpoint( '<320px' ) {
-		margin: em( 45px, 14px ) 0 em( 95px, 14px ) 1px;
+		margin: 0 0 em( 95px, 14px ) 1px;
 		font-size: 14px;
 	}
 }
@@ -220,18 +209,6 @@ body {
 	}
 }
 
-#wppt_no_image {
-	position: absolute;
-	top: 10px;
-	right: 10px;
-}
-
-#wppt_all_media_switch {
-	position: absolute;
-	bottom: 10px;
-	right: 10px;
-}
-
 .all-media--visible {
 	.featured-image,
 	#wppt_no_image,
@@ -245,17 +222,6 @@ body {
 .no-media {
 	margin: 0;
 	border: 0;
-
-	#wppt_no_image {
-		display: none;
-	}
-	#wppt_all_media_switch {
-		position: relative;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-	}
 }
 
 
@@ -263,7 +229,7 @@ body {
 .actions {
 	position: fixed;
 	bottom: 0;
-	left: 1px;
+	left: 0;
 	width: 100%;
 	background: $gray--ultralight;
 	background: transparentize( $gray--ultralight, .1 );
@@ -293,12 +259,10 @@ body {
 
 // Adminbar
 .adminbar {
-	position: fixed;
-	top: 0;
-	left: 0;
+	@include clearfix;
 	width: 100%;
 	padding: 0 em( 16px );
-	min-height: em( 65px );
+	min-height: em( 64px );
 	background: $gray--dark;
 	color: #fff;
 	z-index: 9999;
@@ -320,6 +284,7 @@ body {
 }
 
 .current-site {
+	margin-top: em( 9px, 16px );
 	font-size: 16px;
 	line-height: 44px;
 	font-weight: $normal;
@@ -361,7 +326,7 @@ body {
 
 
 // TinyMCE
-.wp-editor-wrap {
+.editor {
 	.wp-media-buttons {
 		float: none;
 	}
@@ -373,7 +338,7 @@ body {
 		height: 58px;
 		z-index: 2;
 
-		// remove button styles
+		// removes old button styles
 		margin: 0;
 		padding: 11px;
 		border: 0;

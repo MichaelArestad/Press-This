@@ -688,26 +688,17 @@ html {
 }
 
 body {
-  margin: 3.25em 0 4.75em 1px;
-}
-body:before {
-  content: '';
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 1px;
-  background: #e5e5e5;
+  margin: 0 0 4.75em 1px;
 }
 @media (max-width: 600px) {
   body {
-    margin: 3.25em 0 5.9375em 1px;
+    margin: 0 0 5.9375em 1px;
     font-size: 16px;
   }
 }
 @media (max-width: 320px) {
   body {
-    margin: 3.21429em 0 6.78571em 1px;
+    margin: 0 0 6.78571em 1px;
     font-size: 14px;
   }
 }
@@ -896,18 +887,6 @@ body:before {
   background: #fff;
 }
 
-#wppt_no_image {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-#wppt_all_media_switch {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-}
-
 .all-media--visible .featured-image,
 .all-media--visible #wppt_no_image,
 .all-media--visible #wppt_all_media_switch {
@@ -921,21 +900,11 @@ body:before {
   margin: 0;
   border: 0;
 }
-.no-media #wppt_no_image {
-  display: none;
-}
-.no-media #wppt_all_media_switch {
-  position: relative;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
 
 .actions {
   position: fixed;
   bottom: 0;
-  left: 1px;
+  left: 0;
   width: 100%;
   background: #f1f1f1;
   background: rgba(241, 241, 241, 0.9);
@@ -965,15 +934,19 @@ body:before {
 }
 
 .adminbar {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   padding: 0 0.8em;
-  min-height: 3.25em;
+  min-height: 3.2em;
   background: #222;
   color: #fff;
   z-index: 9999;
+}
+.adminbar:before, .adminbar:after {
+  content: "";
+  display: table;
+}
+.adminbar:after {
+  clear: both;
 }
 .adminbar .dashicons {
   color: #999;
@@ -992,6 +965,7 @@ body:before {
 }
 
 .current-site {
+  margin-top: 0.5625em;
   font-size: 16px;
   line-height: 44px;
   font-weight: 400;
@@ -1034,10 +1008,10 @@ body:before {
   vertical-align: middle;
 }
 
-.wp-editor-wrap .wp-media-buttons {
+.editor .wp-media-buttons {
   float: none;
 }
-.wp-editor-wrap .button.add_media {
+.editor .button.add_media {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -1055,13 +1029,13 @@ body:before {
   overflow: hidden;
 }
 @media (max-width: 320px) {
-  .wp-editor-wrap .button.add_media {
+  .editor .button.add_media {
     width: 55px;
     height: 50px;
     padding: 7px;
   }
 }
-.wp-editor-wrap .button.add_media:hover, .wp-editor-wrap .button.add_media:focus, .wp-editor-wrap .button.add_media:active {
+.editor .button.add_media:hover, .editor .button.add_media:focus, .editor .button.add_media:active {
   position: fixed;
   top: auto;
   bottom: 0;
@@ -1071,16 +1045,16 @@ body:before {
   border-color: #e5e5e5;
   color: #222;
 }
-.wp-editor-wrap .button.add_media .wp-media-buttons-icon {
+.editor .button.add_media .wp-media-buttons-icon {
   width: auto;
   height: auto;
   margin: 0 20px 0 0;
 }
-.wp-editor-wrap .button.add_media .wp-media-buttons-icon:before {
+.editor .button.add_media .wp-media-buttons-icon:before {
   font-size: 40px;
   content: '\f306';
 }
-.wp-editor-wrap div.mce-toolbar-grp {
+.editor div.mce-toolbar-grp {
   margin-bottom: 2.14286em;
   padding: 0.71429em 0;
   background: none;
