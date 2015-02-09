@@ -317,10 +317,6 @@
 				});
 			}
 
-			function show_all_media() {
-				$( '#wppt_featured_image_container' ).addClass( 'all-media--visible').show();
-			}
-
 			function insert_selected_media( type, src, link ) {
 				var new_content = '';
 				if ( 'img' == type ) {
