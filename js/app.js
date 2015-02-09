@@ -498,11 +498,11 @@
 				}
 
 				if ( ! found ) {
-					media_container.addClass( 'no-media');
+					media_container.removeClass('all-media--visible').addClass( 'no-media');
 					return;
 				}
 
-				media_container.addClass( 'all-media--visible');
+				media_container.removeClass('no-media').addClass( 'all-media--visible');
 			}
 
 /* ***************************************************************
