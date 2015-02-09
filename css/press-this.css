@@ -1082,5 +1082,10 @@ body {
     display: none;
   }
 }
+.adminbar button,
+.post-options,
+.setting-modal {
+  display: none;
+}
 
 /*# sourceMappingURL=press-this.css.map */

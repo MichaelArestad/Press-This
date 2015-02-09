@@ -706,7 +706,10 @@ class WpPressThis {
 			<span class="dashicons dashicons-wordpress"></span>
 			<a href="#" target="_blank"></a>
 		</h1>
+		<button class="options-open button--subtle"><span class="dashicons dashicons-tag"></span><div class="screen-reader-text"><?php _e('Show post options'); ?></span></button>
+		<button class="options-close button--subtle"><?php _e('Done'); ?></button>
 	</div>
+
 	<div id="wppt_scanbar" class="scan">
 		<form action="<?php echo esc_url( $form_action ) ?>" method="GET">
 			<input type="url" name="u" id="wppt_url_scan" class="scan__url" value="" placeholder="<?php echo esc_attr( $i18n['enter-url-to-scan'] ) ?>" />
@@ -721,8 +724,8 @@ class WpPressThis {
 		<input type="hidden" name="wppt_source_url" id="wppt_source_url_field" value=""/>
 		<input type="hidden" name="wppt_source_name" id=wppt_source_name_field" value=""/>
 
-	<div id='wppt_app_container' class="editor">
-		<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
+		<div id='wppt_app_container' class="editor">
+			<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
 		<div id='wppt_featured_image_container' class="featured-container">
 			<div id='wppt_all_media_widget' class="all-media">
 				<div id='wppt_all_media_container'></div>
@@ -750,6 +753,74 @@ class WpPressThis {
 		) );
 
 		?>
+	</div>
+
+	<div class="post-options">
+		<a href="#" class="post-option">
+			<span class="dashicons dashicons-admin-post"></span>
+			<label><?php _e('Format'); ?></label>
+			<span class="post-option__contents"><?php _e('Standard'); ?></span>
+			<span class="dashicons dashicons-arrow-right-alt2"></span>
+		</a>
+		<a href="#" class="post-option">
+			<span class="dashicons dashicons-category"></span>
+			<label><?php _e('Categories'); ?></label>
+			<span class="post-option__contents">category, another category</span>
+			<span class="dashicons dashicons-arrow-right-alt2"></span>
+		</a>
+		<a href="#" class="post-option">
+			<span class="dashicons dashicons-tag"></span>
+			<label><?php _e('Tags'); ?></label>
+			<span class="post-option__contents">tag, another tag, a third tag</span>
+			<span class="dashicons dashicons-arrow-right-alt2"></span>
+		</a>
+	</div>
+
+	<div class="setting-modal">
+		<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
+		<div id="post-formats-select">
+			<input type="radio" name="post_format" class="post-format" id="post-format-0" value="0" checked="checked"> <label for="post-format-0" class="post-format-icon post-format-standard"><?php _e('Standard'); ?></label>
+			<input type="radio" name="post_format" class="post-format" id="post-format-aside" value="aside"> <label for="post-format-aside" class="post-format-icon post-format-aside"><?php _e('Aside'); ?></label>
+			<input type="radio" name="post_format" class="post-format" id="post-format-image" value="image"> <label for="post-format-image" class="post-format-icon post-format-image"><?php _e('Image'); ?></label>
+			<input type="radio" name="post_format" class="post-format" id="post-format-video" value="video"> <label for="post-format-video" class="post-format-icon post-format-video"><?php _e('Video'); ?></label>
+			<input type="radio" name="post_format" class="post-format" id="post-format-quote" value="quote"> <label for="post-format-quote" class="post-format-icon post-format-quote"><?php _e('Quote'); ?></label>
+			<input type="radio" name="post_format" class="post-format" id="post-format-link" value="link"> <label for="post-format-link" class="post-format-icon post-format-link"><?php _e('Link'); ?></label>
+			<input type="radio" name="post_format" class="post-format" id="post-format-gallery" value="gallery"> <label for="post-format-gallery" class="post-format-icon post-format-gallery"><?php _e('Gallery'); ?></label>
+			<input type="radio" name="post_format" class="post-format" id="post-format-status" value="status"> <label for="post-format-status" class="post-format-icon post-format-status"><?php _e('Status'); ?></label>
+			<input type="radio" name="post_format" class="post-format" id="post-format-audio" value="audio"> <label for="post-format-audio" class="post-format-icon post-format-audio"><?php _e('Audio'); ?></label>
+			<input type="radio" name="post_format" class="post-format" id="post-format-chat" value="chat"> <label for="post-format-chat" class="post-format-icon post-format-chat"><?php _e('Chat'); ?></label>
+		</div>
+	</div>
+
+	<div class="setting-modal">
+		<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
+		<div class="new-tag-box">
+			<form action="" method="GET">
+				<input type="text" name="" id="" class="tag-input" value="" />
+				<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
+			</form>
+		</div>
+		<p class="howto"><?php _e('Separate categories with commas'); ?></p>
+		<div id="tags">
+			<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>category</span>
+			<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>another category</span>
+		</div>
+	</div>
+
+	<div class="setting-modal">
+		<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
+		<div class="new-tag-box">
+			<form action="" method="GET">
+				<input type="text" name="" id="" class="tag-input" value="" />
+				<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
+			</form>
+		</div>
+		<p class="howto"><?php _e('Separate tags with commas'); ?></p>
+		<div id="tags">
+			<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>tag</span>
+			<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>another tag</span>
+			<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>a third tag</span>
+		</div>
 	</div>
 
 	<div class="actions">
