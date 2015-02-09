@@ -706,7 +706,7 @@ class WpPressThis {
 			<span class="dashicons dashicons-wordpress"></span>
 			<a href="#" target="_blank"></a>
 		</h1>
-		<button class="options-open button--subtle"><span class="dashicons dashicons-tag"></span><div class="screen-reader-text"><?php _e('Show post options'); ?></span></button>
+		<button class="options-open button--subtle"><span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e('Show post options'); ?></span></button>
 		<button class="options-close button--subtle"><?php _e('Done'); ?></button>
 	</div>
 
