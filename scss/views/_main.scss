@@ -5,6 +5,12 @@
 // I'm sure you can think of some awesome code to put here. I usually use it
 // as a scratchpad before moving code into their own modules.
 
+html,
+body,
+.editor-form {
+	height: 100%;
+}
+
 html {
 	background: #fff;
 	box-shadow: -10px 0 0 rgba( 0,0,0,.3 );
@@ -98,20 +104,19 @@ body {
 	}
 }
 
-.options-open {
-	.dashicons {
-		margin-top: 3px;
+.options-open,
+.options-close {
+	@include breakpoint( '>900px' ) {
+		display: none;
+	}
+	&.is-hidden {
+		display: none;
 	}
 }
 
-.options-close {
-	display: none;
-}
-
-@include breakpoint( '>900px' ) {
-	.options-open,
-	.options-close {
-		display: none;
+.options-open {
+	.dashicons {
+		margin-top: 3px;
 	}
 }
 
@@ -425,14 +430,27 @@ body {
 }
 
 .options-panel {
+	position: relative;
+	overflow-x: hidden;
 	float: right;
 	width: 320px;
+	height: 100%;
 	border-left: 1px solid $gray--light; // TODO hack better border
 	font-size: 14px;
+	transform: translate(0,0);
 
 	@include breakpoint( '<900px' ) {
 		float: none;
-		display: none;
+		position: absolute;
+		right: 0;
+		transform: translateX( 100% );
+		transition: all .3s ease-in-out;
+		z-index: 1;
+		background: #fff;
+
+		&.is-open {
+			transform: translateX( 0 );
+		}
 	}
 	&:before {
 		content: '';
@@ -447,6 +465,21 @@ body {
 }
 
 .post-options {
+	background: #fff;
+	position: relative;
+		right: 0;
+	width: 100%;
+	transition: all .3s ease-in-out;
+
+	&.is-hidden {
+		right: 100%;
+	}
+	@media ( min-width: 1px ) {
+		&.is-hidden {
+			right: auto;
+			transform: translateX( -100% );
+		}
+	}
 	a {
 		position: relative;
 		display: block;
@@ -474,7 +507,23 @@ body {
 }
 
 .setting-modal {
-	// display: none;
+	position: absolute;
+		top: 0;
+		left: 100%;
+	width: 100%;
+	transition: all .3s ease-in-out;
+
+	&.is-active {
+		left: 0;
+	}
+	@media ( min-width: 1px ) {
+		left: 0;
+			transform: translateX( 100% );
+
+		&.is-active {
+			transform: translateX( 0 );
+		}
+	}
 }
 
 .modal-close {

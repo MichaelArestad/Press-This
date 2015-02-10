@@ -681,6 +681,12 @@ object {
   margin: 0 auto;
 }
 
+html,
+body,
+.editor-form {
+  height: 100%;
+}
+
 html {
   background: #fff;
   -webkit-box-shadow: -10px 0 0 rgba(0, 0, 0, 0.3);
@@ -785,20 +791,21 @@ body {
   vertical-align: middle;
 }
 
-.options-open .dashicons {
-  margin-top: 3px;
-}
-
-.options-close {
-  display: none;
-}
-
 @media (min-width: 901px) {
   .options-open,
   .options-close {
     display: none;
   }
 }
+.options-open.is-hidden,
+.options-close.is-hidden {
+  display: none;
+}
+
+.options-open .dashicons {
+  margin-top: 3px;
+}
+
 .alerts {
   overflow: hidden;
   padding: 0.9em 0;
@@ -1107,15 +1114,34 @@ body {
 }
 
 .options-panel {
+  position: relative;
+  overflow-x: hidden;
   float: right;
   width: 320px;
+  height: 100%;
   border-left: 1px solid #e5e5e5;
   font-size: 14px;
+  -webkit-transform: translate(0, 0);
+  -ms-transform: translate(0, 0);
+  transform: translate(0, 0);
 }
 @media (max-width: 900px) {
   .options-panel {
     float: none;
-    display: none;
+    position: absolute;
+    right: 0;
+    -webkit-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    transform: translateX(100%);
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    z-index: 1;
+    background: #fff;
+  }
+  .options-panel.is-open {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
   }
 }
 .options-panel:before {
@@ -1129,6 +1155,25 @@ body {
   z-index: -1;
 }
 
+.post-options {
+  background: #fff;
+  position: relative;
+  right: 0;
+  width: 100%;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+.post-options.is-hidden {
+  right: 100%;
+}
+@media (min-width: 1px) {
+  .post-options.is-hidden {
+    right: auto;
+    -webkit-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+}
 .post-options a {
   position: relative;
   display: block;
@@ -1152,6 +1197,31 @@ body {
   top: 50%;
   right: 8px;
   margin-top: -10px;
+}
+
+.setting-modal {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 100%;
+  -webkit-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+.setting-modal.is-active {
+  left: 0;
+}
+@media (min-width: 1px) {
+  .setting-modal {
+    left: 0;
+    -webkit-transform: translateX(100%);
+    -ms-transform: translateX(100%);
+    transform: translateX(100%);
+  }
+  .setting-modal.is-active {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
+  }
 }
 
 .modal-close {

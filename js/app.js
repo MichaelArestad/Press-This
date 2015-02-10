@@ -317,6 +317,10 @@
 				});
 			}
 
+			function show_all_media() {
+				$( '#wppt_featured_image_container' ).addClass( 'all-media--visible').show();
+			}
+
 			function insert_selected_media( type, src, link ) {
 				var new_content = '';
 				if ( 'img' == type ) {
@@ -352,6 +356,35 @@
 			function set_current_site( url ) {
 				var no_scheme_url = url.replace(/^https?:/, '');
 				window.console && window.console.log(url, no_scheme_url);
+			}
+
+			function modal() { // Super terrible. Someone make this work properly! -M
+				$('.post-option').click(function(){
+					$('.post-options').addClass("is-hidden");
+					$('.setting-modal:nth-child(2)').addClass("is-active");
+				});
+				$('.modal-close').click(function(){
+					$('.setting-modal:nth-child(2)').removeClass("is-active");
+					$('.post-options').removeClass("is-hidden");
+				});
+			}
+
+			function sidebarToggle() { // Also probably super terrible. Someone make this better! -M
+				var oOpen = $('.options-open'),
+					oClose = $('.options-close'),
+					sidebar = $('.options-panel'),
+					hidden = "is-hidden";
+				console.log("fuck");
+				oOpen.click(function(){
+					oOpen.addClass(hidden);
+					oClose.removeClass(hidden);
+					sidebar.addClass('is-open');
+				});
+				oClose.click(function(){
+					oClose.addClass(hidden);
+					oOpen.removeClass(hidden);
+					sidebar.removeClass('is-open');
+				});
 			}
 
 /* ***************************************************************
@@ -440,11 +473,10 @@
 			}
 
 			function render_detected_media() {
-				var media_container = $( '#wppt_featured_media_container'),
-					list_container  = $('#wppt_all_media_container'),
-					found           = 0;
+				var imgs_container = $('#wppt_all_media_container'),
+					found          = 0;
 
-				list_container.empty();
+				imgs_container.empty();
 
 				if ( interesting_embeds && interesting_embeds.length ) {
 					$.each(interesting_embeds, function (i, src) {
@@ -466,7 +498,7 @@
 							'background-image': 'url(' + display_src + ')'
 						}).click(function () {
 							insert_selected_media('embed',src);
-						}).appendTo(list_container);
+						}).appendTo(imgs_container);
 
 						found++;
 					});
@@ -491,18 +523,19 @@
 							'background-image': 'url(' + display_src + ')'
 						}).click(function () {
 							insert_selected_media('img', src, data.u);
-						}).appendTo(list_container);
+						}).appendTo(imgs_container);
 
 						found++;
 					});
 				}
 
 				if ( ! found ) {
-					media_container.removeClass('all-media--visible').addClass( 'no-media');
+					imgs_container.hide();
 					return;
 				}
 
-				media_container.removeClass('no-media').addClass( 'all-media--visible');
+				imgs_container.show();
+				show_all_media();
 			}
 
 /* ***************************************************************
@@ -524,6 +557,8 @@
 				render_detected_media();
 				$( document ).on( 'tinymce-editor-init', render_suggested_content );
 				render_startup_notices();
+				modal();
+				sidebarToggle();
 				return true;
 			}
 
