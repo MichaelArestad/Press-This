@@ -614,7 +614,7 @@
 			}
 
 			// Assign callback/public properties/methods to returned object
-			this.render_error        = render_error;
+			this.render_error = render_error;
 		};
 
 		window.wp_pressthis_app = new WpPressThis_App();
