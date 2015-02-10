@@ -991,7 +991,7 @@ class WpPressThis {
 		<style type="text/css">
 			.postbox-pt {
 				margin: 1em 0 0 0;
-				padding: 0 1em;
+				padding: 0 1em 1em;
 			}
 
 				.postbox-pt textarea {
@@ -1016,10 +1016,6 @@ class WpPressThis {
 					top: 2px;
 				}
 
-				.pt-direct-link {
-					margin-bottom: 1em;
-				}
-
 		</style>
 		<div class="wrap">
 			<h2><?php echo get_admin_page_title() ?></h2>
@@ -1031,14 +1027,14 @@ class WpPressThis {
 			<form>
 			<div class="postbox postbox-pt">
 				<h3><?php _e('How to install it?'); ?></h3>
-				<h4><?php _e('On your laptop'); ?></h4>
+				<h4><?php _e('Press This Bookmarklet'); ?></h4>
 				<p><?php _e('Drag-and-drop the following link to your bookmarks bar:'); ?></p>
 
 				<div class="postbox-pt-buttons">
 
 					<a class="button button-primary button-pt-bookmarklet" onclick="return false;" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Press This') ?></a>
 					<?php _e('or'); ?>
-					<a class="button" onclick="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" oncontextmenu="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Copy Press This Code') ?></a>
+					<a class="button" onclick="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" oncontextmenu="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Copy Press This Bookmarklet') ?></a>
 
 					<div class="pressthis-code" style="display: none;">
 						<p><?php _e('If your bookmarks toolbar is hidden: copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.') ?></p>
@@ -1047,9 +1043,9 @@ class WpPressThis {
 
 				</div>					
 
-				<h4><?php _e('On your smartphone'); ?></h4>
-				<p><?php _e('Copy the following link and add it to your smartphone\'s bookmarks:'); ?></p>
-				<textarea class="pt-direct-link js-pt-direct-link" rows="2" cols="120" readonly="readonly" onclick="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.js-pt-direct-link').focus().select();return false;}"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea>
+				<h4><?php _e('Press This Direct Link'); ?></h4>
+				<p><?php _e('Follow the Press This Direct Link and add it to your bookmarks:'); ?></p>
+				<a class="button button-primary" onclick="return false;" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e('Press This') ?></a>
 			</div>
 			</form>
 		</div>
