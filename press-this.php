@@ -327,18 +327,21 @@ class WpPressThis {
 	 * @return array('post_title' => $title, 'post_content' => $content, 'post_status' => $post_status)
 	 * @uses $_POST
 	 */
-	public function format_post_data_for_save( $status = 'draft' ) {
+	public function format_post_data_for_save( $post_id, $status = 'draft' ) {
 		$i18n = self::i18n();
+
+		$post = array(
+			'ID'        => $post_id,
+			'post_type' => 'post',
+		);
 
 		// For image-only posts
 		if ( empty( $_POST ) ) {
-			return array(
-				'post_title'   => $i18n['new-post'],
-				'post_content' => '',
-			);
+			$post['post_title']   = $i18n['new-post'];
+			$post['post_content'] = '';
+			return $post;
 		}
 
-		$post    = array();
 		$content = '';
 
 		if ( ! empty( $_POST['wppt_title'] ) ) {
@@ -359,6 +362,14 @@ class WpPressThis {
 			}
 		} else {
 			$post['post_status'] = 'draft';
+		}
+
+		if ( isset( $_POST['post_format'] ) ) {
+			if ( current_theme_supports( 'post-formats', $_POST['post_format'] ) ) {
+				$post['post_format'] = $_POST['post_format'];
+			} elseif ( '0' == $_POST['post_format'] ) {
+				$post['post_format'] = 0;
+			}
 		}
 
 		return $post;
@@ -422,15 +433,7 @@ class WpPressThis {
 			return false;
 		}
 
-		$data = self::format_post_data_for_save( $post_status );
-
-		$post = array(
-			'ID'             => $post_id,
-			'post_title'     => $data['post_title'],
-			'post_content'   => $data['post_content'],
-			'post_status'    => $data['post_status'],
-			'post_type'      => 'post',
-		);
+		$post = self::format_post_data_for_save( $post_id, $post_status );
 
 		$new_content = self::side_load_images( $post_id, $post['post_content'] );
 
@@ -438,7 +441,17 @@ class WpPressThis {
 			$post['post_content'] = $new_content;
 		}
 
-		return wp_update_post( $post, true );
+		$updated = wp_update_post( $post, true );
+
+		if ( !is_wp_error( $updated ) && isset( $post['post_format'] ) ) {
+			if ( current_theme_supports( 'post-formats', $post['post_format'] ) ) {
+				set_post_format( $post_id, $post['post_format'] );
+			} elseif ( $post['post_format'] ) {
+				set_post_format( $post_id, false );
+			}
+		}
+
+		return $updated;
 	}
 
 	/**
