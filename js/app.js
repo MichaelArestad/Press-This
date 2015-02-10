@@ -343,8 +343,6 @@
 			function close_self( source_url ) {
 				if ( 'popup' == ux_context )
 					self.close();
-				else if ( 'iframe' == ux_context && source_url.length )
-					top.location.href = source_url;
 				else
 					top.location.href = self.location.href.replace(/^(.+)\/wp-admin\/.+$/, '$1/');
 			}
