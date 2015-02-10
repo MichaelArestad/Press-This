@@ -184,7 +184,7 @@ class WpPressThis {
 			'show-selected-media'        => __( 'Display selected media', 'press-this' ),
 			'publish'                    => __( 'Publish', 'press-this' ),
 			'save-draft'                 => __( 'Save Draft', 'press-this' ),
-			'new-post'                   => __( 'New Post', 'press-this' ),
+			'new-post'                   => __( 'Title', 'press-this' ),
 			'start-typing-here'          => __( 'Start typing here.', 'press-this' ),
 			'enter-url-to-scan'          => __( 'Enter a URL to scan', 'press-this' ),
 			'scan'                       => __( 'Scan', 'press-this' ),
