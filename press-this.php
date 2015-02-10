@@ -985,7 +985,7 @@ class WpPressThis {
 	public function do_options_page() {
 		?>
 		<div class="wrap">
-			<h2>Press This</h2>
+			<h2><?php echo get_admin_page_title() ?></h2>
 			<form>
 			<div class="tool-box">
 				<p><?php _e('Press This is a bookmarklet: a little app that runs in your browser and lets you grab bits of the web.');?></p>
