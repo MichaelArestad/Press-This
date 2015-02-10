@@ -349,11 +349,6 @@
 					top.location.href = self.location.href.replace(/^(.+)\/wp-admin\/.+$/, '$1/');
 			}
 
-			function set_current_site( url ) {
-				var no_scheme_url = url.replace(/^https?:/, '');
-				window.console && window.console.log(url, no_scheme_url);
-			}
-
 /* ***************************************************************
  * RENDERING FUNCTIONS
  *************************************************************** */
@@ -568,14 +563,6 @@
 					e.preventDefault();
 				});
 
-				$( '.wppt_site_entry').click(function(e){
-					set_current_site( $(this).data('url') );
-				});
-
-				$( '.wppt_site_entry_link').click(function( e ){
-					e.preventDefault();
-				});
-
 				// Publish and Draft buttons and submit
 
 				$( '#wppt_draft_field' ).on( 'click', function( e ){
@@ -585,12 +572,7 @@
 				$( '#wppt_publish_field' ).on( 'click', function( e ){
 					submit_post( e, 'publish');
 				});
-/*
-				 $( '#wppt_form' ).on( 'submit', function( e ){
-				 e.preventDefault();
-				 submit_post( $( '#wppt_draft_field' ), 'draft');
-				 });
- */
+
 				// File upload button and autosubmit
 
 				$( '#wppt_file' ).on('change', function(){
