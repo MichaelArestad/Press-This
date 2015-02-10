@@ -317,10 +317,6 @@
 				});
 			}
 
-			function show_all_media() {
-				$( '#wppt_featured_image_container' ).addClass( 'all-media--visible').show();
-			}
-
 			function insert_selected_media( type, src, link ) {
 				var new_content = '';
 				if ( 'img' == type ) {
@@ -473,10 +469,11 @@
 			}
 
 			function render_detected_media() {
-				var imgs_container = $('#wppt_all_media_container'),
+				var media_container = $( '#wppt_featured_media_container'),
+					list_container = $('#wppt_all_media_container'),
 					found          = 0;
 
-				imgs_container.empty();
+				list_container.empty();
 
 				if ( interesting_embeds && interesting_embeds.length ) {
 					$.each(interesting_embeds, function (i, src) {
@@ -498,7 +495,7 @@
 							'background-image': 'url(' + display_src + ')'
 						}).click(function () {
 							insert_selected_media('embed',src);
-						}).appendTo(imgs_container);
+						}).appendTo(list_container);
 
 						found++;
 					});
@@ -523,19 +520,18 @@
 							'background-image': 'url(' + display_src + ')'
 						}).click(function () {
 							insert_selected_media('img', src, data.u);
-						}).appendTo(imgs_container);
+						}).appendTo(list_container);
 
 						found++;
 					});
 				}
 
 				if ( ! found ) {
-					imgs_container.hide();
+					media_container.removeClass('all-media--visible').addClass( 'no-media');
 					return;
 				}
 
-				imgs_container.show();
-				show_all_media();
+				media_container.removeClass('no-media').addClass( 'all-media--visible');
 			}
 
 /* ***************************************************************
