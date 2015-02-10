@@ -211,7 +211,7 @@ class WpPressThis {
 		$supported_formats = get_theme_support( 'post-formats' );
 		$post_formats      = array();
 
-		if ( is_array( $supported_formats[0] ) ) {
+		if ( !empty( $supported_formats[0] ) && is_array( $supported_formats[0] ) ) {
 			foreach ( $supported_formats[0] as $post_format ) {
 				$post_formats[ $post_format ] = esc_html( get_post_format_string( $post_format ) );
 			}
