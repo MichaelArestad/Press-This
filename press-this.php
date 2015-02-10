@@ -983,23 +983,73 @@ class WpPressThis {
 	 * @see self::register_options_page()
 	 */
 	public function do_options_page() {
+
+	/**
+	 * Adding the following <style> block here. I need to review how to properly add CSS to this page
+	 */		
 		?>
+		<style type="text/css">
+			.postbox-pt {
+				margin: 1em 0 0 0;
+				padding: 0 1em;
+			}
+
+				.postbox-pt textarea {
+					width: 100%;
+					font-size: 1em;
+				}
+
+				.postbox-pt h4 {
+					margin: 2em 0 1em;
+				}
+
+				.postbox-pt-buttons {
+					line-height: 2em;
+				}
+
+				.button-pt-bookmarklet:before {
+					color: #FFF;
+					font: 400 20px/1 dashicons;
+					content: '\f157';
+					position: relative;
+					display: inline-block;
+					top: 2px;
+				}
+
+				.pt-direct-link {
+					margin-bottom: 1em;
+				}
+
+		</style>
 		<div class="wrap">
 			<h2><?php echo get_admin_page_title() ?></h2>
-			<form>
-			<div class="tool-box">
-				<p><?php _e('Press This is a bookmarklet: a little app that runs in your browser and lets you grab bits of the web.');?></p>
+			<div class="postbox postbox-pt">
+				<h3><?php _e('What it is?'); ?></h3>
+				<p><?php _e('Press This is a little app that lets you grab bits of the web and create new posts with ease.');?></p>
 				<p><?php _e('Use Press This to clip text, images and videos from any web page. Then edit and add more straight from Press This before you save or publish it in a post on your site.'); ?></p>
-				<p class="description"><?php _e('Drag-and-drop the following link to your bookmarks bar or right click it and add it to your favorites for a posting shortcut.') ?></p>
-				<p class="pressthis"><a onclick="return false;" oncontextmenu="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><span><?php _e('Press This') ?></span></a></p>
-				<div class="pressthis-code" style="display:none;">
-					<p class="description"><?php _e('If your bookmarks toolbar is hidden: copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.') ?></p>
-					<p><textarea rows="5" cols="120" readonly="readonly"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
-				</div>
-				<h3>Bookmarklet code</h3>
-				<p><textarea rows="5" cols="120" readonly="readonly"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
-				<h3>Direct link</h3>
-				<p><textarea rows="1" cols="120" readonly="readonly"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea></p>
+			</div>
+			<form>
+			<div class="postbox postbox-pt">
+				<h3><?php _e('How to install it?'); ?></h3>
+				<h4><?php _e('On your laptop'); ?></h4>
+				<p><?php _e('Drag-and-drop the following link to your bookmarks bar:'); ?></p>
+
+				<div class="postbox-pt-buttons">
+
+					<a class="button button-primary button-pt-bookmarklet" onclick="return false;" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Press This') ?></a>
+					<?php _e('or'); ?>
+					<a class="button" onclick="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" oncontextmenu="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Copy Press This Code') ?></a>
+
+					<div class="pressthis-code" style="display: none;">
+						<p><?php _e('If your bookmarks toolbar is hidden: copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.') ?></p>
+						<p><textarea rows="5" cols="120" readonly="readonly"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
+					</div>
+
+				</div>					
+
+				<h4><?php _e('On your smartphone'); ?></h4>
+				<p><?php _e('Copy the following link and add it to your smartphone\'s bookmarks:'); ?></p>
+				<textarea class="pt-direct-link js-pt-direct-link" rows="2" cols="120" readonly="readonly" onclick="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.js-pt-direct-link').focus().select();return false;}"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea>
 			</div>
 			</form>
 		</div>
