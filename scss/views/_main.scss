@@ -222,6 +222,10 @@ body {
 	border-bottom: 1px solid $gray--light;
 	line-height: 1.4;
 
+	@media ( max-height: 400px ) {
+		padding: 15px 0;
+		font-size: 16px;
+	}
 	@include breakpoint( '<320px' ) {
 		font-size: 1em;
 		font-weight: 600;
@@ -304,6 +308,7 @@ body {
 }
 .no-media {
 	margin: 0;
+	padding: 0;
 	border: 0;
 }
 
@@ -395,6 +400,10 @@ body {
 		padding: em( 10px, 14px ) 0;
 		background: none;
 		border-color: $gray--light;
+
+		@media ( max-height: 400px ) {
+			padding: 0;
+		}
 	}
 	div.mce-edit-area iframe {
 		padding-top: em( 30px, 14px );

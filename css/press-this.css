@@ -900,6 +900,12 @@ body {
   border-bottom: 1px solid #e5e5e5;
   line-height: 1.4;
 }
+@media (max-height: 400px) {
+  .post__title {
+    padding: 15px 0;
+    font-size: 16px;
+  }
+}
 @media (max-width: 320px) {
   .post__title {
     font-size: 1em;
@@ -990,6 +996,7 @@ body {
 
 .no-media {
   margin: 0;
+  padding: 0;
   border: 0;
 }
 
@@ -1075,6 +1082,11 @@ body {
   padding: 0.71429em 0;
   background: none;
   border-color: #e5e5e5;
+}
+@media (max-height: 400px) {
+  .editor div.mce-toolbar-grp {
+    padding: 0;
+  }
 }
 .editor div.mce-edit-area iframe {
   padding-top: 2.14286em;
