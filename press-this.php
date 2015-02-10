@@ -205,9 +205,16 @@ class WpPressThis {
 	 * @uses admin_url(), wp_create_nonce()
 	 */
 	public function site_settings() {
-		$current_user = wp_get_current_user();
-		$site_name    = get_bloginfo( 'name', 'display' );
-		$site_url     = self::strip_url_scheme( home_url( '/' ) );
+		$current_user      = wp_get_current_user();
+		$site_name         = get_bloginfo( 'name', 'display' );
+		$site_url          = self::strip_url_scheme( home_url( '/' ) );
+		$supported_formats = get_theme_support( 'post-formats' );
+		$post_formats      = array();
+
+		if ( is_array( $supported_formats[0] ) ) {
+			foreach ( $supported_formats[0] as $post_format ) {
+				$post_formats[ $post_format ] = esc_html( get_post_format_string( $post_format ) );
+			}
 		}
 
 		return array(
@@ -219,6 +226,7 @@ class WpPressThis {
 			'runtime_url'    => self::strip_url_scheme( self::runtime_url() ),
 			'plugin_dir_url' => self::plugin_dir_url(),
 			'ajax_url'       => self::strip_url_scheme( admin_url( 'admin-ajax.php' ) ),
+			'post_formats'   => $post_formats,
 			'i18n'           => self::i18n(),
 		);
 	}
