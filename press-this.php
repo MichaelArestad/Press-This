@@ -212,6 +212,7 @@ class WpPressThis {
 		$post_formats      = array();
 
 		if ( !empty( $supported_formats[0] ) && is_array( $supported_formats[0] ) ) {
+			$post_formats[ 0 ] = __( 'Standard' );
 			foreach ( $supported_formats[0] as $post_format ) {
 				$post_formats[ $post_format ] = esc_html( get_post_format_string( $post_format ) );
 			}
@@ -740,20 +741,20 @@ class WpPressThis {
 				<a href="#" class="post-option">
 					<span class="dashicons dashicons-admin-post"></span>
 					<label><?php _e('Format'); ?></label>
-					<span class="post-option__contents"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
+					<span class="post-option__contents" id="post-option-post-format"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</a>
 			<?php endif; ?>
 			<a href="#" class="post-option">
 				<span class="dashicons dashicons-category"></span>
 				<label><?php _e('Categories'); ?></label>
-				<span class="post-option__contents">category, another category</span>
+				<span class="post-option__contents" id="post-option-category">category, another category</span>
 				<span class="dashicons dashicons-arrow-right-alt2"></span>
 			</a>
 			<a href="#" class="post-option">
 				<span class="dashicons dashicons-tag"></span>
 				<label><?php _e('Tags'); ?></label>
-				<span class="post-option__contents">tag, another tag, a third tag</span>
+				<span class="post-option__contents" id="post-option-tags">tag, another tag, a third tag</span>
 				<span class="dashicons dashicons-arrow-right-alt2"></span>
 			</a>
 		</div>

@@ -347,6 +347,13 @@
 					top.location.href = self.location.href.replace(/^(.+)\/wp-admin\/.+$/, '$1/');
 			}
 
+			function set_post_format_string(format) {
+				if ( !format || !site_config || !site_config.post_formats || !site_config.post_formats[ format ] ) {
+					return;
+				}
+				$('#post-option-post-format').text( site_config.post_formats[format] );
+			}
+
 /* ***************************************************************
  * RENDERING FUNCTIONS
  *************************************************************** */
@@ -581,6 +588,13 @@
 
 				monitor_options_modal();
 				monitor_sidebar_toggle();
+
+				$('#post-formats-select input').on('change', function(){
+					var t = $( this );
+					if( $( t ).is( ':checked' ) ){
+						set_post_format_string( t.attr('id').replace(/^post-format-(.+)$/, '$1') );
+					}
+				});
 
 				hide_spinner();
 
