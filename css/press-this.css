@@ -1083,9 +1083,10 @@ body {
   background: none;
   border-color: #e5e5e5;
 }
-@media (max-height: 400px) {
+@media (max-height: 400px), (max-width: 320px) {
   .editor div.mce-toolbar-grp {
     padding: 0;
+    border: 0;
   }
 }
 .editor div.mce-edit-area iframe {

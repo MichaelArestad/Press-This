@@ -401,8 +401,9 @@ body {
 		background: none;
 		border-color: $gray--light;
 
-		@media ( max-height: 400px ) {
+		@media ( max-height: 400px ), ( max-width: 320px ) {
 			padding: 0;
+			border: 0;
 		}
 	}
 	div.mce-edit-area iframe {
