@@ -505,7 +505,11 @@
 				media_container.removeClass('no-media').addClass( 'all-media--visible');
 			}
 
-			function render_modal() {
+/* ***************************************************************
+ * MONITORING FUNCTIONS
+ *************************************************************** */
+
+			function monitor_options_modal() {
 				var is_active = 'is-active',
 					is_hidden = 'is-hidden';
 				$('.post-option').click(function(){
@@ -518,7 +522,7 @@
 				});
 			}
 
-			function render_sidebar_toggle() {
+			function monitor_sidebar_toggle() {
 				var opt_open  = $('.options-open'),
 					opt_close = $('.options-close'),
 					sidebar   = $('.options-panel'),
@@ -539,7 +543,6 @@
 /* ***************************************************************
  * PROCESSING FUNCTIONS
  *************************************************************** */
-
 			function initialize(){
 				// If we don't have those, or they are empty, we weren't able to initialize properly.
 				return (site_config.ajax_url && site_config.ajax_url.length && data._nonce && data._nonce.length);
@@ -555,8 +558,6 @@
 				render_detected_media();
 				$( document ).on( 'tinymce-editor-init', render_suggested_content );
 				render_startup_notices();
-				render_modal();
-				render_sidebar_toggle();
 				return true;
 			}
 
@@ -605,6 +606,9 @@
 				$('#wppt_close_button').on('click', function(){
 					close_self( get_canonical_link( data ) );
 				});
+
+				monitor_options_modal();
+				monitor_sidebar_toggle();
 
 				hide_spinner();
 
