@@ -354,37 +354,6 @@
 				window.console && window.console.log(url, no_scheme_url);
 			}
 
-			function modal() {
-				var is_active = 'is-active',
-					is_hidden = 'is-hidden';
-				$('.post-option').click(function(){
-					$('.post-options').addClass(is_hidden);
-					$('.setting-modal:nth-child(2)').addClass(is_active);
-				});
-				$('.modal-close').click(function(){
-					$('.setting-modal:nth-child(2)').removeClass(is_active);
-					$('.post-options').removeClass(is_hidden);
-				});
-			}
-
-			function sidebar_toggle() {
-				var opt_open  = $('.options-open'),
-					opt_close = $('.options-close'),
-					sidebar   = $('.options-panel'),
-					is_open   = 'is-open',
-					is_hidden = 'is-hidden';
-				opt_open.click(function(){
-					opt_open.addClass(is_hidden);
-					opt_close.removeClass(is_hidden);
-					sidebar.addClass(is_open);
-				});
-				opt_close.click(function(){
-					opt_close.addClass(is_hidden);
-					opt_open.removeClass(is_hidden);
-					sidebar.removeClass(is_open);
-				});
-			}
-
 /* ***************************************************************
  * RENDERING FUNCTIONS
  *************************************************************** */
@@ -536,6 +505,37 @@
 				media_container.removeClass('no-media').addClass( 'all-media--visible');
 			}
 
+			function render_modal() {
+				var is_active = 'is-active',
+					is_hidden = 'is-hidden';
+				$('.post-option').click(function(){
+					$('.post-options').addClass(is_hidden);
+					$('.setting-modal:nth-child(2)').addClass(is_active);
+				});
+				$('.modal-close').click(function(){
+					$('.setting-modal:nth-child(2)').removeClass(is_active);
+					$('.post-options').removeClass(is_hidden);
+				});
+			}
+
+			function render_sidebar_toggle() {
+				var opt_open  = $('.options-open'),
+					opt_close = $('.options-close'),
+					sidebar   = $('.options-panel'),
+					is_open   = 'is-open',
+					is_hidden = 'is-hidden';
+				opt_open.click(function(){
+					opt_open.addClass(is_hidden);
+					opt_close.removeClass(is_hidden);
+					sidebar.addClass(is_open);
+				});
+				opt_close.click(function(){
+					opt_close.addClass(is_hidden);
+					opt_open.removeClass(is_hidden);
+					sidebar.removeClass(is_open);
+				});
+			}
+
 /* ***************************************************************
  * PROCESSING FUNCTIONS
  *************************************************************** */
@@ -555,8 +555,8 @@
 				render_detected_media();
 				$( document ).on( 'tinymce-editor-init', render_suggested_content );
 				render_startup_notices();
-				modal();
-				sidebar_toggle();
+				render_modal();
+				render_sidebar_toggle();
 				return true;
 			}
 
