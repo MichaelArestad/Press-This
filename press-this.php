@@ -604,7 +604,6 @@ class WpPressThis {
 
 		// TEMP: for tags handling –– @TODO: evaluate
 		wp_register_script( 'tag-box', plugin_dir_url( __FILE__ ) . 'js/tag-box.js', array( 'suggest' ), false, true );
-		wp_register_style( 'edit-css', plugin_dir_url( __FILE__ ) . '../../../wp-admin/css/edit.css' );
 
 		$hook_suffix = 'press-this.php';
 		@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
@@ -648,7 +647,6 @@ class WpPressThis {
 
 		// TEMP: for tags handling –– @TODO: evaluate
 		wp_enqueue_script( 'tag-box' );
-		wp_enqueue_style( 'edit-css' );
 
 		$supports_formats = false;
 		$post_format      = 0;
@@ -771,7 +769,7 @@ class WpPressThis {
 				</div>
 			</div>
 
-			<div class="setting-modal">
+			<div class="setting-modal tags">
 				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
 				<?php post_tags_meta_box( $post, null ); ?>
 			</div>
@@ -863,7 +861,7 @@ class WpPressThis {
 
 	/**
 	 * Adding the following <style> block here. I need to review how to properly add CSS to this page
-	 */		
+	 */
 		?>
 		<style type="text/css">
 			.postbox-pt {
@@ -926,7 +924,7 @@ class WpPressThis {
 
 				<h4><?php _e('Press This Direct Link'); ?></h4>
 				<p><?php _e('Follow the Press This Direct Link and add it to your bookmarks:'); ?></p>
-				
+
 				<div class="postbox-pt-buttons">
 
 					<a class="button button-primary" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e('Press This') ?></a>
@@ -943,31 +941,31 @@ class WpPressThis {
 			</div>
 			</form>
 		</div>
-		<script> 
-			jQuery( document ).ready( function( $ ) { 
+		<script>
+			jQuery( document ).ready( function( $ ) {
 
 				var $showPressThisWrap = $( '.js-show-pressthis-code-wrap' );
 				var $pressthisCode = $( '.js-pressthis-code' );
 
-				$showPressThisWrap.on( 'click', function( event ) { 
+				$showPressThisWrap.on( 'click', function( event ) {
 
 					$(this).next( '.js-pressthis-code-wrap' ).slideToggle(200);
 
-					$( this ).attr( 'aria-expanded', $( this ).attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' ); 
-
-				}); 
-
-				// Select Press This code when focusing (tabbing) or clicking the textarea. 
-				$pressthisCode.on( 'click focus', function() { 
-
-					var self = this; 
-					
-					setTimeout( function() { self.select(); }, 50 ); 
+					$( this ).attr( 'aria-expanded', $( this ).attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' );
 
 				});
 
-			}); 
-		</script> 		
+				// Select Press This code when focusing (tabbing) or clicking the textarea.
+				$pressthisCode.on( 'click focus', function() {
+
+					var self = this;
+
+					setTimeout( function() { self.select(); }, 50 );
+
+				});
+
+			});
+		</script>
 	<?php
 	}
 

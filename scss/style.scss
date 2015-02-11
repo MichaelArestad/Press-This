@@ -23,6 +23,9 @@ Press This :)
 	"components/media",
 	"components/alignments";
 
+.tags {
+	@import "components/edit";
+}
 
 @import
 	"views/main";
