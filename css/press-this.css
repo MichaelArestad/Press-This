@@ -1167,8 +1167,8 @@ body {
   width: 320px;
   border-left: 1px solid #e5e5e5;
   font-size: 14px;
-  -webkit-box-shadow: 5001px 0 0 5000px #fff, 5000px 0 0 5000px #e5e5e5;
-  box-shadow: 5001px 0 0 5000px #fff, 5000px 0 0 5000px #e5e5e5;
+  -webkit-box-shadow: 5001px 5000px 0 5000px #fff, 5000px 5000px 0 5000px #e5e5e5;
+  box-shadow: 5001px 5000px 0 5000px #fff, 5000px 5000px 0 5000px #e5e5e5;
 }
 @media (max-width: 900px) {
   .options-panel {

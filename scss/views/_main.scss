@@ -472,8 +472,8 @@ body {
 	width: $sidebar-size;
 	border-left: 1px solid $gray--light;
 	font-size: 14px;
-	box-shadow: 5001px 0 0 5000px #fff, // Keeps background the full height of the screen
-		5000px 0 0 5000px $gray--light;
+	box-shadow: 5001px 5000px 0 5000px #fff, // Keeps background the full height of the screen
+		5000px 5000px 0 5000px $gray--light;
 
 	@include breakpoint( '<900px' ) {
 		right: 0;
