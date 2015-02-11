@@ -287,25 +287,22 @@ body {
 }
 
 .suggested-media--embed {
-	background: $gray--middle;
+	background-color: $gray--middle;
 
 	&:after {
 		content: "\f236";
 		display: inline-block;
 		position: absolute;
-			top: 50%;
-			right: 0;
-		margin-top: -20px;
-		width: 100%;
-		font-size: 40px;
+			right: 3%;
+			bottom: 2%;
+		font-size: 20px;
 		line-height: 1;
 		font-family: dashicons;
 		text-decoration: inherit;
 		color: #fff;
+		color: rgba(255, 255, 255, 0.9);
 		font-weight: 400;
 		font-style: normal;
-		vertical-align: top;
-		text-align: center;
 		-webkit-transition: color .1s ease-in 0;
 		transition: color .1s ease-in 0;
 		-webkit-font-smoothing: antialiased;
