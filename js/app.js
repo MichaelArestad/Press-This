@@ -10,6 +10,7 @@
 				smallest_width        = 128,
 				interesting_images	  = get_interesting_images( data ) || [],
 				interesting_embeds	  = get_interesting_embeds( data ) || [],
+				has_empty_title_str   = false,
 				suggested_title_str   = get_suggested_title( data ),
 				suggested_content_str = get_suggested_content( data ),
 				nonce                 = data._nonce || '',
@@ -94,8 +95,10 @@
 					}
 				}
 
-				if ( ! title.length )
+				if ( ! title.length ) {
 					title = __( 'new-post' );
+					has_empty_title_str = true;
+				}
 
 				return title.replace( /\\/g, '' );
 			}
@@ -388,8 +391,13 @@
 				$('#wppt_title_field').val( title );
 
 				$('#wppt_title_container').on( 'input', function() {
-					$('#wppt_title_field').val( $(this).val() );
+					$('#wppt_title_field').val( $(this).text() );
 				}).text( title );
+
+				if ( has_empty_title_str ) {
+					$('#wppt_title_container').addClass('placeholder');
+				}
+
 			}
 
 			function render_suggested_content() {
@@ -407,6 +415,7 @@
 						has_set_focus = true;
 					});
 				}
+
 			}
 
 			function render_detected_media() {
@@ -518,6 +527,30 @@
 				});
 			}
 
+			function monitor_placeholder() {
+
+				var $selector = $( '#wppt_title_container.placeholder' );
+				var initialValue = $selector.text();
+
+				$selector.on( 'focus', function() {
+
+					if ( $( this ).text() == initialValue ) {
+						$( this ).empty();
+					}
+
+				});
+				
+				$selector.on( 'blur', function() {
+
+					var textLength = $( this ).text().length;
+
+					if ( ! textLength > 0 )
+						$( this ).text( initialValue );
+
+				});				
+			}
+
+
 /* ***************************************************************
  * PROCESSING FUNCTIONS
  *************************************************************** */
@@ -548,6 +581,7 @@
 
 				monitor_options_modal();
 				monitor_sidebar_toggle();
+				monitor_placeholder();
 
 				$('#post-formats-select input').on('change', function(){
 					var t = $( this );
