@@ -257,6 +257,7 @@ class WpPressThis {
 			'post_title' => '',
 			'post_content' => '',
 			'post_type' => 'post',
+			'tax_input' => array(),
 		);
 
 		// For image-only posts
@@ -288,6 +289,18 @@ class WpPressThis {
 				$post['post_format'] = $_POST['post_format'];
 			} else {
 				$post['post_format'] = 0;
+			}
+		}
+
+		if ( !empty( $_POST['tax_input'] ) ) {
+			foreach ( $_POST['tax_input'] as $tax_name => $terms ) {
+				if ( empty( $terms ) )
+					continue;
+				$comma = _x( ',', 'tag delimiter' );
+				if ( ',' !== $comma ) {
+					$terms = str_replace( $comma, ',', $terms );
+				}
+				$post['tax_input'][ $tax_name ] = explode( ',', trim( $terms, " \n\t\r\0\x0B," ) );
 			}
 		}
 
@@ -589,9 +602,16 @@ class WpPressThis {
 		wp_register_script( 'press-this-app', plugin_dir_url( __FILE__ ) . 'js/app.js', array( 'jquery' ), false, true );
 		wp_register_style( 'press-this-css', plugin_dir_url( __FILE__ ) . 'css/press-this.css' );
 
+		// TEMP: for tags handling –– @TODO: evaluate
+		wp_register_script( 'tag-box', plugin_dir_url( __FILE__ ) . 'js/tag-box.js', array( 'suggest' ), false, true );
+		wp_register_style( 'edit-css', plugin_dir_url( __FILE__ ) . '../../../wp-admin/css/edit.css' );
+
 		$hook_suffix = 'press-this.php';
 		@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
+		if ( ! function_exists( 'post_tags_meta_box' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/meta-boxes.php' );
+		}
 ?>
 <!DOCTYPE html>
 <html  <?php language_attributes(); ?>>
@@ -626,15 +646,16 @@ class WpPressThis {
 		wp_enqueue_media( array( 'post' => $post->ID ) );
 		wp_enqueue_script( 'editor' );
 
+		// TEMP: for tags handling –– @TODO: evaluate
+		wp_enqueue_script( 'tag-box' );
+		wp_enqueue_style( 'edit-css' );
+
 		$supports_formats = false;
 		$post_format      = 0;
 		if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post->post_type, 'post-formats' ) ) {
 			$supports_formats = true;
 			if ( ! ( $post_format = get_post_format( $post->ID ) ) ) {
 				$post_format = 0;
-			}
-			if ( ! function_exists( 'post_format_meta_box' ) ) {
-				require_once( ABSPATH . 'wp-admin/includes/meta-boxes.php' );
 			}
 		}
 
@@ -752,16 +773,7 @@ class WpPressThis {
 
 			<div class="setting-modal">
 				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
-				<div class="new-tag-box">
-					<input type="text" name="" id="" class="tag-input" value="" />
-					<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
-				</div>
-				<p class="howto"><?php _e('Separate tags with commas'); ?></p>
-				<div id="tags">
-					<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>tag</span>
-					<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>another tag</span>
-					<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>a third tag</span>
-				</div>
+				<?php post_tags_meta_box( $post, null ); ?>
 			</div>
 		</div><!-- .options-panel -->
 	</div><!-- .wrapper -->
