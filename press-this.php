@@ -1016,6 +1016,10 @@ class WpPressThis {
 					top: 2px;
 				}
 
+				.wp-core-ui .postbox-pt .button:active {
+					vertical-align: middle;
+				}
+
 		</style>
 		<div class="wrap">
 			<h2><?php echo get_admin_page_title() ?></h2>
@@ -1028,7 +1032,7 @@ class WpPressThis {
 			<div class="postbox postbox-pt">
 				<h3><?php _e('How to install it?'); ?></h3>
 				<h4><?php _e('Press This Bookmarklet'); ?></h4>
-				<p><?php _e('This method is faster and almost instantaneous. To use it, drag-and-drop the following link to your bookmarks bar:'); ?></p>
+				<p><?php _e('The bookmarklet allows you to quickly get content from any site. To use it, drag-and-drop the following link to your bookmarks bar. Some mobile browsers make it impossible to add Javascript bookmarklets. For those, use the direct link version below.'); ?></p>
 
 				<div class="postbox-pt-buttons">
 
@@ -1037,12 +1041,11 @@ class WpPressThis {
 					<a onclick="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" oncontextmenu="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Copy Press This Bookmarklet') ?></a>
 
 					<div class="pressthis-code" style="display: none;">
-						<p><?php _e('If your bookmarks toolbar is hidden: copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.') ?></p>
-						<p><textarea rows="5" cols="120" readonly="readonly"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
+						<p id="pressthis-code-desc"><?php _e('If you can\'t add it to your bookmarks by dragging, copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.') ?></p>
+						<p><textarea rows="5" cols="120" readonly="readonly" aria-labelledby="pressthis-code-desc"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
 					</div>
 
 				</div>
-				<p><?php _e('The downside is that some mobile browsers don\'t let you add bookmarklets. In that case you should try:'); ?></p>			
 
 				<h4><?php _e('Press This Direct Link'); ?></h4>
 				<p><?php _e('Follow the Press This Direct Link and add it to your bookmarks:'); ?></p>
@@ -1054,7 +1057,8 @@ class WpPressThis {
 					<a onclick="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code-dl').show().find('textarea').focus().select();return false;}" oncontextmenu="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Copy Press This Direct Link') ?></a>
 
 					<div class="pressthis-code-dl" style="display: none;">
-						<p><textarea rows="1" cols="120" readonly="readonly"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea></p>
+						<p id="pressthis-code-dl-desc"><?php _e('Copy the link below, open your Bookmarks manager, create new bookmark, and paste the url into the URL field.') ?></p>
+						<p><textarea rows="1" cols="120" readonly="readonly" aria-labelledby="pressthis-code-dl-desc"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea></p>
 					</div>
 
 				</div>
