@@ -722,7 +722,7 @@ class WpPressThis {
 				<a href="#" class="post-option">
 					<span class="dashicons dashicons-category"></span>
 					<label><?php _e('Categories'); ?></label>
-					<span class="post-option__contents" id="post-option-category">category, another category</span>
+					<span class="post-option__contents" id="post-option-category"></span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</a>
 				<a href="#" class="post-option">
@@ -742,15 +742,7 @@ class WpPressThis {
 
 			<div class="setting-modal">
 				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
-				<div class="new-tag-box">
-					<input type="text" name="" id="" class="tag-input" value="" />
-					<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
-				</div>
-				<p class="howto"><?php _e('Separate categories with commas'); ?></p>
-				<div id="tags">
-					<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>category</span>
-					<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>another category</span>
-				</div>
+				<p class="howto"><?php _e( 'Coming in WP 4.2!', 'press-this' ); ?></p>
 			</div>
 
 			<div class="setting-modal tags">
