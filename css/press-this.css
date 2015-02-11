@@ -1330,7 +1330,8 @@ body {
   }
 }
 
-.post__title {
+.post__title,
+.post__title-placeholder {
   margin: 0;
   padding: .83em 0;
   width: 100%;
@@ -1342,17 +1343,24 @@ body {
   resize: vertical;
 }
 @media (max-height: 400px) {
-  .post__title {
+  .post__title,
+  .post__title-placeholder {
     padding: 15px 0;
     font-size: 16px;
   }
 }
 @media (max-width: 320px) {
-  .post__title {
+  .post__title,
+  .post__title-placeholder {
     font-size: 1em;
     font-weight: 600;
     padding: 1.14286em 1.42857em;
   }
+}
+
+.post__title-placeholder {
+  position: absolute;
+  pointer-events: none;
 }
 
 .featured-container {

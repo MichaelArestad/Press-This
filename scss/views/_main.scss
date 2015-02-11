@@ -233,7 +233,8 @@ body {
 	}
 }
 
-.post__title {
+.post__title,
+.post__title-placeholder {
 	margin: 0;
 	padding: .83em 0;
 	width: 100%;
@@ -253,6 +254,11 @@ body {
 		font-weight: 600;
 		padding: em( 16px, 14px ) em( 20px, 14px );
 	}
+}
+
+.post__title-placeholder {
+	position: absolute;
+	pointer-events: none;
 }
 
 
