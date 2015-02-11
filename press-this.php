@@ -590,6 +590,7 @@ class WpPressThis {
 		wp_register_script( 'tag-box', plugin_dir_url( __FILE__ ) . 'js/tag-box.js', array( 'suggest' ), false, true );
 
 		$hook_suffix = 'press-this.php';
+		set_current_screen( $hook_suffix );
 		@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
 		if ( ! function_exists( 'post_tags_meta_box' ) ) {
