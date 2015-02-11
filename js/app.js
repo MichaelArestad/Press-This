@@ -302,15 +302,12 @@
 							render_error( __('unexpected-error') );
 							hide_spinner();
 						} else {
-							if ( 'published' == response.post_status ) {
-								if ( 'popup' == ux_context && window.opener && window.opener.location ) {
-									window.opener.location.href = response.post_permalink;
-									self.close();
-								} else {
-									window.top.location.href = response.post_permalink;
-								}
+							var redirect_url = ( 'published' == response.post_status ) ? response.post_permalink : './post.php?post=' + response.post_id + '&action=edit';
+							if ( 'popup' == ux_context && window.opener && window.opener.location ) {
+								window.opener.location.href = redirect_url;
+								self.close();
 							} else {
-								window.top.location.href = './post.php?post=' + response.post_id + '&action=edit';
+								window.top.location.href = redirect_url;
 							}
 						}
 					}
