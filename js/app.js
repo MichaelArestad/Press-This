@@ -556,6 +556,12 @@
 					}
 				});
 
+				// Needs more work, doesn't detect when the other JS changes the value of #tax-input-post_tag
+				$('#tax-input-post_tag').on('change', function(){
+					var val =  $( this ).val();
+					$('#post-option-tags').text( ( val.length ) ? val.replace( /,([^\s])/g, ', $1' ) : '' );
+				});
+
 				return true;
 			}
 
