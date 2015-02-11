@@ -728,7 +728,7 @@ class WpPressThis {
 				<a href="#" class="post-option">
 					<span class="dashicons dashicons-tag"></span>
 					<label><?php _e('Tags'); ?></label>
-					<span class="post-option__contents" id="post-option-tags">tag, another tag, a third tag</span>
+					<span class="post-option__contents" id="post-option-tags"></span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</a>
 			</div>
