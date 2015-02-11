@@ -1080,7 +1080,7 @@ class WpPressThis {
 				
 				<div class="postbox-pt-buttons">
 
-					<a class="button button-primary" onclick="return false;" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e('Press This') ?></a>
+					<a class="button button-primary" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e('Press This') ?></a>
 					<?php _e('or'); ?>
 					<button type="button" class="button button-large js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-dl-code-wrap"><?php _e('Copy Press This Direct Link') ?></button>
 
