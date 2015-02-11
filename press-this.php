@@ -1038,11 +1038,11 @@ class WpPressThis {
 
 					<a class="button button-primary button-pt-bookmarklet" onclick="return false;" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Press This') ?></a>
 					<?php _e('or'); ?>
-					<a onclick="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" oncontextmenu="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Copy Press This Bookmarklet') ?></a>
+					<button type="button" class="button button-large js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-code-wrap"><?php _e('Copy Press This Bookmarklet') ?></button>
 
-					<div class="pressthis-code" style="display: none;">
+					<div class="hidden js-pressthis-code-wrap">
 						<p id="pressthis-code-desc"><?php _e('If you can\'t add it to your bookmarks by dragging, copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.') ?></p>
-						<p><textarea rows="5" cols="120" readonly="readonly" aria-labelledby="pressthis-code-desc"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
+						<p><textarea class="js-pressthis-code" rows="5" cols="120" readonly="readonly" aria-labelledby="pressthis-code-desc"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
 					</div>
 
 				</div>
@@ -1054,11 +1054,11 @@ class WpPressThis {
 
 					<a class="button button-primary" onclick="return false;" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e('Press This') ?></a>
 					<?php _e('or'); ?>
-					<a onclick="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code-dl').show().find('textarea').focus().select();return false;}" oncontextmenu="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Copy Press This Direct Link') ?></a>
+					<button type="button" class="button button-large js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-dl-code-wrap"><?php _e('Copy Press This Direct Link') ?></button>
 
-					<div class="pressthis-code-dl" style="display: none;">
-						<p id="pressthis-code-dl-desc"><?php _e('Copy the link below, open your Bookmarks manager, create new bookmark, and paste the url into the URL field.') ?></p>
-						<p><textarea rows="1" cols="120" readonly="readonly" aria-labelledby="pressthis-code-dl-desc"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea></p>
+					<div class="hidden js-pressthis-code-wrap">
+						<p id="pressthis-dl-code-desc"><?php _e('Copy the link below, open your Bookmarks manager, create new bookmark, and paste the url into the URL field.') ?></p>
+						<p><textarea class="js-pressthis-code" rows="1" cols="120" readonly="readonly" aria-labelledby="pressthis-dl-code-desc"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea></p>
 					</div>
 
 				</div>
@@ -1066,6 +1066,31 @@ class WpPressThis {
 			</div>
 			</form>
 		</div>
+		<script> 
+	 		jQuery( document ).ready( function( $ ) { 
+
+	 			var $showPressThisWrap = $( '.js-show-pressthis-code-wrap' );
+ 		        var $pressthisCode = $( '.js-pressthis-code' );
+
+ 		        $showPressThisWrap.on( 'click', function( event ) { 
+
+ 		        	$(this).next( '.js-pressthis-code-wrap' ).slideToggle(200);
+
+	                $( this ).attr( 'aria-expanded', $( this ).attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' ); 
+
+ 		        }); 
+
+ 		        // Select Press This code when focusing (tabbing) or clicking the textarea. 
+ 		        $pressthisCode.on( 'click focus', function() { 
+
+	                var self = this; 
+	                
+	                setTimeout( function() { self.select(); }, 50 ); 
+
+ 		        });
+
+	 		}); 
+ 		</script> 		
 	<?php
 	}
 
