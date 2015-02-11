@@ -248,11 +248,15 @@ th {
   clear: both;
 }
 
-.screen-reader-text {
+.hide-if-js {
+  display: none;
+}
+
+.screen-reader-text, .taghint {
   clip: rect(1px, 1px, 1px, 1px);
   position: absolute !important;
 }
-.screen-reader-text:hover, .screen-reader-text:active, .screen-reader-text:focus {
+.screen-reader-text:hover, .taghint:hover, .screen-reader-text:active, .taghint:active, .screen-reader-text:focus, .taghint:focus {
   background-color: #f1f1f1;
   border-radius: 3px;
   -webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
@@ -735,46 +739,49 @@ object {
   content: "\f161";
 }
 
-.tagsdiv {
-  margin-top: -8px;
+.tagsdiv p {
+  margin: 0;
 }
-
-#poststuff .taghint {
-  color: #aaa;
-  margin: 15px 0 -24px 12px;
-}
-
-#poststuff .tagsdiv .howto {
-  margin: 0 0 6px 0;
-}
-
-.ajaxtag .newtag {
+.tagsdiv .ajaxtag {
   position: relative;
 }
-
 .tagsdiv .newtag {
-  width: 180px;
+  display: block;
+  position: relative;
+  padding: 11px 58px 11px 16px;
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 16px;
+}
+.tagsdiv .tagadd {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  border: 0;
+  padding: 0 16px;
+  background: #e5e5e5;
+}
+.tagsdiv .howto {
+  color: #727272;
+  font-style: italic;
+  margin: 10px 0 6px 16px;
+}
+
+.nojs-tags {
+  padding: 16px;
 }
 
 .tagsdiv .the-tags {
   display: block;
-  height: 60px;
-  margin: 0 auto;
+  min-height: 60px;
+  margin: 0;
   overflow: auto;
-  width: 260px;
-}
-
-#post-body-content .tagsdiv .the-tags {
-  margin: 0 5px;
+  width: 100%;
 }
 
 /* tag hints */
-.taghint {
-  color: #aaa;
-  margin: -17px 0 0 7px;
-  visibility: hidden;
-}
-
 input.newtag ~ div.taghint {
   visibility: visible;
 }
@@ -783,56 +790,109 @@ input.newtag:focus ~ div.taghint {
   visibility: hidden;
 }
 
-p.popular-tags {
+.ac_results {
+  padding: 0;
+  margin: -1px 0 0 -1px;
+  list-style: none;
+  position: absolute;
+  z-index: 10000;
+  display: none;
+  border: 1px solid #d8d8d8;
+  background-color: #fff;
+  font-size: 14px;
+}
+.ac_results li {
+  padding: 6px 16px;
+  white-space: nowrap;
+  color: #101010;
+  text-align: left;
+}
+.ac_results .ac_over {
+  background-color: #e5e5e5;
+  background-color: #2ea2cc;
+  color: #fff;
+  cursor: pointer;
+}
+
+.ac_match {
+  text-decoration: underline;
+}
+
+.tagchecklist {
+  padding: 16px 28px;
+}
+.tagchecklist:before, .tagchecklist:after {
+  content: "";
+  display: table;
+}
+.tagchecklist:after {
+  clear: both;
+}
+.tagchecklist span {
+  display: block;
+  margin-right: 25px;
+  float: left;
+  font-size: 13px;
+  line-height: 1.8em;
+  white-space: nowrap;
+  cursor: default;
+}
+.tagchecklist .ntdelbutton {
+  margin: 1px 0 0 -17px;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  display: block;
+  float: left;
+  text-indent: 0;
+  overflow: hidden;
+  position: absolute;
+}
+.tagchecklist .ntdelbutton:before {
+  content: '\f153';
+  display: block !important;
+  margin: 2px 0;
+  height: 20px;
+  width: 20px;
+  background: 0 0;
+  color: #9ea7af;
+  font: 400 16px/1 dashicons;
+  text-align: center;
+  speak: none;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+.tagsdiv + p {
+  margin: 0;
+}
+
+.tagcloud-link {
+  display: block;
+  padding: 0 16px;
+  text-decoration: none;
+}
+
+.popular-tags {
   border: none;
   line-height: 2em;
   padding: 8px 12px 12px;
   text-align: justify;
 }
 
-p.popular-tags a {
+.popular-tags a {
   padding: 0 3px;
 }
 
-.tagcloud {
-  width: 97%;
-  margin: 0 0 40px;
-  text-align: justify;
+.the-tagcloud {
+  margin: 0;
+  padding: 16px;
+}
+.the-tagcloud a {
+  text-decoration: none;
 }
 
 .tagcloud h3 {
   margin: 2px 0 12px;
-}
-
-.ac_results {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  position: absolute;
-  z-index: 10000;
-  display: none;
-  border: 1px solid #808080;
-  background-color: #fff;
-}
-
-.wp-customizer .ac_results {
-  z-index: 500000;
-}
-
-.ac_results li {
-  padding: 2px 5px;
-  white-space: nowrap;
-  color: #101010;
-  text-align: left;
-}
-
-.ac_over {
-  background-color: #f0f0b8;
-  cursor: pointer;
-}
-
-.ac_match {
-  text-decoration: underline;
 }
 
 @media screen and (max-width: 782px) {
@@ -1609,6 +1669,12 @@ body {
   position: relative;
   top: -1px;
   margin-left: 11px;
+}
+
+.adminbar button,
+.options-panel,
+.setting-modal {
+  display: none;
 }
 
 /*# sourceMappingURL=press-this.css.map */
