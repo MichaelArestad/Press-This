@@ -5,11 +5,7 @@
 // I'm sure you can think of some awesome code to put here. I usually use it
 // as a scratchpad before moving code into their own modules.
 
-html,
-body,
-.editor-form {
-	height: 100%;
-}
+$sidebar-size: 320px;
 
 html {
 	background: #fff;
@@ -17,14 +13,12 @@ html {
 }
 
 body {
-	margin: 0 0 em( 95px ) 1px;
+	margin: 0 0 0 1px;
 
 	@include breakpoint( '<600px' ) {
-		margin: 0 0 em( 95px, 16px ) 1px;
 		font-size: 16px;
 	}
 	@include breakpoint( '<320px' ) {
-		margin: 0 0 em( 95px, 14px ) 1px;
 		font-size: 14px;
 	}
 }
@@ -199,7 +193,7 @@ body {
 
 // Editor stuff
 .editor {
-	padding: 0 em( 30px ) 0;
+	padding: 0 em( 30px ) em( 95px );
 	max-width: 700px;
 	margin: 0 auto;
 
@@ -219,8 +213,13 @@ body {
 .post__title {
 	margin: 0;
 	padding: .83em 0;
+	width: 100%;
+	border: 0;
 	border-bottom: 1px solid $gray--light;
+	font-size: 24px;
 	line-height: 1.4;
+	font-weight: $bold;
+	resize: vertical;
 
 	@media ( max-height: 400px ) {
 		padding: 15px 0;
@@ -285,14 +284,32 @@ body {
 		width: $size;
 		padding: $size 0 0 $size;
 	}
+}
+
+.suggested-media--embed {
+	background: $gray--middle;
+
 	&:after {
-		content: '';
+		content: "\f236";
+		display: inline-block;
 		position: absolute;
-		top: 0;
-		right: 0;
-		height: 100%;
-		width: 2px;
-		background: #fff;
+			top: 50%;
+			right: 0;
+		margin-top: -20px;
+		width: 100%;
+		font-size: 40px;
+		line-height: 1;
+		font-family: dashicons;
+		text-decoration: inherit;
+		color: #fff;
+		font-weight: 400;
+		font-style: normal;
+		vertical-align: top;
+		text-align: center;
+		-webkit-transition: color .1s ease-in 0;
+		transition: color .1s ease-in 0;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}
 }
 
@@ -314,7 +331,7 @@ body {
 
 
 // Footer
-.actions {
+.press-this__actions {
 	position: fixed;
 	bottom: 0;
 	left: 0;
@@ -334,6 +351,40 @@ body {
 	}
 }
 
+.insert-media {
+	color: #9ea7af;
+	float: left;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	border-right: 1px solid $gray--light;
+	border-radius: 0;
+	background: none;
+	box-shadow: none;
+	overflow: hidden;
+
+	&:hover,
+	&:focus,
+	&:active {
+		margin: 0;
+		background: none;
+		border-color: $gray--light;
+		color: #222;
+	}
+	.dashicons {
+		padding: 11px;
+		width: 63px;
+		height: 58px;
+		font-size: 40px;
+
+		@include breakpoint( '<320px' ) {
+			width: 55px;
+			height: 50px;
+			padding: 7px;
+		}
+	}
+}
+
 .post-actions {
 	float: right;
 	margin: 14px 30px 14px 0;
@@ -349,52 +400,6 @@ body {
 .editor {
 	.wp-media-buttons {
 		float: none;
-	}
-	.button.add_media {
-		position: fixed;
-			bottom: 0;
-			left: 0;
-		width: 63px;
-		height: 58px;
-		z-index: 2;
-
-		// removes old button styles
-		margin: 0;
-		padding: 11px;
-		border: 0;
-		border-right: 1px solid $gray--light;
-		border-radius: 0;
-		background: none;
-		box-shadow: none;
-		overflow: hidden;
-
-		@include breakpoint( '<320px' ) {
-			width: 55px;
-			height: 50px;
-			padding: 7px;
-		}
-		&:hover,
-		&:focus,
-		&:active {
-			position: fixed;
-				top: auto;
-				bottom: 0;
-				left: 0;
-			margin: 0;
-			background: none;
-			border-color: $gray--light;
-			color: #222;
-		}
-		.wp-media-buttons-icon {
-			width: auto;
-			height: auto;
-			margin: 0 20px 0 0;
-
-			&:before {
-				font-size: 40px;
-				content: '\f306';
-			}
-		}
 	}
 	div.mce-toolbar-grp {
 		padding: em( 10px, 14px ) 0;
@@ -433,44 +438,52 @@ body {
 }
 
 
+
 // Options panel container
+.wrapper {
+	@include clearfix;
+	position: relative;
+	margin-right: $sidebar-size;
+
+	@include breakpoint( '<900px' ) {
+		margin: 0;
+		width: 100%;
+		overflow-x: hidden;
+		transform: translate(0,0);
+	}
+}
+
 .editor-wrapper { // TODO move this
 	@include clearfix;
 	overflow: auto;
-}
-
-.options-panel {
-	position: relative;
-	overflow-x: hidden;
-	float: right;
-	width: 320px;
-	height: 100%;
-	border-left: 1px solid $gray--light; // TODO hack better border
-	font-size: 14px;
-	transform: translate(0,0);
+	width: 100%;
 
 	@include breakpoint( '<900px' ) {
 		float: none;
-		position: absolute;
+	}
+}
+
+.options-panel {
+	position: absolute;
+		top: 0;
+		right: -1 * $sidebar-size;
+		bottom: 58px;
+	overflow-x: hidden;
+	width: $sidebar-size;
+	border-left: 1px solid $gray--light;
+	font-size: 14px;
+	box-shadow: 5001px 0 0 5000px #fff, // Keeps background the full height of the screen
+		5000px 0 0 5000px $gray--light;
+
+	@include breakpoint( '<900px' ) {
 		right: 0;
 		transform: translateX( 100% );
 		transition: all .3s ease-in-out;
-		z-index: 1;
 		background: #fff;
 
 		&.is-open {
 			transform: translateX( 0 );
 		}
-	}
-	&:before {
-		content: '';
-		position: fixed;
-			top: 0;
-			right: 0;
-			bottom: 0;
-		width: 320px;
-		border-left: 1px solid $gray--light;
-		z-index: -1;
 	}
 }
 

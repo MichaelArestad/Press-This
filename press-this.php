@@ -747,104 +747,106 @@ class WpPressThis {
 		<input type="hidden" name="wppt_source_name" id=wppt_source_name_field" value=""/>
 -->
 
-	<div class="options-panel">
-		<div class="post-options">
-			<?php if ( $supports_formats ) : ?>
+	<div class="wrapper">
+		<div class="editor-wrapper">
+			<div id='wppt_app_container' class="editor">
+				<textarea id="wppt_title_container" class="post__title" placeholder="<?php esc_attr_e( 'New Post' ); ?>"></textarea>
+				<div id='wppt_featured_media_container' class="featured-container no-media">
+					<div id='wppt_all_media_widget' class="all-media">
+						<div id='wppt_all_media_container'></div>
+					</div>
+				</div>
+
+				<?php
+
+				wp_editor( '', 'pressthis', array(
+					'drag_drop_upload' => true,
+			//		'tabfocus_elements' => 'content-html,save-post',
+					`editor_class` => 'press-thiss__editor',
+					'editor_height' => 350,
+					'media_buttons' => false,
+					'teeny' => true,
+					'tinymce' => array(
+						'resize' => false,
+						'wordpress_adv_hidden' => false,
+			//			'add_unload_trigger' => false,
+						'statusbar' => false,
+						'plugins' => 'lists,media,paste,tabfocus,fullscreen,wordpress,wpeditimage,wpgallery,wplink,wpview',
+						'toolbar1' => 'bold,italic,bullist,numlist,blockquote,link,unlink',
+						'toolbar2' => 'undo,redo',
+					),
+					'quicktags' => false,
+				) );
+
+				?>
+			</div>
+		</div>
+
+		<div class="options-panel">
+			<div class="post-options">
+				<?php if ( $supports_formats ) : ?>
+					<a href="#" class="post-option">
+						<span class="dashicons dashicons-admin-post"></span>
+						<label><?php _e('Format'); ?></label>
+						<span class="post-option__contents" id="post-option-post-format"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
+						<span class="dashicons dashicons-arrow-right-alt2"></span>
+					</a>
+				<?php endif; ?>
 				<a href="#" class="post-option">
-					<span class="dashicons dashicons-admin-post"></span>
-					<label><?php _e('Format'); ?></label>
-					<span class="post-option__contents" id="post-option-post-format"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
+					<span class="dashicons dashicons-category"></span>
+					<label><?php _e('Categories'); ?></label>
+					<span class="post-option__contents" id="post-option-category">category, another category</span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</a>
+				<a href="#" class="post-option">
+					<span class="dashicons dashicons-tag"></span>
+					<label><?php _e('Tags'); ?></label>
+					<span class="post-option__contents" id="post-option-tags">tag, another tag, a third tag</span>
+					<span class="dashicons dashicons-arrow-right-alt2"></span>
+				</a>
+			</div>
+
+			<?php if ( $supports_formats ) : ?>
+				<div class="setting-modal">
+					<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
+					<?php post_format_meta_box( $post, null ); ?>
+				</div>
 			<?php endif; ?>
-			<a href="#" class="post-option">
-				<span class="dashicons dashicons-category"></span>
-				<label><?php _e('Categories'); ?></label>
-				<span class="post-option__contents" id="post-option-category">category, another category</span>
-				<span class="dashicons dashicons-arrow-right-alt2"></span>
-			</a>
-			<a href="#" class="post-option">
-				<span class="dashicons dashicons-tag"></span>
-				<label><?php _e('Tags'); ?></label>
-				<span class="post-option__contents" id="post-option-tags">tag, another tag, a third tag</span>
-				<span class="dashicons dashicons-arrow-right-alt2"></span>
-			</a>
-		</div>
 
-		<?php if ( $supports_formats ) : ?>
 			<div class="setting-modal">
-				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
-				<?php post_format_meta_box( $post, null ); ?>
-			</div>
-		<?php endif; ?>
-
-		<div class="setting-modal">
-			<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
-			<div class="new-tag-box">
-				<input type="text" name="" id="" class="tag-input" value="" />
-				<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
-			</div>
-			<p class="howto"><?php _e('Separate categories with commas'); ?></p>
-			<div id="tags">
-				<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>category</span>
-				<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>another category</span>
-			</div>
-		</div>
-
-		<div class="setting-modal">
-			<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
-			<div class="new-tag-box">
-				<input type="text" name="" id="" class="tag-input" value="" />
-				<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
-			</div>
-			<p class="howto"><?php _e('Separate tags with commas'); ?></p>
-			<div id="tags">
-				<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>tag</span>
-				<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>another tag</span>
-				<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>a third tag</span>
-			</div>
-		</div>
-	</div><!-- .options-panel -->
-
-	<div class="editor-wrapper">
-		<div id='wppt_app_container' class="editor">
-			<textarea id="wppt_title_container" class="post__title" placeholder="<?php esc_attr_e( 'New Post' ); ?>"></textarea>
-			<div id='wppt_featured_media_container' class="featured-container no-media">
-				<div id='wppt_all_media_widget' class="all-media">
-					<div id='wppt_all_media_container'></div>
+				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
+				<div class="new-tag-box">
+					<input type="text" name="" id="" class="tag-input" value="" />
+					<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
+				</div>
+				<p class="howto"><?php _e('Separate categories with commas'); ?></p>
+				<div id="tags">
+					<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>category</span>
+					<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>another category</span>
 				</div>
 			</div>
 
-			<?php
+			<div class="setting-modal">
+				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
+				<div class="new-tag-box">
+					<input type="text" name="" id="" class="tag-input" value="" />
+					<input type="submit" name="" id="" class="tag-submit" value="<?php _e('Add'); ?>" />
+				</div>
+				<p class="howto"><?php _e('Separate tags with commas'); ?></p>
+				<div id="tags">
+					<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>tag</span>
+					<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>another tag</span>
+					<span><a href="#" class="delete-tag"><span class="screen-reader-text"><?php _e('Remove'); ?></span></a>a third tag</span>
+				</div>
+			</div>
+		</div><!-- .options-panel -->
+	</div><!-- .wrapper -->
 
-			wp_editor( '', 'pressthis', array(
-				'drag_drop_upload' => true,
-		//		'tabfocus_elements' => 'content-html,save-post',
-				`editor_class` => 'press-thiss__editor',
-				'editor_height' => 350,
-				'media_buttons' => false,
-				'teeny' => true,
-				'tinymce' => array(
-					'resize' => false,
-					'wordpress_adv_hidden' => false,
-		//			'add_unload_trigger' => false,
-					'statusbar' => false,
-					'plugins' => 'lists,media,paste,tabfocus,fullscreen,wordpress,wpeditimage,wpgallery,wplink,wpview',
-					'toolbar1' => 'bold,italic,bullist,numlist,blockquote,link,unlink',
-					'toolbar2' => 'undo,redo',
-				),
-				'quicktags' => false,
-			) );
-
-			?>
-		</div>
-	</div>
-
-	<div class="actions">
+	<div class="press-this__actions">
 		<div class="pressthis-media-buttons">
-			<button type="button" class="insert-media" data-editor="pressthis">
-			<span class="wp-media-buttons-icon"></span>
-			<span class="screen-reader-text"><?php _e( 'Add Media' ); ?></span>
+			<button type="button" class="insert-media button--subtle" data-editor="pressthis">
+				<span class="dashicons dashicons-camera"></span>
+				<span class="screen-reader-text"><?php _e( 'Add Media' ); ?></span>
 			</button>
 		</div>
 		<div class="post-actions">

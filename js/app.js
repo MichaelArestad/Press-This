@@ -467,7 +467,7 @@
 
 						$('<div></div>', {
 							'id': 'embed-' + i + '-container',
-							'class': 'suggested-media-thumbnail'
+							'class': 'suggested-media-thumbnail suggested-media--embed'
 						}).css({
 							'background-image': 'url(' + display_src + ')'
 						}).click(function () {
