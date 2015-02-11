@@ -388,6 +388,8 @@
 			function render_suggested_title() {
 				var title = suggested_title_str || '';
 
+				$('#wppt_title_field').val( title );
+
 				$('#wppt_title_container').on( 'input', function() {
 					$('#wppt_title_field').val( $(this).val() );
 				}).text( title );
