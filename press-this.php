@@ -665,7 +665,7 @@ class WpPressThis {
 	<div id="wppt_scanbar" class="scan">
 		<form action="" method="GET">
 			<input type="url" name="u" id="wppt_url_scan" class="scan__url" value="" placeholder="<?php echo esc_attr( __( 'Enter a URL to scan', 'press-this' ) ) ?>" />
-			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan__submit" value="<?php echo esc_attr( __( 'Scan', 'press-this' ) ?>" />
+			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan__submit" value="<?php echo esc_attr( __( 'Scan', 'press-this' ) ) ?>" />
 		</form>
 	</div>
 
