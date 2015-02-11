@@ -568,22 +568,22 @@ class WpPressThis {
 		global $wp_locale;
 
 		// Get i18n strings
-		$i18n                     = self::i18n();
+		$i18n                 = self::i18n();
 
 		// Get data, new (POST) and old (GET)
-		$data                     = self::merge_or_fetch_data();
+		$data                 = self::merge_or_fetch_data();
 
 		// Get site settings array/data
-		$site_settings            = self::site_settings();
+		$site_settings        = self::site_settings();
 
 		// Get a fresh nonce
-		$nonce                    = wp_create_nonce( 'press_this' );
+		$nonce                = wp_create_nonce( 'press_this' );
 
 		// Set the passed data
-		$data['_version']         = $site_settings['version'];
-		$data['_runtime_url']     = $site_settings['runtime_url'];
-		$data['_ajax_url']        = $site_settings['ajax_url'];
-		$data['_nonce']           = $nonce;
+		$data['_version']     = $site_settings['version'];
+		$data['_runtime_url'] = $site_settings['runtime_url'];
+		$data['_ajax_url']    = $site_settings['ajax_url'];
+		$data['_nonce']       = $nonce;
 
 		// Plugin only
 		wp_register_script( 'press-this-app', plugin_dir_url( __FILE__ ) . 'js/app.js', array( 'jquery' ), false, true );
@@ -607,12 +607,12 @@ class WpPressThis {
 
 	<script type="text/javascript">
 		var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
-		pagenow = 'press-this',
-		typenow = 'post',
-		adminpage = 'press-this-php',
-		thousandsSeparator = '<?php echo addslashes( $wp_locale->number_format['thousands_sep'] ); ?>',
-		decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
-		isRtl = <?php echo (int) is_rtl(); ?>;
+			pagenow = 'press-this',
+			typenow = 'post',
+			adminpage = 'press-this-php',
+			thousandsSeparator = '<?php echo addslashes( $wp_locale->number_format['thousands_sep'] ); ?>',
+			decimalPoint = '<?php echo addslashes( $wp_locale->number_format['decimal_point'] ); ?>',
+			isRtl = <?php echo (int) is_rtl(); ?>;
 	</script>
 
 	<?php
