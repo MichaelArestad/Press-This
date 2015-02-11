@@ -482,12 +482,20 @@
 			function monitor_options_modal() {
 				var is_active = 'is-active',
 					is_hidden = 'is-hidden';
-				$('.post-option').click(function(){
+				$('.post-option:nth-child(1)').click(function(){
 					$('.post-options').addClass(is_hidden);
 					$('.setting-modal:nth-child(2)').addClass(is_active);
 				});
+				$('.post-option:nth-child(2)').click(function(){
+					$('.post-options').addClass(is_hidden);
+					$('.setting-modal:nth-child(3)').addClass(is_active);
+				});
+				$('.post-option:nth-child(3)').click(function(){
+					$('.post-options').addClass(is_hidden);
+					$('.setting-modal:nth-child(4)').addClass(is_active);
+				});
 				$('.modal-close').click(function(){
-					$('.setting-modal:nth-child(2)').removeClass(is_active);
+					$('.setting-modal').removeClass(is_active);
 					$('.post-options').removeClass(is_hidden);
 				});
 			}
