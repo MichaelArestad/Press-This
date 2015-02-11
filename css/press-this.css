@@ -897,8 +897,13 @@ body {
 .post__title {
   margin: 0;
   padding: .83em 0;
+  border: 0;
   border-bottom: 1px solid #e5e5e5;
   line-height: 1.4;
+  font-size: 1.5em;
+  font-weight: bold;
+  width: 100%;
+  resize: none;
 }
 @media (max-height: 400px) {
   .post__title {

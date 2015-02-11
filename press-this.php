@@ -808,7 +808,7 @@ class WpPressThis {
 
 	<div class="editor-wrapper">
 		<div id='wppt_app_container' class="editor">
-			<h2 id='wppt_title_container' class="post__title" contenteditable="true" spellcheck="true"></h2>
+			<textarea id="wppt_title_container" class="post__title" placeholder="<?php esc_attr_e( 'New Post' ); ?>"></textarea>
 			<div id='wppt_featured_media_container' class="featured-container no-media">
 				<div id='wppt_all_media_widget' class="all-media">
 					<div id='wppt_all_media_container'></div>

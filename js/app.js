@@ -373,7 +373,7 @@
 
 			function render_default_form_field_values() {
 		//		$('#wppt_nonce_field').val( nonce );
-				$('#wppt_title_field').val( suggested_title_str );
+		//		$('#wppt_title_field').val( suggested_title_str );
 		//		$('#wppt_source_url_field').val( get_canonical_link( data ) );
 		//		$('#wppt_source_name_field').val( get_source_site_name( data ) );
 		//		$('#wppt_publish_field').val( __( 'publish' ) );
@@ -421,12 +421,11 @@
 			}
 */
 			function render_suggested_title() {
-				if ( ! suggested_title_str || ! suggested_title_str.length )
-					return;
+				var title = suggested_title_str || '';
 
 				$('#wppt_title_container').on( 'input', function() {
-					$('#wppt_title_field').val( $(this).text() );
-				}).text( suggested_title_str );
+					$('#wppt_title_field').val( $(this).val() );
+				}).text( title );
 			}
 
 			function render_suggested_content() {
