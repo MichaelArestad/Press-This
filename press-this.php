@@ -160,27 +160,11 @@ class WpPressThis {
 	 */
 	public function i18n() {
 		return array(
-			'press-this'                 => __( 'Press This!', 'press-this' ),
-			'welcome'                    => __( 'Welcome to Press This!', 'press-this' ),
 			'source'                     => __( 'Source:', 'press-this' ),
-			'settings'                   => __( 'Settings', 'press-this' ),
-			'close'                      => __( 'Close', 'press-this' ),
-			'no-media'                   => __( 'Clear selected media', 'press-this' ),
-			'show-all-media'             => __( 'Display all media', 'press-this' ),
-			'show-selected-media'        => __( 'Display selected media', 'press-this' ),
-			'publish'                    => __( 'Publish', 'press-this' ),
-	//		'save-draft'                 => __( 'Save Draft', 'press-this' ),
 			'new-post'                   => __( 'Title', 'press-this' ),
 			'start-typing-here'          => __( 'Start typing here.', 'press-this' ),
-			'enter-url-to-scan'          => __( 'Enter a URL to scan', 'press-this' ),
-			'scan'                       => __( 'Scan', 'press-this' ),
-			'enter-wp-url'               => __( 'Enter a WordPress URL', 'press-this' ),
-			'add'                        => __( 'Add', 'press-this' ),
-			'upload-photo'               => __( 'Upload Photo', 'press-this' ),
-			'upload-failed'              => __( 'Sorry, but your upload failed.', 'press-this' ),
 			'unexpected-error'           => __( 'Sorry, but an unexpected error occurred.', 'press-this' ),
 			'should-upgrade-bookmarklet' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', 'press-this' ),
-			'limit-uploads-to-photos'    => __( 'Please limit your uploads to photos. The file is still in the media library, and can be used in a new post, or <a href="%s" target="_blank">downloaded here</a>.', 'press-this' ),
 		);
 	}
 
@@ -617,7 +601,7 @@ class WpPressThis {
 <head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<meta name="viewport" content="width=device-width">
-	<title><?php echo esc_html( $i18n['press-this'] ) ?></title>
+	<title><?php echo esc_html( __( 'Press This!' ) ) ?></title>
 
 	<script language="JavaScript">
 		window.wp_pressthis_data   = <?php echo json_encode( $data ) ?>;
@@ -680,8 +664,8 @@ class WpPressThis {
 
 	<div id="wppt_scanbar" class="scan">
 		<form action="" method="GET">
-			<input type="url" name="u" id="wppt_url_scan" class="scan__url" value="" placeholder="<?php echo esc_attr( $i18n['enter-url-to-scan'] ) ?>" />
-			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan__submit" value="<?php echo esc_attr( $i18n['scan'] ) ?>" />
+			<input type="url" name="u" id="wppt_url_scan" class="scan__url" value="" placeholder="<?php echo esc_attr( __( 'Enter a URL to scan', 'press-this' ) ) ?>" />
+			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan__submit" value="<?php echo esc_attr( __( 'Scan', 'press-this' ) ?>" />
 		</form>
 	</div>
 
@@ -814,7 +798,7 @@ class WpPressThis {
 		header( 'content-type: application/json' );
 
 		if ( is_wp_error( $post_id ) || intval( $post_id ) < 1 ) {
-			echo json_encode( array( 'error' => __( 'Sorry, but an unexpected error occurred.' ) ) );
+			echo json_encode( array( 'error' => __( 'Sorry, but an unexpected error occurred.', 'press-this' ) ) );
 		} else {
 			echo json_encode( array( 'post_id' => $post_id, 'post_permalink' => get_post_permalink( $post_id ), 'post_status' => $post_status ) );
 		}
