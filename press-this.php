@@ -388,7 +388,7 @@ class WpPressThis {
 				// then a "PHP Notice:  Undefined offset: 0 in /wp-admin/includes/media.php on line 811"
 				// Matching regex to skip from media_sideload_image() in otherwise erroring /wp-admin/includes/media.php
 				if ( ! preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $image ) )
-				     continue;
+					 continue;
 				// See if files exist in content - we don't want to upload non-used selected files.
 				if ( false !== strpos( $new_content, htmlspecialchars( $image ) ) ) {
 					$upload = media_sideload_image( $image, $post_id );
@@ -1009,26 +1009,114 @@ class WpPressThis {
 	 * @see self::register_options_page()
 	 */
 	public function do_options_page() {
+
+	/**
+	 * Adding the following <style> block here. I need to review how to properly add CSS to this page
+	 */		
 		?>
+		<style type="text/css">
+			.postbox-pt {
+				margin: 1em 0 0 0;
+				padding: 0 1em 1em;
+			}
+
+				.postbox-pt textarea {
+					width: 100%;
+					font-size: 1em;
+				}
+
+				.postbox-pt h4 {
+					margin: 2em 0 1em;
+				}
+
+				.postbox-pt-buttons {
+					line-height: 2em;
+				}
+
+				.button-pt-bookmarklet:before {
+					color: #FFF;
+					font: 400 20px/1 dashicons;
+					content: '\f157';
+					position: relative;
+					display: inline-block;
+					top: 2px;
+				}
+
+				.wp-core-ui .postbox-pt .button:active {
+					vertical-align: middle;
+				}
+
+		</style>
 		<div class="wrap">
-			<h2>Press This</h2>
-			<form>
-			<div class="tool-box">
-				<p><?php _e('Press This is a bookmarklet: a little app that runs in your browser and lets you grab bits of the web.');?></p>
+			<h2><?php echo get_admin_page_title() ?></h2>
+			<div class="postbox postbox-pt">
+				<h3><?php _e('What it is?'); ?></h3>
+				<p><?php _e('Press This is a little app that lets you grab bits of the web and create new posts with ease.');?></p>
 				<p><?php _e('Use Press This to clip text, images and videos from any web page. Then edit and add more straight from Press This before you save or publish it in a post on your site.'); ?></p>
-				<p class="description"><?php _e('Drag-and-drop the following link to your bookmarks bar or right click it and add it to your favorites for a posting shortcut.') ?></p>
-				<p class="pressthis"><a onclick="return false;" oncontextmenu="if(window.navigator.userAgent.indexOf('WebKit')!=-1||window.navigator.userAgent.indexOf('MSIE')!=-1){jQuery('.pressthis-code').show().find('textarea').focus().select();return false;}" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><span><?php _e('Press This') ?></span></a></p>
-				<div class="pressthis-code" style="display:none;">
-					<p class="description"><?php _e('If your bookmarks toolbar is hidden: copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.') ?></p>
-					<p><textarea rows="5" cols="120" readonly="readonly"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
+			</div>
+			<form>
+			<div class="postbox postbox-pt">
+				<h3><?php _e('How to install it?'); ?></h3>
+				<h4><?php _e('Press This Bookmarklet'); ?></h4>
+				<p><?php _e('The bookmarklet allows you to quickly get content from any site. To use it, drag-and-drop the following link to your bookmarks bar. Some mobile browsers make it impossible to add Javascript bookmarklets. For those, use the direct link version below.'); ?></p>
+
+				<div class="postbox-pt-buttons">
+
+					<a class="button button-primary button-pt-bookmarklet" onclick="return false;" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Press This') ?></a>
+					<?php _e('or'); ?>
+					<button type="button" class="button button-large js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-code-wrap"><?php _e('Copy Press This Bookmarklet') ?></button>
+
+					<div class="hidden js-pressthis-code-wrap">
+						<p id="pressthis-code-desc"><?php _e('If you can\'t add it to your bookmarks by dragging, copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.') ?></p>
+						<p><textarea class="js-pressthis-code" rows="5" cols="120" readonly="readonly" aria-labelledby="pressthis-code-desc"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
+					</div>
+
 				</div>
-				<h3>Bookmarklet code</h3>
-				<p><textarea rows="5" cols="120" readonly="readonly"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
-				<h3>Direct link</h3>
-				<p><textarea rows="1" cols="120" readonly="readonly"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea></p>
+
+				<h4><?php _e('Press This Direct Link'); ?></h4>
+				<p><?php _e('Follow the Press This Direct Link and add it to your bookmarks:'); ?></p>
+				
+				<div class="postbox-pt-buttons">
+
+					<a class="button button-primary" onclick="return false;" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e('Press This') ?></a>
+					<?php _e('or'); ?>
+					<button type="button" class="button button-large js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-dl-code-wrap"><?php _e('Copy Press This Direct Link') ?></button>
+
+					<div class="hidden js-pressthis-code-wrap">
+						<p id="pressthis-dl-code-desc"><?php _e('Copy the link below, open your Bookmarks manager, create new bookmark, and paste the url into the URL field.') ?></p>
+						<p><textarea class="js-pressthis-code" rows="1" cols="120" readonly="readonly" aria-labelledby="pressthis-dl-code-desc"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea></p>
+					</div>
+
+				</div>
+
 			</div>
 			</form>
 		</div>
+		<script> 
+			jQuery( document ).ready( function( $ ) { 
+
+				var $showPressThisWrap = $( '.js-show-pressthis-code-wrap' );
+				var $pressthisCode = $( '.js-pressthis-code' );
+
+				$showPressThisWrap.on( 'click', function( event ) { 
+
+					$(this).next( '.js-pressthis-code-wrap' ).slideToggle(200);
+
+					$( this ).attr( 'aria-expanded', $( this ).attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' ); 
+
+				}); 
+
+				// Select Press This code when focusing (tabbing) or clicking the textarea. 
+				$pressthisCode.on( 'click focus', function() { 
+
+					var self = this; 
+					
+					setTimeout( function() { self.select(); }, 50 ); 
+
+				});
+
+			}); 
+		</script> 		
 	<?php
 	}
 
