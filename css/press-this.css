@@ -1671,9 +1671,7 @@ body {
   margin-left: 11px;
 }
 
-.adminbar button,
-.options-panel,
-.setting-modal {
+.post-option:nth-child(2) {
   display: none;
 }
 
