@@ -2,6 +2,7 @@
 	$( document ).ready(function( $ ) {
 		var WpPressThis_App = function() {
 			var editor,
+				$div                  = $('<div>'),
 				site_config           = window.wp_pressthis_config || {},
 				data                  = window.wp_pressthis_data || {},
 				ux_context            = ( '' == window.top.name ) ? 'top' : 'popup',
@@ -23,11 +24,10 @@
 					? key : site_config.i18n[key];
 			}
 
-			// Source: https://stackoverflow.com/questions/1219860/html-encoding-in-javascript-jquery/1219983#1219983
-			function html_encode( str ){
-				//create a in-memory div, set it's inner text(which jQuery automatically encodes)
-				//then grab the encoded contents back out.  The div never exists on the page.
-				return $('<div/>').text(str).html();
+			function stripTags( str ) {
+				var out = str && str.replace( /<[^>]+>/g, '' );
+				// Encode the rest
+				return $div.text( out ).html();
 			}
 
 			function get_canonical_link( data ) {
@@ -64,9 +64,9 @@
 				var name='';
 
 				if ( data._meta ) {
-					if (data._meta['og:site_name'] && data._meta['og:site_name'].length) {
+					if ( data._meta['og:site_name'] && data._meta['og:site_name'].length ) {
 						name = data._meta['og:site_name'];
-					} else if (data._meta['application-name'] && data._meta['application-name'].length) {
+					} else if ( data._meta['application-name'] && data._meta['application-name'].length ) {
 						name = data._meta['application-name'];
 					}
 				}
@@ -78,23 +78,23 @@
 				if ( ! data || data.length )
 					return __( 'new-post' );
 
-				var title='';
+				var title = '';
 
 				if ( data.t ) {
 					title = data.t;
 				}
 
 				if ( ! title.length && data._meta ) {
-					if (data._meta['twitter:title'] && data._meta['twitter:title'].length) {
+					if ( data._meta['twitter:title'] && data._meta['twitter:title'].length ) {
 						title = data._meta['twitter:title'];
-					} else if (data._meta['og:title'] && data._meta['og:title'].length) {
+					} else if ( data._meta['og:title'] && data._meta['og:title'].length ) {
 						title = data._meta['og:title'];
-					} else if (data._meta['title'] && data._meta['title'].length) {
+					} else if ( data._meta['title'] && data._meta['title'].length ) {
 						title = data._meta['title'];
 					}
 				}
 
-				if ( ! title.length)
+				if ( ! title.length )
 					title = __( 'new-post' );
 
 				return title.replace( /\\/g, '' );
@@ -123,13 +123,13 @@
 				}
 
 				// Wrap suggested content in blockquote tag, if we have any.
-				content = ( content.length ? '<blockquote class="wppt_suggested_content">' + html_encode( content.replace(/\\/g, '') ) + '</blockquote>' : '' );
+				content = ( content.length ? '<blockquote class="wppt_suggested_content">' + stripTags( content.replace( /\\/g, '' ) ) + '</blockquote>' : '' );
 
 				// Add a source attribution if there is one available.
 				if ( ( ( title.length && __( 'new-post' ) !== title ) || site_name.length ) && url.length ) {
 					content += '<p class="wppt_source">'
 					+ __( 'source' )
-					+ ' <cite class="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'">'+ html_encode( title || site_name ) +'</a></cite>'
+					+ ' <cite class="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'">'+ stripTags( title || site_name ) +'</a></cite>'
 					+ '</p>';
 				}
 
@@ -294,8 +294,8 @@
 				var data = form.serialize();
 
 				$.ajax({
-					type: "POST",
-					url: site_config.ajax_url,
+					type: 'post',
+					url: window.ajaxurl,
 					data: data,
 					success: function( response ) {
 						if ( response.error ) {
@@ -319,34 +319,42 @@
 
 			function insert_selected_media( type, src, link ) {
 				var new_content = '';
-				if ( 'img' == type ) {
-					new_content = '<a href="' + link + '"><img src="' + src + '" style="max-width:100%;" />' + "</a>\n";
-				} else {
-					new_content = '[embed]' + src + "[/embed]\n";
+
+				if ( ! editor ) {
+					return;
 				}
+
+				if ( 'img' == type ) {
+					new_content = '<a href="' + link + '"><img src="' + src + '" /></a>\n';
+				} else {
+					new_content = '[embed]' + src + '[/embed]\n';
+				}
+
 				if ( ! has_set_focus ) {
 					// Append to top of content on 1st media insert
-					editor && editor.setContent( new_content + editor.getContent() );
+					editor.setContent( new_content + editor.getContent() );
 				} else {
 					// Or add where the cursor was last positioned in TinyMCE
 					editor.execCommand( 'mceInsertContent', false, new_content );
 				}
+
 				has_set_focus = true;
 			}
 
+			// TODO: not used?
 			function clear_errors() {
 				var messages_div = $( '#alerts' );
 				if ( messages_div && messages_div.remove )
 					messages_div.remove();
 			}
-
+/*
 			function close_self( source_url ) {
 				if ( 'popup' == ux_context )
 					self.close();
 				else
 					top.location.href = self.location.href.replace(/^(.+)\/wp-admin\/.+$/, '$1/');
 			}
-
+*/
 			function set_post_format_string(format) {
 				if ( !format || !site_config || !site_config.post_formats || !site_config.post_formats[ format ] ) {
 					return;
@@ -359,33 +367,35 @@
  *************************************************************** */
 
 			function render_tools_visibility() {
-				if ( data.u && data.u.match(/^https?:/ ) )
+				if ( data.u && data.u.match( /^https?:/ ) )
 					$('#wppt_scanbar').hide();
 			}
 
 			function render_default_form_field_values() {
-				$('#wppt_nonce_field').val( nonce );
+		//		$('#wppt_nonce_field').val( nonce );
 				$('#wppt_title_field').val( suggested_title_str );
-				$('#wppt_source_url_field').val( get_canonical_link( data ) );
-				$('#wppt_source_name_field').val( get_source_site_name( data ) );
-				$('#wppt_publish_field').val( __( 'publish' ) );
-				$('#wppt_draft_field').val( __( 'save-draft' ) );
+		//		$('#wppt_source_url_field').val( get_canonical_link( data ) );
+		//		$('#wppt_source_name_field').val( get_source_site_name( data ) );
+		//		$('#wppt_publish_field').val( __( 'publish' ) );
+		//		$('#wppt_draft_field').val( __( 'save-draft' ) );
 
-				$('#wppt_file_button').val(__( 'upload-photo' ) );
+		//		$('#wppt_file_button').val(__( 'upload-photo' ) );
 
-				$('#wppt_url_scan').attr('placeholder', __( 'enter-url-to-scan' )).val( ( data.u && data.u.match(/^https?:/ ) ) ? data.u : '' );
-				$('#wppt_url_scan_submit').val(__( 'scan' ) );
+		//		$('#wppt_url_scan').attr('placeholder', __( 'enter-url-to-scan' )).val( ( data.u && data.u.match(/^https?:/ ) ) ? data.u : '' );
+		//		$('#wppt_url_scan_submit').val(__( 'scan' ) );
 
-				$('#wppt_new_site').attr('placeholder', __( 'enter-wp-url' ) );
-				$('#wppt_new_site_submit').val(__( 'add' ) );
+		//		$('#wppt_new_site').attr('placeholder', __( 'enter-wp-url' ) );
+		//		$('#wppt_new_site_submit').val(__( 'add' ) );
 			}
 
 			function render_notice( msg, error ) {
-				error = ( true === error );
-				var messages_div = $( '#alerts' );
-				if ( ! messages_div || ! messages_div.html() )
-					messages_div = $('<div id="alerts" class="alerts"></div>').insertBefore('#wppt_app_container');
-				messages_div.append( '<p class="' + ( ( error ) ? 'error': 'notice' ) +'">' + msg + '</p>' );
+				var $alerts = $( '#alerts' ),
+					className = error ? 'error' : 'notice';
+
+				if ( ! $alerts.length )
+					$alerts = $( '<div id="alerts" class="alerts"></div>' ).insertBefore( '#wppt_app_container' );
+
+				$alerts.append( '<p class="' + className +'">' + msg + '</p>' );
 			}
 
 			function render_error( msg ) {
@@ -395,8 +405,8 @@
 			function render_startup_notices() {
 				// Render errors sent in the data, if any
 				if ( data.errors && data.errors.length ) {
-					$.each( data.errors, function(i, msg) {
-						render_error(msg);
+					$.each( data.errors, function( i, msg ) {
+						render_error( msg );
 					} );
 				}
 
@@ -405,17 +415,17 @@
 					render_notice( __( 'should-upgrade-bookmarklet').replace( '%s', site_config.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php' ) ) );
 				}
 			}
-
+/*
 			function render_admin_bar() {
 				$('.current-site a').attr( 'href', site_config.blog_url ).text( site_config.blog_name );
 			}
-
+*/
 			function render_suggested_title() {
 				if ( ! suggested_title_str || ! suggested_title_str.length )
 					return;
 
-				$('#wppt_title_container').on('input', function(){
-					$('#wppt_title_field').val($(this).text());
+				$('#wppt_title_container').on( 'input', function() {
+					$('#wppt_title_field').val( $(this).text() );
 				}).text( suggested_title_str );
 			}
 
@@ -430,7 +440,7 @@
 
 				if ( editor ) {
 					editor.setContent( suggested_content_str );
-					editor.on( 'focus', function(e) {
+					editor.on( 'focus', function() {
 						has_set_focus = true;
 					});
 				}
@@ -438,8 +448,8 @@
 
 			function render_detected_media() {
 				var media_container = $( '#wppt_featured_media_container'),
-					list_container = $('#wppt_all_media_container'),
-					found          = 0;
+					list_container  = $('#wppt_all_media_container'),
+					found           = 0;
 
 				list_container.empty();
 
@@ -540,41 +550,41 @@
 /* ***************************************************************
  * PROCESSING FUNCTIONS
  *************************************************************** */
+/*
 			function initialize(){
 				// If we don't have those, or they are empty, we weren't able to initialize properly.
 				return (site_config.ajax_url && site_config.ajax_url.length && data._nonce && data._nonce.length);
 			}
-
+*/
 			function render(){
 				// We're on!
-				$("head title").text(__( 'welcome' ));
+		//		$("head title").text(__( 'welcome' ));
 				render_tools_visibility();
-				render_default_form_field_values();
-				render_admin_bar();
+		//		render_default_form_field_values();
+		//		render_admin_bar();
 				render_suggested_title();
 				render_detected_media();
 				$( document ).on( 'tinymce-editor-init', render_suggested_content );
 				render_startup_notices();
-				return true;
 			}
 
 			function monitor(){
-				show_spinner();
+		//		show_spinner();
 
-				$( '#wppt_current_site a, #wppt_current_site div').click(function( e ){
+				$( '#wppt_current_site a').click( function( e ) {
 					e.preventDefault();
 				});
 
 				// Publish and Draft buttons and submit
 
-				$( '#wppt_draft_field' ).on( 'click', function( e ){
-					submit_post( e, 'draft');
+				$( '#wppt_draft_field' ).on( 'click', function( e ) {
+					submit_post( e, 'draft' );
 				});
 
-				$( '#wppt_publish_field' ).on( 'click', function( e ){
-					submit_post( e, 'publish');
+				$( '#wppt_publish_field' ).on( 'click', function( e ) {
+					submit_post( e, 'publish' );
 				});
-
+/*
 				// File upload button and autosubmit
 
 				$( '#wppt_file' ).on('change', function(){
@@ -585,6 +595,8 @@
 				$('#wppt_file_button').on('click', function(){
 					$( '#wppt_file').click();
 				});
+*/
+
 
 				monitor_options_modal();
 				monitor_sidebar_toggle();
@@ -596,7 +608,7 @@
 					}
 				});
 
-				hide_spinner();
+		//		hide_spinner();
 
 				return true;
 			}
@@ -606,16 +618,8 @@
  *************************************************************** */
 
 			// Let's go!
-			if ( ! initialize() ) {
-				// @TODO: couldn't initialize, fail gracefully
-				console.log('Could not initialize...');
-			} else if ( ! render() ) {
-				// @TODO: couldn't render, fail gracefully
-				console.log('Could not render...');
-			} else if ( ! monitor() ) {
-				// @TODO: couldn't monitor, fail gracefully
-				console.log('Could not monitor app...');
-			}
+			render();
+			monitor();
 
 			// Assign callback/public properties/methods to returned object
 			this.render_error = render_error;

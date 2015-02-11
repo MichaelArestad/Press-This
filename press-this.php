@@ -38,7 +38,7 @@ class WpPressThis {
 				 * AJAX emdpoints
 				 */
 				// Site settings
-				add_action( 'wp_ajax_press_this_site_settings',       array( $this, 'ajax_site_settings' ) );
+		//		add_action( 'wp_ajax_press_this_site_settings',       array( $this, 'ajax_site_settings' ) );
 				// Post draft and publish
 				add_action( 'wp_ajax_press_this_publish_post',        array( $this, 'ajax_publish_post' ) );
 				add_action( 'wp_ajax_press_this_draft_post',          array( $this, 'ajax_draft_post' ) );
@@ -161,11 +161,11 @@ class WpPressThis {
 	 *
 	 * @return string Full URL path to /wp-content/plugins/press-this in current install
 	 * @uses __FILE__, plugin_dir_url()
-	 */
+
 	public function plugin_dir_url() {
 		return untrailingslashit( self::strip_url_scheme( plugin_dir_url( __FILE__ ) ) );
 	}
-
+*/
 	/**
 	 * WpPressThis::i18n()
 	 * Centralized/keyed app caption store, used on both server and client sides.
@@ -183,7 +183,7 @@ class WpPressThis {
 			'show-all-media'             => __( 'Display all media', 'press-this' ),
 			'show-selected-media'        => __( 'Display selected media', 'press-this' ),
 			'publish'                    => __( 'Publish', 'press-this' ),
-			'save-draft'                 => __( 'Save Draft', 'press-this' ),
+	//		'save-draft'                 => __( 'Save Draft', 'press-this' ),
 			'new-post'                   => __( 'Title', 'press-this' ),
 			'start-typing-here'          => __( 'Start typing here.', 'press-this' ),
 			'enter-url-to-scan'          => __( 'Enter a URL to scan', 'press-this' ),
@@ -206,8 +206,8 @@ class WpPressThis {
 	 */
 	public function site_settings() {
 		$current_user      = wp_get_current_user();
-		$site_name         = get_bloginfo( 'name', 'display' );
-		$site_url          = self::strip_url_scheme( home_url( '/' ) );
+	//	$site_name    = get_bloginfo( 'name', 'display' );
+	//	$site_url     = self::strip_url_scheme( home_url( '/' ) );
 		$supported_formats = get_theme_support( 'post-formats' );
 		$post_formats      = array();
 
@@ -220,12 +220,12 @@ class WpPressThis {
 
 		return array(
 			'version'        => self::plugin_version(),
-			'user_id'        => (int) $current_user->ID,
-			'blog_id'        => (int) get_current_blog_id(),
-			'blog_name'      => $site_name,
-			'blog_url'       => rtrim( $site_url, '/' ),
+	//		'user_id'        => (int) $current_user->ID,
+	//		'blog_id'        => (int) get_current_blog_id(),
+	//		'blog_name'      => $site_name,
+	//		'blog_url'       => rtrim( $site_url, '/' ),
 			'runtime_url'    => self::strip_url_scheme( self::runtime_url() ),
-			'plugin_dir_url' => self::plugin_dir_url(),
+	//		'plugin_dir_url' => self::plugin_dir_url(),
 			'ajax_url'       => self::strip_url_scheme( admin_url( 'admin-ajax.php' ) ),
 			'post_formats'   => $post_formats,
 			'i18n'           => self::i18n(),
@@ -257,18 +257,11 @@ class WpPressThis {
 		if ( false === strpos( self::runtime_url(), self::script_name() ) )
 			return;
 
-		if ( ! empty( $_FILES['wppt_file'] ) ) {
-			/* Not needed. Handled by the media modal.
-			if ( current_user_can('upload_files') )
-				self::process_file_upload( $_FILES['wppt_file'], $_POST['wppt_nonce'] );
-			else
-				self::refuse_file_upload( 'current_user_can' );
-			*/
-		} else {
-			if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) )
-				wp_die( __( 'Cheatin&#8217; uh?' ) );
-			self::serve_app_html();
+		if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
+			wp_die( __( 'Cheatin&#8217; uh?' ) );
 		}
+
+		self::serve_app_html();
 	}
 
 	/** TODO: not needed. Handled by the media modal.
@@ -328,31 +321,28 @@ class WpPressThis {
 	 * @uses $_POST
 	 */
 	public function format_post_data_for_save( $post_id, $status = 'draft' ) {
-		$i18n = self::i18n();
+		// TODO: consider merging with save()
 
 		$post = array(
-			'ID'        => $post_id,
+			'ID' => $post_id,
+			'post_title' => '',
+			'post_content' => '',
 			'post_type' => 'post',
 		);
 
 		// For image-only posts
 		if ( empty( $_POST ) ) {
-			$post['post_title']   = $i18n['new-post'];
-			$post['post_content'] = '';
+			$post['post_title'] = __( 'New Post' );
 			return $post;
 		}
-
-		$content = '';
 
 		if ( ! empty( $_POST['wppt_title'] ) ) {
 			$post['post_title'] = sanitize_text_field( trim( $_POST['wppt_title'] ) );
 		}
 
 		if ( ! empty( $_POST['pressthis'] ) ) {
-			$content = trim( $_POST['pressthis'] ); // The editor textarea, we have to allow this one and let wp_insert_post() filter the content below
+			$post['post_content'] = trim( $_POST['pressthis'] ); // The editor textarea, we have to allow this one and let wp_insert_post() filter the content below
 		}
-
-		$post['post_content'] = $content;
 
 		if ( 'publish' === $status ) {
 			if ( current_user_can( 'publish_posts' ) ) {
@@ -367,7 +357,7 @@ class WpPressThis {
 		if ( isset( $_POST['post_format'] ) ) {
 			if ( current_theme_supports( 'post-formats', $_POST['post_format'] ) ) {
 				$post['post_format'] = $_POST['post_format'];
-			} elseif ( '0' == $_POST['post_format'] ) {
+			} else {
 				$post['post_format'] = 0;
 			}
 		}
@@ -663,34 +653,29 @@ class WpPressThis {
 		// Set the passed data
 		$data['_version']         = $site_settings['version'];
 		$data['_runtime_url']     = $site_settings['runtime_url'];
-		$data['_plugin_dir_url']  = $site_settings['plugin_dir_url'];
+	//	$data['_plugin_dir_url']  = $site_settings['plugin_dir_url'];
 		$data['_ajax_url']        = $site_settings['ajax_url'];
 		$data['_nonce']           = $nonce;
 
-		// Generate some include paths (plugin only)
-		$wp_js_inc_dir            = preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/wp-includes/js', $site_settings['runtime_url'] );
-		$json_js_inc              = $wp_js_inc_dir . '/json2.js';
-		$jquery_js_inc            = $wp_js_inc_dir . '/jquery/jquery.js';
-		$app_css_inc              = $site_settings['plugin_dir_url'] . '/css/press-this.css';
-		$form_action              = $site_settings['runtime_url'];
-		$upload_action            = preg_replace( '/^(.+)\/press-this\.php$/', '\1/media-upload.php', $site_settings['runtime_url'] ) . '?referer=wptuts-settings&type=image&TB_iframe=true&post_id=0';
-		$txt_domain               = 'press-this';
+		// Plugin only
+		wp_register_script( 'press-this-app', plugin_dir_url( __FILE__ ) . 'js/app.js', array( 'jquery' ), false, true );
+		wp_register_style( 'press-this-css', plugin_dir_url( __FILE__ ) . 'css/press-this.css' );
 
-		// Echo HTML
+		$hook_suffix = 'press-this.php';
+		@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+
 ?>
 <!DOCTYPE html>
-<html>
-<head lang="en">
-	<meta charset="UTF-8">
+<html  <?php language_attributes(); ?>>
+<head>
+	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<meta name="viewport" content="width=device-width">
 	<title><?php echo esc_html( $i18n['press-this'] ) ?></title>
-	<link rel='stylesheet' id='all-css' href='<?php echo $app_css_inc ?>' type='text/css' media='all' />
+
 	<script language="JavaScript">
 		window.wp_pressthis_data   = <?php echo json_encode( $data ) ?>;
 		window.wp_pressthis_config = <?php echo json_encode( $site_settings ) ?>;
 	</script>
-	<script src="<?php echo esc_url( $json_js_inc ) ?>" language="JavaScript"></script>
-	<script src="<?php echo esc_url( $jquery_js_inc ) ?>" language="JavaScript"></script>
 
 	<script type="text/javascript">
 		var ajaxurl = '<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>',
@@ -705,11 +690,13 @@ class WpPressThis {
 	<?php
 		// $post->ID is needed for the embed shortcode so we can show oEmbed previews in the editor. Maybe find a way without it.
 		$post = get_default_post_to_edit( 'post', true );
+		$post_ID = (int) $post->ID;
 
+		wp_enqueue_style( 'press-this-css' );
+		wp_enqueue_script( 'press-this-app' );
+		wp_enqueue_script( 'json2' );
 		wp_enqueue_media( array( 'post' => $post->ID ) );
 		wp_enqueue_script( 'editor' );
-
-		wp_enqueue_script( 'press-this-app', self::strip_url_scheme( plugin_dir_url( __FILE__ ) ) . 'js/app.js', array(), false, true );
 
 		$supports_formats = false;
 		$post_format      = 0;
@@ -722,31 +709,43 @@ class WpPressThis {
 				require_once( ABSPATH . 'wp-admin/includes/meta-boxes.php' );
 			}
 		}
+
+		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_enqueue_scripts', $hook_suffix );
+
+		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_print_styles' );
+
+		/** This action is documented in wp-admin/admin-header.php */
+		do_action( 'admin_print_scripts' );
+
 	?>
 </head>
 <body>
 	<div id="wppt_adminbar" class="adminbar">
 		<h1 id="wppt_current_site" class="current-site">
 			<span class="dashicons dashicons-wordpress"></span>
-			<a href="#" target="_blank"></a>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank"><?php bloginfo( 'name' ); ?></a>
 		</h1>
 		<button class="options-open button--subtle"><span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e('Show post options'); ?></span></button>
 		<button class="options-close button--subtle is-hidden"><?php _e('Done'); ?></button>
 	</div>
 
 	<div id="wppt_scanbar" class="scan">
-		<form action="<?php echo esc_url( $form_action ) ?>" method="GET">
+		<form action="" method="GET">
 			<input type="url" name="u" id="wppt_url_scan" class="scan__url" value="" placeholder="<?php echo esc_attr( $i18n['enter-url-to-scan'] ) ?>" />
 			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan__submit" value="<?php echo esc_attr( $i18n['scan'] ) ?>" />
 		</form>
 	</div>
 
-	<form id="wppt_form" class="editor-form" name="wppt_form" method="POST" action="<?php echo esc_url( $form_action ) ?>" target="_self">
-		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo esc_attr( $post->ID ); ?>" />
-		<input type="hidden" name="wppt_nonce" id="wppt_nonce_field" value="<?php echo esc_attr( $nonce ) ?>"/>
-		<input type="hidden" name="wppt_title" id="wppt_title_field" value=""/>
+	<form id="wppt_form" name="wppt_form" method="POST" action="" autocomplete="off">
+		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo $post_ID; ?>" />
+		<input type="hidden" name="wppt_nonce" id="wppt_nonce_field" value="<?php echo esc_attr( $nonce ) ?>" />
+		<input type="hidden" name="wppt_title" id="wppt_title_field" value="" />
+<!--
 		<input type="hidden" name="wppt_source_url" id="wppt_source_url_field" value=""/>
 		<input type="hidden" name="wppt_source_name" id=wppt_source_name_field" value=""/>
+-->
 
 	<div class="options-panel">
 		<div class="post-options">
@@ -809,7 +808,7 @@ class WpPressThis {
 
 	<div class="editor-wrapper">
 		<div id='wppt_app_container' class="editor">
-			<h2 id='wppt_title_container' class="post__title" contenteditable="true"></h2>
+			<h2 id='wppt_title_container' class="post__title" contenteditable="true" spellcheck="true"></h2>
 			<div id='wppt_featured_media_container' class="featured-container no-media">
 				<div id='wppt_all_media_widget' class="all-media">
 					<div id='wppt_all_media_container'></div>
@@ -823,6 +822,7 @@ class WpPressThis {
 		//		'tabfocus_elements' => 'content-html,save-post',
 				`editor_class` => 'press-thiss__editor',
 				'editor_height' => 350,
+				'media_buttons' => false,
 				'teeny' => true,
 				'tinymce' => array(
 					'resize' => false,
@@ -831,7 +831,7 @@ class WpPressThis {
 					'statusbar' => false,
 					'plugins' => 'lists,media,paste,tabfocus,fullscreen,wordpress,wpeditimage,wpgallery,wplink,wpview',
 					'toolbar1' => 'bold,italic,bullist,numlist,blockquote,link,unlink',
-					'toolbar2' => 'undo,redo'
+					'toolbar2' => 'undo,redo',
 				),
 				'quicktags' => false,
 			) );
@@ -841,9 +841,15 @@ class WpPressThis {
 	</div>
 
 	<div class="actions">
+		<div class="pressthis-media-buttons">
+			<button type="button" class="insert-media" data-editor="pressthis">
+			<span class="wp-media-buttons-icon"></span>
+			<span class="screen-reader-text"><?php _e( 'Add Media' ); ?></span>
+			</button>
+		</div>
 		<div class="post-actions">
-			<input type="submit" class="button--subtle" name="wppt_draft" id="wppt_draft_field" value="<?php echo esc_attr( $i18n['save-draft'] ) ?>"/>
-			<input type="submit" class="button--primary" name="wppt_publish" id="wppt_publish_field" value="<?php echo esc_attr( $i18n['new-post'] ) ?>"/>
+			<input type="submit" class="button--subtle" name="pressthis-draft" id="wppt_draft_field" value="<?php esc_attr_e( 'Save Draft' ); ?>" />
+			<input type="submit" class="button--primary" name="pressthis-publish" id="wppt_publish_field" value="<?php esc_attr_e( 'Publish' ); ?>" />
 		</div>
 	</div>
 	</form>
@@ -867,25 +873,28 @@ class WpPressThis {
 	 * Ajax endpoint to serve the results of WpPressThis::press_this_ajax_site_settings()
 	 *
 	 * @uses admin_url(), wp_create_nonce()
-	 */
+
 	public function ajax_site_settings() {
 		header( 'content-type: application/json' );
 		echo json_encode( self::site_settings() );
 		die();
 	}
-
+*/
 	/**
 	 * @param $post_id
 	 * @param string $post_status
 	 */
 	public function post_save_json_response( $post_id, $post_status = 'draft' ) {
-		$i18n = self::i18n();
+		// TODO: consider using wp_send_json_success() / wp_send_json_error()
+
 		header( 'content-type: application/json' );
+
 		if ( is_wp_error( $post_id ) || intval( $post_id ) < 1 ) {
-			echo json_encode( array( 'error' => $i18n['unexpected-error'] ) );
+			echo json_encode( array( 'error' => __( 'Sorry, but an unexpected error occurred.' ) ) );
 		} else {
 			echo json_encode( array( 'post_id' => $post_id, 'post_permalink' => get_post_permalink( $post_id ), 'post_status' => $post_status ) );
 		}
+
 		die();
 	}
 
@@ -893,6 +902,8 @@ class WpPressThis {
 	 * Ajax endpoint save a draft post
 	 */
 	public function ajax_draft_post() {
+		// TODO: consider one function for both draft and publish. We pass post_status in the data.
+
 		self::post_save_json_response( self::save( 'draft' ) );
 	}
 
@@ -900,13 +911,15 @@ class WpPressThis {
 	 * Ajax endpoint publish a post
 	 */
 	public function ajax_publish_post() {
+		// TODO: see above.
+
 		self::post_save_json_response( self::save( 'publish' ), 'published' );
 	}
 
 	/**
 	 * Experimental Ajax endpoint to publish a site-specific Chrome extension manifest
 	 */
-	public function  ajax_chrome_ext_manifest() {
+/*	public function  ajax_chrome_ext_manifest() {
 		$i18n        = self::i18n();
 		$plugin_data = self::plugin_data();
 		$plugin_name = ( ! empty( $plugin_data['Name'] ) ) ? $plugin_data['Name'] : $i18n[ 'press-this' ];
@@ -972,12 +985,12 @@ class WpPressThis {
 				'disposition'=> 'window'
 			),
 		);
-		*/
+
 		header( 'content-type: application/json' );
 		echo json_encode( $manifest );
 		die();
 	}
-
+*/
 	/**
 	 * Registers a new setting screen and menu item for PT in the Admin sidebar
 	 *

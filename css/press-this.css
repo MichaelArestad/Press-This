@@ -1032,13 +1032,7 @@ body {
   }
 }
 
-.editor .wp-media-buttons {
-  float: none;
-}
-.editor .button.add_media {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+.pressthis-media-buttons .insert-media {
   width: 63px;
   height: 58px;
   z-index: 2;
@@ -1052,32 +1046,43 @@ body {
   box-shadow: none;
   overflow: hidden;
 }
+
 @media (max-width: 320px) {
-  .editor .button.add_media {
-    width: 55px;
-    height: 50px;
-    padding: 7px;
-  }
+	.pressthis-media-buttons .insert-media {
+		width: 55px;
+		height: 50px;
+		padding: 7px;
+	}
 }
-.editor .button.add_media:hover, .editor .button.add_media:focus, .editor .button.add_media:active {
-  position: fixed;
-  top: auto;
-  bottom: 0;
-  left: 0;
-  margin: 0;
-  background: none;
+
+.pressthis-media-buttons {
+	float: left;
+}
+
+.pressthis-media-buttons .insert-media:hover,
+.pressthis-media-buttons .insert-media:focus,
+.pressthis-media-buttons .insert-media:active {
   border-color: #e5e5e5;
   color: #222;
 }
-.editor .button.add_media .wp-media-buttons-icon {
-  width: auto;
-  height: auto;
-  margin: 0 20px 0 0;
+
+.pressthis-media-buttons .insert-media .wp-media-buttons-icon {
+	width: 40px;
+	height: 40px;
+	line-height: 40px;
+	display: inline-block;
+	vertical-align: text-top;
+	margin: 0;
 }
-.editor .button.add_media .wp-media-buttons-icon:before {
-  font-size: 40px;
-  content: '\f306';
+
+.pressthis-media-buttons .insert-media .wp-media-buttons-icon:before {
+	font: normal 40px/1 'dashicons';
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: '\f306';
 }
+
 .editor div.mce-toolbar-grp {
   padding: 0.71429em 0;
   background: none;
@@ -1090,7 +1095,6 @@ body {
   }
 }
 .editor div.mce-edit-area iframe {
-  padding-top: 2.14286em;
   border-bottom: 1px solid #e5e5e5;
 }
 
