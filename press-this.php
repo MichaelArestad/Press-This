@@ -387,7 +387,7 @@ class WpPressThis {
 				// then a "PHP Notice:  Undefined offset: 0 in /wp-admin/includes/media.php on line 811"
 				// Matching regex to skip from media_sideload_image() in otherwise erroring /wp-admin/includes/media.php
 				if ( ! preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $image ) )
-				     continue;
+					 continue;
 				// See if files exist in content - we don't want to upload non-used selected files.
 				if ( false !== strpos( $new_content, htmlspecialchars( $image ) ) ) {
 					$upload = media_sideload_image( $image, $post_id );
@@ -1067,30 +1067,30 @@ class WpPressThis {
 			</form>
 		</div>
 		<script> 
-	 		jQuery( document ).ready( function( $ ) { 
+			jQuery( document ).ready( function( $ ) { 
 
-	 			var $showPressThisWrap = $( '.js-show-pressthis-code-wrap' );
- 		        var $pressthisCode = $( '.js-pressthis-code' );
+				var $showPressThisWrap = $( '.js-show-pressthis-code-wrap' );
+				var $pressthisCode = $( '.js-pressthis-code' );
 
- 		        $showPressThisWrap.on( 'click', function( event ) { 
+				$showPressThisWrap.on( 'click', function( event ) { 
 
- 		        	$(this).next( '.js-pressthis-code-wrap' ).slideToggle(200);
+					$(this).next( '.js-pressthis-code-wrap' ).slideToggle(200);
 
-	                $( this ).attr( 'aria-expanded', $( this ).attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' ); 
+					$( this ).attr( 'aria-expanded', $( this ).attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' ); 
 
- 		        }); 
+				}); 
 
- 		        // Select Press This code when focusing (tabbing) or clicking the textarea. 
- 		        $pressthisCode.on( 'click focus', function() { 
+				// Select Press This code when focusing (tabbing) or clicking the textarea. 
+				$pressthisCode.on( 'click focus', function() { 
 
-	                var self = this; 
-	                
-	                setTimeout( function() { self.select(); }, 50 ); 
+					var self = this; 
+					
+					setTimeout( function() { self.select(); }, 50 ); 
 
- 		        });
+				});
 
-	 		}); 
- 		</script> 		
+			}); 
+		</script> 		
 	<?php
 	}
 
