@@ -388,15 +388,15 @@
 			function render_suggested_title() {
 				var title = suggested_title_str || '';
 
-				$('#wppt_title_field').val( title );
+				if ( !has_empty_title_str ) {
+					$('#wppt_title_field').val( title );
+					$('#wppt_title_container').text( title )
+					$('.post__title-placeholder').addClass('screen-reader-text');
+				}
 
 				$('#wppt_title_container').on( 'input', function() {
 					$('#wppt_title_field').val( $(this).text() );
-				}).text( title );
-
-				if ( has_empty_title_str ) {
-					$('#wppt_title_container').addClass('placeholder');
-				}
+				});
 
 			}
 
@@ -529,14 +529,12 @@
 
 			function monitor_placeholder() {
 
-				var $selector = $( '#wppt_title_container.placeholder' );
-				var initialValue = $selector.text();
+				var $selector = $( '#wppt_title_container' );
+				var $placeholder = $('.post__title-placeholder');
 
 				$selector.on( 'focus', function() {
 
-					if ( $( this ).text() == initialValue ) {
-						$( this ).empty();
-					}
+					$placeholder.addClass('screen-reader-text');
 
 				});
 				
@@ -545,9 +543,10 @@
 					var textLength = $( this ).text().length;
 
 					if ( ! textLength > 0 )
-						$( this ).text( initialValue );
+						$placeholder.removeClass('screen-reader-text');
 
-				});				
+				});
+
 			}
 
 
