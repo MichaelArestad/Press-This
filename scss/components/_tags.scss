@@ -1,0 +1,122 @@
+// ==========================================================================
+// Tags
+// ==========================================================================
+
+
+.tagsdiv {
+	margin-top: -8px;
+}
+
+#poststuff .taghint {
+	color: #aaa;
+	margin: 15px 0 -24px 12px;
+}
+
+#poststuff .tagsdiv .howto {
+	margin: 0 0 6px 0;
+}
+
+.ajaxtag .newtag {
+	position: relative;
+}
+
+.tagsdiv .newtag {
+	width: 180px;
+}
+
+.tagsdiv .the-tags {
+	display: block;
+	height: 60px;
+	margin: 0 auto;
+	overflow: auto;
+	width: 260px;
+}
+
+#post-body-content .tagsdiv .the-tags {
+	margin: 0 5px;
+}
+
+/* tag hints */
+.taghint {
+	color: #aaa;
+	margin: -17px 0 0 7px;
+	visibility: hidden;
+}
+
+input.newtag ~ div.taghint {
+	visibility: visible;
+}
+
+input.newtag:focus ~ div.taghint {
+	visibility: hidden;
+}
+
+p.popular-tags {
+	border: none;
+	line-height: 2em;
+	padding: 8px 12px 12px;
+	text-align: justify;
+}
+
+p.popular-tags a {
+	padding: 0 3px;
+}
+
+.tagcloud {
+	width: 97%;
+	margin: 0 0 40px;
+	text-align: justify;
+}
+
+.tagcloud h3 {
+	margin: 2px 0 12px;
+}
+
+.ac_results {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	position: absolute;
+	z-index: 10000;
+	display: none;
+	border: 1px solid #808080;
+	background-color: #fff;
+}
+
+.wp-customizer .ac_results {
+	z-index: 500000;
+}
+
+.ac_results li {
+	padding: 2px 5px;
+	white-space: nowrap;
+	color: #101010;
+	text-align: left;
+}
+
+.ac_over {
+	background-color: #f0f0b8;
+	cursor: pointer;
+}
+
+.ac_match {
+	text-decoration: underline;
+}
+
+@media screen and ( max-width: 782px ) {
+	/* Tags Metabox */
+	.tagsdiv .newtag {
+		width: 100%;
+		height: auto;
+		margin-bottom: 15px;
+	}
+
+	.tagchecklist {
+		margin: 25px 10px;
+	}
+
+	.tagchecklist span {
+		font-size: 16px;
+		line-height: 120%;
+	}
+}

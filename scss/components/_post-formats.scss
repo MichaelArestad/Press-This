@@ -1,0 +1,85 @@
+// ==========================================================================
+// Post Formats
+// ==========================================================================
+
+
+#post-formats-select {
+	br {
+		display: none;
+	}
+}
+
+.post-format { // TODO make accessible
+	display: none;
+}
+
+.post-format-icon {
+	position: relative;
+	display: block;
+	padding: 13px 2px 14px 13px; // TODO em() and responsive styles
+	border-bottom: 1px solid $gray--light;
+	cursor: pointer;
+
+	&:before,
+	&:after {
+		content: "";
+		display: inline-block;
+		width: 20px;
+		height: 20px;
+		margin-right: 10px;
+		font-size: 20px;
+		line-height: 1;
+		font-family: dashicons;
+		text-decoration: inherit;
+		color: #9ea7af;
+		font-weight: 400;
+		font-style: normal;
+		vertical-align: top;
+		text-align: center;
+		-webkit-transition: color .1s ease-in 0;
+		transition: color .1s ease-in 0;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	&:before {
+		content: "\f109";
+	}
+	&:after {
+		display: none;
+		content: "\f147";
+		float: right;
+	}
+	.post-format:checked + & {
+		&:before,
+		&:after {
+			color: #333;
+		}
+	}
+	.post-format:checked + &:after {
+		display: block;
+	}
+}
+
+.post-format {
+	&-aside:before {
+		content: "\f123";
+	}
+	&-image:before {
+		content: "\f128";
+	}
+	&-video:before {
+		content: "\f126";
+	}
+	&-audio:before {
+		content: "\f127";
+	}
+	&-quote:before {
+		content: "\f122";
+	}
+	&-link:before {
+		content: "\f103";
+	}
+	&-gallery:before {
+		content: "\f161";
+	}
+}

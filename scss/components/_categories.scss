@@ -1,0 +1,161 @@
+// ==========================================================================
+// Categories
+// ==========================================================================
+
+
+.category-adder {
+	margin-left: 120px;
+	padding: 4px 0;
+}
+
+.category-adder h4 {
+	margin: 0 0 8px;
+}
+
+#side-sortables .category-adder {
+	margin: 0;
+}
+
+.wp-tab-panel,
+.categorydiv div.tabs-panel,
+.customlinkdiv div.tabs-panel,
+.posttypediv div.tabs-panel,
+.taxonomydiv div.tabs-panel {
+	min-height: 42px;
+	max-height: 200px;
+	overflow: auto;
+	padding: 0 0.9em;
+	border: solid 1px #dfdfdf;
+	background-color: #fdfdfd;
+}
+
+div.tabs-panel-active {
+	display:block;
+}
+
+div.tabs-panel-inactive {
+	display:none;
+}
+
+#front-page-warning,
+#front-static-pages ul,
+ul.export-filters,
+.inline-editor ul.cat-checklist ul,
+.categorydiv ul.categorychecklist ul,
+.customlinkdiv ul.categorychecklist ul,
+.posttypediv ul.categorychecklist ul,
+.taxonomydiv ul.categorychecklist ul {
+	margin-left: 18px;
+}
+
+ul.categorychecklist li {
+	margin: 0;
+	padding: 0;
+	line-height: 22px;
+	word-wrap: break-word;
+}
+
+.categorydiv .tabs-panel,
+.customlinkdiv .tabs-panel,
+.posttypediv .tabs-panel,
+.taxonomydiv .tabs-panel {
+	border-width: 3px;
+	border-style: solid;
+}
+
+.form-wrap p,
+.form-wrap label {
+	font-size: 11px;
+}
+
+.form-wrap label {
+	display: block;
+	padding: 2px;
+	font-size: 12px;
+}
+
+.form-field input[type="text"],
+.form-field input[type="password"],
+.form-field input[type="email"],
+.form-field input[type="number"],
+.form-field input[type="search"],
+.form-field input[type="tel"],
+.form-field input[type="url"],
+.form-field textarea {
+	border-style: solid;
+	border-width: 1px;
+	width: 95%;
+}
+
+p.description,
+.form-wrap p {
+	margin: 2px 0 5px;
+	color: #666;
+}
+
+p.help,
+p.description,
+span.description,
+.form-wrap p {
+	font-size: 13px;
+	font-style: italic;
+}
+
+.form-wrap .form-field {
+	margin: 0 0 10px;
+	padding: 8px 0;
+}
+
+.form-wrap .form-field #parent {
+	max-width: 100%;
+}
+
+.col-wrap h3 {
+	margin: 12px 0;
+	font-size: 1.1em;
+}
+
+.col-wrap p.submit {
+	margin-top: -10px;
+}
+
+@media screen and ( max-width: 782px ) {
+	/* Categories Metabox */
+	ul.category-tabs {
+		margin: 30px 0 15px;
+	}
+
+	ul.category-tabs li.tabs {
+		padding: 15px;
+	}
+
+	ul.categorychecklist li {
+		margin-bottom: 15px;
+	}
+
+	ul.categorychecklist ul {
+		margin-top: 15px;
+	}
+
+	.category-add input[type=text],
+	.category-add select {
+		max-width: none;
+		margin-bottom: 15px;
+	}
+
+	/* Tags Metabox */
+	.tagsdiv .newtag {
+		width: 100%;
+		height: auto;
+		margin-bottom: 15px;
+	}
+
+	.tagchecklist {
+		margin: 25px 10px;
+	}
+
+	.tagchecklist span {
+		font-size: 16px;
+		line-height: 120%;
+	}
+}

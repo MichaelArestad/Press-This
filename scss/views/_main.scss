@@ -192,6 +192,29 @@ body {
 
 
 // Editor stuff
+.wrapper {
+	@include clearfix;
+	position: relative;
+	margin-right: $sidebar-size;
+
+	@include breakpoint( '<900px' ) {
+		margin: 0;
+		width: 100%;
+		overflow-x: hidden;
+		transform: translate(0,0);
+	}
+}
+
+.editor-wrapper { // TODO move this
+	@include clearfix;
+	overflow: auto;
+	width: 100%;
+
+	@include breakpoint( '<900px' ) {
+		float: none;
+	}
+}
+
 .editor {
 	padding: 0 em( 30px ) em( 95px );
 	max-width: 700px;
@@ -426,7 +449,6 @@ body {
 	}
 }
 
-
 @include breakpoint( '<600px' ) {
 	#mceu_11,
 	#mceu_12 {
@@ -435,31 +457,7 @@ body {
 }
 
 
-
-// Options panel container
-.wrapper {
-	@include clearfix;
-	position: relative;
-	margin-right: $sidebar-size;
-
-	@include breakpoint( '<900px' ) {
-		margin: 0;
-		width: 100%;
-		overflow-x: hidden;
-		transform: translate(0,0);
-	}
-}
-
-.editor-wrapper { // TODO move this
-	@include clearfix;
-	overflow: auto;
-	width: 100%;
-
-	@include breakpoint( '<900px' ) {
-		float: none;
-	}
-}
-
+// Options panel
 .options-panel {
 	position: absolute;
 		top: 0;
@@ -559,93 +557,9 @@ body {
 	margin-left: 11px;
 }
 
-
-// Post formats
-#post-formats-select {
-	br {
-		display: none;
-	}
-}
-
-.post-format { // TODO make accessible
-	display: none;
-}
-
-.post-format-icon {
-	position: relative;
-	display: block;
-	padding: 13px 2px 14px 13px; // TODO em() and responsive styles
-	border-bottom: 1px solid $gray--light;
-	cursor: pointer;
-
-	&:before,
-	&:after {
-		content: "";
-		display: inline-block;
-		width: 20px;
-		height: 20px;
-		margin-right: 10px;
-		font-size: 20px;
-		line-height: 1;
-		font-family: dashicons;
-		text-decoration: inherit;
-		color: #9ea7af;
-		font-weight: 400;
-		font-style: normal;
-		vertical-align: top;
-		text-align: center;
-		-webkit-transition: color .1s ease-in 0;
-		transition: color .1s ease-in 0;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-	}
-	&:before {
-		content: "\f109";
-	}
-	&:after {
-		display: none;
-		content: "\f147";
-		float: right;
-	}
-	.post-format:checked + & {
-		&:before,
-		&:after {
-			color: #333;
-		}
-	}
-	.post-format:checked + &:after {
-		display: block;
-	}
-}
-
-.post-format {
-	&-aside:before {
-		content: "\f123";
-	}
-	&-image:before {
-		content: "\f128";
-	}
-	&-video:before {
-		content: "\f126";
-	}
-	&-audio:before {
-		content: "\f127";
-	}
-	&-quote:before {
-		content: "\f122";
-	}
-	&-link:before {
-		content: "\f103";
-	}
-	&-gallery:before {
-		content: "\f161";
-	}
-}
-
-
 // TODO TEMPORARY
 .adminbar button,
 .options-panel,
 .setting-modal {
-	display: none;
+	// display: none;
 }

@@ -21,11 +21,10 @@ Press This :)
 	"components/lists",
 	"components/tables",
 	"components/media",
+	"components/post-formats",
+	"components/tags",
+	"components/categories",
 	"components/alignments";
-
-.tags {
-	@import "components/edit";
-}
 
 @import
 	"views/main";
