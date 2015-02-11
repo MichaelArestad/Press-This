@@ -1,5 +1,18 @@
+/**
+ * The functions and classes in that code are a straight cut-and-paste out of
+ * /wp-admin/js/post.js, coupled with Press This' usage of the post_tags_meta_box()
+ * PHP function.
+ *
+ * If Press This makes it into core, we can refactor that code out of post.js and
+ * make it more reusable, as well as improve it to work better, everywhere.
+ *
+ * Copied-and-pasted instead of enqueuing post.js because the latter has much more,
+ * and has processing instead of just functions/classes.
+ */
 ( function( $ ) {
-	var postL10n = {"comma":","};
+	var postL10n = {"comma":","}; // Expected by following code
+
+	// The following code is from /wp-admin/js/post.js, see notes above.
 
 	// return an array with any duplicate, whitespace or values removed
 	function array_unique_noempty(a) {
