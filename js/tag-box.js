@@ -125,7 +125,9 @@
 
 				r = $('<p id="tagcloud-'+tax+'" class="the-tagcloud">'+r+'</p>');
 				$('a', r).click(function(){
-					tagBox.flushTags( $(this).closest('.inside').children('.tagsdiv'), this);
+					// TODO: this is a modif to the core version, change when merging
+					// tagBox.flushTags( $(this).closest('.inside').children('.tagsdiv'), this);
+					tagBox.flushTags( $('.tagsdiv'), this);
 					return false;
 				});
 

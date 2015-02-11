@@ -291,6 +291,13 @@
 
 				$('<input type="hidden" name="action" id="wppt_action_field" value="press_this_'+action+'_post">').appendTo(form);
 
+				// Make sure to flush out the tags with tagBox before saving
+				if ( tagBox ) {
+					$('div.tagsdiv').each(function () {
+						tagBox.flushTags(this, false, 1);
+					});
+				}
+
 				var data = form.serialize();
 
 				$.ajax({
