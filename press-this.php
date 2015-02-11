@@ -303,28 +303,39 @@ class WpPressThis {
 	public function side_load_images( $post_id, $content = '' ) {
 		$new_content = $content;
 
-		/*
-		 * TODO: do this for content images, not wppt_selected_img
-		if ( ! empty( $_POST['wppt_selected_img'] ) && current_user_can( 'upload_files' ) ) {
-			foreach( (array) $_POST['wppt_selected_img'] as $key => $image ) {
-				//Don't sideload images already hosted on our WP instance
-				if ( false !== strpos( $image, preg_replace( '/^(http:.+)\/wp-admin\/.+/', '\1/wp-content/', self::script_name() ) ) )
+		preg_match_all( '/<img [^>]+>/', $content, $matches );
+
+		if ( ! empty( $matches ) && current_user_can( 'upload_files' ) ) {
+			foreach( (array) $matches[0] as $key => $image ) {
+				preg_match( '/src=["\']{1}([^"\']+)["\']{1}/', stripslashes( $image ), $url_matches );
+
+				if ( empty( $url_matches[1] ) ) {
 					continue;
+				}
+
+				$image_url = $url_matches[1];
+
+				//Don't sideload images already hosted on our WP instance
+				if ( false !== strpos( $image_url, preg_replace( '/^(http:.+)\/wp-admin\/.+/', '\1/wp-content/', self::script_name() ) ) ) {
+					continue;
+				}
+
 				// Don't try to sideload file without a file extension, leads to WP upload error,
 				// then a "PHP Notice:  Undefined offset: 0 in /wp-admin/includes/media.php on line 811"
 				// Matching regex to skip from media_sideload_image() in otherwise erroring /wp-admin/includes/media.php
-				if ( ! preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $image ) )
+				if ( ! preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $image_url ) )
 					 continue;
+
 				// See if files exist in content - we don't want to upload non-used selected files.
-				if ( false !== strpos( $new_content, htmlspecialchars( $image ) ) ) {
-					$upload = media_sideload_image( $image, $post_id );
+				if ( false !== strpos( $new_content, htmlspecialchars( $image_url ) ) ) {
+					$upload = media_sideload_image( $image_url, $post_id );
+
 					// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
 					if ( ! is_wp_error( $upload ) )
-						$new_content = preg_replace( '/<img ([^>]*)src=\\\?(\"|\')'.preg_quote( htmlspecialchars( $image ), '/' ).'\\\?(\2)([^>\/]*)\/*>/is', $upload, $new_content );
+						$new_content = preg_replace( '/<img ([^>]*)src=\\\?(\"|\')'.preg_quote( htmlspecialchars( $image_url ), '/' ).'\\\?(\2)([^>\/]*)\/*>/is', $upload, $new_content );
 				}
 			}
 		}
-		 */
 
 		// Error handling for media_sideload, send original content back
 		if ( is_wp_error( $new_content ) )
