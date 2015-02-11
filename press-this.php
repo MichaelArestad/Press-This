@@ -37,13 +37,9 @@ class WpPressThis {
 				/*
 				 * AJAX emdpoints
 				 */
-				// Site settings
-		//		add_action( 'wp_ajax_press_this_site_settings',       array( $this, 'ajax_site_settings' ) );
 				// Post draft and publish
 				add_action( 'wp_ajax_press_this_publish_post',        array( $this, 'ajax_publish_post' ) );
 				add_action( 'wp_ajax_press_this_draft_post',          array( $this, 'ajax_draft_post' ) );
-				// Chrome extension manifest
-				// add_action( 'wp_ajax_press_this_chrome_ext_manifest', array( $this, 'ajax_chrome_ext_manifest' ) );
 			} else {
 				/*
 				 * Take over Press This bookmarklet code, wherever presented
@@ -157,16 +153,6 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::plugin_dir_url()
-	 *
-	 * @return string Full URL path to /wp-content/plugins/press-this in current install
-	 * @uses __FILE__, plugin_dir_url()
-
-	public function plugin_dir_url() {
-		return untrailingslashit( self::strip_url_scheme( plugin_dir_url( __FILE__ ) ) );
-	}
-*/
-	/**
 	 * WpPressThis::i18n()
 	 * Centralized/keyed app caption store, used on both server and client sides.
 	 *
@@ -198,7 +184,7 @@ class WpPressThis {
 		);
 	}
 
-	/** TODO: this will only be needed for the browser addon?
+	/**
 	 * WpPressThis::press_this_ajax_site_settings()
 	 * App and site settings data, including i18n strings for the client-side
 	 *
@@ -206,8 +192,6 @@ class WpPressThis {
 	 */
 	public function site_settings() {
 		$current_user      = wp_get_current_user();
-	//	$site_name    = get_bloginfo( 'name', 'display' );
-	//	$site_url     = self::strip_url_scheme( home_url( '/' ) );
 		$supported_formats = get_theme_support( 'post-formats' );
 		$post_formats      = array();
 
@@ -220,12 +204,7 @@ class WpPressThis {
 
 		return array(
 			'version'        => self::plugin_version(),
-	//		'user_id'        => (int) $current_user->ID,
-	//		'blog_id'        => (int) get_current_blog_id(),
-	//		'blog_name'      => $site_name,
-	//		'blog_url'       => rtrim( $site_url, '/' ),
 			'runtime_url'    => self::strip_url_scheme( self::runtime_url() ),
-	//		'plugin_dir_url' => self::plugin_dir_url(),
 			'ajax_url'       => self::strip_url_scheme( admin_url( 'admin-ajax.php' ) ),
 			'post_formats'   => $post_formats,
 			'i18n'           => self::i18n(),
@@ -262,56 +241,6 @@ class WpPressThis {
 		}
 
 		self::serve_app_html();
-	}
-
-	/** TODO: not needed. Handled by the media modal.
-	 * WpPressThis::process_file_upload( $file, $nonce )
-	 * Uploads file to an iframe to not have to refresh the page, and feel AJAXy, then calls parent.wp_pressthis_app.file_upload_success()
-	 *
-	 * @param $file Single $_FILE key
-	 * @param $nonce Valid WP nonce
-	 *
-	 * @uses WpPressThis::refuse_file_upload(), wp_verify_nonce(), wp_handle_upload(), esc_url(), esc_js()
-	 */
-	public function process_file_upload( $file, $nonce ) {
-		if ( ! wp_verify_nonce( $nonce, 'press_this' ) ) {
-			self::refuse_file_upload( 'wp_verify_nonce' );
-			return;
-		}
-
-		if ( ! function_exists( 'wp_handle_upload' ) )
-			require_once( ABSPATH . 'wp-admin/includes/file.php' );
-
-		$file_data = wp_handle_upload( $file, array( 'test_form' => false ) );
-
-		if ( empty( $file_data ) || empty( $file_data['url'] ) ) {
-			self::refuse_file_upload( 'file_data' );
-			return;
-		}
-		?>
-		<script language="javascript" type="text/javascript">
-			parent.wp_pressthis_app.file_upload_success( '<?php echo esc_url( $file_data['url'] ); ?>', '<?php echo esc_js( strtolower( $file_data['type'] ) ); ?>' );
-		</script>
-		<?php
-		die();
-	}
-
-	/** TODO: not needed, see above.
-	 * WpPressThis::refuse_file_upload( $context )
-	 * Calls parent.wp_pressthis_app.render_error(), notifying the user her/his upload failed
-	 *
-	 * @param $context A key-type string to give developers a hint as to where it failed, when reported
-	 *
-	 * @uses esc_js(), WpPressThis::i18n()
-	 */
-	public function refuse_file_upload( $context ) {
-		$i18n = self::i18n();
-		?>
-		<script language="javascript" type="text/javascript">
-			parent.wp_pressthis_app.render_error( '<?php echo esc_js( $i18n['upload-failed'] ); ?> [<?php echo $context; ?>]' );
-		</script>
-		<?php
-		die();
 	}
 
 	/**
@@ -653,7 +582,6 @@ class WpPressThis {
 		// Set the passed data
 		$data['_version']         = $site_settings['version'];
 		$data['_runtime_url']     = $site_settings['runtime_url'];
-	//	$data['_plugin_dir_url']  = $site_settings['plugin_dir_url'];
 		$data['_ajax_url']        = $site_settings['ajax_url'];
 		$data['_nonce']           = $nonce;
 
@@ -742,10 +670,6 @@ class WpPressThis {
 		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo $post_ID; ?>" />
 		<input type="hidden" name="wppt_nonce" id="wppt_nonce_field" value="<?php echo esc_attr( $nonce ) ?>" />
 		<input type="hidden" name="wppt_title" id="wppt_title_field" value="" />
-<!--
-		<input type="hidden" name="wppt_source_url" id="wppt_source_url_field" value=""/>
-		<input type="hidden" name="wppt_source_name" id=wppt_source_name_field" value=""/>
--->
 
 	<div class="wrapper">
 		<div class="editor-wrapper">
@@ -871,18 +795,6 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::press_this_ajax_site_settings()
-	 * Ajax endpoint to serve the results of WpPressThis::press_this_ajax_site_settings()
-	 *
-	 * @uses admin_url(), wp_create_nonce()
-
-	public function ajax_site_settings() {
-		header( 'content-type: application/json' );
-		echo json_encode( self::site_settings() );
-		die();
-	}
-*/
-	/**
 	 * @param $post_id
 	 * @param string $post_status
 	 */
@@ -918,81 +830,6 @@ class WpPressThis {
 		self::post_save_json_response( self::save( 'publish' ), 'published' );
 	}
 
-	/**
-	 * Experimental Ajax endpoint to publish a site-specific Chrome extension manifest
-	 */
-/*	public function  ajax_chrome_ext_manifest() {
-		$i18n        = self::i18n();
-		$plugin_data = self::plugin_data();
-		$plugin_name = ( ! empty( $plugin_data['Name'] ) ) ? $plugin_data['Name'] : $i18n[ 'press-this' ];
-		$plugin_desc = ( ! empty( $plugin_data['Description'] ) ) ? $plugin_data['Description'] : __( 'Posting images, links, and cat gifs will never be the same.', 'press-this' );
-		$icon        = './images/wordpress-logo-notext-rgb.png';
-		$type        = ( true == false ) ? 'app' : 'extension';
-		$manifest = array(
-			'manifest_version' => 2,
-			'name'             => $plugin_name,
-			'description'      => $plugin_desc,
-			'version'          => self::plugin_version(),
-			'icons'            => array(
-				'128' => $icon,
-			),
-			'web_accessible_resources' => array( $icon ),
-		);
-
-		if ( 'app' == $type ) {
-			$manifest['permissions'] = array(
-				'unlimitedStorage',
-				'notifications',
-				'geolocation',
-				'clipboardRead',
-				'clipboardWrite',
-				'background',
-				// 'activeTab',
-				// preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/', self::runtime_url() ),
-			);
-			$manifest['app']         = array(
-				'launch' => array(
-					'web_url' => self::runtime_url(),
-				),
-			);
-		} else {
-			$manifest['permissions'] = array(
-				'activeTab',
-				// preg_replace( '/^(.+)\/wp-admin\/.+$/', '\1/', self::runtime_url() ),
-			);
-			$manifest['background'] = array(
-				'scripts'    => array(
-					'./js/ext-chrome-background.js'
-					// "vendor/jquery-2.0.3.min.js", "background-lib.js", "background.js"
-				),
-				'persistent' => false,
-			);
-			$manifest['browser_action'] = array(
-				'default_title' => $plugin_name,
-			);
-		}
-		/*
-		$manifest['urls'] = array(
-			preg_replace( '/^http(.+)\/wp-admin\/.+$/', '*://\1/', self::runtime_url() )
-		);
-		$manifest['intents'] = array(
-			'http://webintents.org/share' => array(
-				'type' => array(
-					'image/*',
-					'video/*',
-					'text/*'
-				),
-				'href' => self::runtime_url(),
-				'title' => 'Share this on your WordPress blog',
-				'disposition'=> 'window'
-			),
-		);
-
-		header( 'content-type: application/json' );
-		echo json_encode( $manifest );
-		die();
-	}
-*/
 	/**
 	 * Registers a new setting screen and menu item for PT in the Admin sidebar
 	 *

@@ -341,20 +341,6 @@
 				has_set_focus = true;
 			}
 
-			// TODO: not used?
-			function clear_errors() {
-				var messages_div = $( '#alerts' );
-				if ( messages_div && messages_div.remove )
-					messages_div.remove();
-			}
-/*
-			function close_self( source_url ) {
-				if ( 'popup' == ux_context )
-					self.close();
-				else
-					top.location.href = self.location.href.replace(/^(.+)\/wp-admin\/.+$/, '$1/');
-			}
-*/
 			function set_post_format_string(format) {
 				if ( !format || !site_config || !site_config.post_formats || !site_config.post_formats[ format ] ) {
 					return;
@@ -369,23 +355,6 @@
 			function render_tools_visibility() {
 				if ( data.u && data.u.match( /^https?:/ ) )
 					$('#wppt_scanbar').hide();
-			}
-
-			function render_default_form_field_values() {
-		//		$('#wppt_nonce_field').val( nonce );
-		//		$('#wppt_title_field').val( suggested_title_str );
-		//		$('#wppt_source_url_field').val( get_canonical_link( data ) );
-		//		$('#wppt_source_name_field').val( get_source_site_name( data ) );
-		//		$('#wppt_publish_field').val( __( 'publish' ) );
-		//		$('#wppt_draft_field').val( __( 'save-draft' ) );
-
-		//		$('#wppt_file_button').val(__( 'upload-photo' ) );
-
-		//		$('#wppt_url_scan').attr('placeholder', __( 'enter-url-to-scan' )).val( ( data.u && data.u.match(/^https?:/ ) ) ? data.u : '' );
-		//		$('#wppt_url_scan_submit').val(__( 'scan' ) );
-
-		//		$('#wppt_new_site').attr('placeholder', __( 'enter-wp-url' ) );
-		//		$('#wppt_new_site_submit').val(__( 'add' ) );
 			}
 
 			function render_notice( msg, error ) {
@@ -415,11 +384,7 @@
 					render_notice( __( 'should-upgrade-bookmarklet').replace( '%s', site_config.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php' ) ) );
 				}
 			}
-/*
-			function render_admin_bar() {
-				$('.current-site a').attr( 'href', site_config.blog_url ).text( site_config.blog_name );
-			}
-*/
+
 			function render_suggested_title() {
 				var title = suggested_title_str || '';
 
@@ -549,18 +514,10 @@
 /* ***************************************************************
  * PROCESSING FUNCTIONS
  *************************************************************** */
-/*
-			function initialize(){
-				// If we don't have those, or they are empty, we weren't able to initialize properly.
-				return (site_config.ajax_url && site_config.ajax_url.length && data._nonce && data._nonce.length);
-			}
-*/
+
 			function render(){
 				// We're on!
-		//		$("head title").text(__( 'welcome' ));
 				render_tools_visibility();
-		//		render_default_form_field_values();
-		//		render_admin_bar();
 				render_suggested_title();
 				render_detected_media();
 				$( document ).on( 'tinymce-editor-init', render_suggested_content );
@@ -568,8 +525,6 @@
 			}
 
 			function monitor(){
-		//		show_spinner();
-
 				$( '#wppt_current_site a').click( function( e ) {
 					e.preventDefault();
 				});
@@ -583,19 +538,6 @@
 				$( '#wppt_publish_field' ).on( 'click', function( e ) {
 					submit_post( e, 'publish' );
 				});
-/*
-				// File upload button and autosubmit
-
-				$( '#wppt_file' ).on('change', function(){
-					show_spinner();
-					$( '#wppt_file_upload' ).submit();
-				});
-
-				$('#wppt_file_button').on('click', function(){
-					$( '#wppt_file').click();
-				});
-*/
-
 
 				monitor_options_modal();
 				monitor_sidebar_toggle();
@@ -606,8 +548,6 @@
 						set_post_format_string( t.attr('id').replace(/^post-format-(.+)$/, '$1') );
 					}
 				});
-
-		//		hide_spinner();
 
 				return true;
 			}
