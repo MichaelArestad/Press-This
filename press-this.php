@@ -634,7 +634,7 @@ class WpPressThis {
 	<meta name="viewport" content="width=device-width">
 	<title><?php echo esc_html( __( 'Press This!' ) ) ?></title>
 
-	<script language="JavaScript">
+	<script>
 		window.wp_pressthis_data   = <?php echo json_encode( $data ) ?>;
 		window.wp_pressthis_config = <?php echo json_encode( $site_settings ) ?>;
 	</script>
@@ -694,13 +694,13 @@ class WpPressThis {
 	</div>
 
 	<div id="wppt_scanbar" class="scan">
-		<form action="" method="GET">
+		<form method="GET">
 			<input type="url" name="u" id="wppt_url_scan" class="scan__url" value="" placeholder="<?php echo esc_attr( __( 'Enter a URL to scan', 'press-this' ) ) ?>" />
 			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan__submit" value="<?php echo esc_attr( __( 'Scan', 'press-this' ) ) ?>" />
 		</form>
 	</div>
 
-	<form id="wppt_form" name="wppt_form" method="POST" action="" autocomplete="off">
+	<form id="wppt_form" name="wppt_form" method="POST" autocomplete="off">
 		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo $post_ID; ?>" />
 		<input type="hidden" name="wppt_nonce" id="wppt_nonce_field" value="<?php echo esc_attr( $nonce ) ?>" />
 		<input type="hidden" name="wppt_title" id="wppt_title_field" value="" />
