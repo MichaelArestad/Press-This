@@ -388,7 +388,7 @@
 
 				// Prompt user to upgrade their bookmarklet if there is a version mismatch.
 				if ( data.v && data._version && data.v != data._version ) {
-					render_notice( __( 'should-upgrade-bookmarklet').replace( '%s', site_config.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php' ) ) );
+					render_notice( __( 'should-upgrade-bookmarklet').replace( '%s', site_config.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php?page=press_this_options' ) ) );
 				}
 			}
 
