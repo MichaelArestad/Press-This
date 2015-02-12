@@ -634,7 +634,7 @@ class WpPressThis {
 	<meta name="viewport" content="width=device-width">
 	<title><?php echo esc_html( __( 'Press This!' ) ) ?></title>
 
-	<script language="JavaScript">
+	<script>
 		window.wp_pressthis_data   = <?php echo json_encode( $data ) ?>;
 		window.wp_pressthis_config = <?php echo json_encode( $site_settings ) ?>;
 	</script>
