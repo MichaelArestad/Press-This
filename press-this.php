@@ -611,6 +611,16 @@ class WpPressThis {
 		wp_register_script( 'tag-box', plugin_dir_url( __FILE__ ) . 'js/tag-box.js', array( 'suggest' ), false, true );
 
 		$hook_suffix = 'press-this.php';
+
+		/**
+		 * @TODO: this is a temp fix to an arcane issue while we're a plugin.
+		 * See https://github.com/MichaelArestad/Press-This/issues/51
+		 * Will become irrelevant when/if we merge into core.
+		 */
+		if ( function_exists( 'set_current_screen' ) ) {
+			set_current_screen( $hook_suffix );
+		}
+
 		@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
 
 		if ( ! function_exists( 'post_tags_meta_box' ) ) {
