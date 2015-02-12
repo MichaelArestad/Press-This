@@ -61,6 +61,8 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		fAdd('_embed[]', l.href);
 	} else if ( l.href.match(/\/\/soundcloud\.com\/.+$/) ) {
 		fAdd('_embed[]', l.href);
+	} else if ( l.href.match(/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/) ) {
+		fAdd('_embed[]', l.href);
 	}
 
 	if ( ! imgs || ! imgs.length ) {

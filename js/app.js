@@ -154,6 +154,8 @@
 					return true;
 				} else if ( url.match(/\/\/soundcloud\.com\/.+$/) ) {
 					return true;
+				} else if ( url.match(/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/) ) {
+					return true;
 				}
 				return false;
 			}
