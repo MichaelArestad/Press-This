@@ -476,8 +476,8 @@ class WpPressThis {
 						if ( ! in_array( $new_matches[2], $data['_embed'] ) ) {
 							if ( preg_match( '/\/\/www\.youtube\.com\/embed\/([^\?]+)\?.+$/', $new_matches[2], $src_matches ) ) {
 								$data['_embed'][] = 'https://www.youtube.com/watch?v=' . $src_matches[1];
-							} else if ( preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)$/', $new_matches[2], $src_matches ) ) {
-								$data['_embed'][] = 'https://vimeo.com/' . $src_matches[2];
+							} else if ( preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)([\?\/]{1}.*)?$/', $new_matches[2], $src_matches ) ) {
+								$data['_embed'][] = 'https://vimeo.com/' . (int) $src_matches[1];
 							}
 						}
 					}
@@ -490,7 +490,7 @@ class WpPressThis {
 			$data['_meta'] = array();
 		}
 
-		if ( preg_match_all( '/<meta (.+)[\s]?\/?>/  ', $source_content, $matches ) ) {
+		if ( preg_match_all( '/<meta ([^>]+)[\s]?\/?>/  ', $source_content, $matches ) ) {
 			if ( !empty( $matches[0] ) ) {
 				foreach ( $matches[0] as $key => $value ) {
 					if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"/', $value, $new_matches ) ) {
@@ -499,7 +499,16 @@ class WpPressThis {
 								$data['_meta'][ $new_matches[2] ] = str_replace( '&#039;', "'", str_replace( '&#034;', '', html_entity_decode( $new_matches[3] ) ) );
 							} else {
 								$data['_meta'][ $new_matches[2] ] = $new_matches[3];
-								if ( 'og:video' == $new_matches[2] || 'og:video:secure_url' == $new_matches[2] ) {
+								if ( 'og:url' == $new_matches[2] ) {
+									if ( false !== strpos( $new_matches[3], '//www.youtube.com/watch?' )
+									     || false !== strpos( $new_matches[3], '//www.dailymotion.com/video/' )
+									     || preg_match( '/\/\/vimeo\.com\/[\d]+$/', $new_matches[3] )
+										 || preg_match( '/\/\/soundcloud\.com\/.+$/', $new_matches[3] ) ) {
+										if ( ! in_array( $new_matches[3], $data['_embed'] ) ) {
+											$data['_embed'][] = $new_matches[3];
+										}
+									}
+								} else if ( 'og:video' == $new_matches[2] || 'og:video:secure_url' == $new_matches[2] ) {
 									if ( preg_match( '/\/\/www\.youtube\.com\/v\/([^\?]+)/', $new_matches[3], $src_matches ) ) {
 										if ( ! in_array( 'https://www.youtube.com/watch?v=' . $src_matches[1], $data['_embed'] ) ) {
 											$data['_embed'][] = 'https://www.youtube.com/watch?v=' . $src_matches[1];
@@ -526,7 +535,7 @@ class WpPressThis {
 			$data['_links'] = array();
 		}
 
-		if ( preg_match_all( '/<link (.+)[\s]?\/>/', $source_content, $matches ) ) {
+		if ( preg_match_all( '/<link ([^>]+)[\s]?\/>/', $source_content, $matches ) ) {
 			if ( !empty( $matches[0] ) ) {
 				foreach ( $matches[0] as $key => $value ) {
 					if ( preg_match( '/<link[^>]+(rel|itemprop)="([^"]+)"[^>]+href="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
