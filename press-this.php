@@ -241,14 +241,11 @@ class WpPressThis {
 			'post_title' => '',
 			'post_content' => '',
 			'post_type' => 'post',
+			'post_status' => 'draft',
+			'post_format' => 0,
 			'tax_input' => array(),
+			'post_category' => array(),
 		);
-
-		// For image-only posts
-		if ( empty( $_POST ) ) {
-			$post['post_title'] = __( 'New Post' );
-			return $post;
-		}
 
 		if ( ! empty( $_POST['wppt_title'] ) ) {
 			$post['post_title'] = sanitize_text_field( trim( $_POST['wppt_title'] ) );
@@ -264,20 +261,16 @@ class WpPressThis {
 			} else {
 				$post['post_status'] = 'pending';
 			}
-		} else {
-			$post['post_status'] = 'draft';
 		}
 
 		if ( isset( $_POST['post_format'] ) ) {
 			if ( current_theme_supports( 'post-formats', $_POST['post_format'] ) ) {
 				$post['post_format'] = $_POST['post_format'];
-			} else {
-				$post['post_format'] = 0;
 			}
 		}
 
 		if ( !empty( $_POST['tax_input'] ) ) {
-			foreach ( $_POST['tax_input'] as $tax_name => $terms ) {
+			foreach ( (array) $_POST['tax_input'] as $tax_name => $terms ) {
 				if ( empty( $terms ) )
 					continue;
 				$comma = _x( ',', 'tag delimiter' );
@@ -285,6 +278,12 @@ class WpPressThis {
 					$terms = str_replace( $comma, ',', $terms );
 				}
 				$post['tax_input'][ $tax_name ] = explode( ',', trim( $terms, " \n\t\r\0\x0B," ) );
+			}
+		}
+
+		if ( !empty( $_POST['post_category'] ) ) {
+			foreach ( (array) $_POST['post_category'] as $cat_id ) {
+				$post['post_category'][] = (int) $cat_id;
 			}
 		}
 
@@ -774,7 +773,9 @@ class WpPressThis {
 
 			<div class="setting-modal">
 				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
-				<p class="howto"><?php _e( 'Coming in WP 4.2!', 'press-this' ); ?></p>
+				<ul>
+					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
+				</ul>
 			</div>
 
 			<div class="setting-modal tags">
