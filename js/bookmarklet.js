@@ -37,12 +37,7 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 		ifrs  = d.body.getElementsByTagName('iframe') || [],
 		r     = new Image(),
 		f     = d.createElement('form'),
-		h     = Math.max(document.documentElement.clientHeight, window.innerHeight || 0),
 		tn    = '_press_this_app',
-		tnu   = pt_url,
-		fs    = false,
-		i     = null,
-		il    = false,
 		vid   = null,
 		fAdd  = function (n, v) {
 			if (typeof(v) === 'undefined')return;
@@ -76,10 +71,10 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 	for (var m = 0; m < metas.length; m++) {
 		if ( m >= 50 )
 			break;
-		var q = metas[m];
-		q_name = q.getAttribute("name");
-		q_prop = q.getAttribute("property");
-		q_cont = q.getAttribute("content");
+		var q = metas[m],
+			q_name = q.getAttribute("name"),
+			q_prop = q.getAttribute("property"),
+			q_cont = q.getAttribute("content");
 		if (q_name) {
 			fAdd('_meta[' + q_name + ']', q_cont);
 		} else if (q_prop) {
@@ -90,8 +85,8 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 	for (var y = 0; y < links.length; y++) {
 		if ( y >= 50 )
 			break;
-		var g = links[y];
-		g_rel = g.getAttribute("rel");
+		var g = links[y],
+			g_rel = g.getAttribute("rel");
 		if (g_rel) {
 			switch (g_rel) {
 				case 'canonical':
