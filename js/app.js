@@ -500,14 +500,13 @@
 			function monitor_options_modal() {
 				var is_active = 'is-active',
 					is_hidden = 'is-hidden',
-					$postOptions = $( '.post-options' );
-					$postOption = $( '.post-option' );
+					$postOptions = $( '.post-options'),
+					$postOption = $( '.post-option'),
 					$settingModal = $( '.setting-modal' );
 
 				$postOption.on('click', function() {
-					$postOptions.addClass( is_hidden );
-
 					var index = $( this ).index();
+					$postOptions.addClass( is_hidden );
 					$settingModal.eq( index ).addClass( is_active );
 				});
 
@@ -518,20 +517,24 @@
 			}
 
 			function monitor_sidebar_toggle() {
-				var opt_open  = $('.options-open'),
-					opt_close = $('.options-close'),
-					sidebar   = $('.options-panel'),
-					is_open   = 'is-open',
+				var $opt_open  = $( '.options-open' ),
+					$opt_close = $( '.options-close' ),
+					$sidebar = $( '.options-panel' ),
+					is_open = 'is-open',
 					is_hidden = 'is-hidden';
-				opt_open.click(function(){
-					opt_open.addClass(is_hidden);
-					opt_close.removeClass(is_hidden);
-					sidebar.addClass(is_open);
+
+				$opt_open.click(function(){
+					$opt_open.addClass( is_hidden );
+					$opt_close.removeClass( is_hidden );
+					$sidebar.addClass( is_open );
 				});
-				opt_close.click(function(){
-					opt_close.addClass(is_hidden);
-					opt_open.removeClass(is_hidden);
-					sidebar.removeClass(is_open);
+
+				$opt_close.click(function(){
+					$opt_close.addClass( is_hidden );
+					$opt_open.removeClass( is_hidden );
+					$sidebar.removeClass( is_open );
+					$( '.post-options' ).removeClass( is_hidden );
+					$( '.setting-modal').removeClass( 'is-active' );
 				});
 			}
 
