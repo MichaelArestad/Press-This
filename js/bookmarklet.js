@@ -145,7 +145,7 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 	if (es.length && es.length > 512)
 		fAdd('s', s);
 
-	if ( navigator && navigator.userAgent && navigator.userAgent.length && ! navigator.userAgent.match(/firefox\//i) ) {
+	if ( navigator && navigator.userAgent && navigator.userAgent.length ) {
 		tnu = 'about:blank';
 		fs = true;
 		f.setAttribute('method', 'POST');
@@ -155,6 +155,8 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 
 	w.open(tnu, tn, "width=500,height=700");
 
-	if ( true == fs )
+	if ( true == fs ) {
+		d.body.appendChild( f );
 		f.submit();
+	}
 };
