@@ -145,16 +145,13 @@ var WpPressThis_Bookmarklet = function(pt_url) {
 	if (es.length && es.length > 512)
 		fAdd('s', s);
 
-	if ( navigator && navigator.userAgent && navigator.userAgent.length && ! navigator.userAgent.match(/firefox\//i) ) {
-		tnu = 'about:blank';
-		fs = true;
-		f.setAttribute('method', 'POST');
-		f.setAttribute('action', pt_url);
-		f.setAttribute('target', tn);
-	}
+	f.setAttribute('method', 'POST');
+	f.setAttribute('action', pt_url);
+	f.setAttribute('target', tn);
+	f.setAttribute('style', 'display: none;');
 
-	w.open(tnu, tn, "width=500,height=700");
+	w.open('about:blank', tn, "width=500,height=700");
 
-	if ( true == fs )
-		f.submit();
+	d.body.appendChild(f);
+	f.submit();
 };
