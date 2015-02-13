@@ -912,162 +912,67 @@ input.newtag:focus ~ div.taghint {
     line-height: 120%;
   }
 }
-.category-adder {
-  margin-left: 120px;
-  padding: 4px 0;
-}
-
-.category-adder h4 {
-  margin: 0 0 8px;
-}
-
-#side-sortables .category-adder {
-  margin: 0;
-}
-
-.wp-tab-panel,
-.categorydiv div.tabs-panel,
-.customlinkdiv div.tabs-panel,
-.posttypediv div.tabs-panel,
-.taxonomydiv div.tabs-panel {
-  min-height: 42px;
-  max-height: 200px;
-  overflow: auto;
-  padding: 0 0.9em;
-  border: solid 1px #dfdfdf;
-  background-color: #fdfdfd;
-}
-
-div.tabs-panel-active {
-  display: block;
-}
-
-div.tabs-panel-inactive {
-  display: none;
-}
-
-#front-page-warning,
-#front-static-pages ul,
-ul.export-filters,
-.inline-editor ul.cat-checklist ul,
-.categorydiv ul.categorychecklist ul,
-.customlinkdiv ul.categorychecklist ul,
-.posttypediv ul.categorychecklist ul,
-.taxonomydiv ul.categorychecklist ul {
-  margin-left: 18px;
-}
-
-ul.categorychecklist li {
+.categories-select {
   margin: 0;
   padding: 0;
-  line-height: 22px;
-  word-wrap: break-word;
+  list-style: none;
+  background: #e5e5e5;
 }
-
-.categorydiv .tabs-panel,
-.customlinkdiv .tabs-panel,
-.posttypediv .tabs-panel,
-.taxonomydiv .tabs-panel {
-  border-width: 3px;
-  border-style: solid;
+.categories-select ul {
+  margin: 0 0 0 8px;
+  padding: 0;
+  list-style: none;
 }
-
-.form-wrap p,
-.form-wrap label {
-  font-size: 11px;
+.categories-select input {
+  clear: none;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 0;
+  width: 0;
+  height: 0;
+  float: left;
+  outline: 0;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  width: 16px;
+  min-width: 16px;
+  -webkit-appearance: none;
+  appearance: none;
 }
-
-.form-wrap label {
-  display: block;
-  padding: 2px;
-  font-size: 12px;
-}
-
-.form-field input[type="text"],
-.form-field input[type="password"],
-.form-field input[type="email"],
-.form-field input[type="number"],
-.form-field input[type="search"],
-.form-field input[type="tel"],
-.form-field input[type="url"],
-.form-field textarea {
-  border-style: solid;
-  border-width: 1px;
-  width: 95%;
-}
-
-p.description,
-.form-wrap p {
-  margin: 2px 0 5px;
-  color: #666;
-}
-
-p.help,
-p.description,
-span.description,
-.form-wrap p {
-  font-size: 13px;
-  font-style: italic;
-}
-
-.form-wrap .form-field {
-  margin: 0 0 10px;
-  padding: 8px 0;
-}
-
-.form-wrap .form-field #parent {
-  max-width: 100%;
-}
-
-.col-wrap h3 {
-  margin: 12px 0;
-  font-size: 1.1em;
-}
-
-.col-wrap p.submit {
+.categories-select input:checked:after {
+  display: inline-block;
+  content: "\f147";
+  position: absolute;
+  top: 50%;
+  right: 15px;
   margin-top: -10px;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  font-size: 20px;
+  line-height: 1;
+  font-family: dashicons;
+  text-decoration: inherit;
+  color: #222;
+  font-weight: 400;
+  font-style: normal;
+  vertical-align: top;
+  text-align: center;
+  -webkit-transition: color .1s ease-in 0;
+  transition: color .1s ease-in 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categories-select label {
+  position: relative;
+  display: block;
+  padding: 13px 2px 14px 13px;
+  border-bottom: 1px solid #e5e5e5;
+  cursor: pointer;
+  background: #fff;
 }
 
-@media screen and (max-width: 782px) {
-  /* Categories Metabox */
-  ul.category-tabs {
-    margin: 30px 0 15px;
-  }
-
-  ul.category-tabs li.tabs {
-    padding: 15px;
-  }
-
-  ul.categorychecklist li {
-    margin-bottom: 15px;
-  }
-
-  ul.categorychecklist ul {
-    margin-top: 15px;
-  }
-
-  .category-add input[type=text],
-  .category-add select {
-    max-width: none;
-    margin-bottom: 15px;
-  }
-
-  /* Tags Metabox */
-  .tagsdiv .newtag {
-    width: 100%;
-    height: auto;
-    margin-bottom: 15px;
-  }
-
-  .tagchecklist {
-    margin: 25px 10px;
-  }
-
-  .tagchecklist span {
-    font-size: 16px;
-    line-height: 120%;
-  }
-}
 .alignleft {
   display: inline;
   float: left;
@@ -1160,7 +1065,7 @@ body {
 }
 @media (max-width: 320px) {
   .current-site {
-    margin: 1px 0 0;
+    margin: 0;
     color: #404040;
     font-size: 14px;
   }
@@ -1201,6 +1106,10 @@ body {
 
 .options-open .dashicons {
   margin-top: 3px;
+}
+
+.options-close {
+  color: #2ea2cc;
 }
 
 .alerts {
@@ -1660,11 +1569,15 @@ body {
   top: 0;
   left: 100%;
   width: 100%;
-  -webkit-transition: all .3s ease-in-out;
-  transition: all .3s ease-in-out;
+  height: 0;
+  overflow: hidden;
+  -webkit-transition: -webkit-transform .3s ease-in-out;
+  transition: transform .3s ease-in-out;
 }
 .setting-modal.is-active {
   left: 0;
+  height: auto;
+  overflow: hidden;
 }
 @media (min-width: 1px) {
   .setting-modal {

@@ -773,7 +773,7 @@ class WpPressThis {
 
 			<div class="setting-modal">
 				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
-				<ul>
+				<ul class="categories-select">
 					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
 				</ul>
 			</div>
