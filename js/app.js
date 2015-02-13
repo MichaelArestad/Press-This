@@ -508,7 +508,6 @@
 					$postOptions.addClass( is_hidden );
 
 					var index = $( this ).index();
-					console.log($settingModal[index]);
 					$settingModal.eq( index ).addClass( is_active );
 				});
 
