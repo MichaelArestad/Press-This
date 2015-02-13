@@ -1342,6 +1342,14 @@ body {
   font-weight: 700;
   resize: vertical;
 }
+.post__title:active, .post__title:focus,
+.post__title-placeholder:active,
+.post__title-placeholder:focus {
+  outline: 0;
+  -webkit-box-shadow: inset 0px -3px 0 #2ea2cc;
+  box-shadow: inset 0px -3px 0 #2ea2cc;
+  border-color: #2ea2cc;
+}
 @media (max-height: 400px) {
   .post__title,
   .post__title-placeholder {
@@ -1360,6 +1368,8 @@ body {
 
 .post__title-placeholder {
   position: absolute;
+  border: 0;
+  color: #9ea7af;
   pointer-events: none;
 }
 
@@ -1680,10 +1690,6 @@ body {
   position: relative;
   top: -1px;
   margin-left: 11px;
-}
-
-.post-option:nth-child(2) {
-  display: none;
 }
 
 /*# sourceMappingURL=press-this.css.map */

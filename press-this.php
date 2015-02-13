@@ -689,8 +689,8 @@ class WpPressThis {
 			<span class="dashicons dashicons-wordpress"></span>
 			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank"><?php bloginfo( 'name' ); ?></a>
 		</h1>
-		<button class="options-open button--subtle"><span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e('Show post options'); ?></span></button>
-		<button class="options-close button--subtle is-hidden"><?php _e('Done'); ?></button>
+		<button class="options-open button--subtle"><span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e( 'Show post options' ); ?></span></button>
+		<button class="options-close button--subtle is-hidden"><?php _e( 'Done' ); ?></button>
 	</div>
 
 	<div id="wppt_scanbar" class="scan">
@@ -708,7 +708,7 @@ class WpPressThis {
 	<div class="wrapper">
 		<div class="editor-wrapper">
 			<div id='wppt_app_container' class="editor">
-				<span id="wppt_title_container_label" class="post__title-placeholder"><?php _e( 'Title' ); ?></span>
+				<span id="wppt_title_container_label" class="post__title-placeholder"><?php _e( 'Post title' ); ?></span>
 				<h2 id="wppt_title_container" class="post__title" contenteditable="true" spellcheck="true" aria-labelledby="wppt_title_container_label"></h2>
 				<div id='wppt_featured_media_container' class="featured-container no-media">
 					<div id='wppt_all_media_widget' class="all-media">
