@@ -684,7 +684,7 @@ class WpPressThis {
 	<div id="wppt_adminbar" class="adminbar">
 		<h1 id="wppt_current_site" class="current-site">
 			<span class="dashicons dashicons-wordpress"></span>
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank"><?php bloginfo( 'name' ); ?></a>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" tabindex="-1"><?php bloginfo( 'name' ); ?></a>
 		</h1>
 		<button class="options-open button--subtle"><span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e( 'Show post options' ); ?></span></button>
 		<button class="options-close button--subtle is-hidden"><?php _e( 'Done' ); ?></button>
@@ -707,7 +707,7 @@ class WpPressThis {
 		<div class="editor-wrapper">
 			<div id='wppt_app_container' class="editor">
 				<span id="wppt_title_container_label" class="post__title-placeholder"><?php _e( 'Post title' ); ?></span>
-				<h2 id="wppt_title_container" class="post__title" contenteditable="true" spellcheck="true" aria-labelledby="wppt_title_container_label"></h2>
+				<h2 id="wppt_title_container" class="post__title" contenteditable="true" spellcheck="true" aria-labelledby="wppt_title_container_label" tabindex="0"></h2>
 				<div id='wppt_featured_media_container' class="featured-container no-media">
 					<div id='wppt_all_media_widget' class="all-media">
 						<div id='wppt_all_media_container'></div>
@@ -742,20 +742,20 @@ class WpPressThis {
 		<div class="options-panel">
 			<div class="post-options">
 				<?php if ( $supports_formats ) : ?>
-					<a href="#" class="post-option">
+					<a href="#" class="post-option" tabindex="0">
 						<span class="dashicons dashicons-admin-post"></span>
 						<span class="post-option__title"><?php _e('Format'); ?></span>
 						<span class="post-option__contents" id="post-option-post-format"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
 						<span class="dashicons dashicons-arrow-right-alt2"></span>
 					</a>
 				<?php endif; ?>
-				<a href="#" class="post-option">
+				<a href="#" class="post-option" tabindex="0">
 					<span class="dashicons dashicons-category"></span>
 					<span class="post-option__title"><?php _e('Categories'); ?></span>
 					<span class="post-option__contents" id="post-option-category"></span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</a>
-				<a href="#" class="post-option">
+				<a href="#" class="post-option" tabindex="0">
 					<span class="dashicons dashicons-tag"></span>
 					<span class="post-option__title"><?php _e('Tags'); ?></span>
 					<span class="post-option__contents" id="post-option-tags"></span>
@@ -765,20 +765,20 @@ class WpPressThis {
 
 			<?php if ( $supports_formats ) : ?>
 				<div class="setting-modal">
-					<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
+					<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
 					<?php post_format_meta_box( $post, null ); ?>
 				</div>
 			<?php endif; ?>
 
 			<div class="setting-modal">
-				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
+				<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
 				<ul class="categories-select">
 					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
 				</ul>
 			</div>
 
 			<div class="setting-modal tags">
-				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
+				<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
 				<?php post_tags_meta_box( $post, null ); ?>
 			</div>
 		</div><!-- .options-panel -->
@@ -786,7 +786,7 @@ class WpPressThis {
 
 	<div class="press-this__actions">
 		<div class="pressthis-media-buttons">
-			<button type="button" class="insert-media button--subtle" data-editor="pressthis">
+			<button type="button" class="insert-media button--subtle" data-editor="pressthis" tabindex="0">
 				<span class="dashicons dashicons-camera"></span>
 				<span class="screen-reader-text"><?php _e( 'Add Media' ); ?></span>
 			</button>

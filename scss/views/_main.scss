@@ -171,6 +171,11 @@ body {
 	padding: em( 12px, 14px ) em( 15px, 14px );
 	font-size: 14px;
 	width: 100%;
+
+	&:focus {
+		@extend %focus-box-shadow;
+	}
+
 }
 .scan__submit {
 	@extend %button;
@@ -255,8 +260,7 @@ body {
 
 	&:active,
 	&:focus {
-		outline: 0;
-		box-shadow: inset 0px -3px 0 $blue--light;
+		@extend %focus-box-shadow;
 		border-color: $blue--light;
 	}
 	@media ( max-height: 400px ) {
@@ -333,6 +337,10 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 	cursor: pointer;
+
+	&:focus {
+		@extend %focus-box-shadow;
+	}
 
 	@include breakpoint ( '>600px' ) {
 		$size: 12.5%;
@@ -594,6 +602,11 @@ body {
 	padding: 13px 14px; // TODO em()
 	border-bottom: 1px solid $gray--light;
 	text-decoration: none;
+
+	&:focus {
+		@extend %focus-box-shadow;
+	}
+
 }
 
 .setting-title {

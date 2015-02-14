@@ -513,6 +513,13 @@ big {
   color: #fff;
 }
 
+.tagsdiv .newtag:focus, .tagcloud-link:focus, .the-tagcloud a:focus, .scan__url:focus, .post__title:active, .post__title:focus,
+.post__title-placeholder:active,
+.post__title-placeholder:focus, .suggested-media-thumbnail:focus, .modal-close:focus {
+  -webkit-box-shadow: inset 0px -5px 0 #2ea2cc;
+  box-shadow: inset 0px -5px 0 #2ea2cc;
+}
+
 .button--subtle {
   background: none;
   border: 0;
@@ -672,7 +679,9 @@ object {
 }
 
 .post-format {
-  display: none;
+  width: 0;
+  height: 0;
+  float: left;
 }
 
 .post-format-icon {
@@ -763,6 +772,10 @@ object {
   padding: 0 16px;
   background: #e5e5e5;
 }
+.tagsdiv .tagadd:focus {
+  background: #2ea2cc;
+  color: #fff;
+}
 .tagsdiv .howto {
   color: #727272;
   font-style: italic;
@@ -847,6 +860,7 @@ input.newtag:focus ~ div.taghint {
   text-indent: 0;
   overflow: hidden;
   position: absolute;
+  outline: 0;
 }
 .tagchecklist .ntdelbutton:before {
   content: '\f153';
@@ -861,6 +875,9 @@ input.newtag:focus ~ div.taghint {
   speak: none;
   -webkit-font-smoothing: antialiased !important;
 }
+.tagchecklist .ntdelbutton:focus:before {
+  color: #2ea2cc;
+}
 
 .tagsdiv + p {
   margin: 0;
@@ -870,6 +887,7 @@ input.newtag:focus ~ div.taghint {
   display: block;
   padding: 0 16px;
   text-decoration: none;
+  outline: 0;
 }
 
 .popular-tags {
@@ -889,6 +907,7 @@ input.newtag:focus ~ div.taghint {
 }
 .the-tagcloud a {
   text-decoration: none;
+  outline: 0;
 }
 
 .tagcloud h3 {
@@ -939,14 +958,20 @@ input.newtag:focus ~ div.taghint {
   min-width: 16px;
   -webkit-appearance: none;
   appearance: none;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.categories-select input:focus {
+  border-bottom: 3px solid #2ea2cc;
 }
 .categories-select input:checked:after {
   display: inline-block;
   content: "\f147";
   position: absolute;
-  top: 50%;
+  top: -1.65em;
   right: 15px;
-  margin-top: -10px;
   width: 20px;
   height: 20px;
   margin-right: 10px;
@@ -1257,9 +1282,6 @@ html {
 .post__title:active, .post__title:focus,
 .post__title-placeholder:active,
 .post__title-placeholder:focus {
-  outline: 0;
-  -webkit-box-shadow: inset 0px -3px 0 #2ea2cc;
-  box-shadow: inset 0px -3px 0 #2ea2cc;
   border-color: #2ea2cc;
 }
 @media (max-height: 400px) {

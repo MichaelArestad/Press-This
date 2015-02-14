@@ -82,8 +82,13 @@
 
 				// If tags editing isn't disabled, create the X button.
 				if ( ! disabled ) {
-					xbutton = $( '<a id="' + id + '-check-num-' + key + '" class="ntdelbutton">X</a>' );
-					xbutton.click( function(){ tagBox.parseTags(this); });
+					xbutton = $( '<a id="' + id + '-check-num-' + key + '" class="ntdelbutton" tabindex="0">X</a>' );
+					xbutton.on( 'click keypress', function(e){ 
+						// Trigger function if pressed Enter - keyboard navigation
+						if ( e.which === 13 ) {
+							tagBox.parseTags(this);
+						}
+					});
 					span.prepend('&nbsp;').prepend( xbutton );
 				}
 

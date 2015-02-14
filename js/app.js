@@ -399,7 +399,7 @@
 			function render_suggested_title() {
 				var title = suggested_title_str || '';
 
-				if ( !has_empty_title_str ) {
+				if ( ! has_empty_title_str ) {
 					$('#wppt_title_field').val( title );
 					$('#wppt_title_container').text( title )
 					$('.post__title-placeholder').addClass('screen-reader-text');
@@ -452,7 +452,8 @@
 
 						$('<div></div>', {
 							'id': 'embed-' + i + '-container',
-							'class': 'suggested-media-thumbnail suggested-media--embed'
+							'class': 'suggested-media-thumbnail suggested-media--embed',
+							'tabindex': '0'
 						}).css({
 							'background-image': 'url(' + display_src + ')'
 						}).click(function () {
@@ -477,11 +478,14 @@
 						$('<img />', {
 							'src': display_src,
 							'id': 'img-' + i + '-container',
-							'class': 'suggested-media-thumbnail'
+							'class': 'suggested-media-thumbnail',
+							'tabindex': '0'
 						}).css({
 							'background-image': 'url(' + display_src + ')'
-						}).click(function () {
-							insert_selected_media('img', src, data.u);
+						}).on('click keypress', function (e) {
+							if ( e.type === 'click' || e.which === 13 ) {
+								insert_selected_media('img', src, data.u);
+							}
 						}).appendTo(list_container);
 
 						found++;
@@ -493,7 +497,7 @@
 					return;
 				}
 
-				media_container.removeClass('no-media').addClass( 'all-media--visible');
+				media_container.removeClass( 'no-media' ).addClass( 'all-media--visible' );
 			}
 
 /* ***************************************************************
@@ -506,17 +510,36 @@
 					$postOptions = $( '.post-options'),
 					$postOption = $( '.post-option'),
 					$settingModal = $( '.setting-modal' );
+					$modalClose = $( '.modal-close' );
 
-				$postOption.on('click', function() {
-					var index = $( this ).index();
+				$postOption.on( 'click', function() {
+					
+					var index = $( this ).index(),
+						$targetSettingModal = $settingModal.eq( index );
+
 					$postOptions.addClass( is_hidden );
-					$settingModal.eq( index ).addClass( is_active );
+					$targetSettingModal.addClass( is_active );
+
+					// Keyboard navigation
+	 				$postOption.attr( 'tabindex', '-1' );
+					$targetSettingModal.find( 'a, input' ).attr( 'tabindex', '0' );
+
 				});
 
-				$('.modal-close').click(function(){
-					$settingModal.removeClass( is_active );
+				$modalClose.on( 'click', function(){
+
+					var index = $( this ).parent().index();
+
 					$postOptions.removeClass( is_hidden );
-				});
+					$settingModal.removeClass( is_active );
+
+					// Keyboard navigation
+	 				$postOption.attr( 'tabindex', '0' );
+					$settingModal.find( 'a, input' ).attr( 'tabindex', '-1' );
+
+					$postOption.eq( index ).focus();
+
+				});	
 			}
 
 			function monitor_sidebar_toggle() {
@@ -563,6 +586,17 @@
 
 			}
 
+/* ***************************************************************
+ * KEYBOARD NAVIGATION FUNCTIONS
+ *************************************************************** */
+
+ 			function setTabIndex() {
+
+ 				$( '.setting-modal' ).find( 'a, input' ).attr( 'tabindex', '-1' );
+
+ 			}
+
+ 			setTabIndex();
 
 /* ***************************************************************
  * PROCESSING FUNCTIONS

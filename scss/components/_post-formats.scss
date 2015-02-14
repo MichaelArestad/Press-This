@@ -10,7 +10,9 @@
 }
 
 .post-format { // TODO make accessible
-	display: none;
+	width: 0;
+	height: 0;
+	float: left;
 }
 
 .post-format-icon {
