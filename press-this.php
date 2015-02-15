@@ -165,6 +165,7 @@ class WpPressThis {
 			'start-typing-here'          => __( 'Start typing here.', 'press-this' ),
 			'unexpected-error'           => __( 'Sorry, but an unexpected error occurred.', 'press-this' ),
 			'should-upgrade-bookmarklet' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', 'press-this' ),
+			'saveAlert'                  => __( 'The changes you made will be lost if you navigate away from this page.' ),
 		);
 	}
 
@@ -604,6 +605,8 @@ class WpPressThis {
 
 		// Plugin only
 		wp_register_script( 'press-this-app', plugin_dir_url( __FILE__ ) . 'js/app.js', array( 'jquery' ), false, true );
+		wp_localize_script( 'press-this-app', 'pressThisL10n', self::i18n() );
+		
 		wp_register_style( 'press-this-css', plugin_dir_url( __FILE__ ) . 'css/press-this.css' );
 
 		// TEMP: for tags handling –– @TODO: evaluate
@@ -627,7 +630,7 @@ class WpPressThis {
 		}
 ?>
 <!DOCTYPE html>
-<html  <?php language_attributes(); ?>>
+<html <?php language_attributes(); ?>>
 <head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
 	<meta name="viewport" content="width=device-width">
@@ -719,14 +722,13 @@ class WpPressThis {
 
 				wp_editor( '', 'pressthis', array(
 					'drag_drop_upload' => true,
-					`editor_class` => 'press-thiss__editor',
 					'editor_height' => 600,
 					'media_buttons' => false,
 					'teeny' => true,
 					'tinymce' => array(
 						'resize' => false,
 						'wordpress_adv_hidden' => false,
-			//			'add_unload_trigger' => false,
+						'add_unload_trigger' => false,
 						'statusbar' => false,
 						'autoresize_min_height' => 600,
 						'wp_autoresize_on' => true,
@@ -794,8 +796,8 @@ class WpPressThis {
 			</button>
 		</div>
 		<div class="post-actions">
-			<input type="submit" class="button--subtle" name="pressthis-draft" id="wppt_draft_field" value="<?php esc_attr_e( 'Save Draft' ); ?>" />
-			<input type="submit" class="button--primary" name="pressthis-publish" id="wppt_publish_field" value="<?php esc_attr_e( 'Publish' ); ?>" />
+			<button type="button" class="button--subtle" id="wppt_draft_field"><?php _e( 'Save Draft' ); ?></button>
+			<button type="button" class="button--primary" id="wppt_publish_field"><?php _e( 'Publish' ); ?></button>
 		</div>
 	</div>
 	</form>
@@ -818,18 +820,18 @@ class WpPressThis {
 	 * @param $post_id
 	 * @param string $post_status
 	 */
-	public function post_save_json_response( $post_id, $post_status = 'draft' ) {
-		// TODO: consider using wp_send_json_success() / wp_send_json_error()
-
-		header( 'content-type: application/json' );
-
+	public function post_save_json_response( $post_id ) {
 		if ( is_wp_error( $post_id ) || intval( $post_id ) < 1 ) {
-			echo json_encode( array( 'error' => __( 'Sorry, but an unexpected error occurred.', 'press-this' ) ) );
+			wp_send_json_error( array( 'errorMessage' => __( 'Error while saving the post. Please try again later.' ) ) );
 		} else {
-			echo json_encode( array( 'post_id' => $post_id, 'post_permalink' => get_post_permalink( $post_id ), 'post_status' => $post_status ) );
-		}
+			if ( get_post_status( $post_id ) === 'publish' ) {
+				$redirect = get_post_permalink( $post_id );
+			} else {
+				$redirect = get_edit_post_link( $post_id, 'raw' );
+			}
 
-		die();
+			wp_send_json_success( array( 'redirect' => $redirect ) );
+		}
 	}
 
 	/**
@@ -847,7 +849,7 @@ class WpPressThis {
 	public function ajax_publish_post() {
 		// TODO: see above.
 
-		self::post_save_json_response( self::save( 'publish' ), 'published' );
+		self::post_save_json_response( self::save( 'publish' ) );
 	}
 
 	/**

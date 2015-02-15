@@ -2,10 +2,10 @@
 	$( document ).ready(function( $ ) {
 		var WpPressThis_App = function() {
 			var editor,
+				saveAlert             = false,
 				$div                  = $('<div>'),
 				site_config           = window.wp_pressthis_config || {},
 				data                  = window.wp_pressthis_data || {},
-				ux_context            = ( '' == window.top.name ) ? 'top' : 'popup',
 				largest_width         = parseInt( $( document ).width() - 60 ) || 450,
 				smallest_width        = 128,
 				interesting_images	  = get_interesting_images( data ) || [],
@@ -282,44 +282,47 @@
 				});
 			}
 
-			function submit_post( event, action ) {
+			function submit_post( action ) {
+				saveAlert = false;
 				show_spinner();
 
-				var form = $('#wppt_form');
+				var $form = $('#wppt_form');
 
-				if ( 'publish' !== action )
+				if ( 'publish' !== action ) {
 					action = 'draft';
-
-				event.preventDefault();
+				}
 
 				editor && editor.save();
 
-				$('<input type="hidden" name="action" id="wppt_action_field" value="press_this_'+action+'_post">').appendTo(form);
+				$('<input type="hidden" name="action" id="wppt_action_field" value="press_this_'+action+'_post">').appendTo( $form );
 
 				// Make sure to flush out the tags with tagBox before saving
 				if ( tagBox ) {
-					$('div.tagsdiv').each(function () {
-						tagBox.flushTags(this, false, 1);
+					$('div.tagsdiv').each( function() {
+						tagBox.flushTags( this, false, 1 );
 					});
 				}
 
-				var data = form.serialize();
+				var data = $form.serialize();
 
 				$.ajax({
 					type: 'post',
 					url: window.ajaxurl,
 					data: data,
 					success: function( response ) {
-						if ( response.error ) {
-							render_error( __('unexpected-error') );
+						if ( ! response.success ) {
+							render_error( response.data.errorMessage );
 							hide_spinner();
-						} else {
-							var redirect_url = ( 'published' == response.post_status ) ? response.post_permalink : './post.php?post=' + response.post_id + '&action=edit';
-							if ( 'popup' == ux_context && window.opener && window.opener.location ) {
-								window.opener.location.href = redirect_url;
+						} else if ( response.data.redirect ) {
+							// TODO: better redirect/window.open()/_blank logic
+							if ( window.opener ) {
+								try {
+									window.opener.location.href = response.data.redirect;
+								} catch( er ) {}
+
 								self.close();
 							} else {
-								window.top.location.href = redirect_url;
+								window.location.href = response.data.redirect;
 							}
 						}
 					}
@@ -404,6 +407,7 @@
 				}
 
 				$('#wppt_title_container').on( 'input', function() {
+					saveAlert = true;
 					$('#wppt_title_field').val( $(this).text() );
 				});
 
@@ -581,29 +585,36 @@
 
 				// Publish and Draft buttons and submit
 
-				$( '#wppt_draft_field' ).on( 'click', function( e ) {
-					submit_post( e, 'draft' );
+				$( '#wppt_draft_field' ).on( 'click', function() {
+					submit_post( 'draft' );
 				});
 
-				$( '#wppt_publish_field' ).on( 'click', function( e ) {
-					submit_post( e, 'publish' );
+				$( '#wppt_publish_field' ).on( 'click', function() {
+					submit_post( 'publish' );
 				});
 
 				monitor_options_modal();
 				monitor_sidebar_toggle();
 				monitor_placeholder();
 
-				$('#post-formats-select input').on('change', function(){
-					var t = $( this );
-					if( $( t ).is( ':checked' ) ){
-						set_post_format_string( t.attr('id').replace(/^post-format-(.+)$/, '$1') );
+				$('#post-formats-select input').on( 'change', function() {
+					var $this = $( this );
+
+					if ( $this.is( ':checked' ) ) {
+						set_post_format_string( $this.attr('id').replace( /^post-format-(.+)$/, '$1' ) );
 					}
 				});
 
 				// Needs more work, doesn't detect when the other JS changes the value of #tax-input-post_tag
-				$('#tax-input-post_tag').on('change', function(){
+				$( '#tax-input-post_tag' ).on( 'change', function() {
 					var val =  $( this ).val();
 					$('#post-option-tags').text( ( val.length ) ? val.replace( /,([^\s])/g, ', $1' ) : '' );
+				});
+				
+				$( window ).on( 'beforeunload.press-this', function() {
+					if ( saveAlert || ( editor && editor.isDirty() ) ) {
+						return window.pressThisL10n.saveAlert;
+					}
 				});
 
 				return true;
