@@ -294,7 +294,7 @@
 
 				editor && editor.save();
 
-				$('<input type="hidden" name="action" id="wppt_action_field" value="press_this_'+action+'_post">').appendTo( $form );
+				$form.append( '<input type="hidden" name="action" id="wppt_action_field" value="press_this_' + action + '_post">' );
 
 				// Make sure to flush out the tags with tagBox before saving
 				if ( tagBox ) {
