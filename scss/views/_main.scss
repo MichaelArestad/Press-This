@@ -7,6 +7,11 @@
 
 $sidebar-size: 320px;
 
+html,
+body {
+	overflow-x: hidden;
+}
+
 html {
 	background: #fff;
 	box-shadow: -10px 0 0 rgba( 0,0,0,.3 );
@@ -98,8 +103,10 @@ body {
 
 .options-open,
 .options-close {
-	@include breakpoint( '>900px' ) {
-		display: none;
+	display: none;
+
+	@include breakpoint( '<900px' ) {
+		display: block;
 	}
 	&.is-hidden {
 		display: none;
@@ -197,19 +204,20 @@ body {
 .wrapper {
 	@include clearfix;
 	position: relative;
+	margin-bottom: 60px;
 	margin-right: $sidebar-size;
 
 	@include breakpoint( '<900px' ) {
-		margin: 0;
+		margin: 0 0 60px;
 		width: 100%;
-		overflow-x: hidden;
-		transform: translate(0,0);
+		overflow: hidden;
 	}
 }
 
 .editor-wrapper { // TODO move this
 	@include clearfix;
 	overflow: auto;
+	float: left;
 	width: 100%;
 
 	@include breakpoint( '<900px' ) {
@@ -483,11 +491,9 @@ body {
 
 // Options panel
 .options-panel {
-	position: absolute;
-		top: 0;
-		right: -1 * $sidebar-size;
-		bottom: 58px;
-	overflow-x: hidden;
+	position: relative;
+	float: right;
+	margin-right: -1 * $sidebar-size;
 	width: $sidebar-size;
 	border-left: 1px solid $gray--light;
 	font-size: 14px;
@@ -495,13 +501,15 @@ body {
 		5000px 5000px 0 5000px $gray--light;
 
 	@include breakpoint( '<900px' ) {
+		position: absolute;
+		top: 0;
 		right: 0;
-		transform: translateX( 100% );
-		transition: all .3s ease-in-out;
+		transform: translateX( 0 );
+		transition: transform .3s ease-in-out;
 		background: #fff;
 
 		&.is-open {
-			transform: translateX( 0 );
+			transform: translateX( -100% );
 		}
 	}
 }
@@ -511,28 +519,8 @@ body {
 	position: relative;
 		right: 0;
 	width: 100%;
-	transition: all .3s ease-in-out;
+	overflow-x: hidden;
 
-	&.is-hidden {
-		right: 100%;
-	}
-	@media ( min-width: 1px ) {
-		&.is-hidden {
-			right: auto;
-			transform: translateX( -100% );
-		}
-	}
-	a {
-		position: relative;
-		display: block;
-		padding: 13px 37px 13px 14px; // TODO em() and responsive styles
-		border-bottom: 1px solid $gray--light;
-		text-decoration: none;
-		color: #9ea7af;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		overflow: hidden;
-	}
 	.post-option__contents {
 		margin-left: 3px;
 		color: #333;
@@ -542,6 +530,31 @@ body {
 			top: 50%;
 			right: 8px;
 		margin-top: -10px;
+	}
+}
+
+.post-option {
+	position: relative;
+
+	.post-options & { // TODO remove overqualifier after conversion to buttons
+		display: block;
+		padding: 13px 37px 13px 14px; // TODO em() and responsive styles
+		border-bottom: 1px solid $gray--light;
+		text-decoration: none;
+		color: #9ea7af;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		transition: all .3s ease-in-out;
+	}
+	.is-hidden & {
+		right: 100%;
+	}
+	@media ( min-width: 1px ) {
+		.is-hidden & {
+			right: auto;
+			transform: translateX( -100% );
+		}
 	}
 }
 
