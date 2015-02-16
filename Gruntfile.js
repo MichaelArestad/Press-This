@@ -11,7 +11,8 @@ grunt.initConfig({
         style: 'expanded'
       },
       files: {
-        'css/press-this.css': 'scss/style.scss'
+        'css/press-this.css': 'scss/style.scss',
+        'css/press-this-editor.css': 'scss/editor-style.scss',
       }
     }
   },
@@ -27,7 +28,10 @@ grunt.initConfig({
         // DEFAULT: browsers: ['> 1%', 'last 2 versions', 'ff 17', 'opera 12.1']
         browsers: ['> 1%', 'last 2 versions', 'ff 17', 'opera 12.1', 'ie 8', 'ie 9']
       },
-      src: 'css/press-this.css'
+      src: [
+        'css/press-this.css',
+        'css/press-this-editor.css'
+      ]
     },
   },
 

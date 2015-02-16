@@ -1,0 +1,33 @@
+// ==========================================================================
+// Editor
+// ==========================================================================
+
+body {
+	&#tinymce {
+		@include breakpoint( '<900px' ) {
+			padding-top: 30px !important;
+		}
+	}
+	@include breakpoint( '<600px' ) {
+		font-size: 16px;
+	}
+	@include breakpoint( '<320px' ) {
+		margin: 0 15px;
+		font-size: 14px;
+	}
+}
+
+#tinymce {
+	b,
+	strong {
+		font-weight: 700 !important;
+	}
+}
+
+blockquote {
+	color: #9ea7af;
+
+	@include breakpoint( '<900px' ) {
+		margin: 1.5em 1em;
+	}
+}

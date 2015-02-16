@@ -2,9 +2,6 @@
 // Main
 // ==========================================================================
 
-// I'm sure you can think of some awesome code to put here. I usually use it
-// as a scratchpad before moving code into their own modules.
-
 $sidebar-size: 320px;
 
 html,
@@ -462,10 +459,6 @@ body {
 			padding: 0;
 			border: 0;
 		}
-	}
-	div.mce-edit-area iframe {
-		padding-top: em( 30px, 14px );
-		border-bottom: 1px solid $gray--light;
 	}
 }
 
