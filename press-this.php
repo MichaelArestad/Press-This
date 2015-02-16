@@ -173,7 +173,7 @@ class WpPressThis {
 	 * WpPressThis::press_this_ajax_site_settings()
 	 * App and site settings data, including i18n strings for the client-side
 	 *
-	 * @uses admin_url(), wp_create_nonce()
+	 * @uses admin_url()
 	 */
 	public function site_settings() {
 		$supported_formats = get_theme_support( 'post-formats' );
@@ -593,14 +593,10 @@ class WpPressThis {
 		// Get site settings array/data
 		$site_settings        = self::site_settings();
 
-		// Get a fresh nonce
-		$nonce                = wp_create_nonce( 'press_this' );
-
 		// Set the passed data
 		$data['_version']     = $site_settings['version'];
 		$data['_runtime_url'] = $site_settings['runtime_url'];
 		$data['_ajax_url']    = $site_settings['ajax_url'];
-		$data['_nonce']       = $nonce;
 
 		// Plugin only
 		wp_register_script( 'press-this-app', plugin_dir_url( __FILE__ ) . 'js/app.js', array( 'jquery' ), false, true );
@@ -703,7 +699,8 @@ class WpPressThis {
 
 	<form id="wppt_form" name="wppt_form" method="POST" autocomplete="off">
 		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo $post_ID; ?>" />
-		<input type="hidden" name="wppt_nonce" id="wppt_nonce_field" value="<?php echo esc_attr( $nonce ) ?>" />
+		<?php wp_nonce_field( 'press_this', 'wppt_nonce', false ); ?>
+		<?php wp_nonce_field( 'add-category', '_ajax_nonce-add-category', false ); ?>
 		<input type="hidden" name="wppt_title" id="wppt_title_field" value="" />
 
 	<div class="wrapper">

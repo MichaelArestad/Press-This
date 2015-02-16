@@ -13,7 +13,6 @@
 				has_empty_title_str   = false,
 				suggested_title_str   = get_suggested_title( data ),
 				suggested_content_str = get_suggested_content( data ),
-				nonce                 = data._nonce || '',
 				has_set_focus         = false;
 
 /* ***************************************************************
