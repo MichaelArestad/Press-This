@@ -465,4 +465,9 @@ blockquote {
   }
 }
 
+ul,
+ol {
+  margin: 0 0 1.5em .75em;
+}
+
 /*# sourceMappingURL=press-this-editor.css.map */
