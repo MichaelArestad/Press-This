@@ -794,8 +794,6 @@ class WpPressThis {
 		<div class="post-actions">
 			<button type="button" class="button--subtle" id="wppt_draft_field"><?php _e( 'Save Draft' ); ?></button>
 			<button type="button" class="button--primary" id="wppt_publish_field"><?php _e( 'Publish' ); ?></button>
-			<input type="submit" class="button--subtle" name="pressthis-draft" id="wppt_draft_field" value="<?php esc_attr_e( 'Save Draft' ); ?>" />
-			<input type="submit" class="button--primary" name="pressthis-publish" id="wppt_publish_field" value="<?php esc_attr_e( 'Publish' ); ?>" />
 		</div>
 	</div>
 	</form>
