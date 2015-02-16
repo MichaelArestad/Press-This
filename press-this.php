@@ -176,7 +176,6 @@ class WpPressThis {
 	 * @uses admin_url(), wp_create_nonce()
 	 */
 	public function site_settings() {
-		$current_user      = wp_get_current_user();
 		$supported_formats = get_theme_support( 'post-formats' );
 		$post_formats      = array();
 
