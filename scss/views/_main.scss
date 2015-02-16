@@ -13,8 +13,6 @@ html {
 }
 
 body {
-	margin: 0 0 0 1px;
-
 	@include breakpoint( '<600px' ) {
 		font-size: 16px;
 	}
