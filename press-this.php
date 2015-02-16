@@ -574,6 +574,17 @@ class WpPressThis {
 
 		return $data;
 	}
+	
+	/**
+	 * Add another stylesheet inside TinyMCE.
+	 */	 	
+	public function editor_styles_override( $styles ) {
+		if ( ! empty( $styles ) ) {
+			$styles .= ',';
+		}
+
+		return $styles . plugin_dir_url( __FILE__ ) . 'css/press-this-editor.css?ver=' . self::plugin_version();
+	}
 
 	/**
 	 * WpPressThis::serve_app_html()
@@ -606,6 +617,10 @@ class WpPressThis {
 
 		// TEMP: for tags handling –– @TODO: evaluate
 		wp_register_script( 'tag-box', plugin_dir_url( __FILE__ ) . 'js/tag-box.js', array( 'suggest' ), false, true );
+		
+		// Add press-this-editor.css and remove theme's editor-style.css, if any.
+		remove_editor_styles();
+		add_filter( 'mce_css', array( $this, 'editor_styles_override' ) );
 
 		$hook_suffix = 'press-this.php';
 
