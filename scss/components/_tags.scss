@@ -28,6 +28,13 @@
 		border: 0;
 		padding: 0 16px;
 		background: $gray--light;
+
+		&:focus {
+			outline: 0;
+			background: $blue--light;
+			color: #fff;
+		}
+
 	}
 	.howto {
 		color: $gray--middle;
@@ -120,6 +127,7 @@ input.newtag:focus ~ div.taghint {
 		text-indent: 0;
 		overflow: hidden;
 		position: absolute;
+		outline: 0;
 
 		&:before {
 			content: '\f153';
@@ -134,6 +142,11 @@ input.newtag:focus ~ div.taghint {
 			speak: none;
 			-webkit-font-smoothing: antialiased!important
 		}
+
+		&:focus:before {
+			color: map-get( $link-color, color--hover );
+		}
+
 	}
 }
 
@@ -146,6 +159,7 @@ input.newtag:focus ~ div.taghint {
 	display: block;
 	padding: 0 16px;
 	text-decoration: none;
+	outline: 0;
 }
 
 .popular-tags {
@@ -165,6 +179,7 @@ input.newtag:focus ~ div.taghint {
 
 	a {
 		text-decoration: none;
+		outline: 0;
 	}
 }
 

@@ -74,20 +74,12 @@ body {
 		color: #404040;
 		font-size: 14px;
 	}
-	a {
+	span {
 		color: #ededed;
-		text-decoration: none;
 
-		&:hover {
-			color: #fff;
-		}
 		@include breakpoint( '<320px' ) {
 			color: #3f3f3f;
 			font-weight: 600;
-
-			&:hover {
-				color: $blue--light;
-			}
 		}
 	}
 	.dashicons-wordpress {
@@ -253,7 +245,7 @@ body {
 	&:active,
 	&:focus {
 		outline: 0;
-		box-shadow: inset 0px -3px 0 $blue--light;
+		box-shadow: inset 0px -5px 0 $blue--light;
 		border-color: $blue--light;
 	}
 	@media ( max-height: 400px ) {
@@ -538,7 +530,13 @@ body {
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		overflow: hidden;
-		transition: all .3s ease-in-out;
+		transition: transform .3s ease-in-out;
+
+		&:focus {
+			outline: 0;
+			box-shadow: inset 5px 0 0 $blue--light;
+		}
+
 	}
 	.is-hidden & {
 		right: 100%;
@@ -587,6 +585,12 @@ body {
 	padding: 13px 14px; // TODO em()
 	border-bottom: 1px solid $gray--light;
 	text-decoration: none;
+
+	&:focus {
+		outline: 0;
+		box-shadow: inset 5px 0 0 $blue--light;
+	}
+
 }
 
 .setting-title {

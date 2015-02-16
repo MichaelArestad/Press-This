@@ -610,7 +610,10 @@ object {
 }
 
 .post-format {
-  display: none;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -9999px;
 }
 
 .post-format-icon {
@@ -701,6 +704,11 @@ object {
   padding: 0 16px;
   background: #e5e5e5;
 }
+.tagsdiv .tagadd:focus {
+  outline: 0;
+  background: #2ea2cc;
+  color: #fff;
+}
 .tagsdiv .howto {
   color: #727272;
   font-style: italic;
@@ -785,6 +793,7 @@ input.newtag:focus ~ div.taghint {
   text-indent: 0;
   overflow: hidden;
   position: absolute;
+  outline: 0;
 }
 .tagchecklist .ntdelbutton:before {
   content: '\f153';
@@ -799,6 +808,9 @@ input.newtag:focus ~ div.taghint {
   speak: none;
   -webkit-font-smoothing: antialiased !important;
 }
+.tagchecklist .ntdelbutton:focus:before {
+  color: #2ea2cc;
+}
 
 .tagsdiv + p {
   margin: 0;
@@ -808,6 +820,7 @@ input.newtag:focus ~ div.taghint {
   display: block;
   padding: 0 16px;
   text-decoration: none;
+  outline: 0;
 }
 
 .popular-tags {
@@ -827,6 +840,7 @@ input.newtag:focus ~ div.taghint {
 }
 .the-tagcloud a {
   text-decoration: none;
+  outline: 0;
 }
 
 .tagcloud h3 {
@@ -882,9 +896,8 @@ input.newtag:focus ~ div.taghint {
   display: inline-block;
   content: "\f147";
   position: absolute;
-  top: 50%;
+  top: -1.65em;
   right: 15px;
-  margin-top: -10px;
   width: 20px;
   height: 20px;
   margin-right: 10px;
@@ -1010,20 +1023,13 @@ html {
     font-size: 14px;
   }
 }
-.current-site a {
+.current-site span {
   color: #ededed;
-  text-decoration: none;
-}
-.current-site a:hover {
-  color: #fff;
 }
 @media (max-width: 320px) {
-  .current-site a {
+  .current-site span {
     color: #3f3f3f;
     font-weight: 600;
-  }
-  .current-site a:hover {
-    color: #2ea2cc;
   }
 }
 .current-site .dashicons-wordpress {
@@ -1196,8 +1202,8 @@ html {
 .post__title-placeholder:active,
 .post__title-placeholder:focus {
   outline: 0;
-  -webkit-box-shadow: inset 0px -3px 0 #2ea2cc;
-  box-shadow: inset 0px -3px 0 #2ea2cc;
+  -webkit-box-shadow: inset 0px -5px 0 #2ea2cc;
+  box-shadow: inset 0px -5px 0 #2ea2cc;
   border-color: #2ea2cc;
 }
 @media (max-height: 400px) {
@@ -1490,8 +1496,13 @@ html {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  -webkit-transition: all .3s ease-in-out;
-  transition: all .3s ease-in-out;
+  -webkit-transition: -webkit-transform .3s ease-in-out;
+  transition: transform .3s ease-in-out;
+}
+.post-options .post-option:focus {
+  outline: 0;
+  -webkit-box-shadow: inset 5px 0 0 #2ea2cc;
+  box-shadow: inset 5px 0 0 #2ea2cc;
 }
 .is-hidden .post-option {
   right: 100%;
@@ -1546,6 +1557,11 @@ html {
   padding: 13px 14px;
   border-bottom: 1px solid #e5e5e5;
   text-decoration: none;
+}
+.modal-close:focus {
+  outline: 0;
+  -webkit-box-shadow: inset 5px 0 0 #2ea2cc;
+  box-shadow: inset 5px 0 0 #2ea2cc;
 }
 
 .setting-title {

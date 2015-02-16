@@ -699,7 +699,7 @@ class WpPressThis {
 	<div id="wppt_adminbar" class="adminbar">
 		<h1 id="wppt_current_site" class="current-site">
 			<span class="dashicons dashicons-wordpress"></span>
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank"><?php bloginfo( 'name' ); ?></a>
+			<span><?php bloginfo( 'name' ); ?></span>
 		</h1>
 		<button class="options-open button--subtle"><span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e( 'Show post options' ); ?></span></button>
 		<button class="options-close button--subtle is-hidden"><?php _e( 'Done' ); ?></button>
@@ -722,7 +722,7 @@ class WpPressThis {
 		<div class="editor-wrapper">
 			<div id='wppt_app_container' class="editor">
 				<span id="wppt_title_container_label" class="post__title-placeholder"><?php _e( 'Post title' ); ?></span>
-				<h2 id="wppt_title_container" class="post__title" contenteditable="true" spellcheck="true" aria-labelledby="wppt_title_container_label"></h2>
+				<h2 id="wppt_title_container" class="post__title" contenteditable="true" spellcheck="true" aria-labelledby="wppt_title_container_label" tabindex="0"></h2>
 				<div id='wppt_featured_media_container' class="featured-container no-media">
 					<div id='wppt_all_media_widget' class="all-media">
 						<div id='wppt_all_media_container'></div>
@@ -780,20 +780,20 @@ class WpPressThis {
 
 			<?php if ( $supports_formats ) : ?>
 				<div class="setting-modal">
-					<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
+					<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
 					<?php post_format_meta_box( $post, null ); ?>
 				</div>
 			<?php endif; ?>
 
 			<div class="setting-modal">
-				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
+				<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
 				<ul class="categories-select">
 					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
 				</ul>
 			</div>
 
 			<div class="setting-modal tags">
-				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
+				<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
 				<?php post_tags_meta_box( $post, null ); ?>
 			</div>
 		</div><!-- .options-panel -->
