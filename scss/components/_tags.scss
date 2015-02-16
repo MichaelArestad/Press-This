@@ -19,11 +19,6 @@
 		border: 0;
 		border-bottom: 1px solid $gray--light;
 		font-size: 16px;
-
-		&:focus {
-			@extend %focus-box-shadow;
-		}
-
 	}
 	.tagadd {
 		position: absolute;
@@ -35,6 +30,7 @@
 		background: $gray--light;
 
 		&:focus {
+			outline: 0;
 			background: $blue--light;
 			color: #fff;
 		}
@@ -148,7 +144,7 @@ input.newtag:focus ~ div.taghint {
 		}
 
 		&:focus:before {
-			color: $blue--light;
+			color: map-get( $link-color, color--hover );
 		}
 
 	}
@@ -164,11 +160,6 @@ input.newtag:focus ~ div.taghint {
 	padding: 0 16px;
 	text-decoration: none;
 	outline: 0;
-
-	&:focus {
-		@extend %focus-box-shadow;
-	}
-
 }
 
 .popular-tags {
@@ -189,11 +180,6 @@ input.newtag:focus ~ div.taghint {
 	a {
 		text-decoration: none;
 		outline: 0;
-
-		&:focus {
-			@extend %focus-box-shadow;
-		}		
-
 	}
 }
 

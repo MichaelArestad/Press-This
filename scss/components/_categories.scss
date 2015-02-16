@@ -30,14 +30,6 @@
 		min-width: 16px;
 		-webkit-appearance: none;
 		appearance: none;
-		width: 100%;
-		position: absolute;
-		bottom: 0;
-		left: 0;
-
-		&:focus {
-			border-bottom: 3px solid $blue--light;
-		}
 
 		&:checked:after {
 			display: inline-block;

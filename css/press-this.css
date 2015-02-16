@@ -513,9 +513,7 @@ big {
   color: #fff;
 }
 
-.tagsdiv .newtag:focus, .tagcloud-link:focus, .the-tagcloud a:focus, .scan__url:focus, .post__title:active, .post__title:focus,
-.post__title-placeholder:active,
-.post__title-placeholder:focus, .suggested-media-thumbnail:focus, .modal-close:focus {
+.suggested-media-thumbnail:focus {
   -webkit-box-shadow: inset 0px -5px 0 #2ea2cc;
   box-shadow: inset 0px -5px 0 #2ea2cc;
 }
@@ -681,7 +679,8 @@ object {
 .post-format {
   width: 0;
   height: 0;
-  float: left;
+  position: absolute;
+  top: -9999px;
 }
 
 .post-format-icon {
@@ -773,6 +772,7 @@ object {
   background: #e5e5e5;
 }
 .tagsdiv .tagadd:focus {
+  outline: 0;
   background: #2ea2cc;
   color: #fff;
 }
@@ -958,13 +958,6 @@ input.newtag:focus ~ div.taghint {
   min-width: 16px;
   -webkit-appearance: none;
   appearance: none;
-  width: 100%;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-}
-.categories-select input:focus {
-  border-bottom: 3px solid #2ea2cc;
 }
 .categories-select input:checked:after {
   display: inline-block;
@@ -1097,20 +1090,13 @@ html {
     font-size: 14px;
   }
 }
-.current-site a {
+.current-site span {
   color: #ededed;
-  text-decoration: none;
-}
-.current-site a:hover {
-  color: #fff;
 }
 @media (max-width: 320px) {
-  .current-site a {
+  .current-site span {
     color: #3f3f3f;
     font-weight: 600;
-  }
-  .current-site a:hover {
-    color: #2ea2cc;
   }
 }
 .current-site .dashicons-wordpress {
@@ -1282,6 +1268,9 @@ html {
 .post__title:active, .post__title:focus,
 .post__title-placeholder:active,
 .post__title-placeholder:focus {
+  outline: 0;
+  -webkit-box-shadow: inset 0px -5px 0 #2ea2cc;
+  box-shadow: inset 0px -5px 0 #2ea2cc;
   border-color: #2ea2cc;
 }
 @media (max-height: 400px) {
@@ -1578,8 +1567,13 @@ html {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  -webkit-transition: all .3s ease-in-out;
-  transition: all .3s ease-in-out;
+  -webkit-transition: -webkit-transform .3s ease-in-out;
+  transition: transform .3s ease-in-out;
+}
+.post-options .post-option:focus {
+  outline: 0;
+  -webkit-box-shadow: inset 5px 0 0 #2ea2cc;
+  box-shadow: inset 5px 0 0 #2ea2cc;
 }
 .is-hidden .post-option {
   right: 100%;
@@ -1634,6 +1628,11 @@ html {
   padding: 13px 14px;
   border-bottom: 1px solid #e5e5e5;
   text-decoration: none;
+}
+.modal-close:focus {
+  outline: 0;
+  -webkit-box-shadow: inset 5px 0 0 #2ea2cc;
+  box-shadow: inset 5px 0 0 #2ea2cc;
 }
 
 .setting-title {

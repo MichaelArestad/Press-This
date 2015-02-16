@@ -12,7 +12,8 @@
 .post-format { // TODO make accessible
 	width: 0;
 	height: 0;
-	float: left;
+	position: absolute;
+	top: -9999px; // TODO find a better way for hidding it
 }
 
 .post-format-icon {

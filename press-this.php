@@ -684,7 +684,7 @@ class WpPressThis {
 	<div id="wppt_adminbar" class="adminbar">
 		<h1 id="wppt_current_site" class="current-site">
 			<span class="dashicons dashicons-wordpress"></span>
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" target="_blank" tabindex="-1"><?php bloginfo( 'name' ); ?></a>
+			<span><?php bloginfo( 'name' ); ?></span>
 		</h1>
 		<button class="options-open button--subtle"><span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e( 'Show post options' ); ?></span></button>
 		<button class="options-close button--subtle is-hidden"><?php _e( 'Done' ); ?></button>
@@ -742,20 +742,20 @@ class WpPressThis {
 		<div class="options-panel">
 			<div class="post-options">
 				<?php if ( $supports_formats ) : ?>
-					<a href="#" class="post-option" tabindex="0">
+					<a href="#" class="post-option">
 						<span class="dashicons dashicons-admin-post"></span>
 						<span class="post-option__title"><?php _e('Format'); ?></span>
 						<span class="post-option__contents" id="post-option-post-format"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
 						<span class="dashicons dashicons-arrow-right-alt2"></span>
 					</a>
 				<?php endif; ?>
-				<a href="#" class="post-option" tabindex="0">
+				<a href="#" class="post-option">
 					<span class="dashicons dashicons-category"></span>
 					<span class="post-option__title"><?php _e('Categories'); ?></span>
 					<span class="post-option__contents" id="post-option-category"></span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</a>
-				<a href="#" class="post-option" tabindex="0">
+				<a href="#" class="post-option">
 					<span class="dashicons dashicons-tag"></span>
 					<span class="post-option__title"><?php _e('Tags'); ?></span>
 					<span class="post-option__contents" id="post-option-tags"></span>
@@ -786,7 +786,7 @@ class WpPressThis {
 
 	<div class="press-this__actions">
 		<div class="pressthis-media-buttons">
-			<button type="button" class="insert-media button--subtle" data-editor="pressthis" tabindex="0">
+			<button type="button" class="insert-media button--subtle" data-editor="pressthis">
 				<span class="dashicons dashicons-camera"></span>
 				<span class="screen-reader-text"><?php _e( 'Add Media' ); ?></span>
 			</button>
@@ -794,6 +794,8 @@ class WpPressThis {
 		<div class="post-actions">
 			<button type="button" class="button--subtle" id="wppt_draft_field"><?php _e( 'Save Draft' ); ?></button>
 			<button type="button" class="button--primary" id="wppt_publish_field"><?php _e( 'Publish' ); ?></button>
+			<input type="submit" class="button--subtle" name="pressthis-draft" id="wppt_draft_field" value="<?php esc_attr_e( 'Save Draft' ); ?>" />
+			<input type="submit" class="button--primary" name="pressthis-publish" id="wppt_publish_field" value="<?php esc_attr_e( 'Publish' ); ?>" />
 		</div>
 	</div>
 	</form>
