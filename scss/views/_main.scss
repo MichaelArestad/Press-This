@@ -326,10 +326,6 @@ body {
 	background-size: cover;
 	cursor: pointer;
 
-	&:focus {
-		@extend %focus-box-shadow;
-	}
-
 	@include breakpoint ( '>600px' ) {
 		$size: 12.5%;
 		width: $size;

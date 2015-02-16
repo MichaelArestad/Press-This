@@ -26,12 +26,3 @@ $button-types: secondary, primary;
 		@include button( map-get( $buttons, #{$item}__background ), map-get( $buttons, #{$item}__color ) );
 	}
 }
-
-// ==========================================================================
-// State extends
-// ==========================================================================
-
-// Focus
-%focus-box-shadow {
-	box-shadow: inset 0px -5px 0 $blue--light;
-}

@@ -513,11 +513,6 @@ big {
   color: #fff;
 }
 
-.suggested-media-thumbnail:focus {
-  -webkit-box-shadow: inset 0px -5px 0 #2ea2cc;
-  box-shadow: inset 0px -5px 0 #2ea2cc;
-}
-
 .button--subtle {
   background: none;
   border: 0;
