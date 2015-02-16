@@ -240,12 +240,10 @@ body {
 	margin: 0;
 	padding: .83em 0;
 	width: 100%;
-	border: 0;
 	border-bottom: 1px solid $gray--light;
 	font-size: 24px;
 	line-height: 1.4;
 	font-weight: $bold;
-	resize: vertical;
 
 	&:active,
 	&:focus {
@@ -264,11 +262,21 @@ body {
 	}
 }
 
+.post__title {
+	&:before {
+		// Keeps empty container from collapsing
+		content: '\a0';
+		display: inline-block;
+		width: 0;
+		speak: none;
+	}
+}
+
 .post__title-placeholder {
 	position: absolute;
 	border: 0;
 	color: #9ea7af;
-	pointer-events: none;
+	z-index: -1;
 }
 
 

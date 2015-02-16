@@ -1241,12 +1241,10 @@ html {
   margin: 0;
   padding: .83em 0;
   width: 100%;
-  border: 0;
   border-bottom: 1px solid #e5e5e5;
   font-size: 24px;
   line-height: 1.4;
   font-weight: 700;
-  resize: vertical;
 }
 .post__title:active, .post__title:focus,
 .post__title-placeholder:active,
@@ -1272,11 +1270,18 @@ html {
   }
 }
 
+.post__title:before {
+  content: '\a0';
+  display: inline-block;
+  width: 0;
+  speak: none;
+}
+
 .post__title-placeholder {
   position: absolute;
   border: 0;
   color: #9ea7af;
-  pointer-events: none;
+  z-index: -1;
 }
 
 .featured-container {
