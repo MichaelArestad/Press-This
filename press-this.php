@@ -212,7 +212,7 @@ class WpPressThis {
 		 * bookmarklet" notice when using PT in those browsers.
 		 */
 		$ua = $_SERVER['HTTP_USER_AGENT'];
-		if ( !empty($ua ) && preg_match( '/\bMSIE (\d{1})/', $ua, $matches ) && (int) $matches[1] <= 8 ) {
+		if ( !empty( $ua ) && preg_match( '/\bMSIE (\d{1})/', $ua, $matches ) && (int) $matches[1] <= 8 ) {
 			return preg_replace( '/\bv=\d{1}/', 'v=' . self::plugin_version(), $link );
 		}
 		$url = esc_js( self::runtime_url() . '?v=' . self::plugin_version() );
