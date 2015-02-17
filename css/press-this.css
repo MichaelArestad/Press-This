@@ -462,6 +462,10 @@ big {
 .button--subtle:focus, .button--subtle:hover, .button--subtle:active {
   color: #2ea2cc;
 }
+.button--subtle:focus, .button--subtle:active {
+  outline: 0;
+  text-decoration: underline;
+}
 
 a.icon-button--dark {
   padding: 8px;
@@ -1202,8 +1206,8 @@ html {
 .post__title-placeholder:active,
 .post__title-placeholder:focus {
   outline: 0;
-  -webkit-box-shadow: inset 0px -5px 0 #2ea2cc;
-  box-shadow: inset 0px -5px 0 #2ea2cc;
+  -webkit-box-shadow: inset 0px -3px 0 #2ea2cc;
+  box-shadow: inset 0px -3px 0 #2ea2cc;
   border-color: #2ea2cc;
 }
 @media (max-height: 400px) {
@@ -1277,6 +1281,13 @@ html {
     max-height: 200px;
     max-height: 18.75vw;
   }
+}
+
+.suggested-media-thumbnail:focus,
+.suggested-media--embed:focus {
+  outline: 0;
+  -webkit-box-shadow: inset 0 0 0 3px #2ea2cc;
+  box-shadow: inset 0 0 0 3px #2ea2cc;
 }
 
 .suggested-media-thumbnail {
@@ -1375,6 +1386,10 @@ html {
   background: none;
   border-color: #e5e5e5;
   color: #222;
+}
+.insert-media:focus, .insert-media:active {
+  outline: 0;
+  color: #2ea2cc;
 }
 .insert-media .dashicons {
   padding: 11px;

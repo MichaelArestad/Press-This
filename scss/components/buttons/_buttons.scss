@@ -30,6 +30,11 @@
 	&:active {
 		color: map-get( $buttons, subtle__color--hover );
 	}
+	&:focus,
+	&:active {
+		outline: 0;
+		text-decoration: underline;
+	}
 }
 
 a.icon-button--dark {
