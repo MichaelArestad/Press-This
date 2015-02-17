@@ -1401,6 +1401,7 @@ html {
 .insert-media:focus, .insert-media:active {
   outline: 0;
   color: #2ea2cc;
+  text-decoration: none;
 }
 .insert-media .dashicons {
   padding: 11px;
