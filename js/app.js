@@ -1,6 +1,15 @@
 ( function( $ ) {
 	$( document ).ready(function( $ ) {
+
+		/**
+		 * WpPressThis_App
+		 *
+		 * Main class to control behavior and rendering for Press This, on the client side.
+		 */
 		var WpPressThis_App = function() {
+			/**
+			 * Define our most common/reused properties with their respective defaults
+			 */
 			var editor,
 				saveAlert             = false,
 				$div                  = $('<div>'),
@@ -19,17 +28,35 @@
  * HELPER FUNCTIONS
  *************************************************************** */
 
+			/**
+			 * Emulates our PHP __() gettext function, powered by the strings exported in site_config.i18n.
+			 *
+			 * @param key string Key of the string to be translated, as found in site_config.i18n
+			 * @returns string Original or translated value, if there is one
+			 */
 			function __( key ) {
 				return ( ! site_config || ! site_config.i18n || ! site_config.i18n[key] || ! site_config.i18n[key].length )
 					? key : site_config.i18n[key];
 			}
 
+			/**
+			 * Strips HTML tags
+			 *
+			 * @param str string Text to have the HTML tags striped out of
+			 * @returns string Stripped text
+			 */
 			function stripTags( str ) {
 				var out = str && str.replace( /<[^>]+>/g, '' );
 				// Encode the rest
 				return $div.text( out ).html();
 			}
 
+			/**
+			 * Gets the source page's canonical link, based on passed location and meta data.
+			 *
+			 * @param data object Usually WpPressThis_App.data
+			 * @returns string Discovered canonical URL, or empty
+			 */
 			function get_canonical_link( data ) {
 				if ( ! data || data.length )
 					return '';
@@ -57,6 +84,12 @@
 				return decodeURI( link );
 			}
 
+			/**
+			 * Gets the source page's site name, based on passed meta data.
+			 *
+			 * @param data object Usually WpPressThis_App.data
+			 * @returns string Discovered site name, or empty
+			 */
 			function get_source_site_name( data ) {
 				if ( ! data || data.length )
 					return '';
@@ -74,6 +107,12 @@
 				return name.replace(/\\/g, '');
 			}
 
+			/**
+			 * Gets the source page's title, based on passed title and meta data.
+			 *
+			 * @param data object Usually WpPressThis_App.data
+			 * @returns string Discovered page title, or empty
+			 */
 			function get_suggested_title( data ) {
 				if ( ! data || data.length )
 					return __( 'new-post' );
@@ -102,6 +141,13 @@
 				return title.replace( /\\/g, '' );
 			}
 
+			/**
+			 * Gets the source page's suggested content, based on passed data (description, selection, etc).
+			 * Features a blockquoted excerpt, as well as content attribution, if any.
+			 *
+			 * @param data object Usually WpPressThis_App.data
+			 * @returns string Discovered content, or empty
+			 */
 			function get_suggested_content( data ) {
 				if ( ! data || data.length ) {
 					return __( 'start-typing-here' );
@@ -143,6 +189,12 @@
 				return content.replace( /\\/g, '' );
 			}
 
+			/**
+			 * Tests if what was passed as an embed URL is deemed to be embeddable in the editor.
+			 *
+			 * @param url string Passed URl, usually from WpPressThis_App.data._embed
+			 * @returns boolean
+			 */
 			function is_embeddable( url ) {
 				if ( ! url || ! url ) {
 					return false;
@@ -160,6 +212,12 @@
 				return false;
 			}
 
+			/**
+			 * Tests if what was passed as an image URL is deemed to be interesting enough to offer to the user for selection.
+			 *
+			 * @param src string Passed URl, usually from WpPressThis_App.data._ing
+			 * @returns boolean|array Test for false
+			 */
 			function is_src_uninteresting_path( src ) {
 				return (
 				src.match(/\/ad[sx]{1}?\//) // ads
@@ -174,6 +232,11 @@
 				);
 			}
 
+			/**
+			 * Get a list of valid embeds from what was passed via WpPressThis_App.data._embed on page load.
+			 *
+			 * @returns array
+			 */
 			function get_interesting_embeds() {
 				var embeds             = data._embed || [],
 					interesting_embeds = [],
@@ -204,6 +267,11 @@
 				return interesting_embeds;
 			}
 
+			/**
+			 * Get what is likely the most valuable image from what was passed via WpPressThis_App.data._img and WpPressThis_App.data._meta on page load.
+			 *
+			 * @returns array
+			 */
 			function get_featured_image( data ) {
 				var featured = '';
 
@@ -227,6 +295,11 @@
 				return ( is_src_uninteresting_path( featured ) ) ? '' : featured;
 			}
 
+			/**
+			 * Get a list of valid images from what was passed via WpPressThis_App.data._img and WpPressThis_App.data._meta on page load.
+			 *
+			 * @returns array
+			 */
 			function get_interesting_images( data ) {
 				var imgs             = data._img || [],
 					featured_pict    = get_featured_image( data ) || '',
@@ -268,6 +341,9 @@
 				return interesting_imgs;
 			}
 
+			/**
+			 * Show UX spinner
+			 */
 			function show_spinner() {
 				$('#wppt_spinner').addClass('show');
 				$('[class^="button--"]').each(function(k, v){
@@ -275,6 +351,9 @@
 				});
 			}
 
+			/**
+			 * Hide UX spinner
+			 */
 			function hide_spinner() {
 				$('#wppt_spinner').removeClass('show');
 				$('[class^="button--"]').each(function(k, v){
@@ -282,6 +361,11 @@
 				});
 			}
 
+			/**
+			 * Submit the post form via AJAX, and redirect to the proper screen if published vs saved as a draft.
+			 *
+			 * @param action string publish|draft
+			 */
 			function submit_post( action ) {
 				saveAlert = false;
 				show_spinner();
@@ -329,6 +413,13 @@
 				});
 			}
 
+			/**
+			 * Inserts the media a user has selected from the presented list inside the editor, as an image or embed, based on type
+			 *
+			 * @param type string img|embed
+			 * @param src string Source URL
+			 * @param link string Optional destination link, for images (defaults to src)
+			 */
 			function insert_selected_media( type, src, link ) {
 				var new_content = '';
 
@@ -356,6 +447,11 @@
 				has_set_focus = true;
 			}
 
+			/**
+			 * Adds the currently selected post format next to the option, in the options panel.
+			 *
+			 * @param format string Post format to be displayed
+			 */
 			function set_post_format_string(format) {
 				if ( !format || !site_config || !site_config.post_formats || !site_config.post_formats[ format ] ) {
 					return;
@@ -363,6 +459,9 @@
 				$('#post-option-post-format').text( site_config.post_formats[format] );
 			}
 
+			/**
+			 * Save a new user-generated category via AJAX
+			 */
 			function saveNewCategory() {
 				var data = {
 					action: 'press_this_add_category',
@@ -382,11 +481,20 @@
  * RENDERING FUNCTIONS
  *************************************************************** */
 
+			/**
+			 * Hide the form letting users enter a URL to be scanned, if a URL was already passed.
+			 */
 			function render_tools_visibility() {
 				if ( data.u && data.u.match( /^https?:/ ) )
 					$('#wppt_scanbar').hide();
 			}
 
+			/**
+			 * Render error notice
+			 *
+			 * @param msg string Notice/error message
+			 * @param error string error|notice CSS class for display
+			 */
 			function render_notice( msg, error ) {
 				var $alerts = $( '#alerts' ),
 					className = error ? 'error' : 'notice';
@@ -397,10 +505,18 @@
 				$alerts.append( '<p class="' + className +'">' + msg + '</p>' );
 			}
 
+			/**
+			 * Render error notice
+			 *
+			 * @param msg string Error message
+			 */
 			function render_error( msg ) {
 				render_notice( msg, true );
 			}
 
+			/**
+			 * Render notices on page load, if any already
+			 */
 			function render_startup_notices() {
 				// Render errors sent in the data, if any
 				if ( data.errors && data.errors.length ) {
@@ -415,6 +531,9 @@
 				}
 			}
 
+			/**
+			 * Render the suggested title, if any
+			 */
 			function render_suggested_title() {
 				var title = suggested_title_str || '';
 
@@ -431,6 +550,9 @@
 
 			}
 
+			/**
+			 * Render the suggested content, if any
+			 */
 			function render_suggested_content() {
 				if ( ! suggested_content_str || ! suggested_content_str.length ) {
 					return;
@@ -449,6 +571,9 @@
 
 			}
 
+			/**
+			 * Render the detected images and embed for selection, if any
+			 */
 			function render_detected_media() {
 				var media_container = $( '#wppt_featured_media_container'),
 					list_container  = $('#wppt_all_media_container'),
@@ -523,6 +648,9 @@
  * MONITORING FUNCTIONS
  *************************************************************** */
 
+			/**
+			 * Interactive navigation behavior for the options modal (post format, tags, categories)
+			 */
 			function monitor_options_modal() {
 				var is_active = 'is-active',
 					is_hidden = 'is-hidden',
@@ -561,6 +689,9 @@
 				});	
 			}
 
+			/**
+			 * Interactive behavior for the sidebar toggle, to show the options modals
+			 */
 			function monitor_sidebar_toggle() {
 				var $opt_open  = $( '.options-open' ),
 					$opt_close = $( '.options-close' ),
@@ -583,6 +714,9 @@
 				});
 			}
 
+			/**
+			 * Interactive behavior for the post title's field placeholder
+			 */
 			function monitor_placeholder() {
 
 				var $selector = $( '#wppt_title_container' );
@@ -609,7 +743,10 @@
  * KEYBOARD NAVIGATION FUNCTIONS
  *************************************************************** */
 
- 			function setTabIndex() {
+			/**
+			 * Set tab index
+			 */
+			function setTabIndex() {
 
  				$( '.setting-modal' ).find( 'a, input' ).attr( 'tabindex', '-1' );
 
@@ -619,6 +756,9 @@
  * PROCESSING FUNCTIONS
  *************************************************************** */
 
+			/**
+			 * Calls all the rendring related functions to happen on page load
+			 */
 			function render(){
 				// We're on!
 				render_tools_visibility();
@@ -629,6 +769,9 @@
 				setTabIndex();
 			}
 
+			/**
+			 * Set app events and other state monitoring related code.
+			 */
 			function monitor(){
 				$( '#wppt_current_site a').click( function( e ) {
 					e.preventDefault();
@@ -689,6 +832,7 @@
 			this.render_error = render_error;
 		};
 
+		// Initialize app
 		window.wp_pressthis_app = new WpPressThis_App();
 	});
 }( jQuery ));
