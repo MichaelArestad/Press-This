@@ -586,7 +586,7 @@ class WpPressThis {
 			}
 		}
 
-		return $data;
+		return apply_filters( 'press_this_data', $data );
 	}
 	
 	/**
