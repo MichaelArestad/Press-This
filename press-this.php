@@ -38,8 +38,9 @@ class WpPressThis {
 				 * AJAX emdpoints
 				 */
 				// Post draft and publish
-				add_action( 'wp_ajax_press_this_publish_post',        array( $this, 'ajax_publish_post' ) );
-				add_action( 'wp_ajax_press_this_draft_post',          array( $this, 'ajax_draft_post' ) );
+				add_action( 'wp_ajax_press_this_publish_post', array( $this, 'ajax_publish_post' ) );
+				add_action( 'wp_ajax_press_this_draft_post',   array( $this, 'ajax_draft_post' ) );
+				add_action( 'wp_ajax_pres_sthis_add_category', array( $this, 'pres_sthis_add_category' ) );
 			} else {
 				/*
 				 * Take over Press This bookmarklet code, wherever presented
@@ -787,6 +788,33 @@ class WpPressThis {
 
 			<div class="setting-modal">
 				<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
+				<?php
+
+				$taxonomy = get_taxonomy( 'category' );
+
+				if ( current_user_can( $taxonomy->cap->edit_terms ) ) {
+
+				?>
+				<button type="button" class="add-cat-toggle"><span class="dashicons dashicons-plus"></span></button>
+				<div class="add-cat-wrap hidden">
+					<label class="screen-reader-text" for="new-category"><?php echo $taxonomy->labels->add_new_item; ?></label>
+					<input type="text" id="new-category" class="add-cat-field" placeholder="<?php echo esc_attr( $taxonomy->labels->new_item_name ); ?>" value="" aria-required="true">
+					<button type="button" class="button add-cat-submit"><?php _e( 'Add' ); ?></button>
+					<label class="screen-reader-text" for="new-category-parent"><?php echo $taxonomy->labels->parent_item_colon; ?></label>
+					<?php
+
+					wp_dropdown_categories( array(
+						'taxonomy' => 'category',
+						'hide_empty' => 0,
+						'name' => 'new-category-parent',
+						'orderby' => 'name',
+						'hierarchical' => 1,
+						'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;'
+					) );
+
+					?>
+				</div>
+				<?php } ?>
 				<ul class="categories-select">
 					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
 				</ul>
@@ -861,6 +889,17 @@ class WpPressThis {
 		// TODO: see above.
 
 		self::post_save_json_response( self::save( 'publish' ) );
+	}
+
+	/**
+	 * Ajax endpoint add new category
+	 */
+	public function pres_sthis_add_category() {
+		if ( false === wp_verify_nonce( $_POST['new_cat_nonce'], 'add-category' ) ) {
+			wp_send_json_error();
+		}
+
+		wp_send_json_success( array( 'newCat' => 'test 123' ) );
 	}
 
 	/**

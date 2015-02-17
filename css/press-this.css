@@ -928,6 +928,30 @@ input.newtag:focus ~ div.taghint {
   background: #fff;
 }
 
+/* temp cats */
+.hidden {
+	display: none;
+}
+
+.add-cat-toggle {
+	float: right;
+	margin-top: -45px;
+	width: 40px;
+	height: 40px;
+	border: 0;
+	background: none;
+	color: #0074a2;
+}
+
+.add-cat-toggle span {
+	vertical-align: bottom;
+}
+
+.add-cat-wrap {
+	padding: 10px;
+}
+/* temp end */
+
 .alignleft {
   display: inline;
   float: left;
