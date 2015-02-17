@@ -15,7 +15,6 @@
 				$div                  = $('<div>'),
 				site_config           = window.wp_pressthis_config || {},
 				data                  = window.wp_pressthis_data || {},
-				largest_width         = parseInt( $( document ).width() - 60 ) || 450,
 				smallest_width        = 128,
 				interesting_images	  = get_interesting_images( data ) || [],
 				interesting_embeds	  = get_interesting_embeds( data ) || [],
@@ -36,8 +35,7 @@
 			 * @returns string Original or translated value, if there is one
 			 */
 			function __( key ) {
-				return ( ! site_config || ! site_config.i18n || ! site_config.i18n[key] || ! site_config.i18n[key].length )
-					? key : site_config.i18n[key];
+				return ( ! site_config || ! site_config.i18n || ! site_config.i18n[key] || ! site_config.i18n[key].length ) ? key : site_config.i18n[key];
 			}
 
 			/**
@@ -59,8 +57,9 @@
 			 * @returns string Discovered canonical URL, or empty
 			 */
 			function get_canonical_link( data ) {
-				if ( ! data || data.length )
+				if ( ! data || data.length ) {
 					return '';
+				}
 
 				var link = '';
 
@@ -69,8 +68,8 @@
 				}
 
 				if ( ! link.length && data._links ) {
-					if (data._links['canonical'] && data._links['canonical'].length) {
-						link = data._links['canonical'];
+					if (data._links.canonical && data._links.canonical.length) {
+						link = data._links.canonical;
 					}
 				}
 
@@ -92,8 +91,9 @@
 			 * @returns string Discovered site name, or empty
 			 */
 			function get_source_site_name( data ) {
-				if ( ! data || data.length )
+				if ( ! data || data.length ) {
 					return '';
+				}
 
 				var name='';
 
@@ -115,8 +115,9 @@
 			 * @returns string Discovered page title, or empty
 			 */
 			function get_suggested_title( data ) {
-				if ( ! data || data.length )
-					return __( 'new-post' );
+				if ( ! data || data.length ) {
+					return __('new-post');
+				}
 
 				var title = '';
 
@@ -129,8 +130,8 @@
 						title = data._meta['twitter:title'];
 					} else if ( data._meta['og:title'] && data._meta['og:title'].length ) {
 						title = data._meta['og:title'];
-					} else if ( data._meta['title'] && data._meta['title'].length ) {
-						title = data._meta['title'];
+					} else if ( data._meta.title && data._meta.title.length ) {
+						title = data._meta.title;
 					}
 				}
 
@@ -166,8 +167,8 @@
 						content = data._meta['twitter:description'];
 					} else if ( data._meta['og:description'] && data._meta['og:description'].length ) {
 						content = data._meta['og:description'];
-					} else if ( data._meta['description'] && data._meta['description'].length ) {
-						content = data._meta['description'];
+					} else if ( data._meta.description && data._meta.description.length ) {
+						content = data._meta.description;
 					}
 				}
 
@@ -176,11 +177,11 @@
 
 				// Add a source attribution if there is one available.
 				if ( ( ( title.length && __( 'new-post' ) !== title ) || site_name.length ) && url.length ) {
-					content += '<p class="wppt_source">'
-					+ __( 'source' )
-					+ ' <cite class="wppt_suggested_content_source">'
-					+ __( 'source-link').replace( '%1$s', encodeURI( url ) ).replace( '%2$s', stripTags( title || site_name ) )
-					+'</cite></p>';
+					content += '<p class="wppt_source">';
+					content += __( 'source' );
+					content += ' <cite class="wppt_suggested_content_source">';
+					content += __( 'source-link').replace( '%1$s', encodeURI( url ) ).replace( '%2$s', stripTags( title || site_name ) );
+					content += '</cite></p>';
 				}
 
 				if ( ! content.length ) {
@@ -221,15 +222,15 @@
 			 */
 			function is_src_uninteresting_path( src ) {
 				return (
-				src.match(/\/ad[sx]{1}?\//) // ads
-				|| src.match(/(\/share-?this[^\.]+?\.[a-z0-9]{3,4})(\?.*)?$/) // share-this type button
-				|| src.match(/\/(spinner|loading|spacer|blank|rss)\.(gif|jpg|png)/) // loaders, spinners, spacers
-				|| src.match(/\/([^\.\/]+[-_]{1})?(spinner|loading|spacer|blank)s?([-_]{1}[^\.\/]+)?\.[a-z0-9]{3,4}/) // fancy loaders, spinners, spacers
-				|| src.match(/([^\.\/]+[-_]{1})?thumb[^.]*\.(gif|jpg|png)$/) // thumbnails, too small, usually irrelevant to context
-				|| src.match(/\/wp-includes\//) // classic WP interface images
-				|| src.match(/[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/) // most often tiny buttons/thumbs (< 100px wide)
-				|| src.indexOf('/g.gif') > -1 // classic WP stats gif
-				|| src.indexOf('/pixel.mathtag.com') > -1 // classic WP stats gif
+					src.match(/\/ad[sx]{1}?\//) // ads
+					|| src.match(/(\/share-?this[^\.]+?\.[a-z0-9]{3,4})(\?.*)?$/) // share-this type button
+					|| src.match(/\/(spinner|loading|spacer|blank|rss)\.(gif|jpg|png)/) // loaders, spinners, spacers
+					|| src.match(/\/([^\.\/]+[-_]{1})?(spinner|loading|spacer|blank)s?([-_]{1}[^\.\/]+)?\.[a-z0-9]{3,4}/) // fancy loaders, spinners, spacers
+					|| src.match(/([^\.\/]+[-_]{1})?thumb[^.]*\.(gif|jpg|png)$/) // thumbnails, too small, usually irrelevant to context
+					|| src.match(/\/wp-includes\//) // classic WP interface images
+					|| src.match(/[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/) // most often tiny buttons/thumbs (< 100px wide)
+					|| src.indexOf('/g.gif') > -1 // classic WP stats gif
+					|| src.indexOf('/pixel.mathtag.com') > -1 // classic WP stats gif
 				);
 			}
 
@@ -276,8 +277,9 @@
 			function get_featured_image( data ) {
 				var featured = '';
 
-				if ( ! data || ! data._meta )
+				if ( ! data || ! data._meta ) {
 					return '';
+				}
 
 				if (data._meta['twitter:image0:src'] && data._meta['twitter:image0:src'].length) {
 					featured = data._meta['twitter:image0:src'];
@@ -347,7 +349,7 @@
 			 */
 			function show_spinner() {
 				$('#wppt_spinner').addClass('show');
-				$('[class^="button--"]').each(function(k, v){
+				$('[class^="button--"]').each(function(){
 					$(this).attr('disabled', 'disabled');
 				});
 			}
@@ -357,7 +359,7 @@
 			 */
 			function hide_spinner() {
 				$('#wppt_spinner').removeClass('show');
-				$('[class^="button--"]').each(function(k, v){
+				$('[class^="button--"]').each(function(){
 					$(this).removeAttr('disabled');
 				});
 			}
@@ -382,9 +384,9 @@
 				$form.append( '<input type="hidden" name="action" id="wppt_action_field" value="press_this_' + action + '_post">' );
 
 				// Make sure to flush out the tags with tagBox before saving
-				if ( tagBox ) {
+				if ( window.tagBox ) {
 					$('div.tagsdiv').each( function() {
-						tagBox.flushTags( this, false, 1 );
+						window.tagBox.flushTags( this, false, 1 );
 					});
 				}
 
@@ -405,7 +407,7 @@
 									window.opener.location.href = response.data.redirect;
 								} catch( er ) {}
 
-								self.close();
+								window.self.close();
 							} else {
 								window.location.href = response.data.redirect;
 							}
@@ -428,7 +430,7 @@
 					return;
 				}
 
-				if ( 'img' == type ) {
+				if ( 'img' === type ) {
 					if ( !link || !link.length ) {
 						link = src;
 					}
@@ -474,7 +476,7 @@
 
 				$.post( window.ajaxurl, data, function( response ) {
 					// temp test
-					console.log( response );
+					window.console.log( response );
 					refreshCatsCache();
 				});
 			}
@@ -487,8 +489,9 @@
 			 * Hide the form letting users enter a URL to be scanned, if a URL was already passed.
 			 */
 			function render_tools_visibility() {
-				if ( data.u && data.u.match( /^https?:/ ) )
+				if ( data.u && data.u.match( /^https?:/ ) ) {
 					$('#wppt_scanbar').hide();
+				}
 			}
 
 			/**
@@ -501,8 +504,9 @@
 				var $alerts = $( '#alerts' ),
 					className = error ? 'error' : 'notice';
 
-				if ( ! $alerts.length )
+				if ( ! $alerts.length ) {
 					$alerts = $( '<div id="alerts" class="alerts"></div>' ).insertBefore( '#wppt_app_container' );
+				}
 
 				$alerts.append( '<p class="' + className +'">' + msg + '</p>' );
 			}
@@ -528,7 +532,7 @@
 				}
 
 				// Prompt user to upgrade their bookmarklet if there is a version mismatch.
-				if ( data.v && data._version && data.v != data._version ) {
+				if ( data.v && data._version && data.v !== data._version ) {
 					render_notice( __( 'should-upgrade-bookmarklet').replace( '%s', site_config.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php?page=press_this_options' ) ) );
 				}
 			}
@@ -541,7 +545,7 @@
 
 				if ( ! has_empty_title_str ) {
 					$('#wppt_title_field').val( title );
-					$('#wppt_title_container').text( title )
+					$('#wppt_title_container').text( title );
 					$('.post__title-placeholder').addClass('screen-reader-text');
 				}
 
@@ -561,7 +565,7 @@
 				}
 
 				if ( ! editor ) {
-					editor = tinymce.get( 'pressthis' );
+					editor = window.tinymce.get( 'pressthis' );
 				}
 
 				if ( editor ) {
@@ -658,7 +662,7 @@
 					is_hidden = 'is-hidden',
 					$postOptions = $( '.post-options'),
 					$postOption = $( '.post-option'),
-					$settingModal = $( '.setting-modal' );
+					$settingModal = $( '.setting-modal'),
 					$modalClose = $( '.modal-close' );
 
 				$postOption.on( 'click', function() {
@@ -731,14 +735,12 @@
 				});
 
 				$selector.on( 'blur', function() {
-
 					var textLength = $( this ).text().length;
 
-					if ( ! textLength > 0 )
+					if ( textLength ) {
 						$placeholder.removeClass('screen-reader-text');
-
+					}
 				});
-
 			}
 
 /* ***************************************************************
