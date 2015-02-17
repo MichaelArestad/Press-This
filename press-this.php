@@ -203,8 +203,19 @@ class WpPressThis {
 	 *
 	 * @return string Press This bookmarklet JS trigger found in /wp-admin/tools.php
 	 */
-	public function shortcut_link_override() {
-		$url  = esc_js( self::runtime_url() . '?v=' . self::plugin_version() );
+	public function shortcut_link_override( $link ) {
+		/**
+		 * Return the old/shorter bookmarklet code for MSIE 8 and lower,
+		 * since they only support a max length of ~2000 characters for
+		 * bookmark[let] URLs, which is way to small for our smarter one.
+		 * Do update the version number so users do not get the "upgrade your
+		 * bookmarklet" notice when using PT in those browsers.
+		 */
+		$ua = $_SERVER['HTTP_USER_AGENT'];
+		if ( !empty($ua ) && preg_match( '/\bMSIE (\d{1})/', $ua, $matches ) && (int) $matches[1] <= 8 ) {
+			return preg_replace( '/\bv=\d{1}/', 'v=' . self::plugin_version(), $link );
+		}
+		$url = esc_js( self::runtime_url() . '?v=' . self::plugin_version() );
 		$link = "javascript:";
 		$link .= file_get_contents( self::plugin_dir_path() . '/js/bookmarklet.js' );
 		$link .= "WpPressThis_Bookmarklet('{$url}')";
