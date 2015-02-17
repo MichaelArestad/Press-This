@@ -15,7 +15,7 @@ html {
 }
 
 body {
-	@include breakpoint( '<600px' ) {
+	@include breakpoint( '<900px' ) {
 		font-size: 16px;
 	}
 	@include breakpoint( '<320px' ) {
@@ -219,6 +219,9 @@ body {
 	max-width: 700px;
 	margin: 0 auto;
 
+	@include breakpoint( '>900px' ) {
+		max-width: 760px;
+	}
 	@include breakpoint( '<320px' ) {
 		padding: 0;
 	}
@@ -238,7 +241,7 @@ body {
 	padding: .83em 0;
 	width: 100%;
 	border-bottom: 1px solid $gray--light;
-	font-size: 24px;
+	font-size: 32px;
 	line-height: 1.4;
 	font-weight: $bold;
 
@@ -247,6 +250,9 @@ body {
 		outline: 0;
 		box-shadow: inset 0px -3px 0 $blue--light;
 		border-color: $blue--light;
+	}
+	@include breakpoint( '<900px' ) {
+		font-size: 24px;
 	}
 	@media ( max-height: 400px ) {
 		padding: 15px 0;

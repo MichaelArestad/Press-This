@@ -439,7 +439,7 @@ object {
     padding-top: 30px !important;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   body {
     font-size: 16px;
   }

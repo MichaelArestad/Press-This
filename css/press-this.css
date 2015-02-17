@@ -957,7 +957,7 @@ html {
   box-shadow: -10px 0 0 rgba(0, 0, 0, 0.3);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   body {
     font-size: 16px;
   }
@@ -1177,6 +1177,11 @@ html {
   max-width: 700px;
   margin: 0 auto;
 }
+@media (min-width: 901px) {
+  .editor {
+    max-width: 760px;
+  }
+}
 @media (max-width: 320px) {
   .editor {
     padding: 0;
@@ -1198,7 +1203,7 @@ html {
   padding: .83em 0;
   width: 100%;
   border-bottom: 1px solid #e5e5e5;
-  font-size: 24px;
+  font-size: 32px;
   line-height: 1.4;
   font-weight: 700;
 }
@@ -1209,6 +1214,12 @@ html {
   -webkit-box-shadow: inset 0px -3px 0 #2ea2cc;
   box-shadow: inset 0px -3px 0 #2ea2cc;
   border-color: #2ea2cc;
+}
+@media (max-width: 900px) {
+  .post__title,
+  .post__title-placeholder {
+    font-size: 24px;
+  }
 }
 @media (max-height: 400px) {
   .post__title,
