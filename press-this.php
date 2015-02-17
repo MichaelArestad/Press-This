@@ -569,9 +569,21 @@ class WpPressThis {
 		$data['s'] = ( !empty( $data['s'] ) ) ? $data['s'] : '';
 		$data['t'] = ( !empty( $data['t'] ) ) ? $data['t'] : '';
 
-		// If no _meta (a new thing) was passed via $_POST, fetch data from source as fallback, makes PT fully backward compatible
-		if ( empty( $data['_meta'] ) && ! empty( $data['u'] ) ) {
-			$data = self::source_data_fetch_fallback( $data['u'], $data );
+		if ( apply_filters( 'press_this_media_discovery', __return_true() ) ) {
+			// If no _meta (a new thing) was passed via $_POST, fetch data from source as fallback, makes PT fully backward compatible
+			if ( empty( $data['_meta'] ) && ! empty( $data['u'] ) ) {
+				$data = self::source_data_fetch_fallback( $data['u'], $data );
+			}
+		} else {
+			if ( !empty( $data['_img'] ) ) {
+				$data['_img'] = array();
+			}
+			if ( !empty( $data['_embed'] ) ) {
+				$data['_embed'] = array();
+			}
+			if ( !empty( $data['_meta'] ) ) {
+				$data['_meta'] = array();
+			}
 		}
 
 		return $data;
