@@ -337,6 +337,9 @@
 				}
 
 				if ( 'img' == type ) {
+					if ( !link || !link.length ) {
+						link = src;
+					}
 					new_content = '<a href="' + link + '"><img src="' + src + '" /></a>\n';
 				} else {
 					new_content = '[embed]' + src + '[/embed]\n';
