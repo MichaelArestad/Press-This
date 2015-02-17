@@ -218,20 +218,38 @@
 			 * Tests if what was passed as an image URL is deemed to be interesting enough to offer to the user for selection.
 			 *
 			 * @param src string Passed URl, usually from WpPressThis_App.data._ing
-			 * @returns boolean|array Test for false
+			 * @returns boolean Test for false
 			 */
 			function is_src_uninteresting_path( src ) {
-				return (
-					src.match(/\/ad[sx]{1}?\//) // ads
-					|| src.match(/(\/share-?this[^\.]+?\.[a-z0-9]{3,4})(\?.*)?$/) // share-this type button
-					|| src.match(/\/(spinner|loading|spacer|blank|rss)\.(gif|jpg|png)/) // loaders, spinners, spacers
-					|| src.match(/\/([^\.\/]+[-_]{1})?(spinner|loading|spacer|blank)s?([-_]{1}[^\.\/]+)?\.[a-z0-9]{3,4}/) // fancy loaders, spinners, spacers
-					|| src.match(/([^\.\/]+[-_]{1})?thumb[^.]*\.(gif|jpg|png)$/) // thumbnails, too small, usually irrelevant to context
-					|| src.match(/\/wp-includes\//) // classic WP interface images
-					|| src.match(/[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/) // most often tiny buttons/thumbs (< 100px wide)
-					|| src.indexOf('/g.gif') > -1 // classic WP stats gif
-					|| src.indexOf('/pixel.mathtag.com') > -1 // classic WP stats gif
-				);
+				if ( src.match( /\/ad[sx]{1}?\// ) ) {
+					// Ads
+					return true;
+				} else if ( src.match( /(\/share-?this[^\.]+?\.[a-z0-9]{3,4})(\?.*)?$/ ) ) {
+					// Share-this type button
+					return true;
+				} else if ( src.match( /\/(spinner|loading|spacer|blank|rss)\.(gif|jpg|png)/ ) ) {
+					// Loaders, spinners, spacers
+					return true;
+				} else if ( src.match( /\/([^\.\/]+[-_]{1})?(spinner|loading|spacer|blank)s?([-_]{1}[^\.\/]+)?\.[a-z0-9]{3,4}/ ) ) {
+					// Fancy loaders, spinners, spacers
+					return true;
+				} else if ( src.match( /([^\.\/]+[-_]{1})?thumb[^.]*\.(gif|jpg|png)$/ ) ) {
+					// Thumbnails, too small, usually irrelevant to context
+					return true;
+				} else if ( src.match( /\/wp-includes\// ) ) {
+					// Classic WP interface images
+					return true;
+				} else if ( src.match(/[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/) ) {
+					// Most often tiny buttons/thumbs (< 100px wide)
+					return true;
+				} else if ( src.indexOf('/g.gif') > -1 ) {
+					// Classic WP stats gif
+					return true;
+				} else if ( src.indexOf('/pixel.mathtag.com') > -1 ) {
+					// See mathtag.com
+					return true;
+				}
+				return false;
 			}
 
 			/**
