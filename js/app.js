@@ -370,7 +370,7 @@
 					name: $( '#new-category' ).val() || '',
 					new_cat_nonce: $( '#_ajax_nonce-add-category' ).val() || '',
 					parent: $( '#new-category-parent' ).val() || ''
-				}
+				};
 
 				$.post( window.ajaxurl, data, function( response ) {
 					// temp test
