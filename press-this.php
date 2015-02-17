@@ -899,6 +899,14 @@ class WpPressThis {
 			wp_send_json_error();
 		}
 
+		$taxonomy = get_taxonomy( 'category' );
+
+		if ( ! current_user_can( $taxonomy->cap->edit_terms ) ) {
+			wp_send_json_error();
+		}
+
+		// TODO: try to reuse _wp_ajax_add_hierarchical_term() or make new?
+
 		wp_send_json_success( array( 'newCat' => 'test 123' ) );
 	}
 

@@ -361,13 +361,15 @@
 
 			function saveNewCategory() {
 				var data = {
-					action: 'pres_sthis_add_category',
-					name: $( '#new-category' ).val(),
-					new_cat_nonce: $( '#_ajax_nonce-add-category' ).val(),
-					parent: $( '#new-category-parent' ).val()
+					action: 'press_this_add_category',
+					post_id: $( '#post_ID' ).val() || 0,
+					name: $( '#new-category' ).val() || '',
+					new_cat_nonce: $( '#_ajax_nonce-add-category' ).val() || '',
+					parent: $( '#new-category-parent' ).val() || ''
 				}
 
 				$.post( window.ajaxurl, data, function( response ) {
+					// temp test
 					console.log( response );
 				});
 			}
