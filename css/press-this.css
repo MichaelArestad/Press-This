@@ -933,6 +933,14 @@ input.newtag:focus ~ div.taghint {
 	display: none;
 }
 
+.hidden.searched-parent {
+  display: block;
+}
+
+.hidden.searched-parent > label {
+  opacity: 0.5;
+}
+
 .add-cat-toggle {
 	float: right;
 	margin-top: -45px;

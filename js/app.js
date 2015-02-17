@@ -22,7 +22,8 @@
 				has_empty_title_str   = false,
 				suggested_title_str   = get_suggested_title( data ),
 				suggested_content_str = get_suggested_content( data ),
-				has_set_focus         = false;
+				has_set_focus         = false,
+				catsCache = [];
 
 /* ***************************************************************
  * HELPER FUNCTIONS
@@ -474,6 +475,7 @@
 				$.post( window.ajaxurl, data, function( response ) {
 					// temp test
 					console.log( response );
+					refreshCatsCache();
 				});
 			}
 
@@ -660,7 +662,7 @@
 					$modalClose = $( '.modal-close' );
 
 				$postOption.on( 'click', function() {
-					
+
 					var index = $( this ).index(),
 						$targetSettingModal = $settingModal.eq( index );
 
@@ -686,7 +688,7 @@
 
 					$postOption.eq( index ).focus();
 
-				});	
+				});
 			}
 
 			/**
@@ -727,7 +729,7 @@
 					$placeholder.addClass('screen-reader-text');
 
 				});
-				
+
 				$selector.on( 'blur', function() {
 
 					var textLength = $( this ).text().length;
@@ -804,7 +806,7 @@
 					var val =  $( this ).val();
 					$('#post-option-tags').text( ( val.length ) ? val.replace( /,([^\s])/g, ', $1' ) : '' );
 				});
-				
+
 				$( window ).on( 'beforeunload.press-this', function() {
 					if ( saveAlert || ( editor && editor.isDirty() ) ) {
 						return window.pressThisL10n.saveAlert;
@@ -817,7 +819,37 @@
 
 				$( 'button.add-cat-submit' ).on( 'click.press-this', saveNewCategory );
 
+				$( '.categories-select' ).prev( 'input' ).on( 'keyup', function() {
+					var search = $.trim( $( this ).val() ).toLowerCase();
+
+					$.each( catsCache, function( i, cat ) {
+						cat.node.removeClass( 'hidden searched-parent' );
+					} );
+
+					if ( search ) {
+						$.each( catsCache, function( i, cat ) {
+							if ( cat.text.indexOf( search ) === -1 ) {
+								cat.node.addClass( 'hidden' );
+							} else {
+								cat.parents.addClass( 'searched-parent' );
+							}
+						} );
+					}
+				} );
+
 				return true;
+			}
+
+			function refreshCatsCache() {
+				$( '.categories-select' ).find( 'li' ).each( function() {
+					var $this = $( this );
+
+					catsCache.push( {
+						node: $this,
+						parents: $this.parents( 'li' ),
+						text: $this.children( 'label' ).text().toLowerCase()
+					} );
+				} );
 			}
 
 /* ***************************************************************
@@ -827,6 +859,7 @@
 			// Let's go!
 			render();
 			monitor();
+			refreshCatsCache();
 
 			// Assign callback/public properties/methods to returned object
 			this.render_error = render_error;
