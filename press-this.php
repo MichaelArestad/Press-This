@@ -294,11 +294,8 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::save( $post_status = 'draft' )
-	 * Save the post as draft or published
-	 *
-	 * @param string $post_status
-	 * @return bool|int|WP_Error
+	 * WpPressThis::save()
+	 * Save the post as draft or published, via AJAX
 	 */
 	public function save() {
 		if ( empty( $_POST['wppt_nonce'] ) || ! wp_verify_nonce( $_POST['wppt_nonce'], 'press_this' ) ) {
