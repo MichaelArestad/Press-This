@@ -588,10 +588,10 @@ class WpPressThis {
 
 		return apply_filters( 'press_this_data', $data );
 	}
-	
+
 	/**
 	 * Add another stylesheet inside TinyMCE.
-	 */	 	
+	 */
 	public function editor_styles_override( $styles ) {
 		if ( ! empty( $styles ) ) {
 			$styles .= ',';
@@ -626,12 +626,12 @@ class WpPressThis {
 		// Plugin only
 		wp_register_script( 'press-this-app', plugin_dir_url( __FILE__ ) . 'js/app.js', array( 'jquery' ), false, true );
 		wp_localize_script( 'press-this-app', 'pressThisL10n', self::i18n() );
-		
+
 		wp_register_style( 'press-this-css', plugin_dir_url( __FILE__ ) . 'css/press-this.css' );
 
 		// TEMP: for tags handling –– @TODO: evaluate
 		wp_register_script( 'tag-box', plugin_dir_url( __FILE__ ) . 'js/tag-box.js', array( 'suggest' ), false, true );
-		
+
 		// Add press-this-editor.css and remove theme's editor-style.css, if any.
 		remove_editor_styles();
 		add_filter( 'mce_css', array( $this, 'editor_styles_override' ) );
@@ -828,6 +828,7 @@ class WpPressThis {
 					?>
 				</div>
 				<?php } ?>
+				<input type="search">
 				<ul class="categories-select">
 					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
 				</ul>
