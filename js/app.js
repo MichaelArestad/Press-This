@@ -131,8 +131,9 @@
 				if ( ( ( title.length && __( 'new-post' ) !== title ) || site_name.length ) && url.length ) {
 					content += '<p class="wppt_source">'
 					+ __( 'source' )
-					+ ' <cite class="wppt_suggested_content_source"><a href="'+ encodeURI( url ) +'">'+ stripTags( title || site_name ) +'</a></cite>'
-					+ '</p>';
+					+ ' <cite class="wppt_suggested_content_source">'
+					+ __( 'source-link').replace( '%1$s', encodeURI( url ) ).replace( '%2$s', stripTags( title || site_name ) )
+					+'</cite></p>';
 				}
 
 				if ( ! content.length ) {

@@ -161,7 +161,8 @@ class WpPressThis {
 	 */
 	public function i18n() {
 		return array(
-			'source'                     => __( 'Source:', 'press-this' ),
+			'source'                     => apply_filters( 'press_this_source', __( 'Source:', 'press-this' ) ),
+			'source-link'                => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
 			'new-post'                   => __( 'Title', 'press-this' ),
 			'start-typing-here'          => __( 'Start typing here.', 'press-this' ),
 			'unexpected-error'           => __( 'Sorry, but an unexpected error occurred.', 'press-this' ),
