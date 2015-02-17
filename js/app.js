@@ -615,8 +615,6 @@
 
  			}
 
- 			setTabIndex();
-
 /* ***************************************************************
  * PROCESSING FUNCTIONS
  *************************************************************** */
@@ -628,6 +626,7 @@
 				render_detected_media();
 				$( document ).on( 'tinymce-editor-init', render_suggested_content );
 				render_startup_notices();
+				setTabIndex();
 			}
 
 			function monitor(){
