@@ -509,13 +509,18 @@ body {
 		position: absolute;
 		top: 0;
 		right: 0;
-		transform: translateX( 0 );
-		transition: transform .3s ease-in-out;
 		background: #fff;
+		transform: translateX( -100% );
+		transition: transform .3s ease-in-out;
 
-		&.is-open {
-			transform: translateX( -100% );
+		&.is-hidden {
+			visibility: hidden;
 		}
+
+		&.is-off-screen {
+			transform: translateX( 0 );
+		}	
+
 	}
 }
 
@@ -536,6 +541,7 @@ body {
 			right: 8px;
 		margin-top: -10px;
 	}
+
 }
 
 .post-option {
@@ -558,15 +564,22 @@ body {
 		}
 
 	}
-	.is-hidden & {
+
+	.is-off-screen > & {
 		right: 100%;
 	}
+
+	.is-hidden > & {
+		visibility: hidden;
+	}
+
 	@media ( min-width: 1px ) {
-		.is-hidden & {
+		.is-off-screen > & {
 			right: auto;
 			transform: translateX( -100% );
 		}
 	}
+
 }
 
 .post-option__title {
@@ -579,25 +592,30 @@ body {
 .setting-modal {
 	position: absolute;
 		top: 0;
-		left: 100%;
+		left: 0;
 	width: 100%;
-	height: 0;
+	height: auto;
 	overflow: hidden;
 	transition: transform .3s ease-in-out;
 
-	&.is-active {
-		left: 0;
-		height: auto;
-		overflow: hidden;
+	&.is-hidden {
+		visibility: hidden;
+		height: 0;
 	}
-	@media ( min-width: 1px ) {
-		left: 0;
-			transform: translateX( 100% );
 
-		&.is-active {
-			transform: translateX( 0 );
-		}
+	&.is-off-screen {
+		left: 100%;
 	}
+
+	@media ( min-width: 1px ) {
+
+		&.is-off-screen {
+			left: 0;
+				transform: translateX( 100% );
+		}
+
+	}
+
 }
 
 .modal-close {

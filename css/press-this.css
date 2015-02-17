@@ -1511,17 +1511,20 @@ html {
     position: absolute;
     top: 0;
     right: 0;
-    -webkit-transform: translateX(0);
-    -ms-transform: translateX(0);
-    transform: translateX(0);
-    -webkit-transition: -webkit-transform .3s ease-in-out;
-    transition: transform .3s ease-in-out;
     background: #fff;
-  }
-  .options-panel.is-open {
     -webkit-transform: translateX(-100%);
     -ms-transform: translateX(-100%);
     transform: translateX(-100%);
+    -webkit-transition: -webkit-transform .3s ease-in-out;
+    transition: transform .3s ease-in-out;
+  }
+  .options-panel.is-hidden {
+    visibility: hidden;
+  }
+  .options-panel.is-off-screen {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
   }
 }
 
@@ -1563,11 +1566,14 @@ html {
   -webkit-box-shadow: inset 5px 0 0 #2ea2cc;
   box-shadow: inset 5px 0 0 #2ea2cc;
 }
-.is-hidden .post-option {
+.is-off-screen > .post-option {
   right: 100%;
 }
+.is-hidden > .post-option {
+  visibility: hidden;
+}
 @media (min-width: 1px) {
-  .is-hidden .post-option {
+  .is-off-screen > .post-option {
     right: auto;
     -webkit-transform: translateX(-100%);
     -ms-transform: translateX(-100%);
@@ -1585,29 +1591,26 @@ html {
 .setting-modal {
   position: absolute;
   top: 0;
-  left: 100%;
+  left: 0;
   width: 100%;
-  height: 0;
+  height: auto;
   overflow: hidden;
   -webkit-transition: -webkit-transform .3s ease-in-out;
   transition: transform .3s ease-in-out;
 }
-.setting-modal.is-active {
-  left: 0;
-  height: auto;
-  overflow: hidden;
+.setting-modal.is-hidden {
+  visibility: hidden;
+  height: 0;
+}
+.setting-modal.is-off-screen {
+  left: 100%;
 }
 @media (min-width: 1px) {
-  .setting-modal {
+  .setting-modal.is-off-screen {
     left: 0;
     -webkit-transform: translateX(100%);
     -ms-transform: translateX(100%);
     transform: translateX(100%);
-  }
-  .setting-modal.is-active {
-    -webkit-transform: translateX(0);
-    -ms-transform: translateX(0);
-    transform: translateX(0);
   }
 }
 
