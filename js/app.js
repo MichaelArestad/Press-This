@@ -691,10 +691,6 @@
 					$postOptions.addClass( is_hidden );
 					$targetSettingModal.addClass( is_active );
 
-					// Keyboard navigation
-	 				$postOption.attr( 'tabindex', '-1' );
-					$targetSettingModal.find( 'a, input' ).attr( 'tabindex', '0' );
-
 				});
 
 				$modalClose.on( 'click', function(){
@@ -703,10 +699,6 @@
 
 					$postOptions.removeClass( is_hidden );
 					$settingModal.removeClass( is_active );
-
-					// Keyboard navigation
-	 				$postOption.attr( 'tabindex', '0' );
-					$settingModal.find( 'a, input' ).attr( 'tabindex', '-1' );
 
 					$postOption.eq( index ).focus();
 
@@ -762,19 +754,6 @@
 			}
 
 /* ***************************************************************
- * KEYBOARD NAVIGATION FUNCTIONS
- *************************************************************** */
-
-			/**
-			 * Set tab index
-			 */
-			function setTabIndex() {
-
- 				$( '.setting-modal' ).find( 'a, input' ).attr( 'tabindex', '-1' );
-
- 			}
-
-/* ***************************************************************
  * PROCESSING FUNCTIONS
  *************************************************************** */
 
@@ -788,7 +767,6 @@
 				render_detected_media();
 				$( document ).on( 'tinymce-editor-init', render_suggested_content );
 				render_startup_notices();
-				setTabIndex();
 			}
 
 			/**

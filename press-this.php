@@ -766,13 +766,13 @@ class WpPressThis {
 
 			<?php if ( $supports_formats ) : ?>
 				<div class="setting-modal">
-					<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
+					<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
 					<?php post_format_meta_box( $post, null ); ?>
 				</div>
 			<?php endif; ?>
 
 			<div class="setting-modal">
-				<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
+				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
 				<?php
 
 				$taxonomy = get_taxonomy( 'category' );
@@ -807,7 +807,7 @@ class WpPressThis {
 			</div>
 
 			<div class="setting-modal tags">
-				<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
+				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
 				<?php post_tags_meta_box( $post, null ); ?>
 			</div>
 		</div><!-- .options-panel -->
