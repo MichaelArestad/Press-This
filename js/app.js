@@ -654,8 +654,10 @@
 							'tabindex': '0'
 						}).css({
 							'background-image': 'url(' + display_src + ')'
-						}).click(function () {
-							insert_selected_media('embed',src);
+						}).on('click keypress', function (e) {
+							if ( e.type === 'click' || e.which === 13 ) {
+								insert_selected_media('embed',src);
+							}
 						}).appendTo(list_container);
 
 						found++;
