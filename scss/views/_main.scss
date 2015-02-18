@@ -74,7 +74,7 @@ body {
 		color: #404040;
 		font-size: 14px;
 	}
-	span {
+	span:nth-child( 2 ) {
 		color: #ededed;
 
 		@include breakpoint( '<320px' ) {
@@ -212,10 +212,6 @@ body {
 	overflow: auto;
 	float: left;
 	width: 100%;
-
-	@include breakpoint( '<900px' ) {
-		float: none;
-	}
 }
 
 .editor {
@@ -514,9 +510,6 @@ body {
 		5000px 5000px 0 5000px $gray--light;
 
 	@include breakpoint( '<900px' ) {
-		position: absolute;
-		top: 0;
-		right: 0;
 		background: #fff;
 		transform: translateX( -100% );
 		transition: transform .3s ease-in-out;

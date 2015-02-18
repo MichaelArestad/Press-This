@@ -1130,11 +1130,11 @@ html {
     font-size: 14px;
   }
 }
-.current-site span {
+.current-site span:nth-child(2) {
   color: #ededed;
 }
 @media (max-width: 320px) {
-  .current-site span {
+  .current-site span:nth-child(2) {
     color: #3f3f3f;
     font-weight: 600;
   }
@@ -1272,11 +1272,6 @@ html {
 }
 .editor-wrapper:after {
   clear: both;
-}
-@media (max-width: 900px) {
-  .editor-wrapper {
-    float: none;
-  }
 }
 
 .editor {
@@ -1587,9 +1582,6 @@ html {
 }
 @media (max-width: 900px) {
   .options-panel {
-    position: absolute;
-    top: 0;
-    right: 0;
     background: #fff;
     -webkit-transform: translateX(-100%);
     -ms-transform: translateX(-100%);
