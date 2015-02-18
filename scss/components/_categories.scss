@@ -2,14 +2,21 @@
 // Categories
 // ==========================================================================
 
-.categories-search,
+input[type="search"].categories-search,
 .add-category__name {
 	display: block;
 	width: 100%;
 	padding: em( 12px, 14px ) em( 15px, 14px );
 	border: 0;
+	border-radius: 0;
 	border-bottom: 1px solid $gray--light;
 	font-size: 14px;
+	-webkit-appearance: none;
+	appearance: none;
+
+	@include breakpoint( '<600px' ) {
+		font-size: 16px; // to prevent zooming on iOS. Guh.
+	}
 }
 
 .add-cat-toggle {
@@ -42,21 +49,24 @@
 
 	.add-cat-submit {
 		position: absolute;
-		top: 0;
-		right: 0;
-		height: 100%;
+			top: 0;
+			right: 0;
+			bottom: 1px;
 		border: 0;
+		border-radius: 0;
 		padding: 0 16px;
-		background: $gray--light;
+		background: #f7f7f7;
+		border-left: 1px solid $gray--ultralight;
 
-			&:focus {
-				outline: 0;
-				background: $blue--light;
-				color: #fff;
-			}
-
+		&:hover,
+		&:active,
+		&:focus {
+			outline: 0;
+			background: darken( $blue--light, 5% );
+			border-color: darken( $blue--light, 15% );
+			color: #fff;
+		}
 	}
-
 }
 
 
@@ -168,8 +178,9 @@
 	}
 	label {
 		position: absolute;
-			top: 11px;
+			top: 50%;
 			right: 10px;
+		margin-top: -10px;
 		color: #9ea7af;
 	}
 }

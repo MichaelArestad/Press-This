@@ -712,14 +712,17 @@ object {
   position: absolute;
   top: 0;
   right: 0;
-  height: 100%;
+  bottom: 1px;
   border: 0;
+  border-radius: 0;
   padding: 0 16px;
-  background: #e5e5e5;
+  background: #f7f7f7;
+  border-left: 1px solid #f1f1f1;
 }
-.tagsdiv .tagadd:focus {
+.tagsdiv .tagadd:hover, .tagsdiv .tagadd:active, .tagsdiv .tagadd:focus {
   outline: 0;
-  background: #2ea2cc;
+  background: #2991b7;
+  border-color: #20708e;
   color: #fff;
 }
 .tagsdiv .howto {
@@ -877,14 +880,23 @@ input.newtag:focus ~ div.taghint {
     line-height: 120%;
   }
 }
-.categories-search,
+input[type="search"].categories-search,
 .add-category__name {
   display: block;
   width: 100%;
   padding: 0.85714em 1.07143em;
   border: 0;
+  border-radius: 0;
   border-bottom: 1px solid #e5e5e5;
   font-size: 14px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+@media (max-width: 600px) {
+  input[type="search"].categories-search,
+  .add-category__name {
+    font-size: 16px;
+  }
 }
 
 .add-cat-toggle {
@@ -915,14 +927,17 @@ input.newtag:focus ~ div.taghint {
   position: absolute;
   top: 0;
   right: 0;
-  height: 100%;
+  bottom: 1px;
   border: 0;
+  border-radius: 0;
   padding: 0 16px;
-  background: #e5e5e5;
+  background: #f7f7f7;
+  border-left: 1px solid #f1f1f1;
 }
-.add-category .add-cat-submit:focus {
+.add-category .add-cat-submit:hover, .add-category .add-cat-submit:active, .add-category .add-cat-submit:focus {
   outline: 0;
-  background: #2ea2cc;
+  background: #2991b7;
+  border-color: #20708e;
   color: #fff;
 }
 
@@ -1028,8 +1043,9 @@ input.newtag:focus ~ div.taghint {
 }
 .categories-search-wrapper label {
   position: absolute;
-  top: 11px;
+  top: 50%;
   right: 10px;
+  margin-top: -10px;
   color: #9ea7af;
 }
 
@@ -1220,11 +1236,17 @@ html {
   font-size: 14px;
   width: 100%;
 }
+@media (max-width: 600px) {
+  .scan__url {
+    font-size: 16px;
+  }
+}
 
 .scan__submit {
   position: absolute;
   top: 0;
   right: 0;
+  bottom: 0;
   padding: 0.85714em 1.07143em;
   border: 0;
   border-left: 1px solid #f1f1f1;
@@ -1335,7 +1357,7 @@ html {
 @media (max-width: 320px) {
   .post__title,
   .post__title-placeholder {
-    font-size: 1em;
+    font-size: 16px;
     font-weight: 600;
     padding: 1.14286em 1.42857em;
   }

@@ -158,19 +158,26 @@ body {
 	position: relative;
 	border-bottom: 1px solid $gray--light;
 }
+
 .scan__url {
 	display: block;
 	border: 0;
 	padding: em( 12px, 14px ) em( 15px, 14px );
 	font-size: 14px;
 	width: 100%;
+
+	@include breakpoint( '<600px' ) {
+		font-size: 16px; // to prevent zooming on iOS. Guh.
+	}
 }
+
 .scan__submit {
 	@extend %button;
 	@extend %button--secondary;
 	position: absolute;
-	top: 0;
-	right: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
 	padding: em( 12px, 14px ) em( 15px, 14px );
 	border: 0;
 	border-left: 1px solid $gray--ultralight;
@@ -178,6 +185,9 @@ body {
 	font-size: 14px;
 	line-height: 1.6;
 
+	@include breakpoint( '<600px' ) {
+		// font-size: 16px; // to prevent zooming on iOS. Guh.
+	}
 	&:hover,
 	&:focus {
 		background: darken( $blue--light, 5% );
@@ -259,7 +269,7 @@ body {
 		font-size: 16px;
 	}
 	@include breakpoint( '<320px' ) {
-		font-size: 1em;
+		font-size: 16px;
 		font-weight: 600;
 		padding: em( 16px, 14px ) em( 20px, 14px );
 	}

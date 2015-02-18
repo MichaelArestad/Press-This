@@ -74,7 +74,6 @@ body {
 @media (max-width: 320px) {
   body {
     margin: 0 15px;
-    font-size: 14px;
   }
 }
 
