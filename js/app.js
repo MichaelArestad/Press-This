@@ -805,7 +805,7 @@
 				$selector.on( 'blur', function() {
 					var textLength = $( this ).text().length;
 
-					if ( textLength ) {
+					if ( ! textLength ) {
 						$placeholder.removeClass('screen-reader-text');
 					}
 				});
