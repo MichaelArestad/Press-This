@@ -641,19 +641,28 @@
 							return;
 						}
 
-						var display_src = 'a bundled thumb representing embed';
-						if ( src.indexOf('youtube.com/') > -1 ) {
-							display_src = 'https://i.ytimg.com/vi/' + src.replace(/.+v=([^&]+).*/, '$1') + '/hqdefault.jpg';
-						} else if ( src.indexOf('youtu.be/') > -1 ) {
-							display_src = 'https://i.ytimg.com/vi/' + src.replace(/\/([^\/])$/, '$1') + '/hqdefault.jpg';
+						var display_src = '',
+							css_class = 'suggested-media-thumbnail suggested-media--embed';
+						if ( src.indexOf( 'youtube.com/' ) > -1 ) {
+							display_src = 'https://i.ytimg.com/vi/' + src.replace( /.+v=([^&]+).*/, '$1' ) + '/hqdefault.jpg';
+							css_class += ' is-video';
+						} else if ( src.indexOf( 'youtu.be/' ) > -1 ) {
+							display_src = 'https://i.ytimg.com/vi/' + src.replace( /\/([^\/])$/, '$1' ) + '/hqdefault.jpg';
+							css_class += ' is-video';
+						} else if ( src.indexOf( 'soundcloud.com' ) > -1 ) {
+							css_class += ' is-audio';
+						} else if ( src.indexOf( 'twitter.com' ) > -1 ) {
+							css_class += ' is-tweet';
+						} else {
+							css_class += ' is-video';
 						}
 
 						$('<div></div>', {
 							'id': 'embed-' + i + '-container',
-							'class': 'suggested-media-thumbnail suggested-media--embed',
+							'class': css_class,
 							'tabindex': '0'
 						}).css({
-							'background-image': 'url(' + display_src + ')'
+							'background-image': ( display_src.length ) ? 'url(' + display_src + ')' : null
 						}).on('click keypress', function (e) {
 							if ( e.type === 'click' || e.which === 13 ) {
 								insert_selected_media('embed',src);
@@ -680,7 +689,7 @@
 						$('<div></div>', {
 							'src': display_src,
 							'id': 'img-' + i + '-container',
-							'class': 'suggested-media-thumbnail',
+							'class': 'suggested-media-thumbnail is-image',
 							'tabindex': '0'
 						}).css({
 							'background-image': 'url(' + display_src + ')'
