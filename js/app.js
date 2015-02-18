@@ -274,7 +274,7 @@
 
 						var schemeless_src = src.replace(/^https?:/, '');
 
-						if ( already_selected.indexOf( schemeless_src ) > -1 ) {
+						if ( Array.prototype.indexOf && already_selected.indexOf( schemeless_src ) > -1 ) {
 							// Skip: already shown
 							return;
 						}
@@ -343,7 +343,7 @@
 
 						var schemeless_src = src.replace(/^https?:/, '');
 
-						if ( already_selected.indexOf( schemeless_src ) > -1 ) {
+						if ( Array.prototype.indexOf && already_selected.indexOf( schemeless_src ) > -1 ) {
 							// Skip: already shown
 							return;
 						} else if (is_src_uninteresting_path(src)) {
