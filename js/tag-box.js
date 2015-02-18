@@ -90,7 +90,7 @@ var tagBox;
 					xbutton = $( '<a id="' + id + '-check-num-' + key + '" class="ntdelbutton" tabindex="0">X</a>' );
 					xbutton.on( 'click keypress', function(e){
 						// Trigger function if pressed Enter - keyboard navigation
-						if ( e.which === 13 ) {
+						if ( e.type === 'click' || e.which === 13 ) {
 							tagBox.parseTags(this);
 						}
 					});
