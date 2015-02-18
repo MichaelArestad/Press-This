@@ -30,10 +30,10 @@
 	}
 
 	.postform {
-		display: none; // Temporal removement of Parent Category dropdown 
+		display: none; // Temporal removement of Parent Category dropdown
 	}
 
-	.add-cat-submit { // TODO: unify with .tagadd and .scan__submit styles 
+	.add-cat-submit {
 		position: absolute;
 		top: 0;
 		right: 0;
@@ -49,7 +49,7 @@
 			}
 
 	}
-	
+
 }
 
 
@@ -66,52 +66,61 @@
 
 	input {
 		clear: none;
-		cursor: pointer;
-		display: inline-block;
+		position: absolute;
+			top: 0;
+			left: 0;
+		display: block;
 		line-height: 0;
-		width: 0;
-		height: 0;
-		float: left;
+		width: 100%;
+		height: 100%;
 		outline: 0;
 		padding: 0;
 		text-align: center;
 		vertical-align: middle;
-		width: 16px;
-		min-width: 16px;
 		-webkit-appearance: none;
 		appearance: none;
+		cursor: pointer;
 
-		&:checked:after {
-			display: inline-block;
-			content: "\f147";
-			position: absolute;
-				right: 15px;
-			width: 20px;
-			height: 20px;
-			margin-right: 10px;
-			font-size: 20px;
-			line-height: 1;
-			font-family: dashicons;
-			text-decoration: inherit;
-			color: #222;
-			font-weight: 400;
-			font-style: normal;
-			vertical-align: top;
-			text-align: center;
-			-webkit-transition: color .1s ease-in 0;
-			transition: color .1s ease-in 0;
-			-webkit-font-smoothing: antialiased;
-			-moz-osx-font-smoothing: grayscale;
+		&:focus {
+			box-shadow: inset 6px 0 0 $blue--light;
+			background: transparentize( $blue--light, .95 );
+		}
+		&:checked {
+			box-shadow: inset 6px 0 0 $blue--light;
+			background: transparentize( $blue--light, .9 );
+
+			&:after {
+				display: inline-block;
+				content: "\f147";
+				position: absolute;
+					top: 13px;
+					right: 0;
+				width: 20px;
+				height: 20px;
+				margin-right: 10px;
+				font-size: 20px;
+				line-height: 1;
+				font-family: dashicons;
+				text-decoration: inherit;
+				color: #222;
+				font-weight: 400;
+				font-style: normal;
+				vertical-align: top;
+				text-align: center;
+				-webkit-transition: color .1s ease-in 0;
+				transition: color .1s ease-in 0;
+				-webkit-font-smoothing: antialiased;
+				-moz-osx-font-smoothing: grayscale;
+			}
 		}
 	}
 
-	$pad: 13px;
+	$pad: 16px;
 
 	label {
 		position: relative;
 		display: block;
-		padding: 13px 2px 14px $pad; // TODO em() and responsive styles
-		border-bottom: 1px solid $gray--light;
+		padding: 13px $pad 14px $pad; // TODO em() and responsive styles
 		cursor: pointer;
 		background: #fff;
 	}
@@ -124,8 +133,6 @@
 		& ul ul ul label { padding-left: $pad * 3; }
 		& ul ul ul ul label { padding-left: $pad * 3.5; }
 		& ul ul ul ul ul label { padding-left: $pad * 4; }
-
-
 	}
 
 	.is-hidden {
@@ -141,4 +148,16 @@
 		}
 	}
 
+}
+
+// Search
+.categories-search-wrapper {
+	position: relative;
+
+	label {
+		position: absolute;
+			top: 11px;
+			right: 10px;
+		color: #9ea7af;
+	}
 }

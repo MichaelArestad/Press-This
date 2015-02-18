@@ -787,7 +787,7 @@ class WpPressThis {
 
 					<input type="text" id="new-category" class="add-category__name" placeholder="<?php echo esc_attr( $taxonomy->labels->new_item_name ); ?>" value="" aria-required="true">
 					<label class="screen-reader-text" for="new-category-parent"><?php echo $taxonomy->labels->parent_item_colon; ?></label>
-					
+
 					<?php
 
 					wp_dropdown_categories( array(
@@ -800,11 +800,14 @@ class WpPressThis {
 					) );
 
 					?>
-					
+
 					<button type="button" class="button add-cat-submit"><?php _e( 'Add' ); ?></button>
 				</div>
 				<?php } ?>
-				<input type="search" class="categories-search">
+				<div class="categories-search-wrapper">
+					<input id="categories-search" type="search" class="categories-search" placeholder="Search categories">
+					<label for="categories-search"><span class="dashicons dashicons-search"></span></label>
+				</div>
 				<ul class="categories-select">
 					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
 				</ul>

@@ -103,6 +103,10 @@ body {
 }
 
 .options-open {
+	&:focus .dashicons {
+		color: #fff;
+		text-decoration: none;
+	}
 	.dashicons {
 		margin-top: 3px;
 	}
@@ -530,7 +534,7 @@ body {
 
 .post-options {
 	background: #fff;
-	position: relative;
+	position: absolute;
 		right: 0;
 	width: 100%;
 	overflow-x: hidden;
@@ -594,11 +598,10 @@ body {
 }
 
 .setting-modal {
-	position: absolute;
+	position: relative;
 		top: 0;
 		left: 0;
 	width: 100%;
-	height: auto;
 	overflow: hidden;
 	transition: transform .3s ease-in-out;
 

@@ -624,7 +624,6 @@ object {
   position: relative;
   display: block;
   padding: 13px 2px 14px 13px;
-  border-bottom: 1px solid #e5e5e5;
   cursor: pointer;
 }
 .post-format-icon:before, .post-format-icon:after {
@@ -922,26 +921,37 @@ input.newtag:focus ~ div.taghint {
 }
 .categories-select input {
   clear: none;
-  cursor: pointer;
-  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
   line-height: 0;
-  width: 0;
-  height: 0;
-  float: left;
+  width: 100%;
+  height: 100%;
   outline: 0;
   padding: 0;
   text-align: center;
   vertical-align: middle;
-  width: 16px;
-  min-width: 16px;
   -webkit-appearance: none;
   appearance: none;
+  cursor: pointer;
+}
+.categories-select input:focus {
+  -webkit-box-shadow: inset 6px 0 0 #2ea2cc;
+  box-shadow: inset 6px 0 0 #2ea2cc;
+  background: rgba(46, 162, 204, 0.05);
+}
+.categories-select input:checked {
+  -webkit-box-shadow: inset 6px 0 0 #2ea2cc;
+  box-shadow: inset 6px 0 0 #2ea2cc;
+  background: rgba(46, 162, 204, 0.1);
 }
 .categories-select input:checked:after {
   display: inline-block;
   content: "\f147";
   position: absolute;
-  right: 15px;
+  top: 13px;
+  right: 0;
   width: 20px;
   height: 20px;
   margin-right: 10px;
@@ -962,34 +972,43 @@ input.newtag:focus ~ div.taghint {
 .categories-select label {
   position: relative;
   display: block;
-  padding: 13px 2px 14px 13px;
-  border-bottom: 1px solid #e5e5e5;
+  padding: 13px 16px 14px 16px;
   cursor: pointer;
   background: #fff;
 }
 .categories-select ul label {
-  padding-left: 19.5px;
+  padding-left: 24px;
 }
 .categories-select ul ul label {
-  padding-left: 26px;
+  padding-left: 32px;
 }
 .categories-select ul ul ul label {
-  padding-left: 32.5px;
+  padding-left: 40px;
 }
 .categories-select ul ul ul ul label {
-  padding-left: 39px;
+  padding-left: 48px;
 }
 .categories-select ul ul ul ul ul label {
-  padding-left: 45.5px;
+  padding-left: 56px;
 }
 .categories-select ul ul ul ul ul ul label {
-  padding-left: 52px;
+  padding-left: 64px;
 }
 .categories-select .is-hidden {
   display: none;
 }
 .categories-select .is-hidden.searched-parent {
   display: block;
+}
+
+.categories-search-wrapper {
+  position: relative;
+}
+.categories-search-wrapper label {
+  position: absolute;
+  top: 11px;
+  right: 10px;
+  color: #9ea7af;
 }
 
 .alignleft {
@@ -1122,6 +1141,10 @@ html {
   display: none;
 }
 
+.options-open:focus .dashicons {
+  color: #fff;
+  text-decoration: none;
+}
 .options-open .dashicons {
   margin-top: 3px;
 }
@@ -1566,7 +1589,7 @@ html {
 
 .post-options {
   background: #fff;
-  position: relative;
+  position: absolute;
   right: 0;
   width: 100%;
   overflow-x: hidden;
@@ -1625,11 +1648,10 @@ html {
 }
 
 .setting-modal {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   width: 100%;
-  height: auto;
   overflow: hidden;
   -webkit-transition: -webkit-transform .3s ease-in-out;
   transition: transform .3s ease-in-out;
