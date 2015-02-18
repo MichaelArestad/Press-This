@@ -215,10 +215,12 @@ class WpPressThis {
 		if ( !empty( $ua ) && preg_match( '/\bMSIE (\d{1})/', $ua, $matches ) && (int) $matches[1] <= 8 ) {
 			return preg_replace( '/\bv=\d{1}/', 'v=' . self::plugin_version(), $link );
 		}
+
 		$url = esc_js( self::runtime_url() . '?v=' . self::plugin_version() );
-		$link = "javascript:";
-		$link .= file_get_contents( self::plugin_dir_path() . '/js/bookmarklet.min.js' );
-		$link .= "WpPressThis_Bookmarklet('{$url}')";
+
+
+		$link = 'javascript:' . file_get_contents( self::plugin_dir_path() . '/js/bookmarklet.min.js' );
+		$link = str_replace( 'window.pt_url', wp_json_encode( $url ), $link );
 
 		return $link;
 	}

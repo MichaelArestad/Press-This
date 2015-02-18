@@ -1,23 +1,21 @@
-window.WpPressThis_Bookmarklet = function( pt_url ) {
-	var d = document,
-		w = window,
-		l = top.location,
-		z = w.getSelection,
-		k = d.getSelection,
-		x = d.selection,
+( function( window, document, pt_url ) {
+	var l = top.location,
+		z = window.getSelection,
+		k = document.getSelection,
+		x = document.selection,
 		s = z ? z() : ( k ? k() : ( x ? x.createRange().text : 0 ) ),
 		es = encodeURI( s ),
 		now = new Date().getTime();
 
 	if ( ! pt_url || ! pt_url.match( /^http/ ) ) {
-		w.alert( 'Sorry, no Press This URL provided.' );
+		window.alert( 'Sorry, no Press This URL provided.' );
 		return;
 	}
 
 	pt_url += ( pt_url.indexOf( '?' ) > -1 ? '&' : '?' ) + 'buster=' + now;
 
-	if ( d.title.length && d.title.length <= 512 ) {
-		pt_url += '&t=' + encodeURI( d.title );
+	if ( document.title.length && document.title.length <= 512 ) {
+		pt_url += '&t=' + encodeURI( document.title );
 	}
 
 	if ( es.length && es.length <= 512 ) {
@@ -31,13 +29,13 @@ window.WpPressThis_Bookmarklet = function( pt_url ) {
 		return;
 	}
 
-	var metas = d.head.getElementsByTagName( 'meta' ),
-		links = d.head.getElementsByTagName( 'link' ),
-		it = d.getElementById( 'content' ),
+	var metas = document.head.getElementsByTagName( 'meta' ),
+		links = document.head.getElementsByTagName( 'link' ),
+		it = document.getElementById( 'content' ),
 		imgs = it ? it.getElementsByTagName( 'img' ) : [],
-		ifrs = d.body.getElementsByTagName( 'iframe' ) || [],
+		ifrs = document.body.getElementsByTagName( 'iframe' ) || [],
 		r = new Image(),
-		f = d.createElement( 'form' ),
+		f = document.createElement( 'form' ),
 		tn = '_press_this_app',
 		vid = null;
 
@@ -46,7 +44,7 @@ window.WpPressThis_Bookmarklet = function( pt_url ) {
 			return;
 		}
 
-		var e = d.createElement( 'input' );
+		var e = document.createElement( 'input' );
 
 		e.name  = n;
 		e.value = v;
@@ -67,11 +65,11 @@ window.WpPressThis_Bookmarklet = function( pt_url ) {
 	}
 
 	if ( ! imgs || ! imgs.length ) {
-		it = d.body.getElementsByClassName ? d.body.getElementsByClassName( 'hfeed' ) : [];
+		it = document.body.getElementsByClassName ? document.body.getElementsByClassName( 'hfeed' ) : [];
 		imgs = it.length ? it[0].getElementsByTagName( 'img' ) : [];
 
 		if ( ! imgs || ! imgs.length ) {
-			imgs = d.body.getElementsByTagName( 'img' ) || [];
+			imgs = document.body.getElementsByTagName( 'img' ) || [];
 		}
 	}
 
@@ -157,8 +155,8 @@ window.WpPressThis_Bookmarklet = function( pt_url ) {
 		}
 	}
 
-	if ( d.title && d.title > 512 ) {
-		fAdd( 't', d.title );
+	if ( document.title && document.title > 512 ) {
+		fAdd( 't', document.title );
 	}
 
 	if ( es.length && es.length > 512 ) {
@@ -170,8 +168,8 @@ window.WpPressThis_Bookmarklet = function( pt_url ) {
 	f.setAttribute( 'target', tn );
 	f.setAttribute( 'style', 'display: none;' );
 
-	w.open( 'about:blank', tn, 'width=500,height=700' );
+	window.open( 'about:blank', tn, 'width=500,height=700' );
 
-	d.body.appendChild(f);
+	document.body.appendChild(f);
 	f.submit();
-};
+} )( window, document, window.pt_url );
