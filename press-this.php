@@ -305,8 +305,12 @@ class WpPressThis {
 			wp_send_json_error( array( 'errorMessage' => __( 'Cheatin&#8217; uh?' ) ) );
 		}
 
-		if ( !isset( $_POST['post_ID'] ) || ! $post_id = (int) $_POST['post_ID'] ) {
+		if ( ! isset( $_POST['post_ID'] ) || ! $post_id = (int) $_POST['post_ID'] ) {
 			wp_send_json_error( array( 'errorMessage' => __( 'Missing post ID.' ) ) );
+		}
+
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			wp_send_json_error( array( 'errorMessage' => __( 'Cheatin&#8217; uh?' ) ) );
 		}
 
 		$post = array(
