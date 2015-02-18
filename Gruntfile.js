@@ -46,6 +46,11 @@ module.exports = function( grunt ) {
 		},
 		uglify: {
 			bookmarklet: {
+				options: {
+					compress: {
+						negate_iife: false
+					}
+				},
 				files: {
 					'js/bookmarklet.min.js': [ 'js/bookmarklet.js' ]
 				}
