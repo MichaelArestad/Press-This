@@ -877,7 +877,7 @@
 
 				$( 'button.add-cat-submit' ).on( 'click.press-this', saveNewCategory );
 
-				$( '.categories-select' ).prev( 'input' ).on( 'keyup', function() {
+				$( '.categories-search' ).on( 'keyup', function() {
 					var search = $( this ).val().toLowerCase() || '';
 
 					// Don't search when less thasn 3 extended ASCII chars
