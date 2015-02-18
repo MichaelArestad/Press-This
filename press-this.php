@@ -38,9 +38,9 @@ class WpPressThis {
 				 * AJAX emdpoints
 				 */
 				// Post draft and publish
-				add_action( 'wp_ajax_press_this_publish_post', array( $this, 'ajax_publish_post' ) );
-				add_action( 'wp_ajax_press_this_draft_post',   array( $this, 'ajax_draft_post' ) );
-				add_action( 'wp_ajax_press_this_add_category', array( $this, 'press_this_add_category' ) );
+				add_action( 'wp_ajax_press_this_publish_post', array( $this, 'save' ) );
+				add_action( 'wp_ajax_press_this_draft_post',   array( $this, 'save' ) );
+				add_action( 'wp_ajax_pres_sthis_add_category', array( $this, 'press_this_add_category' ) );
 			} else {
 				/*
 				 * Take over Press This bookmarklet code, wherever presented
@@ -203,8 +203,19 @@ class WpPressThis {
 	 *
 	 * @return string Press This bookmarklet JS trigger found in /wp-admin/tools.php
 	 */
-	public function shortcut_link_override() {
-		$url  = esc_js( self::runtime_url() . '?v=' . self::plugin_version() );
+	public function shortcut_link_override( $link ) {
+		/**
+		 * Return the old/shorter bookmarklet code for MSIE 8 and lower,
+		 * since they only support a max length of ~2000 characters for
+		 * bookmark[let] URLs, which is way to small for our smarter one.
+		 * Do update the version number so users do not get the "upgrade your
+		 * bookmarklet" notice when using PT in those browsers.
+		 */
+		$ua = $_SERVER['HTTP_USER_AGENT'];
+		if ( !empty( $ua ) && preg_match( '/\bMSIE (\d{1})/', $ua, $matches ) && (int) $matches[1] <= 8 ) {
+			return preg_replace( '/\bv=\d{1}/', 'v=' . self::plugin_version(), $link );
+		}
+		$url = esc_js( self::runtime_url() . '?v=' . self::plugin_version() );
 		$link = "javascript:";
 		$link .= file_get_contents( self::plugin_dir_path() . '/js/bookmarklet.js' );
 		$link .= "WpPressThis_Bookmarklet('{$url}')";
@@ -227,69 +238,6 @@ class WpPressThis {
 		}
 
 		self::serve_app_html();
-	}
-
-	/**
-	 * WpPressThis::format_post_data_for_save( $status = 'draft' )
-	 *
-	 * @return array('post_title' => $title, 'post_content' => $content, 'post_status' => $post_status)
-	 * @uses $_POST
-	 */
-	public function format_post_data_for_save( $post_id, $status = 'draft' ) {
-		// TODO: consider merging with save()
-
-		$post = array(
-			'ID' => $post_id,
-			'post_title' => '',
-			'post_content' => '',
-			'post_type' => 'post',
-			'post_status' => 'draft',
-			'post_format' => 0,
-			'tax_input' => array(),
-			'post_category' => array(),
-		);
-
-		if ( ! empty( $_POST['wppt_title'] ) ) {
-			$post['post_title'] = sanitize_text_field( trim( $_POST['wppt_title'] ) );
-		}
-
-		if ( ! empty( $_POST['pressthis'] ) ) {
-			$post['post_content'] = trim( $_POST['pressthis'] ); // The editor textarea, we have to allow this one and let wp_insert_post() filter the content below
-		}
-
-		if ( 'publish' === $status ) {
-			if ( current_user_can( 'publish_posts' ) ) {
-				$post['post_status'] = 'publish';
-			} else {
-				$post['post_status'] = 'pending';
-			}
-		}
-
-		if ( isset( $_POST['post_format'] ) ) {
-			if ( current_theme_supports( 'post-formats', $_POST['post_format'] ) ) {
-				$post['post_format'] = $_POST['post_format'];
-			}
-		}
-
-		if ( !empty( $_POST['tax_input'] ) ) {
-			foreach ( (array) $_POST['tax_input'] as $tax_name => $terms ) {
-				if ( empty( $terms ) )
-					continue;
-				$comma = _x( ',', 'tag delimiter' );
-				if ( ',' !== $comma ) {
-					$terms = str_replace( $comma, ',', $terms );
-				}
-				$post['tax_input'][ $tax_name ] = explode( ',', trim( $terms, " \n\t\r\0\x0B," ) );
-			}
-		}
-
-		if ( !empty( $_POST['post_category'] ) ) {
-			foreach ( (array) $_POST['post_category'] as $cat_id ) {
-				$post['post_category'][] = (int) $cat_id;
-			}
-		}
-
-		return $post;
 	}
 
 	/**
@@ -346,22 +294,36 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::save( $post_status = 'draft' )
-	 * Save the post as draft or published
-	 *
-	 * @param string $post_status
-	 * @return bool|int|WP_Error
+	 * WpPressThis::save()
+	 * Save the post as draft or published, via AJAX
 	 */
-	public function save( $post_status = 'draft' ) {
-		if ( ! wp_verify_nonce( $_POST['wppt_nonce'], 'press_this' ) ) {
-			return false;
+	public function save() {
+		if ( empty( $_POST['wppt_nonce'] ) || ! wp_verify_nonce( $_POST['wppt_nonce'], 'press_this' ) ) {
+			wp_send_json_error( array( 'errorMessage' => __( 'Cheatin&#8217; uh?' ) ) );
 		}
 
-		if ( ! $post_id = (int) $_POST['post_ID'] ) {
-			return false;
+		if ( !isset( $_POST['post_ID'] ) || ! $post_id = (int) $_POST['post_ID'] ) {
+			wp_send_json_error( array( 'errorMessage' => __( 'Missing post ID.' ) ) );
 		}
 
-		$post = self::format_post_data_for_save( $post_id, $post_status );
+		$post = array(
+			'ID' => $post_id,
+			'post_title' => ( ! empty( $_POST['wppt_title'] ) ) ? sanitize_text_field( trim( $_POST['wppt_title'] ) ) : '',
+			'post_content' => ( ! empty( $_POST['pressthis'] ) ) ? trim( $_POST['pressthis'] ) : '',
+			'post_type' => 'post',
+			'post_status' => 'draft',
+			'post_format' => ( ! empty( $_POST['post_format'] ) ) ? $_POST['post_format'] : 0,
+			'tax_input' => ( ! empty( $_POST['tax_input'] ) ) ? $_POST['tax_input'] : array(),
+			'post_category' => ( ! empty( $_POST['post_category'] ) ) ? $_POST['post_category'] : array(),
+		);
+
+		if ( !empty( $_POST['action'] ) && 'press_this_publish_post' === $_POST['action'] ) {
+			if ( current_user_can( 'publish_posts' ) ) {
+				$post['post_status'] = 'publish';
+			} else {
+				$post['post_status'] = 'pending';
+			}
+		}
 
 		$new_content = self::side_load_images( $post_id, $post['post_content'] );
 
@@ -371,15 +333,25 @@ class WpPressThis {
 
 		$updated = wp_update_post( $post, true );
 
-		if ( !is_wp_error( $updated ) && isset( $post['post_format'] ) ) {
-			if ( current_theme_supports( 'post-formats', $post['post_format'] ) ) {
-				set_post_format( $post_id, $post['post_format'] );
-			} elseif ( $post['post_format'] ) {
-				set_post_format( $post_id, false );
+		if ( is_wp_error( $updated ) || intval( $updated ) < 1 ) {
+			wp_send_json_error( array( 'errorMessage' => __( 'Error while saving the post. Please try again later.' ) ) );
+		} else {
+			if ( isset( $post['post_format'] ) ) {
+				if ( current_theme_supports( 'post-formats', $post['post_format'] ) ) {
+					set_post_format( $post_id, $post['post_format'] );
+				} elseif ( $post['post_format'] ) {
+					set_post_format( $post_id, false );
+				}
 			}
-		}
 
-		return $updated;
+			if ( get_post_status( $post_id ) === 'publish' ) {
+				$redirect = get_post_permalink( $post_id );
+			} else {
+				$redirect = get_edit_post_link( $post_id, 'raw' );
+			}
+
+			wp_send_json_success( array( 'redirect' => $redirect ) );
+		}
 	}
 
 	/**
@@ -867,42 +839,6 @@ class WpPressThis {
 </html>
 <?php
 		die();
-	}
-
-	/**
-	 * @param $post_id
-	 * @param string $post_status
-	 */
-	public function post_save_json_response( $post_id ) {
-		if ( is_wp_error( $post_id ) || intval( $post_id ) < 1 ) {
-			wp_send_json_error( array( 'errorMessage' => __( 'Error while saving the post. Please try again later.' ) ) );
-		} else {
-			if ( get_post_status( $post_id ) === 'publish' ) {
-				$redirect = get_post_permalink( $post_id );
-			} else {
-				$redirect = get_edit_post_link( $post_id, 'raw' );
-			}
-
-			wp_send_json_success( array( 'redirect' => $redirect ) );
-		}
-	}
-
-	/**
-	 * Ajax endpoint save a draft post
-	 */
-	public function ajax_draft_post() {
-		// TODO: consider one function for both draft and publish. We pass post_status in the data.
-
-		self::post_save_json_response( self::save( 'draft' ) );
-	}
-
-	/**
-	 * Ajax endpoint publish a post
-	 */
-	public function ajax_publish_post() {
-		// TODO: see above.
-
-		self::post_save_json_response( self::save( 'publish' ) );
 	}
 
 	/**
