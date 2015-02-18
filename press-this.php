@@ -40,7 +40,7 @@ class WpPressThis {
 				// Post draft and publish
 				add_action( 'wp_ajax_press_this_publish_post', array( $this, 'save' ) );
 				add_action( 'wp_ajax_press_this_draft_post',   array( $this, 'save' ) );
-				add_action( 'wp_ajax_pres_sthis_add_category', array( $this, 'press_this_add_category' ) );
+				add_action( 'wp_ajax_press_this_add_category', array( $this, 'press_this_add_category' ) );
 			} else {
 				/*
 				 * Take over Press This bookmarklet code, wherever presented
