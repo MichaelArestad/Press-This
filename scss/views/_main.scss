@@ -389,23 +389,42 @@ body {
 	&:before {
 		content: "\f104";
 		color: #fff;
-		color: rgba(255, 255, 255, 0.6);
+		color: rgba(255, 255, 255, 0.9);
 	}
 
+	&.is-audio,
+	&.is-tweet {
+		&:hover,
+		&:active,
+		&:focus {
+			&:before {
+				color: #fff;
+			}
+		}
+	}
 	&.is-video {
-		background: #222;
+		background-color: #222;
 
+		&:hover,
+		&:active,
+		&:focus {
+			&:before {
+				color: rgba(255, 255, 255, 0.2);
+			}
+		}
 		&:before {
 			content: "\f236";
 		}
 	}
 	&.is-audio {
+		background-color: #ff7d44;
+
 		&:before {
 			content: "\f127";
 		}
 	}
 	&.is-tweet {
-		background: #55acee;
+		background-color: #55acee;
 
 		&:before {
 			content: "\f301";

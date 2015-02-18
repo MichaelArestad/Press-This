@@ -1497,19 +1497,28 @@ html {
 .suggested-media--embed:before {
   content: "\f104";
   color: #fff;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.9);
+}
+.suggested-media--embed.is-audio:hover:before, .suggested-media--embed.is-audio:active:before, .suggested-media--embed.is-audio:focus:before, .suggested-media--embed.is-tweet:hover:before, .suggested-media--embed.is-tweet:active:before, .suggested-media--embed.is-tweet:focus:before {
+  color: #fff;
 }
 .suggested-media--embed.is-video {
-  background: #222;
+  background-color: #222;
+}
+.suggested-media--embed.is-video:hover:before, .suggested-media--embed.is-video:active:before, .suggested-media--embed.is-video:focus:before {
+  color: rgba(255, 255, 255, 0.2);
 }
 .suggested-media--embed.is-video:before {
   content: "\f236";
+}
+.suggested-media--embed.is-audio {
+  background-color: #ff7d44;
 }
 .suggested-media--embed.is-audio:before {
   content: "\f127";
 }
 .suggested-media--embed.is-tweet {
-  background: #55acee;
+  background-color: #55acee;
 }
 .suggested-media--embed.is-tweet:before {
   content: "\f301";
