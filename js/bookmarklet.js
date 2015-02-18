@@ -1,6 +1,6 @@
 ( function( window, document, href, pt_url ) {
-	var r = new Image(),
-		form = document.createElement( 'form' ),
+	var form = document.createElement( 'form' ),
+		img = new Image(),
 		target = '_press_this_app',
 		metas, links, content, imgs, ifrs,
 		vid, selection;
@@ -118,20 +118,15 @@
 			break;
 		}
 
-		r.src = imgs[ n ].src;
-
-		if ( r.src.indexOf( 'gravatar.com' ) > -1 ) {
-			continue;
-		} else if ( imgs[ n ].className && imgs[ n ].className.length && imgs[ n ].className.indexOf( 'avatar' ) > -1 ) {
+		if ( imgs[ n ].src.indexOf( 'avatar' ) > -1 || imgs[ n ].className.indexOf( 'avatar' ) > -1 ) {
 			continue;
 		}
 
-		if ( imgs[ n ].original && imgs[ n ].original.length ) {
-			add( '_img[]', imgs[ n ].original );
-		} else if ( r.src.indexOf( '/wp-content/uploads/' ) > -1 ) {
-			add( '_img[]', r.src );
-		} else if ( r.width && r.height && r.width >= 256 && r.height >= 128 ) {
-			add( '_img[]', r.src );
+		// Get the real dimensions.
+		img.src = imgs[ n ].src;
+
+		if ( img.width >= 256 && img.height >= 128 ) {
+			add( '_img[]', img.src );
 		}
 	}
 
