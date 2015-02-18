@@ -1,77 +1,66 @@
-( function( window, document, pt_url ) {
-	var l = top.location,
-		z = window.getSelection,
-		k = document.getSelection,
-		x = document.selection,
-		s = z ? z() : ( k ? k() : ( x ? x.createRange().text : 0 ) ),
-		es = encodeURI( s ),
-		now = new Date().getTime();
+( function( window, document, href, pt_url ) {
+	var r = new Image(),
+		form = document.createElement( 'form' ),
+		target = '_press_this_app',
+		metas, links, content, imgs, ifrs,
+		vid, selection;
 
-	if ( ! pt_url || ! pt_url.match( /^http/ ) ) {
-		window.alert( 'Sorry, no Press This URL provided.' );
+	if ( ! pt_url ) {
 		return;
 	}
 
-	pt_url += ( pt_url.indexOf( '?' ) > -1 ? '&' : '?' ) + 'buster=' + now;
+	if ( window.getSelection ) {
+		selection = window.getSelection() + '';
+	} else if ( document.getSelection ) {
+		selection = document.getSelection() + '';
+	} else if ( document.selection ) {
+		selection = document.selection.createRange().text;
+	}
+
+	pt_url += ( pt_url.indexOf( '?' ) > -1 ? '&' : '?' ) + 'buster=' + ( new Date().getTime() );
 
 	if ( document.title.length && document.title.length <= 512 ) {
 		pt_url += '&t=' + encodeURI( document.title );
 	}
 
-	if ( es.length && es.length <= 512 ) {
-		pt_url += '&s=' + es;
+	if ( selection && selection.length <= 512 ) {
+		pt_url += '&s=' + encodeURI( selection );
 	}
 
-	if ( l.href.match( /^https?:/ ) ) {
-		pt_url += '&u=' + encodeURI( l.href );
+	if ( href.match( /^https?:/ ) ) {
+		pt_url += '&u=' + encodeURI( href );
 	} else {
 		top.location.href = pt_url;
 		return;
 	}
 
-	var metas = document.head.getElementsByTagName( 'meta' ),
-		links = document.head.getElementsByTagName( 'link' ),
-		it = document.getElementById( 'content' ),
-		imgs = it ? it.getElementsByTagName( 'img' ) : [],
-		ifrs = document.body.getElementsByTagName( 'iframe' ) || [],
-		r = new Image(),
-		f = document.createElement( 'form' ),
-		tn = '_press_this_app',
-		vid = null;
-
-	function fAdd( n, v ) {
-		if ( typeof v === 'undefined' ) {
+	function add( name, value ) {
+		if ( typeof value === 'undefined' ) {
 			return;
 		}
 
-		var e = document.createElement( 'input' );
+		var input = document.createElement( 'input' );
 
-		e.name  = n;
-		e.value = v;
-		e.type  = 'hidden';
-		f.appendChild( e );
+		input.name = name;
+		input.value = value;
+		input.type = 'hidden';
+
+		form.appendChild( input );
 	}
 
-	if ( l.href.match( /\/\/www\.youtube\.com\/watch/ ) ) {
-		fAdd( '_embed[]', l.href );
-	} else if ( l.href.match( /\/\/vimeo\.com\/(.+\/)?([\d]+)$/ ) ) {
-		fAdd( '_embed[]', l.href );
-	}  else if ( l.href.match( /\/\/(www\.)?dailymotion\.com\/video\/.+$/ ) ) {
-		fAdd( '_embed[]', l.href );
-	} else if ( l.href.match( /\/\/soundcloud\.com\/.+$/ ) ) {
-		fAdd( '_embed[]', l.href );
-	} else if ( l.href.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ) {
-		fAdd( '_embed[]', l.href );
+	if ( href.match( /\/\/www\.youtube\.com\/watch/ ) ) {
+		add( '_embed[]', href );
+	} else if ( href.match( /\/\/vimeo\.com\/(.+\/)?([\d]+)$/ ) ) {
+		add( '_embed[]', href );
+	} else if ( href.match( /\/\/(www\.)?dailymotion\.com\/video\/.+$/ ) ) {
+		add( '_embed[]', href );
+	} else if ( href.match( /\/\/soundcloud\.com\/.+$/ ) ) {
+		add( '_embed[]', href );
+	} else if ( href.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ) {
+		add( '_embed[]', href );
 	}
 
-	if ( ! imgs || ! imgs.length ) {
-		it = document.body.getElementsByClassName ? document.body.getElementsByClassName( 'hfeed' ) : [];
-		imgs = it.length ? it[0].getElementsByTagName( 'img' ) : [];
-
-		if ( ! imgs || ! imgs.length ) {
-			imgs = document.body.getElementsByTagName( 'img' ) || [];
-		}
-	}
+	metas = document.head.getElementsByTagName( 'meta' ) || [];
 
 	for ( var m = 0; m < metas.length; m++ ) {
 		if ( m >= 50 ) {
@@ -84,11 +73,13 @@
 			q_cont = q.getAttribute( 'content' );
 
 		if ( q_name ) {
-			fAdd( '_meta[' + q_name + ']', q_cont );
-		} else if (q_prop) {
-			fAdd( '_meta[' + q_prop + ']', q_cont );
+			add( '_meta[' + q_name + ']', q_cont );
+		} else if ( q_prop ) {
+			add( '_meta[' + q_prop + ']', q_cont );
 		}
 	}
+
+	links = document.head.getElementsByTagName( 'link' ) || [];
 
 	for ( var y = 0; y < links.length; y++ ) {
 		if ( y >= 50 ) {
@@ -103,17 +94,24 @@
 				case 'canonical':
 				case 'icon':
 				case 'shortlink':
-					fAdd( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
+					add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
 					break;
 				case 'alternate':
 					if ( 'application/json+oembed' === g.getAttribute( 'type' ) ) {
-						fAdd( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
+						add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
 					} else if ( 'handheld' === g.getAttribute( 'media' ) ) {
-						fAdd( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
+						add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
 					}
 			}
 		}
 	}
+
+	if ( document.body.getElementsByClassName ) {
+		content = document.body.getElementsByClassName( 'hfeed' )[0];
+	}
+
+	content = document.getElementById( 'content' ) || content || document.body;
+	imgs = content.getElementsByTagName( 'img' ) || [];
 
 	for ( var n = 0; n < imgs.length; n++ ) {
 		if ( n >= 100 ) {
@@ -129,13 +127,15 @@
 		}
 
 		if ( imgs[ n ].original && imgs[ n ].original.length ) {
-			fAdd( '_img[]', imgs[ n ].original );
+			add( '_img[]', imgs[ n ].original );
 		} else if ( r.src.indexOf( '/wp-content/uploads/' ) ) {
-			fAdd( '_img[]', r.src );
+			add( '_img[]', r.src );
 		} else if ( r.width && r.height && r.width >= 256 && r.height >= 128 ) {
-			fAdd( '_img[]', r.src );
+			add( '_img[]', r.src );
 		}
 	}
+
+	ifrs = document.body.getElementsByTagName( 'iframe' ) || [];
 
 	for ( var p = 0; p < ifrs.length; p++ ) {
 		if ( p >= 100 ) {
@@ -145,31 +145,32 @@
 		vid = ifrs[ p ].src.match(/\/\/www\.youtube\.com\/embed\/([^\?]+)\?.+$/);
 
 		if ( vid && 2 === vid.length ) {
-			fAdd( '_embed[]', 'https://www.youtube.com/watch?v=' + vid[1] );
+			add( '_embed[]', 'https://www.youtube.com/watch?v=' + vid[1] );
 		}
 
 		vid = ifrs[ p ].src.match( /\/\/player\.vimeo\.com\/video\/([\d]+)$/ );
 
 		if ( vid && 2 === vid.length ) {
-			fAdd( '_embed[]', 'https://vimeo.com/' + vid[1] );
+			add( '_embed[]', 'https://vimeo.com/' + vid[1] );
 		}
 	}
 
 	if ( document.title && document.title > 512 ) {
-		fAdd( 't', document.title );
+		add( 't', document.title );
 	}
 
-	if ( es.length && es.length > 512 ) {
-		fAdd( 's', s );
+	if ( selection && selection.length > 512 ) {
+		add( 's', selection );
 	}
 
-	f.setAttribute( 'method', 'POST' );
-	f.setAttribute( 'action', pt_url );
-	f.setAttribute( 'target', tn );
-	f.setAttribute( 'style', 'display: none;' );
+	form.setAttribute( 'method', 'POST' );
+	form.setAttribute( 'action', pt_url );
+	form.setAttribute( 'target', target );
+	form.setAttribute( 'style', 'display: none;' );
 
-	window.open( 'about:blank', tn, 'width=500,height=700' );
+	window.open( 'about:blank', target, 'width=500,height=700' );
 
-	document.body.appendChild(f);
-	f.submit();
-} )( window, document, window.pt_url );
+	document.body.appendChild( form );
+
+	form.submit();
+} )( window, document, top.location.href, window.pt_url );
