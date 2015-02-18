@@ -889,10 +889,17 @@ input.newtag:focus ~ div.taghint {
 
 .add-cat-toggle {
   float: right;
-  margin-top: -40px;
+  margin-top: -33px;
 }
-.add-cat-toggle > span {
-  vertical-align: bottom;
+.add-cat-toggle:focus {
+  text-decoration: none;
+  color: #2ea2cc;
+}
+.add-cat-toggle.is-toggled {
+  margin-top: -36px;
+}
+.add-cat-toggle.is-toggled .dashicons:before {
+  content: "\f179";
 }
 
 .add-category {
@@ -1013,6 +1020,9 @@ input.newtag:focus ~ div.taghint {
 
 .categories-search-wrapper {
   position: relative;
+}
+.categories-search-wrapper.is-hidden {
+  display: none;
 }
 .categories-search-wrapper label {
   position: absolute;

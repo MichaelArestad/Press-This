@@ -805,7 +805,7 @@ class WpPressThis {
 				</div>
 				<?php } ?>
 				<div class="categories-search-wrapper">
-					<input id="categories-search" type="search" class="categories-search" placeholder="Search categories">
+					<input id="categories-search" type="search" class="categories-search" placeholder="<?php _e( 'Search categories' ) ?>">
 					<label for="categories-search"><span class="dashicons dashicons-search"></span></label>
 				</div>
 				<ul class="categories-select">

@@ -738,7 +738,7 @@
 
 					$postOptions
 						.removeClass( is_off_screen + ' ' + is_hidden );
-					
+
 					$targetSettingModal
 						.addClass( is_off_screen )
 						.one( 'transitionend', function() {
@@ -772,19 +772,19 @@
 						.removeClass( is_off_screen + ' ' + is_hidden )
 						.one( 'transitionend', function() {
 							$postOption.eq(0).focus();
-						});					
+						});
 				});
 
 				$opt_close.on( 'click', function(){
 
 					$opt_close.addClass( is_hidden );
 					$opt_open.removeClass( is_hidden );
-						
+
 					$sidebar
 						.addClass( is_off_screen )
 						.one( 'transitionend', function() {
 							$( this ).addClass( is_hidden );
-						});;					
+						});;
 				});
 			}
 
@@ -870,7 +870,9 @@
 				});
 
 				$( 'button.add-cat-toggle' ).on( 'click.press-this', function() {
-					$( '.setting-modal .add-category' ).slideToggle( 200 );
+					$( this ).toggleClass( 'is-toggled' );
+					$( '.setting-modal .add-category' ).toggleClass( 'is-hidden' );
+					$( '.categories-search-wrapper' ).toggleClass( 'is-hidden' );
 				});
 
 				$( 'button.add-cat-submit' ).on( 'click.press-this', saveNewCategory );

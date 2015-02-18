@@ -14,12 +14,19 @@
 
 .add-cat-toggle {
 	float: right;
-	margin-top: -40px;
+	margin-top: -33px;
 
-	& > span {
-		vertical-align: bottom;
+	&:focus {
+		text-decoration: none;
+		color: $blue--light;
 	}
+	&.is-toggled {
+		margin-top: -36px;
 
+		.dashicons:before {
+			content: "\f179";
+		}
+	}
 }
 
 .add-category {
@@ -154,6 +161,9 @@
 .categories-search-wrapper {
 	position: relative;
 
+	&.is-hidden {
+		display: none;
+	}
 	label {
 		position: absolute;
 			top: 11px;
