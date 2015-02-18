@@ -1,5 +1,6 @@
 ( function( window, document, href, pt_url ) {
 	var form = document.createElement( 'form' ),
+		head = document.getElementsByTagName( 'head' )[0],
 		img = new Image(),
 		target = '_press_this_app',
 		metas, links, content, imgs, ifrs,
@@ -60,7 +61,7 @@
 		add( '_embed[]', href );
 	}
 
-	metas = document.head.getElementsByTagName( 'meta' ) || [];
+	metas = head.getElementsByTagName( 'meta' ) || [];
 
 	for ( var m = 0; m < metas.length; m++ ) {
 		if ( m >= 50 ) {
@@ -79,7 +80,7 @@
 		}
 	}
 
-	links = document.head.getElementsByTagName( 'link' ) || [];
+	links = head.getElementsByTagName( 'link' ) || [];
 
 	for ( var y = 0; y < links.length; y++ ) {
 		if ( y >= 50 ) {
