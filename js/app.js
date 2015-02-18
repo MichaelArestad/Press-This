@@ -879,7 +879,7 @@
 					var search = $( this ).val().toLowerCase() || '';
 
 					// Don't search when less thasn 3 extended ASCII chars
-					if ( /[\x20-\xFF]+/.test( search ) && search.length < 3 ) {
+					if ( /[\x20-\xFF]+/.test( search ) && search.length < 2 ) {
 						return;
 					}
 
