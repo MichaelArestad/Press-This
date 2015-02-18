@@ -16,13 +16,11 @@ module.exports = function( grunt ) {
 			}
 		},
 		autoprefixer: {
+			options: {
+				browsers: [ 'Android >= 2.1', 'Chrome >= 21', 'Explorer >= 7', 'Firefox >= 17', 'Opera >= 12.1', 'Safari >= 6.0' ],
+				cascade: false
+			},
 			global: {
-				options: {
-					// Target-specific options go here.
-					// browser-specific info: https://github.com/ai/autoprefixer#browsers
-					// DEFAULT: browsers: ['> 1%', 'last 2 versions', 'ff 17', 'opera 12.1']
-					browsers: [ '> 1%', 'last 2 versions', 'ff 17', 'opera 12.1', 'ie 8', 'ie 9' ]
-				},
 				src: [
 					'css/press-this.css',
 					'css/press-this-editor.css'
