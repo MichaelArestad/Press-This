@@ -1074,6 +1074,7 @@ input[type="search"].categories-search,
 html,
 body {
   overflow-x: hidden;
+  height: 100%;
 }
 
 html {
@@ -1285,9 +1286,8 @@ html {
 }
 @media (max-width: 900px) {
   .wrapper {
-    margin: 0 0 60px;
+    margin: 0;
     width: 100%;
-    overflow: hidden;
   }
 }
 
@@ -1498,6 +1498,20 @@ html {
   background: #f1f1f1;
   background: rgba(241, 241, 241, 0.9);
   border-top: 1px solid #e5e5e5;
+}
+@media (max-width: 900px) {
+  .press-this__actions {
+    -webkit-transform: translateY(0);
+    -ms-transform: translateY(0);
+    transform: translateY(0);
+    -webkit-transition: -webkit-transform .3s ease-in-out;
+    transition: transform .3s ease-in-out;
+  }
+  .press-this__actions.is-hidden {
+    -webkit-transform: translateY(100%);
+    -ms-transform: translateY(100%);
+    transform: translateY(100%);
+  }
 }
 
 .add-media {

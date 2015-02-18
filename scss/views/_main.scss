@@ -7,6 +7,7 @@ $sidebar-size: 320px;
 html,
 body {
 	overflow-x: hidden;
+	height: 100%;
 }
 
 html {
@@ -208,9 +209,8 @@ body {
 	margin-right: $sidebar-size;
 
 	@include breakpoint( '<900px' ) {
-		margin: 0 0 60px;
+		margin: 0;
 		width: 100%;
-		overflow: hidden;
 	}
 }
 
@@ -401,6 +401,15 @@ body {
 	background: $gray--ultralight;
 	background: transparentize( $gray--ultralight, .1 );
 	border-top: 1px solid $gray--light;
+
+	@include breakpoint( '<900px' ) {
+		transform: translateY( 0 );
+		transition: transform .3s ease-in-out;
+
+		&.is-hidden {
+			transform: translateY( 100% );
+		}
+	}
 }
 
 .add-media {
