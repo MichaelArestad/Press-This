@@ -649,6 +649,9 @@
 						} else if ( src.indexOf( 'youtu.be/' ) > -1 ) {
 							display_src = 'https://i.ytimg.com/vi/' + src.replace( /\/([^\/])$/, '$1' ) + '/hqdefault.jpg';
 							css_class += ' is-video';
+						} else if ( src.indexOf( 'dailymotion.com' ) > -1 ) {
+							display_src = src.replace( '/video/', '/thumbnail/video/' );
+							css_class += ' is-video';
 						} else if ( src.indexOf( 'soundcloud.com' ) > -1 ) {
 							css_class += ' is-audio';
 						} else if ( src.indexOf( 'twitter.com' ) > -1 ) {
