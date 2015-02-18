@@ -635,6 +635,8 @@
 
 				if ( interesting_embeds && interesting_embeds.length ) {
 					$.each(interesting_embeds, function (i, src) {
+						src = stripTags( src );
+
 						if ( ! is_embeddable( src ) ) {
 							return;
 						}
@@ -662,6 +664,8 @@
 
 				if ( interesting_images && interesting_images.length ) {
 					$.each(interesting_images, function (i, src) {
+						src = stripTags( src );
+
 						var display_src = src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
 						if ( src.indexOf('files.wordpress.com/') > -1 ) {
 							display_src = display_src.replace(/\?.*$/, '') + '?w=' + smallest_width;
