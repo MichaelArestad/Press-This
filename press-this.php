@@ -740,7 +740,7 @@ class WpPressThis {
 			</div>
 		</div>
 
-		<div class="options-panel">
+		<div class="options-panel is-off-screen is-hidden">
 			<div class="post-options">
 				<?php if ( $supports_formats ) : ?>
 					<a href="#" class="post-option">
@@ -765,14 +765,14 @@ class WpPressThis {
 			</div>
 
 			<?php if ( $supports_formats ) : ?>
-				<div class="setting-modal">
-					<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
+				<div class="setting-modal is-off-screen is-hidden">
+					<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
 					<?php post_format_meta_box( $post, null ); ?>
 				</div>
 			<?php endif; ?>
 
-			<div class="setting-modal">
-				<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
+			<div class="setting-modal is-off-screen is-hidden">
+				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
 				<?php
 
 				$taxonomy = get_taxonomy( 'category' );
@@ -780,12 +780,14 @@ class WpPressThis {
 				if ( current_user_can( $taxonomy->cap->edit_terms ) ) {
 
 				?>
-				<button type="button" class="add-cat-toggle"><span class="dashicons dashicons-plus"></span></button>
-				<div class="add-cat-wrap hidden">
+				<button type="button" class="add-cat-toggle button--subtle"><span class="dashicons dashicons-plus"></span></button>
+
+				<div class="add-category is-hidden">
 					<label class="screen-reader-text" for="new-category"><?php echo $taxonomy->labels->add_new_item; ?></label>
-					<input type="text" id="new-category" class="add-cat-field" placeholder="<?php echo esc_attr( $taxonomy->labels->new_item_name ); ?>" value="" aria-required="true">
-					<button type="button" class="button add-cat-submit"><?php _e( 'Add' ); ?></button>
+
+					<input type="text" id="new-category" class="add-category__name" placeholder="<?php echo esc_attr( $taxonomy->labels->new_item_name ); ?>" value="" aria-required="true">
 					<label class="screen-reader-text" for="new-category-parent"><?php echo $taxonomy->labels->parent_item_colon; ?></label>
+					
 					<?php
 
 					wp_dropdown_categories( array(
@@ -798,16 +800,18 @@ class WpPressThis {
 					) );
 
 					?>
+					
+					<button type="button" class="button add-cat-submit"><?php _e( 'Add' ); ?></button>
 				</div>
 				<?php } ?>
-				<input type="search">
+				<input type="search" class="categories-search">
 				<ul class="categories-select">
 					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
 				</ul>
 			</div>
 
-			<div class="setting-modal tags">
-				<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
+			<div class="setting-modal tags is-off-screen is-hidden">
+				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
 				<?php post_tags_meta_box( $post, null ); ?>
 			</div>
 		</div><!-- .options-panel -->

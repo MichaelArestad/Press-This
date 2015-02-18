@@ -705,10 +705,11 @@
 			 */
 			function monitor_options_modal() {
 				var is_active = 'is-active',
+					is_off_screen = 'is-off-screen',
 					is_hidden = 'is-hidden',
-					$postOptions = $( '.post-options'),
-					$postOption = $( '.post-option'),
-					$settingModal = $( '.setting-modal'),
+					$postOptions = $( '.post-options' ),
+					$postOption = $( '.post-option' ),
+					$settingModal = $( '.setting-modal' ),
 					$modalClose = $( '.modal-close' );
 
 				$postOption.on( 'click', function() {
@@ -716,27 +717,35 @@
 					var index = $( this ).index(),
 						$targetSettingModal = $settingModal.eq( index );
 
-					$postOptions.addClass( is_hidden );
-					$targetSettingModal.addClass( is_active );
+					$postOptions
+						.addClass( is_off_screen )
+						.one( 'transitionend', function() {
+							$( this ).addClass( is_hidden );
+						});
 
-					// Keyboard navigation
-	 				$postOption.attr( 'tabindex', '-1' );
-					$targetSettingModal.find( 'a, input' ).attr( 'tabindex', '0' );
+					$targetSettingModal
+						.removeClass( is_off_screen + ' ' + is_hidden )
+						.one( 'transitionend', function() {
+							$( this ).find( $modalClose ).focus();
+						});
 
 				});
 
 				$modalClose.on( 'click', function(){
 
-					var index = $( this ).parent().index();
+					var $targetSettingModal = $( this ).parent();
+						index = $targetSettingModal.index();
 
-					$postOptions.removeClass( is_hidden );
-					$settingModal.removeClass( is_active );
+					$postOptions
+						.removeClass( is_off_screen + ' ' + is_hidden );
+					
+					$targetSettingModal
+						.addClass( is_off_screen )
+						.one( 'transitionend', function() {
+							$( this ).addClass( is_hidden );
+						});;
 
-					// Keyboard navigation
-	 				$postOption.attr( 'tabindex', '0' );
-					$settingModal.find( 'a, input' ).attr( 'tabindex', '-1' );
-
-					$postOption.eq( index ).focus();
+					$postOption.eq( index - 1 ).focus();
 
 				});
 			}
@@ -747,22 +756,35 @@
 			function monitor_sidebar_toggle() {
 				var $opt_open  = $( '.options-open' ),
 					$opt_close = $( '.options-close' ),
+					$postOptions = $( '.post-options' ),
+					$postOption = $( '.post-option' ),
+					$settingModal = $( '.setting-modal' ),
 					$sidebar = $( '.options-panel' ),
-					is_open = 'is-open',
+					is_off_screen = 'is-off-screen',
 					is_hidden = 'is-hidden';
 
-				$opt_open.click(function(){
+				$opt_open.on( 'click', function(){
+
 					$opt_open.addClass( is_hidden );
 					$opt_close.removeClass( is_hidden );
-					$sidebar.addClass( is_open );
+
+					$sidebar
+						.removeClass( is_off_screen + ' ' + is_hidden )
+						.one( 'transitionend', function() {
+							$postOption.eq(0).focus();
+						});					
 				});
 
-				$opt_close.click(function(){
+				$opt_close.on( 'click', function(){
+
 					$opt_close.addClass( is_hidden );
 					$opt_open.removeClass( is_hidden );
-					$sidebar.removeClass( is_open );
-					$( '.post-options' ).removeClass( is_hidden );
-					$( '.setting-modal').removeClass( 'is-active' );
+						
+					$sidebar
+						.addClass( is_off_screen )
+						.one( 'transitionend', function() {
+							$( this ).addClass( is_hidden );
+						});;					
 				});
 			}
 
@@ -790,19 +812,6 @@
 			}
 
 /* ***************************************************************
- * KEYBOARD NAVIGATION FUNCTIONS
- *************************************************************** */
-
-			/**
-			 * Set tab index
-			 */
-			function setTabIndex() {
-
- 				$( '.setting-modal' ).find( 'a, input' ).attr( 'tabindex', '-1' );
-
- 			}
-
-/* ***************************************************************
  * PROCESSING FUNCTIONS
  *************************************************************** */
 
@@ -816,7 +825,6 @@
 				render_detected_media();
 				$( document ).on( 'tinymce-editor-init', render_suggested_content );
 				render_startup_notices();
-				setTabIndex();
 			}
 
 			/**
@@ -862,7 +870,7 @@
 				});
 
 				$( 'button.add-cat-toggle' ).on( 'click.press-this', function() {
-					$( '.setting-modal .add-cat-wrap' ).slideToggle( 200 );
+					$( '.setting-modal .add-category' ).slideToggle( 200 );
 				});
 
 				$( 'button.add-cat-submit' ).on( 'click.press-this', saveNewCategory );
@@ -876,13 +884,13 @@
 					}
 
 					$.each( catsCache, function( i, cat ) {
-						cat.node.removeClass( 'hidden searched-parent' );
+						cat.node.removeClass( 'is-hidden searched-parent' );
 					} );
 
 					if ( search ) {
 						$.each( catsCache, function( i, cat ) {
 							if ( cat.text.indexOf( search ) === -1 ) {
-								cat.node.addClass( 'hidden' );
+								cat.node.addClass( 'is-hidden' );
 							} else {
 								cat.parents.addClass( 'searched-parent' );
 							}

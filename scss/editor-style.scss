@@ -5,14 +5,10 @@ Press This :)
 
 @import
 	"_utilities/mixins/mixins",
-	"_utilities/colors",
-	"_utilities/normalize",
-	"_utilities/clearfix",
-	"_utilities/screen-reader-text";
-
+	"_utilities/colors";
 
 @import
-	"components/typography/typography",
+	"components/typography/variables",
 	"components/links",
 	"components/lists",
 	"components/media";

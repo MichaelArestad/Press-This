@@ -2,18 +2,68 @@
 // Categories
 // ==========================================================================
 
+.categories-search,
+.add-category__name {
+	display: block;
+	width: 100%;
+	padding: em( 12px, 14px ) em( 15px, 14px );
+	border: 0;
+	border-bottom: 1px solid $gray--light;
+	font-size: 14px;
+}
+
+.add-cat-toggle {
+	float: right;
+	margin-top: -40px;
+
+	& > span {
+		vertical-align: bottom;
+	}
+
+}
+
+.add-category {
+	position: relative;
+
+	&.is-hidden {
+		display: none;
+	}
+
+	.postform {
+		display: none; // Temporal removement of Parent Category dropdown 
+	}
+
+	.add-cat-submit { // TODO: unify with .tagadd and .scan__submit styles 
+		position: absolute;
+		top: 0;
+		right: 0;
+		height: 100%;
+		border: 0;
+		padding: 0 16px;
+		background: $gray--light;
+
+			&:focus {
+				outline: 0;
+				background: $blue--light;
+				color: #fff;
+			}
+
+	}
+	
+}
+
 
 .categories-select {
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	background: $gray--light;
 
 	ul {
-		margin: 0 0 0 8px;
+		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
+
 	input {
 		clear: none;
 		cursor: pointer;
@@ -35,7 +85,6 @@
 			display: inline-block;
 			content: "\f147";
 			position: absolute;
-				top: -1.65em;
 				right: 15px;
 			width: 20px;
 			height: 20px;
@@ -55,12 +104,41 @@
 			-moz-osx-font-smoothing: grayscale;
 		}
 	}
+
+	$pad: 13px;
+
 	label {
 		position: relative;
 		display: block;
-		padding: 13px 2px 14px 13px; // TODO em() and responsive styles
+		padding: 13px 2px 14px $pad; // TODO em() and responsive styles
 		border-bottom: 1px solid $gray--light;
 		cursor: pointer;
 		background: #fff;
 	}
+
+	ul {
+
+		label { padding-left: $pad * 1.5; } // TODO find a more elegant and scalable way of doing this
+		& ul label { padding-left: $pad * 2; }
+		& ul ul label { padding-left: $pad * 2.5; }
+		& ul ul ul label { padding-left: $pad * 3; }
+		& ul ul ul ul label { padding-left: $pad * 3.5; }
+		& ul ul ul ul ul label { padding-left: $pad * 4; }
+
+
+	}
+
+	.is-hidden {
+		display: none;
+
+		&.searched-parent {
+			display: block;
+
+			& > label {
+			  // TODO define style of "searched-parent"
+			}
+
+		}
+	}
+
 }
