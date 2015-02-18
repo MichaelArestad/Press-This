@@ -762,6 +762,7 @@
 					$postOption = $( '.post-option' ),
 					$sidebar = $( '.options-panel' ),
 					$post_actions = $( '.press-this__actions' ),
+					$scanbar = $( '#wppt_scanbar' ),
 					is_off_screen = 'is-off-screen',
 					is_hidden = 'is-hidden';
 
@@ -770,6 +771,7 @@
 					$opt_open.addClass( is_hidden );
 					$opt_close.removeClass( is_hidden );
 					$post_actions.addClass( is_hidden );
+					$scanbar.addClass( is_hidden );
 
 					$sidebar
 						.removeClass( is_off_screen + ' ' + is_hidden )
@@ -783,6 +785,7 @@
 					$opt_close.addClass( is_hidden );
 					$opt_open.removeClass( is_hidden );
 					$post_actions.removeClass( is_hidden );
+					$scanbar.removeClass( is_hidden );
 
 					$sidebar
 						.addClass( is_off_screen )

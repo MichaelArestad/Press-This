@@ -1234,6 +1234,16 @@ html {
   position: relative;
   border-bottom: 1px solid #e5e5e5;
 }
+@media (max-width: 900px) {
+  .scan form {
+    -webkit-transition: opacity .3s ease-in-out;
+    transition: opacity .3s ease-in-out;
+  }
+  .scan.is-hidden form {
+    opacity: .2;
+    pointer-events: none;
+  }
+}
 
 .scan__url {
   display: block;

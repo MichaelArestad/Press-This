@@ -158,6 +158,16 @@ body {
 .scan {
 	position: relative;
 	border-bottom: 1px solid $gray--light;
+
+	@include breakpoint( '<900px' ) {
+		form {
+			transition: opacity .3s ease-in-out;
+		}
+		&.is-hidden form {
+			opacity: .2;
+			pointer-events: none;
+		}
+	}
 }
 
 .scan__url {
