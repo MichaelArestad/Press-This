@@ -868,14 +868,55 @@ input.newtag:focus ~ div.taghint {
     line-height: 120%;
   }
 }
+.categories-search,
+.add-category__name {
+  display: block;
+  width: 100%;
+  padding: 0.85714em 1.07143em;
+  border: 0;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 14px;
+}
+
+.add-cat-toggle {
+  float: right;
+  margin-top: -40px;
+}
+.add-cat-toggle > span {
+  vertical-align: bottom;
+}
+
+.add-category {
+  position: relative;
+}
+.add-category.is-hidden {
+  display: none;
+}
+.add-category .postform {
+  display: none;
+}
+.add-category .add-cat-submit {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  border: 0;
+  padding: 0 16px;
+  background: #e5e5e5;
+}
+.add-category .add-cat-submit:focus {
+  outline: 0;
+  background: #2ea2cc;
+  color: #fff;
+}
+
 .categories-select {
   margin: 0;
   padding: 0;
   list-style: none;
-  background: #e5e5e5;
 }
 .categories-select ul {
-  margin: 0 0 0 8px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
@@ -900,7 +941,6 @@ input.newtag:focus ~ div.taghint {
   display: inline-block;
   content: "\f147";
   position: absolute;
-  top: -1.65em;
   right: 15px;
   width: 20px;
   height: 20px;
@@ -927,38 +967,30 @@ input.newtag:focus ~ div.taghint {
   cursor: pointer;
   background: #fff;
 }
-
-/* temp cats */
-.hidden {
-	display: none;
+.categories-select ul label {
+  padding-left: 19.5px;
 }
-
-.hidden.searched-parent {
+.categories-select ul ul label {
+  padding-left: 26px;
+}
+.categories-select ul ul ul label {
+  padding-left: 32.5px;
+}
+.categories-select ul ul ul ul label {
+  padding-left: 39px;
+}
+.categories-select ul ul ul ul ul label {
+  padding-left: 45.5px;
+}
+.categories-select ul ul ul ul ul ul label {
+  padding-left: 52px;
+}
+.categories-select .is-hidden {
+  display: none;
+}
+.categories-select .is-hidden.searched-parent {
   display: block;
 }
-
-.hidden.searched-parent > label {
-  opacity: 0.5;
-}
-
-.add-cat-toggle {
-	float: right;
-	margin-top: -45px;
-	width: 40px;
-	height: 40px;
-	border: 0;
-	background: none;
-	color: #0074a2;
-}
-
-.add-cat-toggle span {
-	vertical-align: bottom;
-}
-
-.add-cat-wrap {
-	padding: 10px;
-}
-/* temp end */
 
 .alignleft {
   display: inline;

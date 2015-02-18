@@ -834,7 +834,7 @@
 				});
 
 				$( 'button.add-cat-toggle' ).on( 'click.press-this', function() {
-					$( '.setting-modal .add-cat-wrap' ).slideToggle( 200 );
+					$( '.setting-modal .add-category' ).slideToggle( 200 );
 				});
 
 				$( 'button.add-cat-submit' ).on( 'click.press-this', saveNewCategory );
@@ -843,13 +843,13 @@
 					var search = $.trim( $( this ).val() ).toLowerCase();
 
 					$.each( catsCache, function( i, cat ) {
-						cat.node.removeClass( 'hidden searched-parent' );
+						cat.node.removeClass( 'is-hidden searched-parent' );
 					} );
 
 					if ( search ) {
 						$.each( catsCache, function( i, cat ) {
 							if ( cat.text.indexOf( search ) === -1 ) {
-								cat.node.addClass( 'hidden' );
+								cat.node.addClass( 'is-hidden' );
 							} else {
 								cat.parents.addClass( 'searched-parent' );
 							}
