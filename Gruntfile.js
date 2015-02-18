@@ -27,6 +27,11 @@ module.exports = function( grunt ) {
 				]
 			}
 		},
+		githooks: {
+			all: {
+				'pre-commit': 'precommit'
+			}
+		},
 		jshint: {
 			options: grunt.file.readJSON( '.jshintrc' ),
 			grunt: {
@@ -50,5 +55,12 @@ module.exports = function( grunt ) {
 		}
 	} );
 
-	grunt.registerTask( 'default', [ 'watch' ] );
+	grunt.registerTask( 'default', [
+		'watch'
+	] );
+
+	grunt.registerTask( 'precommit', [
+		'jshint',
+		'autoprefixer'
+	] );
 };
