@@ -3,18 +3,6 @@ module.exports = function( grunt ) {
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON( 'package.json' ),
-		sass: {
-			dist: {
-				options: {
-					// Can be nested, compact, compressed, expanded
-					style: 'expanded'
-				},
-				files: {
-					'css/press-this.css': 'scss/style.scss',
-					'css/press-this-editor.css': 'scss/editor-style.scss'
-				}
-			}
-		},
 		autoprefixer: {
 			options: {
 				browsers: [ 'Android >= 2.1', 'Chrome >= 21', 'Explorer >= 7', 'Firefox >= 17', 'Opera >= 12.1', 'Safari >= 6.0' ],
@@ -41,7 +29,26 @@ module.exports = function( grunt ) {
 				src: [ 'Gruntfile.js' ]
 			},
 			plugin: {
-				src: [ 'js/**/*.js' ]
+				src: [ 'js/**/*.js', '!js/**/*.min.js' ]
+			}
+		},
+		sass: {
+			dist: {
+				options: {
+					// Can be nested, compact, compressed, expanded
+					style: 'expanded'
+				},
+				files: {
+					'css/press-this.css': 'scss/style.scss',
+					'css/press-this-editor.css': 'scss/editor-style.scss'
+				}
+			}
+		},
+		uglify: {
+			bookmarklet: {
+				files: {
+					'js/bookmarklet.min.js': [ 'js/bookmarklet.js' ]
+				}
 			}
 		},
 		watch: {
@@ -60,7 +67,8 @@ module.exports = function( grunt ) {
 	] );
 
 	grunt.registerTask( 'precommit', [
+		'autoprefixer',
 		'jshint',
-		'autoprefixer'
+		'uglify'
 	] );
 };
