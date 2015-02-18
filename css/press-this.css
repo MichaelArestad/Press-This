@@ -654,6 +654,16 @@ object {
   content: "\f147";
   float: right;
 }
+.post-format:focus + .post-format-icon {
+  -webkit-box-shadow: inset 6px 0 0 #2ea2cc;
+  box-shadow: inset 6px 0 0 #2ea2cc;
+  background: rgba(46, 162, 204, 0.05);
+}
+.post-format:checked + .post-format-icon {
+  -webkit-box-shadow: inset 6px 0 0 #2ea2cc;
+  box-shadow: inset 6px 0 0 #2ea2cc;
+  background: rgba(46, 162, 204, 0.1);
+}
 .post-format:checked + .post-format-icon:before, .post-format:checked + .post-format-icon:after {
   color: #333;
 }
