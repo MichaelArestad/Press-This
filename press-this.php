@@ -12,11 +12,11 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 */
 
 /**
- * Class WpPressThis
+ * Class WP_Press_This
  */
-class WpPressThis {
+class WP_Press_This {
 	/**
-	 * WpPressThis::__construct()
+	 * WP_Press_This::__construct()
 	 * Constructor
 	 *
 	 * @uses remove_action(), add_action()
@@ -56,7 +56,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::script_name()
+	 * WP_Press_This::script_name()
 	 * Returns the current app's fully qualified script name/url based on system-level tests
 	 *
 	 * @return mixed|string
@@ -76,7 +76,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::set_url_scheme( $url )
+	 * WP_Press_This::set_url_scheme( $url )
 	 * Sets the URL to https or http, depending on availability and related WP config settings/APIs.
 	 *
 	 * @param $url string
@@ -99,7 +99,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::strip_url_scheme()
+	 * WP_Press_This::strip_url_scheme()
 	 * Removes http or https from a URL to have it default to the current protocaol on the client-side (EG: //youtube.com/)
 	 *
 	 * @param $url
@@ -110,7 +110,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::plugin_data()
+	 * WP_Press_This::plugin_data()
 	 * Returns this plugin's meta data, from in-code plugin header comment
 	 *
 	 * @return array
@@ -121,11 +121,11 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::plugin_data()
+	 * WP_Press_This::plugin_data()
 	 * Returns this plugin's own version string, from in-code plugin header comment
 	 *
 	 * @return string The current plugin's version
-	 * @uses WpPressThis::plugin_data()
+	 * @uses WP_Press_This::plugin_data()
 	 */
 	public function plugin_version() {
 		$data = self::plugin_data();
@@ -133,7 +133,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::runtime_url()
+	 * WP_Press_This::runtime_url()
 	 * Returns this plugin's own runtime URL, which happens to masquerade/override as /wp-admin/press-this.php
 	 *
 	 * @return string Full URL to /admin/press-this.php in current install
@@ -144,7 +144,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::plugin_dir_path()
+	 * WP_Press_This::plugin_dir_path()
 	 *
 	 * @return string Full system path to /wp-content/plugins/press-this in current install
 	 * @uses __FILE__, plugin_dir_path()
@@ -154,7 +154,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::i18n()
+	 * WP_Press_This::i18n()
 	 * Centralized/keyed app caption store, used on both server and client sides.
 	 *
 	 * @return array
@@ -172,7 +172,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::press_this_ajax_site_settings()
+	 * WP_Press_This::press_this_ajax_site_settings()
 	 * App and site settings data, including i18n strings for the client-side
 	 *
 	 * @uses admin_url()
@@ -198,7 +198,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::shortcut_link_override() (plugin only)
+	 * WP_Press_This::shortcut_link_override() (plugin only)
 	 * Returns the bookmarklet's static code from /js/bookmarklet.js, with a local JS variable set to the current install's path to PT
 	 *
 	 * @return string Press This bookmarklet JS trigger found in /wp-admin/tools.php
@@ -226,7 +226,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::press_this_php_override() (plugin only)
+	 * WP_Press_This::press_this_php_override() (plugin only)
 	 * Takes over /wp-admin/press-this.php for backward compatibility and while in feature-as-plugin mode
 	 *
 	 * @uses $_POST
@@ -244,7 +244,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::side_load_images( $post_id, $content = '' )
+	 * WP_Press_This::side_load_images( $post_id, $content = '' )
 	 * Get the sources images and save them locally, fr posterity, unless we can't.
 	 *
 	 * @param $post_id int
@@ -297,7 +297,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::save()
+	 * WP_Press_This::save()
 	 * Save the post as draft or published, via AJAX
 	 */
 	public function save() {
@@ -362,7 +362,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::fetch_source_html( $url )
+	 * WP_Press_This::fetch_source_html( $url )
 	 *
 	 * @return string Source's HTML sanitized markup
 	 * @uses download_url(), is_wp_error(), wp_kses(), file_get_contents() , and unlink()
@@ -407,7 +407,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::source_data_fetch_fallback()
+	 * WP_Press_This::source_data_fetch_fallback()
 	 * Fetch and parse _meta, _img, and _links data from the source
 	 *
 	 * @param string $url
@@ -534,7 +534,7 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::merge_or_fetch_data()
+	 * WP_Press_This::merge_or_fetch_data()
 	 * This code handles making our version of Press This backward compatible with the previous/legacy version by supporting its query string params
 	 *
 	 * @return array
@@ -580,10 +580,10 @@ class WpPressThis {
 	}
 
 	/**
-	 * WpPressThis::serve_app_html()
+	 * WP_Press_This::serve_app_html()
 	 * Serves the app's base HTML, which in turns calls the load.js
 	 *
-	 * @uses $_POST, WpPressThis::runtime_url(), WpPressThis::plugin_dir_url()
+	 * @uses $_POST, WP_Press_This::runtime_url(), WP_Press_This::plugin_dir_url()
 	 */
 	public function serve_app_html() {
 		global $wp_locale;
@@ -1054,4 +1054,4 @@ class WpPressThis {
 	}
 }
 
-new WpPressThis;
+new WP_Press_This;
