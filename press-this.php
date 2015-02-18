@@ -826,7 +826,7 @@ class WpPressThis {
 	<div class="press-this__actions">
 		<div class="pressthis-media-buttons">
 			<button type="button" class="insert-media button--subtle" data-editor="pressthis">
-				<span class="dashicons dashicons-camera"></span>
+				<span class="dashicons dashicons-admin-media"></span>
 				<span class="screen-reader-text"><?php _e( 'Add Media' ); ?></span>
 			</button>
 		</div>
