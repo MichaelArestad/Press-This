@@ -1122,13 +1122,6 @@ html {
 @media (max-width: 320px) {
   .adminbar {
     min-height: 45px;
-    background: #fff;
-    background: rgba(255, 255, 255, 0.9);
-    border-left: 1px solid #e5e5e5;
-    border-bottom: 1px solid #e5e5e5;
-  }
-  .adminbar .dashicons {
-    color: #2ea2cc;
   }
 }
 
@@ -1149,7 +1142,6 @@ html {
 @media (max-width: 320px) {
   .current-site {
     margin: 0;
-    color: #404040;
     font-size: 14px;
   }
 }
@@ -1158,7 +1150,6 @@ html {
 }
 @media (max-width: 320px) {
   .current-site span:nth-child(2) {
-    color: #3f3f3f;
     font-weight: 600;
   }
 }
@@ -1569,8 +1560,9 @@ html {
 @media (max-width: 320px) {
   .insert-media .dashicons {
     width: 55px;
-    height: 50px;
-    padding: 7px;
+    height: 49px;
+    padding: 14px;
+    font-size: 20px;
   }
 }
 
@@ -1655,6 +1647,8 @@ html {
 }
 @media (max-width: 320px) {
   .options-panel {
+    margin-right: -100%;
+    width: 100%;
     border: 0;
     -webkit-box-shadow: 5001px 5000px 0 5000px #fff;
     box-shadow: 5001px 5000px 0 5000px #fff;

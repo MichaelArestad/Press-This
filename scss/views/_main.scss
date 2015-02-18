@@ -47,14 +47,6 @@ body {
 	}
 	@include breakpoint( '<320px' ) {
 		min-height: 45px;
-		background: #fff;
-		background: transparentize( #fff, .1 );
-		border-left: 1px solid $gray--light;
-		border-bottom: 1px solid $gray--light;
-
-		.dashicons {
-			color: $blue--light;
-		}
 	}
 }
 
@@ -72,14 +64,12 @@ body {
 	}
 	@include breakpoint( '<320px' ) {
 		margin: 0;
-		color: #404040;
 		font-size: 14px;
 	}
 	span:nth-child( 2 ) {
 		color: #ededed;
 
 		@include breakpoint( '<320px' ) {
-			color: #3f3f3f;
 			font-weight: 600;
 		}
 	}
@@ -466,8 +456,9 @@ body {
 
 		@include breakpoint( '<320px' ) {
 			width: 55px;
-			height: 50px;
-			padding: 7px;
+			height: 49px;
+			padding: 14px;
+			font-size: 20px;
 		}
 	}
 }
@@ -550,6 +541,8 @@ body {
 
 	}
 	@include breakpoint( '<320px' ) {
+		margin-right: -100%;
+		width: 100%;
 		border: 0;
 		box-shadow: 5001px 5000px 0 5000px #fff;
 	}
