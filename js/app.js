@@ -489,13 +489,41 @@
 					post_id: $( '#post_ID' ).val() || 0,
 					name: $( '#new-category' ).val() || '',
 					new_cat_nonce: $( '#_ajax_nonce-add-category' ).val() || '',
-					parent: $( '#new-category-parent' ).val() || ''
+					parent: $( '#new-category-parent' ).val() || 0
 				};
 
 				$.post( window.ajaxurl, data, function( response ) {
-					// temp test
-					window.console.log( response );
-					refreshCatsCache();
+					if ( ! response.success ) {
+						render_error( response.data.errorMessage );
+					} else {
+						// TODO: change if/when the html changes.
+						var $parent, $ul,
+							$wrap = $( 'ul.categories-select' );
+
+						$.each( response.data, function( i, newCat ) {
+							var $node = $( '<li>' ).attr( 'id', 'category-' + newCat.term_id )
+								.append( $( '<label class="selectit">' ).text( newCat.name )
+									.append( $( '<input type="checkbox" name="post_category[]" checked>' ).attr( 'value', newCat.term_id ) ) );
+
+							if ( newCat.parent ) {
+								if ( ! $ul || ! $ul.length ) {
+									$parent = $wrap.find( '#category-' + newCat.parent );
+									$ul = $parent.find( 'ul.children:first' );
+
+									if ( ! $ul.length ) {
+										$ul = $( '<ul class="children">' ).appendTo( $parent );
+									}
+								}
+
+								$ul.append( $node );
+								// TODO: set focus on
+							} else {
+								$wrap.prepend( $node );
+							}
+						});
+
+						refreshCatsCache();
+					}
 				});
 			}
 
@@ -523,10 +551,10 @@
 					className = error ? 'error' : 'notice';
 
 				if ( ! $alerts.length ) {
-					$alerts = $( '<div id="alerts" class="alerts"></div>' ).insertBefore( '#wppt_app_container' );
+					$alerts = $( '<div id="alerts" class="alerts">' ).insertBefore( '#wppt_app_container' );
 				}
 
-				$alerts.append( '<p class="' + className +'">' + msg + '</p>' );
+				$alerts.append( $( '<p class="' + className +'">' ).text( msg ) );
 			}
 
 			/**
@@ -840,7 +868,12 @@
 				$( 'button.add-cat-submit' ).on( 'click.press-this', saveNewCategory );
 
 				$( '.categories-select' ).prev( 'input' ).on( 'keyup', function() {
-					var search = $.trim( $( this ).val() ).toLowerCase();
+					var search = $( this ).val().toLowerCase() || '';
+
+					// Don't search when less thasn 3 extended ASCII chars
+					if ( /[\x20-\xFF]+/.test( search ) && search.length < 3 ) {
+						return;
+					}
 
 					$.each( catsCache, function( i, cat ) {
 						cat.node.removeClass( 'hidden searched-parent' );

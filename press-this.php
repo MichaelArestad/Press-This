@@ -40,7 +40,7 @@ class WpPressThis {
 				// Post draft and publish
 				add_action( 'wp_ajax_press_this_publish_post', array( $this, 'ajax_publish_post' ) );
 				add_action( 'wp_ajax_press_this_draft_post',   array( $this, 'ajax_draft_post' ) );
-				add_action( 'wp_ajax_pres_sthis_add_category', array( $this, 'pres_sthis_add_category' ) );
+				add_action( 'wp_ajax_press_this_add_category', array( $this, 'press_this_add_category' ) );
 			} else {
 				/*
 				 * Take over Press This bookmarklet code, wherever presented
@@ -908,20 +908,61 @@ class WpPressThis {
 	/**
 	 * Ajax endpoint add new category
 	 */
-	public function pres_sthis_add_category() {
+	public function press_this_add_category() {
 		if ( false === wp_verify_nonce( $_POST['new_cat_nonce'], 'add-category' ) ) {
 			wp_send_json_error();
 		}
 
 		$taxonomy = get_taxonomy( 'category' );
 
-		if ( ! current_user_can( $taxonomy->cap->edit_terms ) ) {
+		if ( ! current_user_can( $taxonomy->cap->edit_terms ) || empty( $_POST['name'] ) ) {
 			wp_send_json_error();
 		}
 
-		// TODO: try to reuse _wp_ajax_add_hierarchical_term() or make new?
+		$parent = isset( $_POST['parent'] ) && (int) $_POST['parent'] > 0 ? (int) $_POST['parent'] : 0;
+		$names = explode( ',', $_POST['name'] );
+		$added = $data = array();
 
-		wp_send_json_success( array( 'newCat' => 'test 123' ) );
+		foreach ( $names as $cat_name ) {
+			$cat_name = trim( $cat_name );
+			$cat_nicename = sanitize_title( $cat_name );
+
+			if ( empty( $cat_nicename ) ) {
+				continue;
+			}
+
+			if ( ! $cat_id = term_exists( $cat_name, $taxonomy->name, $parent ) ) {
+				$cat_id = wp_insert_term( $cat_name, $taxonomy->name, array( 'parent' => $parent ) );
+			}
+
+			if ( is_wp_error( $cat_id ) ) {
+				continue;
+			} elseif ( is_array( $cat_id ) ) {
+				$cat_id = $cat_id['term_id'];
+			}
+
+			$added[] = $cat_id;
+		}
+
+		if ( empty( $added ) ) {
+			wp_send_json_error( array( 'errorMessage' => __( 'This category cannot be added. Please change the name and try again.' ) ) );
+		}
+
+		foreach ( $added as $new_cat_id ) {
+			$new_cat = get_category( $new_cat_id );
+
+			if ( is_wp_error( $new_cat ) ) {
+				wp_send_json_error( array( 'errorMessage' => __( 'Error while adding the category. Please try again later.' ) ) );
+			}
+
+			$data[] = array(
+				'term_id' => $new_cat->term_id,
+				'name' => $new_cat->name,
+				'parent' => $new_cat->parent,
+			);
+		}
+
+		wp_send_json_success( $data );
 	}
 
 	/**
