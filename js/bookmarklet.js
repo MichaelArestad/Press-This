@@ -128,7 +128,7 @@
 
 		if ( imgs[ n ].original && imgs[ n ].original.length ) {
 			add( '_img[]', imgs[ n ].original );
-		} else if ( r.src.indexOf( '/wp-content/uploads/' ) ) {
+		} else if ( r.src.indexOf( '/wp-content/uploads/' ) > -1 ) {
 			add( '_img[]', r.src );
 		} else if ( r.width && r.height && r.width >= 256 && r.height >= 128 ) {
 			add( '_img[]', r.src );
