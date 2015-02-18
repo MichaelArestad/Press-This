@@ -1380,6 +1380,10 @@ html {
   }
 }
 
+.post__title {
+  background: url(data:image/gif;base64,R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEHAAIALAAAAAABAAEAAAICVAEAOw==);
+  background: none, none;
+}
 .post__title:before {
   content: '\a0';
   display: inline-block;
