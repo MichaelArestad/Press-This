@@ -185,9 +185,6 @@ body {
 	font-size: 14px;
 	line-height: 1.6;
 
-	@include breakpoint( '<600px' ) {
-		// font-size: 16px; // to prevent zooming on iOS. Guh.
-	}
 	&:hover,
 	&:focus {
 		background: darken( $blue--light, 5% );
