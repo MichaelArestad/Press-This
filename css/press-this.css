@@ -781,7 +781,7 @@ input.newtag:focus ~ div.taghint {
 }
 
 .tagchecklist {
-  padding: 16px 28px;
+  padding: 16px 28px 5px;
 }
 .tagchecklist:before, .tagchecklist:after {
   content: "";
@@ -871,11 +871,8 @@ input.newtag:focus ~ div.taghint {
     margin-bottom: 15px;
   }
 
-  .tagchecklist {
-    margin: 25px 10px;
-  }
-
   .tagchecklist span {
+    margin-bottom: 15px;
     font-size: 16px;
     line-height: 120%;
   }

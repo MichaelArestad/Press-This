@@ -4,7 +4,6 @@
 
 
 .tagsdiv {
-	// margin-top: -8px;
 	p {
 		margin: 0;
 	}
@@ -106,7 +105,7 @@ input.newtag:focus ~ div.taghint {
 // Tags
 .tagchecklist {
 	@include clearfix;
-	padding: 16px 28px;
+	padding: 16px 28px 5px;
 
 	span {
 		display: block;
@@ -195,11 +194,8 @@ input.newtag:focus ~ div.taghint {
 		margin-bottom: 15px;
 	}
 
-	.tagchecklist {
-		margin: 25px 10px;
-	}
-
 	.tagchecklist span {
+		margin-bottom: 15px;
 		font-size: 16px;
 		line-height: 120%;
 	}
