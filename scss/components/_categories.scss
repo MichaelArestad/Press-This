@@ -169,6 +169,17 @@ input[type="search"].categories-search,
 
 }
 
+@-moz-document url-prefix() { // TODO hides on FF until we remove checkbox in merge
+	.categories-select input {
+		top: 50%;
+		right: 10px;
+		left: auto;
+		margin-top: -8px;
+		width: 16px;
+		height: 16px;
+	}
+}
+
 // Search
 .categories-search-wrapper {
 	position: relative;
