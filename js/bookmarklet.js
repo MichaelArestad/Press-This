@@ -5,7 +5,7 @@ window.WpPressThis_Bookmarklet = function( pt_url ) {
 		z = w.getSelection,
 		k = d.getSelection,
 		x = d.selection,
-		s = ( z ? z() : ( k ) ? k() : ( x ? x.createRange().text : 0 ) ),
+		s = z ? z() : ( k ? k() : ( x ? x.createRange().text : 0 ) ),
 		es = encodeURI( s ),
 		now = new Date().getTime();
 
@@ -14,7 +14,7 @@ window.WpPressThis_Bookmarklet = function( pt_url ) {
 		return;
 	}
 
-	pt_url += ( ( pt_url.indexOf( '?' ) > -1 ) ? '&' : '?' ) + 'buster=' + now;
+	pt_url += ( pt_url.indexOf( '?' ) > -1 ? '&' : '?' ) + 'buster=' + now;
 
 	if ( d.title.length && d.title.length <= 512 ) {
 		pt_url += '&t=' + encodeURI( d.title );
@@ -31,27 +31,28 @@ window.WpPressThis_Bookmarklet = function( pt_url ) {
 		return;
 	}
 
-	var e = encodeURIComponent,
-		metas = d.head.getElementsByTagName( 'meta' ),
+	var metas = d.head.getElementsByTagName( 'meta' ),
 		links = d.head.getElementsByTagName( 'link' ),
 		it = d.getElementById( 'content' ),
-		imgs = ( null != it ) ? it.getElementsByTagName( 'img' ) : [],
+		imgs = it ? it.getElementsByTagName( 'img' ) : [],
 		ifrs = d.body.getElementsByTagName( 'iframe' ) || [],
 		r = new Image(),
 		f = d.createElement( 'form' ),
 		tn = '_press_this_app',
-		vid = null,
-		fAdd = function ( n, v ) {
-			if ( typeof( v ) === 'undefined' ) {
-				return;
-			}
+		vid = null;
 
-			e = d.createElement( 'input' );
-			e.name  = n;
-			e.value = v;
-			e.type  = 'hidden';
-			f.appendChild( e );
-		};
+	function fAdd( n, v ) {
+		if ( typeof v === 'undefined' ) {
+			return;
+		}
+
+		var e = d.createElement( 'input' );
+
+		e.name  = n;
+		e.value = v;
+		e.type  = 'hidden';
+		f.appendChild( e );
+	}
 
 	if ( l.href.match( /\/\/www\.youtube\.com\/watch/ ) ) {
 		fAdd( '_embed[]', l.href );
