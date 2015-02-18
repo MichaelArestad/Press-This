@@ -1,3 +1,6 @@
+/* jshint curly: false, eqeqeq: false */
+/* global ajaxurl, wpAjax */
+
 /**
  * The functions and classes in that code are a straight cut-and-paste out of
  * /wp-admin/js/post.js, coupled with Press This' usage of the post_tags_meta_box()
@@ -9,8 +12,10 @@
  * Copied-and-pasted instead of enqueuing post.js because the latter has much more,
  * and has processing instead of just functions/classes.
  */
+var tagBox;
+
 ( function( $ ) {
-	var postL10n = {"comma":","}; // Expected by following code
+	var postL10n = { 'comma': ',' }; // Expected by following code
 
 	// The following code is from /wp-admin/js/post.js, see notes above.
 
