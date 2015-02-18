@@ -675,7 +675,7 @@
 							display_src = src;
 						}
 
-						$('<img />', {
+						$('<div></div>', {
 							'src': display_src,
 							'id': 'img-' + i + '-container',
 							'class': 'suggested-media-thumbnail',

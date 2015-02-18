@@ -342,8 +342,42 @@ body {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	background-color: darken( $gray--light, 5% );
+	color: #fff;
+	color: rgba(255, 255, 255, 0.6);
 	cursor: pointer;
 
+	&:hover,
+	&:active,
+	&:focus {
+		color: #fff;
+	}
+	&:before,
+	&:after {
+		display: inline-block;
+		position: absolute;
+		font-size: 20px;
+		line-height: 1;
+		font-family: dashicons;
+		text-decoration: inherit;
+		font-weight: 400;
+		font-style: normal;
+		-webkit-transition: color .1s ease-in 0;
+		transition: color .1s ease-in 0;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	&:before {
+		left: 50%;
+		top: 50%;
+		margin: -20px 0 0 -20px;
+		font-size: 40px;
+	}
+	&:after {
+		content: "\f132";
+		right: 3%;
+		bottom: 2%;
+	}
 	@include breakpoint ( '>600px' ) {
 		$size: 12.5%;
 		width: $size;
@@ -352,26 +386,10 @@ body {
 }
 
 .suggested-media--embed {
-	background-color: $gray--middle;
-
-	&:after {
-		content: "\f236";
-		display: inline-block;
-		position: absolute;
-			right: 3%;
-			bottom: 2%;
-		font-size: 20px;
-		line-height: 1;
-		font-family: dashicons;
-		text-decoration: inherit;
+	&:before {
+		content: "\f104";
 		color: #fff;
-		color: rgba(255, 255, 255, 0.9);
-		font-weight: 400;
-		font-style: normal;
-		-webkit-transition: color .1s ease-in 0;
-		transition: color .1s ease-in 0;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
+		color: rgba(255, 255, 255, 0.6);
 	}
 }
 
