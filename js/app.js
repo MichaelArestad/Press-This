@@ -554,7 +554,7 @@
 					$alerts = $( '<div id="alerts" class="alerts">' ).insertBefore( '#wppt_app_container' );
 				}
 
-				$alerts.append( $( '<p class="' + className +'">' + msg + '</p>' ) );
+				$alerts.append( $( '<p class="' + className +'">' + stripTags( msg ) + '</p>' ) );
 			}
 
 			/**
