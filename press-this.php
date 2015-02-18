@@ -740,7 +740,7 @@ class WpPressThis {
 			</div>
 		</div>
 
-		<div class="options-panel">
+		<div class="options-panel is-off-screen is-hidden">
 			<div class="post-options">
 				<?php if ( $supports_formats ) : ?>
 					<a href="#" class="post-option">
@@ -765,14 +765,14 @@ class WpPressThis {
 			</div>
 
 			<?php if ( $supports_formats ) : ?>
-				<div class="setting-modal">
-					<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
+				<div class="setting-modal is-off-screen is-hidden">
+					<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
 					<?php post_format_meta_box( $post, null ); ?>
 				</div>
 			<?php endif; ?>
 
-			<div class="setting-modal">
-				<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
+			<div class="setting-modal is-off-screen is-hidden">
+				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
 				<?php
 
 				$taxonomy = get_taxonomy( 'category' );
@@ -806,8 +806,8 @@ class WpPressThis {
 				</ul>
 			</div>
 
-			<div class="setting-modal tags">
-				<a href="#" class="modal-close" tabindex="-1"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
+			<div class="setting-modal tags is-off-screen is-hidden">
+				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
 				<?php post_tags_meta_box( $post, null ); ?>
 			</div>
 		</div><!-- .options-panel -->
