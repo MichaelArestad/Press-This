@@ -391,6 +391,26 @@ body {
 		color: #fff;
 		color: rgba(255, 255, 255, 0.6);
 	}
+
+	&.is-video {
+		background: #222;
+
+		&:before {
+			content: "\f236";
+		}
+	}
+	&.is-audio {
+		&:before {
+			content: "\f127";
+		}
+	}
+	&.is-tweet {
+		background: #55acee;
+
+		&:before {
+			content: "\f301";
+		}
+	}
 }
 
 .all-media--visible {

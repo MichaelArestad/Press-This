@@ -1499,6 +1499,21 @@ html {
   color: #fff;
   color: rgba(255, 255, 255, 0.6);
 }
+.suggested-media--embed.is-video {
+  background: #222;
+}
+.suggested-media--embed.is-video:before {
+  content: "\f236";
+}
+.suggested-media--embed.is-audio:before {
+  content: "\f127";
+}
+.suggested-media--embed.is-tweet {
+  background: #55acee;
+}
+.suggested-media--embed.is-tweet:before {
+  content: "\f301";
+}
 
 .all-media--visible .featured-image,
 .all-media--visible #wppt_no_image,
