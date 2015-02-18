@@ -493,6 +493,10 @@ body {
 	}
 }
 
+#wp-link-wrap.search-panel-visible {
+	font-size: 13px;
+}
+
 
 // Options panel
 .options-panel {
@@ -519,7 +523,7 @@ body {
 
 		&.is-off-screen {
 			transform: translateX( 0 );
-		}	
+		}
 
 	}
 }

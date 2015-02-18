@@ -1528,6 +1528,10 @@ html {
     display: none;
   }
 }
+#wp-link-wrap.search-panel-visible {
+  font-size: 13px;
+}
+
 .options-panel {
   position: relative;
   float: right;

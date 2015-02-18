@@ -2,7 +2,15 @@
 // Editor
 // ==========================================================================
 
+@import url( '//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,600,700' );
+
 body {
+	color: map-get( $root-font, color );
+	font-family: $open-sans;
+	font-size: map-get( $root-font, font-size );
+	font-weight: $normal;
+	line-height: map-get( $root-font, line-height );
+
 	&#tinymce {
 		@include breakpoint( '<900px' ) {
 			padding-top: 30px !important;
@@ -25,7 +33,10 @@ body {
 }
 
 blockquote {
+	margin: 1em 1.5em;
 	color: #9ea7af;
+	font-size: em( 25px );
+	font-style: italic;
 
 	@include breakpoint( '<900px' ) {
 		margin: 1.5em 1em;
