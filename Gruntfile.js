@@ -1,9 +1,8 @@
-module.exports = function(grunt) {
+module.exports = function( grunt ) {
+	require( 'matchdep' ).filterDev( 'grunt-*' ).forEach( grunt.loadNpmTasks );
 
-	// 1. All configuration goes here
 	grunt.initConfig({
-		pkg: grunt.file.readJSON('package.json'),
-
+		pkg: grunt.file.readJSON( 'package.json' ),
 		sass: {
 			dist: {
 				options: {
@@ -12,45 +11,46 @@ module.exports = function(grunt) {
 				},
 				files: {
 					'css/press-this.css': 'scss/style.scss',
-					'css/press-this-editor.css': 'scss/editor-style.scss',
+					'css/press-this-editor.css': 'scss/editor-style.scss'
 				}
 			}
 		},
-
 		autoprefixer: {
-			options: {
-			// Task-specific options go here.
-			},
 			global: {
 				options: {
 					// Target-specific options go here.
 					// browser-specific info: https://github.com/ai/autoprefixer#browsers
 					// DEFAULT: browsers: ['> 1%', 'last 2 versions', 'ff 17', 'opera 12.1']
-					browsers: ['> 1%', 'last 2 versions', 'ff 17', 'opera 12.1', 'ie 8', 'ie 9']
+					browsers: [ '> 1%', 'last 2 versions', 'ff 17', 'opera 12.1', 'ie 8', 'ie 9' ]
 				},
 				src: [
 					'css/press-this.css',
 					'css/press-this-editor.css'
 				]
-			},
+			}
 		},
-
+		jshint: {
+			options: grunt.file.readJSON( '.jshintrc' ),
+			grunt: {
+				options: {
+					node: true
+				},
+				src: [ 'Gruntfile.js' ]
+			},
+			plugin: {
+				src: [ 'js/**/*.js' ]
+			}
+		},
 		watch: {
 			css: {
-				files: ['scss/*.scss', 'scss/**/*.scss'],
-				tasks: ['sass', 'autoprefixer'],
+				files: [ 'scss/*.scss', 'scss/**/*.scss' ],
+				tasks: [ 'sass', 'autoprefixer' ],
 				options: {
-					spawn: false,
+					spawn: false
 				}
 			}
 		}
-	});
+	} );
 
-	// 3. Where we tell Grunt we plan to use this plug-in.
-	grunt.loadNpmTasks('grunt-contrib-watch');      // watch files for changes
-	grunt.loadNpmTasks('grunt-contrib-sass');       // Gettin Sassy!
-	grunt.loadNpmTasks('grunt-autoprefixer');       // Auto-freaking-prefixer!!!
-
-	// 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
 	grunt.registerTask( 'default', [ 'watch' ] );
 };

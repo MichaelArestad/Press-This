@@ -704,8 +704,7 @@
 			 * Interactive navigation behavior for the options modal (post format, tags, categories)
 			 */
 			function monitor_options_modal() {
-				var is_active = 'is-active',
-					is_off_screen = 'is-off-screen',
+				var is_off_screen = 'is-off-screen',
 					is_hidden = 'is-hidden',
 					$postOptions = $( '.post-options' ),
 					$postOption = $( '.post-option' ),
@@ -733,7 +732,7 @@
 
 				$modalClose.on( 'click', function(){
 
-					var $targetSettingModal = $( this ).parent();
+					var $targetSettingModal = $( this ).parent(),
 						index = $targetSettingModal.index();
 
 					$postOptions
@@ -743,7 +742,7 @@
 						.addClass( is_off_screen )
 						.one( 'transitionend', function() {
 							$( this ).addClass( is_hidden );
-						});;
+						});
 
 					$postOption.eq( index - 1 ).focus();
 
@@ -756,9 +755,7 @@
 			function monitor_sidebar_toggle() {
 				var $opt_open  = $( '.options-open' ),
 					$opt_close = $( '.options-close' ),
-					$postOptions = $( '.post-options' ),
 					$postOption = $( '.post-option' ),
-					$settingModal = $( '.setting-modal' ),
 					$sidebar = $( '.options-panel' ),
 					is_off_screen = 'is-off-screen',
 					is_hidden = 'is-hidden';
@@ -784,7 +781,7 @@
 						.addClass( is_off_screen )
 						.one( 'transitionend', function() {
 							$( this ).addClass( is_hidden );
-						});;
+						});
 				});
 			}
 
