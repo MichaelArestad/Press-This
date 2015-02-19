@@ -19,6 +19,9 @@ a:active {
   color: #2ea2cc;
 }
 
+/**
+* #.# Lists
+*/
 ul,
 ol {
   margin: 0 0 1.5em 3em;
@@ -46,11 +49,17 @@ dd {
   margin: 0 1.5em 1.5em;
 }
 
+/**
+* #.# Media
+*
+* Basic image and object styles
+*/
 img {
   max-width: 100%;
   height: auto;
 }
 
+/* Makes sure embeds and iframes fit inside their containers */
 embed,
 iframe,
 object {

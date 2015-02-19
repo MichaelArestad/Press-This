@@ -479,6 +479,9 @@ a:active {
   color: #2ea2cc;
 }
 
+/**
+* #.# Lists
+*/
 ul,
 ol {
   margin: 0 0 1.5em 3em;
@@ -504,26 +507,6 @@ dt {
 
 dd {
   margin: 0 1.5em 1.5em;
-}
-
-table {
-  margin: 0 0 1.5em;
-  width: 100%;
-}
-
-th {
-  font-weight: 700;
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-embed,
-iframe,
-object {
-  max-width: 100%;
 }
 
 /**

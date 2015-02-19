@@ -1,13 +1,16 @@
-// ==========================================================================
-// Media
-// ==========================================================================
+/**
+* #.# Media
+*
+* Basic image and object styles
+*/
+
 
 img {
 	max-width: 100%;
 	height: auto;
 }
 
-// Make sure embeds and iframes fit their containers
+/* Makes sure embeds and iframes fit inside their containers */
 embed,
 iframe,
 object {
