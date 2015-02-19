@@ -66,6 +66,11 @@ object {
   max-width: 100%;
 }
 
+/**
+* #.# TinyMCE styles
+*
+* Pretty dang good.
+*/
 body {
   color: #404040;
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
@@ -91,6 +96,7 @@ body {
 
 #tinymce b,
 #tinymce strong {
+  /* overrides TinyMCE's !important. Woohoo. */
   font-weight: 700 !important;
 }
 

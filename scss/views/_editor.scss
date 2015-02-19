@@ -1,6 +1,9 @@
-// ==========================================================================
-// Editor
-// ==========================================================================
+/**
+* #.# TinyMCE styles
+*
+* Pretty dang good.
+*/
+
 
 @import url( '//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,600,700' );
 
@@ -27,6 +30,7 @@ body {
 #tinymce {
 	b,
 	strong {
+		/* overrides TinyMCE's !important. Woohoo. */
 		font-weight: 700 !important;
 	}
 }
