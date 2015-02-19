@@ -399,6 +399,11 @@ strong {
   text-decoration: underline;
 }
 
+/**
+* #.# Forms
+*
+* So many input types.
+*/
 button,
 input,
 select,
@@ -457,6 +462,9 @@ textarea {
   vertical-align: top;
 }
 
+/**
+* #.# Links
+*/
 a {
   color: #0074a2;
 }
@@ -469,13 +477,6 @@ a:hover,
 a:focus,
 a:active {
   color: #2ea2cc;
-}
-
-hr {
-  background-color: #e5e5e5;
-  border: 0;
-  height: 1px;
-  margin-bottom: 1.5em;
 }
 
 ul,
