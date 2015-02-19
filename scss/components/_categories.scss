@@ -1,7 +1,8 @@
-// ==========================================================================
-// Categories
-// ==========================================================================
-
+/**
+* #.# Categories
+*
+* Complete styles for post categories UI
+*/
 input[type="search"].categories-search,
 .add-category__name {
 	display: block;
@@ -15,7 +16,7 @@ input[type="search"].categories-search,
 	appearance: none;
 
 	@include breakpoint( '<600px' ) {
-		font-size: 16px; // to prevent zooming on iOS. Guh.
+		font-size: 16px; /* Needs to be 16px to prevent zooming on iOS. Guh. */
 	}
 }
 
@@ -44,7 +45,7 @@ input[type="search"].categories-search,
 	}
 
 	.postform {
-		display: none; // Temporal removement of Parent Category dropdown
+		display: none; /* TODO Temporary removal of Parent Category dropdown */
 	}
 
 	.add-cat-submit {
@@ -139,14 +140,14 @@ input[type="search"].categories-search,
 	label {
 		position: relative;
 		display: block;
-		padding: 13px $pad 14px $pad; // TODO em() and responsive styles
+		padding: 13px $pad 14px $pad;
 		cursor: pointer;
 		background: #fff;
 	}
 
 	ul {
 
-		label { padding-left: $pad * 1.5; } // TODO find a more elegant and scalable way of doing this
+		label { padding-left: $pad * 1.5; }
 		& ul label { padding-left: $pad * 2; }
 		& ul ul label { padding-left: $pad * 2.5; }
 		& ul ul ul label { padding-left: $pad * 3; }
@@ -159,17 +160,13 @@ input[type="search"].categories-search,
 
 		&.searched-parent {
 			display: block;
-
-			& > label {
-			  // TODO define style of "searched-parent"
-			}
-
 		}
 	}
 
 }
 
-@-moz-document url-prefix() { // TODO hides on FF until we remove checkbox in merge
+/* TODO Reformats checkbox on Firefox until we remove checkbox in merge */
+@-moz-document url-prefix() {
 	.categories-select input {
 		top: 50%;
 		right: 10px;
@@ -180,7 +177,7 @@ input[type="search"].categories-search,
 	}
 }
 
-// Search
+/* Category search */
 .categories-search-wrapper {
 	position: relative;
 

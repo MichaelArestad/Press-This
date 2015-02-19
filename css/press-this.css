@@ -889,6 +889,11 @@ input.newtag:focus ~ div.taghint {
     line-height: 120%;
   }
 }
+/**
+* #.# Categories
+*
+* Complete styles for post categories UI
+*/
 input[type="search"].categories-search,
 .add-category__name {
   display: block;
@@ -906,6 +911,7 @@ input[type="search"].categories-search,
   input[type="search"].categories-search,
   .add-category__name {
     font-size: 16px;
+    /* Needs to be 16px to prevent zooming on iOS. Guh. */
   }
 }
 
@@ -932,6 +938,7 @@ input[type="search"].categories-search,
 }
 .add-category .postform {
   display: none;
+  /* TODO Temporary removal of Parent Category dropdown */
 }
 .add-category .add-cat-submit {
   position: absolute;
@@ -1047,6 +1054,7 @@ input[type="search"].categories-search,
   display: block;
 }
 
+/* TODO Reformats checkbox on Firefox until we remove checkbox in merge */
 @-moz-document url-prefix() {
   .categories-select input {
     top: 50%;
@@ -1057,6 +1065,7 @@ input[type="search"].categories-search,
     height: 16px;
   }
 }
+/* Category search */
 .categories-search-wrapper {
   position: relative;
 }
