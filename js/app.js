@@ -13,29 +13,29 @@
 			var editor,
 				saveAlert             = false,
 				$div                  = $('<div>'),
-				site_config           = window.wp_pressthis_config || {},
+				siteConfig            = window.wp_pressthis_config || {},
 				data                  = window.wp_pressthis_data || {},
-				smallest_width        = 128,
-				interesting_images	  = get_interesting_images( data ) || [],
-				interesting_embeds	  = get_interesting_embeds( data ) || [],
-				has_empty_title_str   = false,
-				suggested_title_str   = get_suggested_title( data ),
-				suggested_content_str = get_suggested_content( data ),
-				has_set_focus         = false,
+				smallestWidth         = 128,
+				interestingImages	  = getInterestingImages( data ) || [],
+				interestingEmbeds	  = getInterestingEmbeds( data ) || [],
+				hasEmptyTitleStr      = false,
+				suggestedTitleStr     = getSuggestedTitle( data ),
+				suggestedContentStr   = getSuggestedContent( data ),
+				hasSetFocus           = false,
 				catsCache = [];
 
-/* ***************************************************************
- * HELPER FUNCTIONS
- *************************************************************** */
+			/* ***************************************************************
+			 * HELPER FUNCTIONS
+			 *************************************************************** */
 
 			/**
-			 * Emulates our PHP __() gettext function, powered by the strings exported in site_config.i18n.
+			 * Emulates our PHP __() gettext function, powered by the strings exported in siteConfig.i18n.
 			 *
-			 * @param key string Key of the string to be translated, as found in site_config.i18n
+			 * @param key string Key of the string to be translated, as found in siteConfig.i18n
 			 * @returns string Original or translated value, if there is one
 			 */
 			function __( key ) {
-				return ( ! site_config || ! site_config.i18n || ! site_config.i18n[key] || ! site_config.i18n[key].length ) ? key : site_config.i18n[key];
+				return ( ! siteConfig || ! siteConfig.i18n || ! siteConfig.i18n[key] || ! siteConfig.i18n[key].length ) ? key : siteConfig.i18n[key];
 			}
 
 			/**
@@ -56,7 +56,7 @@
 			 * @param data object Usually WpPressThis_App.data
 			 * @returns string Discovered canonical URL, or empty
 			 */
-			function get_canonical_link( data ) {
+			function getCanonicalLink( data ) {
 				if ( ! data || data.length ) {
 					return '';
 				}
@@ -90,7 +90,7 @@
 			 * @param data object Usually WpPressThis_App.data
 			 * @returns string Discovered site name, or empty
 			 */
-			function get_source_site_name( data ) {
+			function getSourceSiteName( data ) {
 				if ( ! data || data.length ) {
 					return '';
 				}
@@ -114,7 +114,7 @@
 			 * @param data object Usually WpPressThis_App.data
 			 * @returns string Discovered page title, or empty
 			 */
-			function get_suggested_title( data ) {
+			function getSuggestedTitle( data ) {
 				if ( ! data || data.length ) {
 					return __('new-post');
 				}
@@ -137,7 +137,7 @@
 
 				if ( ! title.length ) {
 					title = __( 'new-post' );
-					has_empty_title_str = true;
+					hasEmptyTitleStr = true;
 				}
 
 				return title.replace( /\\/g, '' );
@@ -150,15 +150,15 @@
 			 * @param data object Usually WpPressThis_App.data
 			 * @returns string Discovered content, or empty
 			 */
-			function get_suggested_content( data ) {
+			function getSuggestedContent( data ) {
 				if ( ! data || data.length ) {
 					return __( 'start-typing-here' );
 				}
 
 				var content   = '',
-					title     = get_suggested_title( data ),
-					url       = get_canonical_link( data ),
-					site_name = get_source_site_name( data );
+					title     = getSuggestedTitle( data ),
+					url       = getCanonicalLink( data ),
+					site_name = getSourceSiteName( data );
 
 				if ( data.s && data.s.length ) {
 					content = data.s;
@@ -197,7 +197,7 @@
 			 * @param url string Passed URl, usually from WpPressThis_App.data._embed
 			 * @returns boolean
 			 */
-			function is_embeddable( url ) {
+			function isEmbeddable( url ) {
 				if ( ! url || ! url ) {
 					return false;
 				} else if ( url.match(/\/\/(m\.|www\.)?youtube\.com\/watch\?/) || url.match(/\/youtu\.be\/.+$/) ) {
@@ -220,7 +220,7 @@
 			 * @param src string Passed URl, usually from WpPressThis_App.data._ing
 			 * @returns boolean Test for false
 			 */
-			function is_src_uninteresting_path( src ) {
+			function isSrcUninterestingPath( src ) {
 				if ( src.match( /\/ad[sx]{1}?\// ) ) {
 					// Ads
 					return true;
@@ -257,34 +257,34 @@
 			 *
 			 * @returns array
 			 */
-			function get_interesting_embeds() {
+			function getInterestingEmbeds() {
 				var embeds             = data._embed || [],
-					interesting_embeds = [],
-					already_selected   = [];
+					interestingEmbeds  = [],
+					alreadySelected    = [];
 
 				if ( embeds.length ) {
 					$.each( embeds, function ( i, src ) {
 						if (!src || !src.length) {
 							// Skip: no src value
 							return;
-						} else if ( !is_embeddable( src ) ) {
+						} else if ( !isEmbeddable( src ) ) {
 							// Skip: not deemed embeddable
 							return;
 						}
 
-						var schemeless_src = src.replace(/^https?:/, '');
+						var schemelessSrc = src.replace(/^https?:/, '');
 
-						if ( Array.prototype.indexOf && already_selected.indexOf( schemeless_src ) > -1 ) {
+						if ( Array.prototype.indexOf && alreadySelected.indexOf( schemelessSrc ) > -1 ) {
 							// Skip: already shown
 							return;
 						}
 
-						interesting_embeds.push(src);
-						already_selected.push(schemeless_src);
+						interestingEmbeds.push(src);
+						alreadySelected.push(schemelessSrc);
 					});
 				}
 
-				return interesting_embeds;
+				return interestingEmbeds;
 			}
 
 			/**
@@ -292,7 +292,7 @@
 			 *
 			 * @returns array
 			 */
-			function get_featured_image( data ) {
+			function getFeaturedImage( data ) {
 				var featured = '';
 
 				if ( ! data || ! data._meta ) {
@@ -313,7 +313,7 @@
 					featured = data._meta['og:image:secure_url'];
 				}
 
-				return ( is_src_uninteresting_path( featured ) ) ? '' : featured;
+				return ( isSrcUninterestingPath( featured ) ) ? '' : featured;
 			}
 
 			/**
@@ -321,15 +321,15 @@
 			 *
 			 * @returns array
 			 */
-			function get_interesting_images( data ) {
+			function getInterestingImages( data ) {
 				var imgs             = data._img || [],
-					featured_pict    = get_featured_image( data ) || '',
-					interesting_imgs = [],
-					already_selected = [];
+					featuredPict     = getFeaturedImage( data ) || '',
+					interestingImgs  = [],
+					alreadySelected  = [];
 
-				if ( featured_pict.length ) {
-					interesting_imgs.push(featured_pict);
-					already_selected.push(featured_pict.replace(/^https?:/, ''));
+				if ( featuredPict.length ) {
+					interestingImgs.push(featuredPict);
+					alreadySelected.push(featuredPict.replace(/^https?:/, ''));
 				}
 
 				if ( imgs.length ) {
@@ -341,31 +341,31 @@
 							return;
 						}
 
-						var schemeless_src = src.replace(/^https?:/, '');
+						var schemelessSrc = src.replace(/^https?:/, '');
 
-						if ( Array.prototype.indexOf && already_selected.indexOf( schemeless_src ) > -1 ) {
+						if ( Array.prototype.indexOf && alreadySelected.indexOf( schemelessSrc ) > -1 ) {
 							// Skip: already shown
 							return;
-						} else if (is_src_uninteresting_path(src)) {
+						} else if (isSrcUninterestingPath(src)) {
 							// Skip: spinner, stat, ad, or spacer pict
 							return;
-						} else if (src.indexOf('avatar') > -1 && interesting_imgs.length >= 15) {
+						} else if (src.indexOf('avatar') > -1 && interestingImgs.length >= 15) {
 							// Skip:  some type of avatar and we've already gathered more than 23 diff images to show
 							return;
 						}
 
-						interesting_imgs.push(src);
-						already_selected.push(schemeless_src);
+						interestingImgs.push(src);
+						alreadySelected.push(schemelessSrc);
 					});
 				}
 
-				return interesting_imgs;
+				return interestingImgs;
 			}
 
 			/**
 			 * Show UX spinner
 			 */
-			function show_spinner() {
+			function showSpinner() {
 				$('#wppt_spinner').addClass('show');
 				$('[class^="button--"]').each(function(){
 					$(this).attr('disabled', 'disabled');
@@ -375,7 +375,7 @@
 			/**
 			 * Hide UX spinner
 			 */
-			function hide_spinner() {
+			function hideSpinner() {
 				$('#wppt_spinner').removeClass('show');
 				$('[class^="button--"]').each(function(){
 					$(this).removeAttr('disabled');
@@ -387,9 +387,9 @@
 			 *
 			 * @param action string publish|draft
 			 */
-			function submit_post( action ) {
+			function submitPost( action ) {
 				saveAlert = false;
-				show_spinner();
+				showSpinner();
 
 				var $form = $('#wppt_form');
 
@@ -416,8 +416,8 @@
 					data: data,
 					success: function( response ) {
 						if ( ! response.success ) {
-							render_error( response.data.errorMessage );
-							hide_spinner();
+							renderError( response.data.errorMessage );
+							hideSpinner();
 						} else if ( response.data.redirect ) {
 							// TODO: better redirect/window.open()/_blank logic
 							if ( window.opener ) {
@@ -441,8 +441,8 @@
 			 * @param src string Source URL
 			 * @param link string Optional destination link, for images (defaults to src)
 			 */
-			function insert_selected_media( type, src, link ) {
-				var new_content = '';
+			function insertSelectedMedia( type, src, link ) {
+				var newContent = '';
 
 				if ( ! editor ) {
 					return;
@@ -452,20 +452,20 @@
 					if ( !link || !link.length ) {
 						link = src;
 					}
-					new_content = '<a href="' + link + '"><img src="' + src + '" /></a>\n';
+					newContent = '<a href="' + link + '"><img src="' + src + '" /></a>\n';
 				} else {
-					new_content = '[embed]' + src + '[/embed]\n';
+					newContent = '[embed]' + src + '[/embed]\n';
 				}
 
-				if ( ! has_set_focus ) {
+				if ( ! hasSetFocus ) {
 					// Append to top of content on 1st media insert
-					editor.setContent( new_content + editor.getContent() );
+					editor.setContent( newContent + editor.getContent() );
 				} else {
 					// Or add where the cursor was last positioned in TinyMCE
-					editor.execCommand( 'mceInsertContent', false, new_content );
+					editor.execCommand( 'mceInsertContent', false, newContent );
 				}
 
-				has_set_focus = true;
+				hasSetFocus = true;
 			}
 
 			/**
@@ -473,11 +473,11 @@
 			 *
 			 * @param format string Post format to be displayed
 			 */
-			function set_post_format_string(format) {
-				if ( !format || !site_config || !site_config.post_formats || !site_config.post_formats[ format ] ) {
+			function setPostFormatString( format ) {
+				if ( ! format || ! siteConfig || ! siteConfig.post_formats || ! siteConfig.post_formats[ format ] ) {
 					return;
 				}
-				$('#post-option-post-format').text( site_config.post_formats[format] );
+				$( '#post-option-post-format' ).text( siteConfig.post_formats[ format ] );
 			}
 
 			/**
@@ -494,7 +494,7 @@
 
 				$.post( window.ajaxurl, data, function( response ) {
 					if ( ! response.success ) {
-						render_error( response.data.errorMessage );
+						renderError( response.data.errorMessage );
 					} else {
 						// TODO: change if/when the html changes.
 						var $parent, $ul,
@@ -527,14 +527,14 @@
 				});
 			}
 
-/* ***************************************************************
- * RENDERING FUNCTIONS
- *************************************************************** */
+			/* ***************************************************************
+			 * RENDERING FUNCTIONS
+			 *************************************************************** */
 
 			/**
 			 * Hide the form letting users enter a URL to be scanned, if a URL was already passed.
 			 */
-			function render_tools_visibility() {
+			function renderToolsVisibility() {
 				if ( data.u && data.u.match( /^https?:/ ) ) {
 					$('#wppt_scanbar').hide();
 				}
@@ -546,7 +546,7 @@
 			 * @param msg string Notice/error message
 			 * @param error string error|notice CSS class for display
 			 */
-			function render_notice( msg, error ) {
+			function renderNotice( msg, error ) {
 				var $alerts = $( '#alerts' ),
 					className = error ? 'error' : 'notice';
 
@@ -562,34 +562,34 @@
 			 *
 			 * @param msg string Error message
 			 */
-			function render_error( msg ) {
-				render_notice( msg, true );
+			function renderError( msg ) {
+				renderNotice( msg, true );
 			}
 
 			/**
 			 * Render notices on page load, if any already
 			 */
-			function render_startup_notices() {
+			function renderStartupNotices() {
 				// Render errors sent in the data, if any
 				if ( data.errors && data.errors.length ) {
 					$.each( data.errors, function( i, msg ) {
-						render_error( msg );
+						renderError( msg );
 					} );
 				}
 
 				// Prompt user to upgrade their bookmarklet if there is a version mismatch.
 				if ( data.v && data._version && data.v !== data._version ) {
-					render_notice( __( 'should-upgrade-bookmarklet').replace( '%s', site_config.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php?page=press_this_options' ) ) );
+					renderNotice( __( 'should-upgrade-bookmarklet').replace( '%s', siteConfig.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php?page=press_this_options' ) ) );
 				}
 			}
 
 			/**
 			 * Render the suggested title, if any
 			 */
-			function render_suggested_title() {
-				var title = suggested_title_str || '';
+			function renderSuggestedTitle() {
+				var title = suggestedTitleStr || '';
 
-				if ( ! has_empty_title_str ) {
+				if ( ! hasEmptyTitleStr ) {
 					$('#wppt_title_field').val( title );
 					$('#wppt_title_container').text( title );
 					$('.post__title-placeholder').addClass('screen-reader-text');
@@ -605,8 +605,8 @@
 			/**
 			 * Render the suggested content, if any
 			 */
-			function render_suggested_content() {
-				if ( ! suggested_content_str || ! suggested_content_str.length ) {
+			function renderSuggestedContent() {
+				if ( ! suggestedContentStr || ! suggestedContentStr.length ) {
 					return;
 				}
 
@@ -615,9 +615,9 @@
 				}
 
 				if ( editor ) {
-					editor.setContent( suggested_content_str );
+					editor.setContent( suggestedContentStr );
 					editor.on( 'focus', function() {
-						has_set_focus = true;
+						hasSetFocus = true;
 					});
 				}
 
@@ -626,185 +626,180 @@
 			/**
 			 * Render the detected images and embed for selection, if any
 			 */
-			function render_detected_media() {
-				var media_container = $( '#wppt_featured_media_container'),
-					list_container  = $('#wppt_all_media_container'),
-					found           = 0;
+			function renderDetectedMedia() {
+				var mediaContainer = $( '#wppt_featured_media_container'),
+					listContainer  = $('#wppt_all_media_container'),
+					found          = 0;
 
-				list_container.empty();
+				listContainer.empty();
 
-				if ( interesting_embeds && interesting_embeds.length ) {
-					$.each(interesting_embeds, function (i, src) {
+				if ( interestingEmbeds && interestingEmbeds.length ) {
+					$.each(interestingEmbeds, function (i, src) {
 						src = stripTags( src );
 
-						if ( ! is_embeddable( src ) ) {
+						if ( ! isEmbeddable( src ) ) {
 							return;
 						}
 
-						var display_src = '',
-							css_class = 'suggested-media-thumbnail suggested-media--embed';
+						var displaySrc = '',
+							cssClass   = 'suggested-media-thumbnail suggested-media--embed';
+
 						if ( src.indexOf( 'youtube.com/' ) > -1 ) {
-							display_src = 'https://i.ytimg.com/vi/' + src.replace( /.+v=([^&]+).*/, '$1' ) + '/hqdefault.jpg';
-							css_class += ' is-video';
+							displaySrc = 'https://i.ytimg.com/vi/' + src.replace( /.+v=([^&]+).*/, '$1' ) + '/hqdefault.jpg';
+							cssClass += ' is-video';
 						} else if ( src.indexOf( 'youtu.be/' ) > -1 ) {
-							display_src = 'https://i.ytimg.com/vi/' + src.replace( /\/([^\/])$/, '$1' ) + '/hqdefault.jpg';
-							css_class += ' is-video';
+							displaySrc = 'https://i.ytimg.com/vi/' + src.replace( /\/([^\/])$/, '$1' ) + '/hqdefault.jpg';
+							cssClass += ' is-video';
 						} else if ( src.indexOf( 'dailymotion.com' ) > -1 ) {
-							display_src = src.replace( '/video/', '/thumbnail/video/' );
-							css_class += ' is-video';
+							displaySrc = src.replace( '/video/', '/thumbnail/video/' );
+							cssClass += ' is-video';
 						} else if ( src.indexOf( 'soundcloud.com' ) > -1 ) {
-							css_class += ' is-audio';
+							cssClass += ' is-audio';
 						} else if ( src.indexOf( 'twitter.com' ) > -1 ) {
-							css_class += ' is-tweet';
+							cssClass += ' is-tweet';
 						} else {
-							css_class += ' is-video';
+							cssClass += ' is-video';
 						}
 
 						$('<div></div>', {
 							'id': 'embed-' + i + '-container',
-							'class': css_class,
+							'class': cssClass,
 							'tabindex': '0'
 						}).css({
-							'background-image': ( display_src.length ) ? 'url(' + display_src + ')' : null
+							'background-image': ( displaySrc.length ) ? 'url(' + displaySrc + ')' : null
 						}).on('click keypress', function (e) {
 							if ( e.type === 'click' || e.which === 13 ) {
-								insert_selected_media('embed',src);
+								insertSelectedMedia('embed',src);
 							}
-						}).appendTo(list_container);
+						}).appendTo(listContainer);
 
 						found++;
 					});
 				}
 
-				if ( interesting_images && interesting_images.length ) {
-					$.each(interesting_images, function (i, src) {
+				if ( interestingImages && interestingImages.length ) {
+					$.each(interestingImages, function (i, src) {
 						src = stripTags( src );
 
-						var display_src = src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
+						var displaySrc = src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
 						if ( src.indexOf('files.wordpress.com/') > -1 ) {
-							display_src = display_src.replace(/\?.*$/, '') + '?w=' + smallest_width;
+							displaySrc = displaySrc.replace(/\?.*$/, '') + '?w=' + smallestWidth;
 						} else if ( src.indexOf('gravatar.com/') > -1 ) {
-							display_src = display_src.replace(/\?.*$/, '') + '?s=' + smallest_width;
+							displaySrc = displaySrc.replace(/\?.*$/, '') + '?s=' + smallestWidth;
 						} else {
-							display_src = src;
+							displaySrc = src;
 						}
 
 						$('<div></div>', {
-							'src': display_src,
+							'src': displaySrc,
 							'id': 'img-' + i + '-container',
 							'class': 'suggested-media-thumbnail is-image',
 							'tabindex': '0'
 						}).css({
-							'background-image': 'url(' + display_src + ')'
+							'background-image': 'url(' + displaySrc + ')'
 						}).on('click keypress', function (e) {
 							if ( e.type === 'click' || e.which === 13 ) {
-								insert_selected_media('img', src, data.u);
+								insertSelectedMedia('img', src, data.u);
 							}
-						}).appendTo(list_container);
+						}).appendTo(listContainer);
 
 						found++;
 					});
 				}
 
 				if ( ! found ) {
-					media_container.removeClass('all-media--visible').addClass( 'no-media');
+					mediaContainer.removeClass('all-media--visible').addClass( 'no-media');
 					return;
 				}
 
-				media_container.removeClass( 'no-media' ).addClass( 'all-media--visible' );
+				mediaContainer.removeClass( 'no-media' ).addClass( 'all-media--visible' );
 			}
 
-/* ***************************************************************
- * MONITORING FUNCTIONS
- *************************************************************** */
+			/* ***************************************************************
+			 * MONITORING FUNCTIONS
+			 *************************************************************** */
 
 			/**
 			 * Interactive navigation behavior for the options modal (post format, tags, categories)
 			 */
-			function monitor_options_modal() {
-				var is_off_screen = 'is-off-screen',
-					is_hidden = 'is-hidden',
-					$postOptions = $( '.post-options' ),
-					$postOption = $( '.post-option' ),
+			function monitorOptionsModal() {
+				var isOffScreen   = 'is-off-screen',
+					isHidden      = 'is-hidden',
+					$postOptions  = $( '.post-options' ),
+					$postOption   = $( '.post-option' ),
 					$settingModal = $( '.setting-modal' ),
-					$modalClose = $( '.modal-close' );
+					$modalClose   = $( '.modal-close' );
 
 				$postOption.on( 'click', function() {
-
 					var index = $( this ).index(),
 						$targetSettingModal = $settingModal.eq( index );
 
 					$postOptions
-						.addClass( is_off_screen )
+						.addClass( isOffScreen )
 						.one( 'transitionend', function() {
-							$( this ).addClass( is_hidden );
+							$( this ).addClass( isHidden );
 						});
 
 					$targetSettingModal
-						.removeClass( is_off_screen + ' ' + is_hidden )
+						.removeClass( isOffScreen + ' ' + isHidden )
 						.one( 'transitionend', function() {
 							$( this ).find( $modalClose ).focus();
 						});
-
 				});
 
 				$modalClose.on( 'click', function(){
-
 					var $targetSettingModal = $( this ).parent(),
 						index = $targetSettingModal.index();
 
 					$postOptions
-						.removeClass( is_off_screen + ' ' + is_hidden );
+						.removeClass( isOffScreen + ' ' + isHidden );
 
 					$targetSettingModal
-						.addClass( is_off_screen )
+						.addClass( isOffScreen )
 						.one( 'transitionend', function() {
-							$( this ).addClass( is_hidden );
+							$( this ).addClass( isHidden );
 						});
 
 					$postOption.eq( index - 1 ).focus();
-
 				});
 			}
 
 			/**
 			 * Interactive behavior for the sidebar toggle, to show the options modals
 			 */
-			function monitor_sidebar_toggle() {
-				var $opt_open  = $( '.options-open' ),
-					$opt_close = $( '.options-close' ),
+			function monitorSidebarToggle() {
+				var $optOpen  = $( '.options-open' ),
+					$optClose = $( '.options-close' ),
 					$postOption = $( '.post-option' ),
 					$sidebar = $( '.options-panel' ),
-					$post_actions = $( '.press-this__actions' ),
+					$postActions = $( '.press-this__actions' ),
 					$scanbar = $( '#wppt_scanbar' ),
-					is_off_screen = 'is-off-screen',
-					is_hidden = 'is-hidden';
+					isOffScreen = 'is-off-screen',
+					isHidden = 'is-hidden';
 
-				$opt_open.on( 'click', function(){
-
-					$opt_open.addClass( is_hidden );
-					$opt_close.removeClass( is_hidden );
-					$post_actions.addClass( is_hidden );
-					$scanbar.addClass( is_hidden );
+				$optOpen.on( 'click', function(){
+					$optOpen.addClass( isHidden );
+					$optClose.removeClass( isHidden );
+					$postActions.addClass( isHidden );
+					$scanbar.addClass( isHidden );
 
 					$sidebar
-						.removeClass( is_off_screen + ' ' + is_hidden )
+						.removeClass( isOffScreen + ' ' + isHidden )
 						.one( 'transitionend', function() {
 							$postOption.eq(0).focus();
 						});
 				});
 
-				$opt_close.on( 'click', function(){
-
-					$opt_close.addClass( is_hidden );
-					$opt_open.removeClass( is_hidden );
-					$post_actions.removeClass( is_hidden );
-					$scanbar.removeClass( is_hidden );
+				$optClose.on( 'click', function(){
+					$optClose.addClass( isHidden );
+					$optOpen.removeClass( isHidden );
+					$postActions.removeClass( isHidden );
+					$scanbar.removeClass( isHidden );
 
 					$sidebar
-						.addClass( is_off_screen )
+						.addClass( isOffScreen )
 						.one( 'transitionend', function() {
-							$( this ).addClass( is_hidden );
+							$( this ).addClass( isHidden );
 						});
 				});
 			}
@@ -812,15 +807,12 @@
 			/**
 			 * Interactive behavior for the post title's field placeholder
 			 */
-			function monitor_placeholder() {
-
-				var $selector = $( '#wppt_title_container' );
-				var $placeholder = $('.post__title-placeholder');
+			function monitorPlaceholder() {
+				var $selector = $( '#wppt_title_container'),
+					$placeholder = $('.post__title-placeholder');
 
 				$selector.on( 'focus', function() {
-
 					$placeholder.addClass('screen-reader-text');
-
 				});
 
 				$selector.on( 'blur', function() {
@@ -832,20 +824,20 @@
 				});
 			}
 
-/* ***************************************************************
- * PROCESSING FUNCTIONS
- *************************************************************** */
+			/* ***************************************************************
+			 * PROCESSING FUNCTIONS
+			 *************************************************************** */
 
 			/**
 			 * Calls all the rendring related functions to happen on page load
 			 */
 			function render(){
 				// We're on!
-				render_tools_visibility();
-				render_suggested_title();
-				render_detected_media();
-				$( document ).on( 'tinymce-editor-init', render_suggested_content );
-				render_startup_notices();
+				renderToolsVisibility();
+				renderSuggestedTitle();
+				renderDetectedMedia();
+				$( document ).on( 'tinymce-editor-init', renderSuggestedContent );
+				renderStartupNotices();
 			}
 
 			/**
@@ -859,22 +851,22 @@
 				// Publish and Draft buttons and submit
 
 				$( '#wppt_draft_field' ).on( 'click', function() {
-					submit_post( 'draft' );
+					submitPost( 'draft' );
 				});
 
 				$( '#wppt_publish_field' ).on( 'click', function() {
-					submit_post( 'publish' );
+					submitPost( 'publish' );
 				});
 
-				monitor_options_modal();
-				monitor_sidebar_toggle();
-				monitor_placeholder();
+				monitorOptionsModal();
+				monitorSidebarToggle();
+				monitorPlaceholder();
 
 				$('#post-formats-select input').on( 'change', function() {
 					var $this = $( this );
 
 					if ( $this.is( ':checked' ) ) {
-						set_post_format_string( $this.attr('id').replace( /^post-format-(.+)$/, '$1' ) );
+						setPostFormatString( $this.attr('id').replace( /^post-format-(.+)$/, '$1' ) );
 					}
 				});
 
@@ -936,9 +928,9 @@
 				} );
 			}
 
-/* ***************************************************************
- * PROCESSING
- *************************************************************** */
+			/* ***************************************************************
+			 * PROCESSING
+			 *************************************************************** */
 
 			// Let's go!
 			render();
@@ -946,7 +938,7 @@
 			refreshCatsCache();
 
 			// Assign callback/public properties/methods to returned object
-			this.render_error = render_error;
+			this.renderError = renderError;
 		};
 
 		// Initialize app
