@@ -6,7 +6,7 @@
 		 *
 		 * Main class to control behavior and rendering for Press This, on the client side.
 		 */
-		var WpPressThis_App = function() {
+		var WpPressThisApp = function() {
 			/**
 			 * Define our most common/reused properties with their respective defaults
 			 */
@@ -942,6 +942,6 @@
 		};
 
 		// Initialize app
-		window.wp_pressthis_app = new WpPressThis_App();
+		window.wpPressThisApp = new WpPressThisApp();
 	});
 }( jQuery ));
