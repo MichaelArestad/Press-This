@@ -24,8 +24,9 @@ class WpPressThis {
 	public function __construct() {
 		$script_name = self::script_name();
 
-		if ( empty( $script_name ) )
+		if ( empty( $script_name ) ) {
 			return;
+		}
 
 		if ( is_admin() ) {
 			if ( false !== strpos( self::runtime_url(), $script_name ) ) {
@@ -70,7 +71,7 @@ class WpPressThis {
 				: ( ! empty( $_SERVER['REQUEST_URI'] ) )
 					? preg_replace( '/^([^\?]+)(\?.*)?$/', '\1', $_SERVER['REQUEST_URI'] )
 					: '';
-		return ( preg_match('/\/wp-admin\/?$/', $script_name) || ! preg_match('/\.php$/', $script_name ) )
+		return ( preg_match( '/\/wp-admin\/?$/', $script_name ) || ! preg_match( '/\.php$/', $script_name ) )
 			? untrailingslashit( $script_name ) . '/index.php'
 			: $script_name;
 	}
@@ -92,7 +93,7 @@ class WpPressThis {
 			|| ( function_exists( 'is_ssl' ) && is_ssl() )
 			|| ! empty( $current_user->use_ssl ) ) {
 
-			return set_url_scheme(  $url, 'https' );
+			return set_url_scheme( $url, 'https' );
 		}
 
 		return set_url_scheme( $url, 'http' );
@@ -181,7 +182,7 @@ class WpPressThis {
 		$supported_formats = get_theme_support( 'post-formats' );
 		$post_formats      = array();
 
-		if ( !empty( $supported_formats[0] ) && is_array( $supported_formats[0] ) ) {
+		if ( ! empty( $supported_formats[0] ) && is_array( $supported_formats[0] ) ) {
 			$post_formats[ 0 ] = __( 'Standard' );
 			foreach ( $supported_formats[0] as $post_format ) {
 				$post_formats[ $post_format ] = esc_html( get_post_format_string( $post_format ) );
@@ -212,12 +213,11 @@ class WpPressThis {
 		 * bookmarklet" notice when using PT in those browsers.
 		 */
 		$ua = $_SERVER['HTTP_USER_AGENT'];
-		if ( !empty( $ua ) && preg_match( '/\bMSIE (\d{1})/', $ua, $matches ) && (int) $matches[1] <= 8 ) {
+		if ( ! empty( $ua ) && preg_match( '/\bMSIE (\d{1})/', $ua, $matches ) && (int) $matches[1] <= 8 ) {
 			return preg_replace( '/\bv=\d{1}/', 'v=' . self::plugin_version(), $link );
 		}
 
 		$url = esc_js( self::runtime_url() . '?v=' . self::plugin_version() );
-
 
 		$link = 'javascript:' . file_get_contents( self::plugin_dir_path() . '/js/bookmarklet.min.js' );
 		$link = str_replace( 'window.pt_url', wp_json_encode( $url ), $link );
@@ -233,8 +233,9 @@ class WpPressThis {
 	 */
 	public function press_this_php_override() {
 		// Simply drop the following test once/if this becomes the standard Press This code in core
-		if ( false === strpos( self::runtime_url(), self::script_name() ) )
+		if ( false === strpos( self::runtime_url(), self::script_name() ) ) {
 			return;
+		}
 
 		if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
@@ -258,7 +259,7 @@ class WpPressThis {
 		preg_match_all( '/<img [^>]+>/', $content, $matches );
 
 		if ( ! empty( $matches ) && current_user_can( 'upload_files' ) ) {
-			foreach( (array) $matches[0] as $key => $image ) {
+			foreach ( (array) $matches[0] as $key => $image ) {
 				preg_match( '/src=["\']{1}([^"\']+)["\']{1}/', stripslashes( $image ), $url_matches );
 
 				if ( empty( $url_matches[1] ) ) {
@@ -283,15 +284,17 @@ class WpPressThis {
 					$upload = media_sideload_image( $image_url, $post_id );
 
 					// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
-					if ( ! is_wp_error( $upload ) )
+					if ( ! is_wp_error( $upload ) ) {
 						$new_content = preg_replace( '/<img ([^>]*)src=\\\?(\"|\')'.preg_quote( htmlspecialchars( $image_url ), '/' ).'\\\?(\2)([^>\/]*)\/*>/is', $upload, $new_content );
+					}
 				}
 			}
 		}
 
 		// Error handling for media_sideload, send original content back
-		if ( is_wp_error( $new_content ) )
+		if ( is_wp_error( $new_content ) ) {
 			return $content;
+		}
 
 		return $new_content;
 	}
@@ -324,7 +327,7 @@ class WpPressThis {
 			'post_category' => ( ! empty( $_POST['post_category'] ) ) ? $_POST['post_category'] : array(),
 		);
 
-		if ( !empty( $_POST['action'] ) && 'press_this_publish_post' === $_POST['action'] ) {
+		if ( ! empty( $_POST['action'] ) && 'press_this_publish_post' === $_POST['action'] ) {
 			if ( current_user_can( 'publish_posts' ) ) {
 				$post['post_status'] = 'publish';
 			} else {
@@ -351,7 +354,7 @@ class WpPressThis {
 				}
 			}
 
-			if ( get_post_status( $post_id ) === 'publish' ) {
+			if ( 'publish' === get_post_status( $post_id ) ) {
 				$redirect = get_post_permalink( $post_id );
 			} else {
 				$redirect = get_edit_post_link( $post_id, 'raw' );
@@ -375,7 +378,7 @@ class WpPressThis {
 			// Get the content of the source page from the tmp file.
 			$source_content = wp_kses(
 				file_get_contents( $source_tmp_file ),
-				array (
+				array(
 					'img' => array(
 						'src'      => array(),
 					),
@@ -433,7 +436,7 @@ class WpPressThis {
 		}
 
 		if ( preg_match_all( '/<img (.+)[\s]?\/>/', $source_content, $matches ) ) {
-			if ( !empty( $matches[0] ) ) {
+			if ( ! empty( $matches[0] ) ) {
 				foreach ( $matches[0] as $value ) {
 					if ( preg_match( '/<img[^>]+src="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
 						if ( ! in_array( $new_matches[1], $data['_img'] ) ) {
@@ -450,7 +453,7 @@ class WpPressThis {
 		}
 
 		if ( preg_match_all( '/<iframe (.+)[\s][^>]*>/', $source_content, $matches ) ) {
-			if ( !empty( $matches[0] ) ) {
+			if ( ! empty( $matches[0] ) ) {
 				foreach ( $matches[0] as $value ) {
 					if ( preg_match( '/<iframe[^>]+src=(\'|")([^"]+)(\'|")/', $value, $new_matches ) ) {
 						if ( ! in_array( $new_matches[2], $data['_embed'] ) ) {
@@ -471,7 +474,7 @@ class WpPressThis {
 		}
 
 		if ( preg_match_all( '/<meta ([^>]+)[\s]?\/?>/  ', $source_content, $matches ) ) {
-			if ( !empty( $matches[0] ) ) {
+			if ( ! empty( $matches[0] ) ) {
 				foreach ( $matches[0] as $key => $value ) {
 					if ( preg_match( '/<meta[^>]+(property|name)="(.+)"[^>]+content="(.+)"/', $value, $new_matches ) ) {
 						if ( empty( $data['_meta'][ $new_matches[2] ] ) ) {
@@ -517,7 +520,7 @@ class WpPressThis {
 		}
 
 		if ( preg_match_all( '/<link ([^>]+)[\s]?\/>/', $source_content, $matches ) ) {
-			if ( !empty( $matches[0] ) ) {
+			if ( ! empty( $matches[0] ) ) {
 				foreach ( $matches[0] as $key => $value ) {
 					if ( preg_match( '/<link[^>]+(rel|itemprop)="([^"]+)"[^>]+href="([^"]+)"[^>]+\/>/', $value, $new_matches ) ) {
 						if ( 'alternate' == $new_matches[2] || 'thumbnailUrl' == $new_matches[2] || 'url' == $new_matches[2] ) {
@@ -544,9 +547,9 @@ class WpPressThis {
 		$data = array_merge_recursive( $_POST, $_GET );
 
 		// Get the legacy QS params, or equiv POST data
-		$data['u'] = ( !empty( $data['u'] ) && preg_match( '/^https?:/', $data['u'] ) ) ? $data['u'] : '';
-		$data['s'] = ( !empty( $data['s'] ) ) ? $data['s'] : '';
-		$data['t'] = ( !empty( $data['t'] ) ) ? $data['t'] : '';
+		$data['u'] = ( ! empty( $data['u'] ) && preg_match( '/^https?:/', $data['u'] ) ) ? $data['u'] : '';
+		$data['s'] = ( ! empty( $data['s'] ) ) ? $data['s'] : '';
+		$data['t'] = ( ! empty( $data['t'] ) ) ? $data['t'] : '';
 
 		if ( apply_filters( 'press_this_media_discovery', __return_true() ) ) {
 			// If no _meta (a new thing) was passed via $_POST, fetch data from source as fallback, makes PT fully backward compatible
@@ -554,13 +557,13 @@ class WpPressThis {
 				$data = self::source_data_fetch_fallback( $data['u'], $data );
 			}
 		} else {
-			if ( !empty( $data['_img'] ) ) {
+			if ( ! empty( $data['_img'] ) ) {
 				$data['_img'] = array();
 			}
-			if ( !empty( $data['_embed'] ) ) {
+			if ( ! empty( $data['_embed'] ) ) {
 				$data['_embed'] = array();
 			}
-			if ( !empty( $data['_meta'] ) ) {
+			if ( ! empty( $data['_meta'] ) ) {
 				$data['_meta'] = array();
 			}
 		}
@@ -626,7 +629,7 @@ class WpPressThis {
 			set_current_screen( $hook_suffix );
 		}
 
-		@header('Content-Type: ' . get_option('html_type') . '; charset=' . get_option('blog_charset'));
+		@header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 
 		if ( ! function_exists( 'post_tags_meta_box' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/meta-boxes.php' );
@@ -635,7 +638,7 @@ class WpPressThis {
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php echo get_option('blog_charset'); ?>" />
+	<meta http-equiv="Content-Type" content="<?php bloginfo( 'html_type' ); ?>; charset=<?php echo get_option( 'blog_charset' ); ?>" />
 	<meta name="viewport" content="width=device-width">
 	<title><?php echo esc_html( __( 'Press This!' ) ) ?></title>
 
@@ -752,20 +755,20 @@ class WpPressThis {
 				<?php if ( $supports_formats ) : ?>
 					<a href="#" class="post-option">
 						<span class="dashicons dashicons-admin-post"></span>
-						<span class="post-option__title"><?php _e('Format'); ?></span>
+						<span class="post-option__title"><?php _e( 'Format' ); ?></span>
 						<span class="post-option__contents" id="post-option-post-format"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
 						<span class="dashicons dashicons-arrow-right-alt2"></span>
 					</a>
 				<?php endif; ?>
 				<a href="#" class="post-option">
 					<span class="dashicons dashicons-category"></span>
-					<span class="post-option__title"><?php _e('Categories'); ?></span>
+					<span class="post-option__title"><?php _e( 'Categories' ); ?></span>
 					<span class="post-option__contents" id="post-option-category"></span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</a>
 				<a href="#" class="post-option">
 					<span class="dashicons dashicons-tag"></span>
-					<span class="post-option__title"><?php _e('Tags'); ?></span>
+					<span class="post-option__title"><?php _e( 'Tags' ); ?></span>
 					<span class="post-option__contents" id="post-option-tags"></span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</a>
@@ -773,13 +776,13 @@ class WpPressThis {
 
 			<?php if ( $supports_formats ) : ?>
 				<div class="setting-modal is-off-screen is-hidden">
-					<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Post format'); ?></span></a>
+					<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Post format' ); ?></span></a>
 					<?php post_format_meta_box( $post, null ); ?>
 				</div>
 			<?php endif; ?>
 
 			<div class="setting-modal is-off-screen is-hidden">
-				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Categories'); ?></span></a>
+				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Categories' ); ?></span></a>
 				<?php
 
 				$taxonomy = get_taxonomy( 'category' );
@@ -821,7 +824,7 @@ class WpPressThis {
 			</div>
 
 			<div class="setting-modal tags is-off-screen is-hidden">
-				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e('Tags'); ?></span></a>
+				<a href="#" class="modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Tags' ); ?></span></a>
 				<?php post_tags_meta_box( $post, null ); ?>
 			</div>
 		</div><!-- .options-panel -->
@@ -924,7 +927,7 @@ class WpPressThis {
 		// To live under "Settings": https://cloudup.com/i5HzM3AQQl1
 		// add_options_page('Press This', 'Press This', 'edit_posts', 'press_this_options', array( $this, 'do_options_page' ));
 		// To live under Tools: https://cloudup.com/i7E6ZeJJ6PL
-		add_submenu_page('tools.php', 'Press This', 'Press This', 'edit_posts', 'press_this_options', array( $this, 'do_options_page' ));
+		add_submenu_page( 'tools.php', 'Press This', 'Press This', 'edit_posts', 'press_this_options', array( $this, 'do_options_page' ) );
 	}
 
 	/**
@@ -974,40 +977,40 @@ class WpPressThis {
 		<div class="wrap">
 			<h2><?php echo get_admin_page_title() ?></h2>
 			<div class="postbox postbox-pt">
-				<h3><?php _e('What it is?'); ?></h3>
-				<p><?php _e('Press This is a little app that lets you grab bits of the web and create new posts with ease.');?></p>
-				<p><?php _e('Use Press This to clip text, images and videos from any web page. Then edit and add more straight from Press This before you save or publish it in a post on your site.'); ?></p>
+				<h3><?php _e( 'What it is?' ); ?></h3>
+				<p><?php _e( 'Press This is a little app that lets you grab bits of the web and create new posts with ease.' );?></p>
+				<p><?php _e( 'Use Press This to clip text, images and videos from any web page. Then edit and add more straight from Press This before you save or publish it in a post on your site.' ); ?></p>
 			</div>
 			<form>
 			<div class="postbox postbox-pt">
-				<h3><?php _e('How to install it?'); ?></h3>
-				<h4><?php _e('Press This Bookmarklet'); ?></h4>
-				<p><?php _e('The bookmarklet allows you to quickly get content from any site. To use it, drag-and-drop the following link to your bookmarks bar. Some mobile browsers make it impossible to add Javascript bookmarklets. For those, use the direct link version below.'); ?></p>
+				<h3><?php _e( 'How to install it?' ); ?></h3>
+				<h4><?php _e( 'Press This Bookmarklet' ); ?></h4>
+				<p><?php _e( 'The bookmarklet allows you to quickly get content from any site. To use it, drag-and-drop the following link to your bookmarks bar. Some mobile browsers make it impossible to add Javascript bookmarklets. For those, use the direct link version below.' ); ?></p>
 
 				<div class="postbox-pt-buttons">
 
-					<a class="button button-primary button-pt-bookmarklet" onclick="return false;" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e('Press This') ?></a>
-					<?php _e('or'); ?>
-					<button type="button" class="button button-large js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-code-wrap"><?php _e('Copy Press This Bookmarklet') ?></button>
+					<a class="button button-primary button-pt-bookmarklet" onclick="return false;" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e( 'Press This' ) ?></a>
+					<?php _e( 'or' ); ?>
+					<button type="button" class="button button-large js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-code-wrap"><?php _e( 'Copy Press This Bookmarklet' ) ?></button>
 
 					<div class="hidden js-pressthis-code-wrap">
-						<p id="pressthis-code-desc"><?php _e('If you can\'t add it to your bookmarks by dragging, copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.') ?></p>
+						<p id="pressthis-code-desc"><?php _e( 'If you can\'t add it to your bookmarks by dragging, copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.' ) ?></p>
 						<p><textarea class="js-pressthis-code" rows="5" cols="120" readonly="readonly" aria-labelledby="pressthis-code-desc"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
 					</div>
 
 				</div>
 
-				<h4><?php _e('Press This Direct Link'); ?></h4>
-				<p><?php _e('Follow the Press This Direct Link and add it to your bookmarks:'); ?></p>
+				<h4><?php _e( 'Press This Direct Link' ); ?></h4>
+				<p><?php _e( 'Follow the Press This Direct Link and add it to your bookmarks:' ); ?></p>
 
 				<div class="postbox-pt-buttons">
 
-					<a class="button button-primary" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e('Press This') ?></a>
-					<?php _e('or'); ?>
-					<button type="button" class="button button-large js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-dl-code-wrap"><?php _e('Copy Press This Direct Link') ?></button>
+					<a class="button button-primary" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e( 'Press This' ) ?></a>
+					<?php _e( 'or' ); ?>
+					<button type="button" class="button button-large js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-dl-code-wrap"><?php _e( 'Copy Press This Direct Link' ) ?></button>
 
 					<div class="hidden js-pressthis-code-wrap">
-						<p id="pressthis-dl-code-desc"><?php _e('Copy the link below, open your Bookmarks manager, create new bookmark, and paste the url into the URL field.') ?></p>
+						<p id="pressthis-dl-code-desc"><?php _e( 'Copy the link below, open your Bookmarks manager, create new bookmark, and paste the url into the URL field.' ) ?></p>
 						<p><textarea class="js-pressthis-code" rows="1" cols="120" readonly="readonly" aria-labelledby="pressthis-dl-code-desc"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea></p>
 					</div>
 
@@ -1048,7 +1051,7 @@ class WpPressThis {
 	 * Basic admin notice to prompt users to go to the related admin screen upon install
 	 */
 	public function admin_notices() {
-		if ( get_current_screen()->id == 'plugins' ) {
+		if ( 'plugins' === get_current_screen()->id ) {
 			printf( '<div class="error"><p>%s</p></div>', sprintf( __( '<strong>Press This setup:</strong> Please visit our <a href="%s">admin screen</a> and select your preferred install method.', 'press-this' ), admin_url( 'tools.php?page=press_this_options' ) ) );
 		}
 	}
