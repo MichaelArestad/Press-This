@@ -1,6 +1,9 @@
-// ==========================================================================
-// Buttons
-// ==========================================================================
+/**
+* #.# Buttons
+*
+* Pushing buttons is what I do.
+*/
+
 
 @import
 	"variables",
@@ -8,15 +11,11 @@
 	"extends";
 
 
-.button--secondary {
-	@extend %button--secondary;
-}
-
-.button--primary {
+.button-primary {
 	@extend %button--primary;
 }
 
-.button--subtle {
+.button-subtle {
 	@extend %button;
 	background: none;
 	border: 0;
@@ -34,24 +33,5 @@
 	&:active {
 		outline: 0;
 		text-decoration: underline;
-	}
-}
-
-a.icon-button--dark {
-	padding: 8px;
-	width: auto;
-	height: auto;
-	border-radius: 3px;
-	background: transparentize( map-get( $buttons, dark__background ), .1 );
-	color: map-get( $buttons, dark__color );
-	overflow: visible;
-
-	&:visited {
-		color: map-get( $buttons, dark__color );
-	}
-	&:focus,
-	&:hover,
-	&:active {
-		color: map-get( $buttons, dark__color--hover );
 	}
 }

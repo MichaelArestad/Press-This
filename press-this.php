@@ -697,8 +697,8 @@ class WP_Press_This {
 			<span class="dashicons dashicons-wordpress"></span>
 			<span><?php bloginfo( 'name' ); ?></span>
 		</h1>
-		<button class="options-open button--subtle"><span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e( 'Show post options' ); ?></span></button>
-		<button class="options-close button--subtle is-hidden"><?php _e( 'Done' ); ?></button>
+		<button class="options-open button-subtle"><span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e( 'Show post options' ); ?></span></button>
+		<button class="options-close button-subtle is-hidden"><?php _e( 'Done' ); ?></button>
 	</div>
 
 	<div id="wppt_scanbar" class="scan">
@@ -790,7 +790,7 @@ class WP_Press_This {
 				if ( current_user_can( $taxonomy->cap->edit_terms ) ) {
 
 				?>
-				<button type="button" class="add-cat-toggle button--subtle"><span class="dashicons dashicons-plus"></span></button>
+				<button type="button" class="add-cat-toggle button-subtle"><span class="dashicons dashicons-plus"></span></button>
 
 				<div class="add-category is-hidden">
 					<label class="screen-reader-text" for="new-category"><?php echo $taxonomy->labels->add_new_item; ?></label>
@@ -832,14 +832,14 @@ class WP_Press_This {
 
 	<div class="press-this__actions">
 		<div class="pressthis-media-buttons">
-			<button type="button" class="insert-media button--subtle" data-editor="pressthis">
+			<button type="button" class="insert-media button-subtle" data-editor="pressthis">
 				<span class="dashicons dashicons-admin-media"></span>
 				<span class="screen-reader-text"><?php _e( 'Add Media' ); ?></span>
 			</button>
 		</div>
 		<div class="post-actions">
-			<button type="button" class="button--subtle" id="wppt_draft_field"><?php _e( 'Save Draft' ); ?></button>
-			<button type="button" class="button--primary" id="wppt_publish_field"><?php _e( 'Publish' ); ?></button>
+			<button type="button" class="button-subtle" id="wppt_draft_field"><?php _e( 'Save Draft' ); ?></button>
+			<button type="button" class="button-primary" id="wppt_publish_field"><?php _e( 'Publish' ); ?></button>
 		</div>
 	</div>
 	</form>

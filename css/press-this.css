@@ -312,7 +312,12 @@ strong {
   font-weight: 700;
 }
 
-.button--secondary, .scan__submit, .button--primary, .button--subtle {
+/**
+* #.# Buttons
+*
+* Pushing buttons is what I do.
+*/
+.scan__submit, .button-primary, .button-subtle {
   display: inline-block;
   margin: 0;
   padding: 0 10px 1px;
@@ -328,87 +333,70 @@ strong {
   -webkit-appearance: none;
 }
 
-.button--secondary, .scan__submit {
+.scan__submit {
   background: #f7f7f7;
   border-color: #dedede;
   color: #555;
 }
-.button--secondary:hover, .scan__submit:hover, .button--secondary:focus, .scan__submit:focus {
+.scan__submit:hover, .scan__submit:focus {
   background: #eaeaea;
   border-color: #d1d1d1;
   color: #555;
   outline: 0;
 }
-.button--secondary:active, .scan__submit:active {
+.scan__submit:active {
   background: #dedede;
   border-color: #d1d1d1;
   color: #555;
 }
-[disabled].button--secondary, [disabled].scan__submit, .button--secondary:disabled, .scan__submit:disabled {
+[disabled].scan__submit, .scan__submit:disabled {
   color: #d1c7c7 !important;
   background: #e3e3e3 !important;
   border-color: #d1d1d1 !important;
 }
-.button--secondary:visited, .scan__submit:visited {
+.scan__submit:visited {
   color: #555;
 }
 
-.button--primary {
+.button-primary {
   background: #2ea2cc;
   border-color: #2581a2;
   color: #fff;
 }
-.button--primary:hover, .button--primary:focus {
+.button-primary:hover, .button-primary:focus {
   background: #2991b7;
   border-color: #20708e;
   color: #fff;
   outline: 0;
 }
-.button--primary:active {
+.button-primary:active {
   background: #2581a2;
   border-color: #20708e;
   color: #fff;
 }
-[disabled].button--primary, .button--primary:disabled {
+[disabled].button-primary, .button-primary:disabled {
   color: #c7ced1 !important;
   background: #2688ab !important;
   border-color: #20708e !important;
 }
-.button--primary:visited {
+.button-primary:visited {
   color: #fff;
 }
 
-.button--subtle {
+.button-subtle {
   background: none;
   border: 0;
   color: #0074a2;
 }
-.button--subtle:visited {
+.button-subtle:visited {
   color: #0074a2;
 }
-.button--subtle:focus, .button--subtle:hover, .button--subtle:active {
+.button-subtle:focus, .button-subtle:hover, .button-subtle:active {
   color: #2ea2cc;
 }
-.button--subtle:focus, .button--subtle:active {
+.button-subtle:focus, .button-subtle:active {
   outline: 0;
   text-decoration: underline;
-}
-
-a.icon-button--dark {
-  padding: 8px;
-  width: auto;
-  height: auto;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  background: rgba(61, 62, 63, 0.9);
-  color: #e5e5e5;
-  overflow: visible;
-}
-a.icon-button--dark:visited {
-  color: #e5e5e5;
-}
-a.icon-button--dark:focus, a.icon-button--dark:hover, a.icon-button--dark:active {
-  color: #fff;
 }
 
 button,
