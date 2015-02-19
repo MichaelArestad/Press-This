@@ -92,7 +92,6 @@
 		if ( g_rel ) {
 			switch ( g_rel ) {
 				case 'canonical':
-					add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
 				case 'icon':
 				case 'shortlink':
 					add( '_links[' + g_rel + ']', g.getAttribute( 'href' ) );
