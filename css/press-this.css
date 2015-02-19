@@ -704,6 +704,11 @@ object {
   content: "\f161";
 }
 
+/**
+* #.# Tags
+*
+* Complete styles for tags UI
+*/
 .tagsdiv p {
   margin: 0;
 }
@@ -743,27 +748,8 @@ object {
   margin: 10px 0 6px 16px;
 }
 
-.nojs-tags {
-  padding: 16px;
-}
-
-.tagsdiv .the-tags {
-  display: block;
-  min-height: 60px;
-  margin: 0;
-  overflow: auto;
-  width: 100%;
-}
-
-/* tag hints */
-input.newtag ~ div.taghint {
-  visibility: visible;
-}
-
-input.newtag:focus ~ div.taghint {
-  visibility: hidden;
-}
-
+/* Tag hint TODO needed? */
+/* Tag suggestions */
 .ac_results {
   padding: 0;
   margin: -1px 0 0 -1px;
@@ -792,6 +778,7 @@ input.newtag:focus ~ div.taghint {
   text-decoration: underline;
 }
 
+/* Tags */
 .tagchecklist {
   padding: 16px 28px 5px;
 }
@@ -807,9 +794,16 @@ input.newtag:focus ~ div.taghint {
   margin-right: 25px;
   float: left;
   font-size: 13px;
-  line-height: 1.8em;
+  line-height: 1.8;
   white-space: nowrap;
   cursor: default;
+}
+@media (max-width: 600px) {
+  .tagchecklist span {
+    margin-bottom: 15px;
+    font-size: 16px;
+    line-height: 1.3;
+  }
 }
 .tagchecklist .ntdelbutton {
   margin: 1px 0 0 -17px;
@@ -825,7 +819,7 @@ input.newtag:focus ~ div.taghint {
 }
 .tagchecklist .ntdelbutton:before {
   content: '\f153';
-  display: block !important;
+  display: block;
   margin: 2px 0;
   height: 20px;
   width: 20px;
@@ -834,12 +828,13 @@ input.newtag:focus ~ div.taghint {
   font: 400 16px/1 dashicons;
   text-align: center;
   speak: none;
-  -webkit-font-smoothing: antialiased !important;
+  -webkit-font-smoothing: antialiased;
 }
 .tagchecklist .ntdelbutton:focus:before {
   color: #2ea2cc;
 }
 
+/* THE TAG CLOUD. */
 .tagsdiv + p {
   margin: 0;
 }
@@ -875,20 +870,6 @@ input.newtag:focus ~ div.taghint {
   margin: 2px 0 12px;
 }
 
-@media screen and (max-width: 782px) {
-  /* Tags Metabox */
-  .tagsdiv .newtag {
-    width: 100%;
-    height: auto;
-    margin-bottom: 15px;
-  }
-
-  .tagchecklist span {
-    margin-bottom: 15px;
-    font-size: 16px;
-    line-height: 120%;
-  }
-}
 /**
 * #.# Categories
 *
