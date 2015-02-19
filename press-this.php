@@ -643,8 +643,8 @@ class WP_Press_This {
 	<title><?php echo esc_html( __( 'Press This!' ) ) ?></title>
 
 	<script>
-		window.wp_pressthis_data   = <?php echo json_encode( $data ) ?>;
-		window.wp_pressthis_config = <?php echo json_encode( $site_settings ) ?>;
+		window.wpPressThisData   = <?php echo json_encode( $data ) ?>;
+		window.wpPressThisConfig = <?php echo json_encode( $site_settings ) ?>;
 	</script>
 
 	<script type="text/javascript">

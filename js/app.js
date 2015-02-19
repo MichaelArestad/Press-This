@@ -13,8 +13,8 @@
 			var editor,
 				saveAlert             = false,
 				$div                  = $('<div>'),
-				siteConfig            = window.wp_pressthis_config || {},
-				data                  = window.wp_pressthis_data || {},
+				siteConfig            = window.wpPressThisConfig || {},
+				data                  = window.wpPressThisData || {},
 				smallestWidth         = 128,
 				interestingImages	  = getInterestingImages( data ) || [],
 				interestingEmbeds	  = getInterestingEmbeds( data ) || [],
@@ -158,7 +158,7 @@
 				var content   = '',
 					title     = getSuggestedTitle( data ),
 					url       = getCanonicalLink( data ),
-					site_name = getSourceSiteName( data );
+					siteName  = getSourceSiteName( data );
 
 				if ( data.s && data.s.length ) {
 					content = data.s;
@@ -176,11 +176,11 @@
 				content = ( content.length ? '<blockquote class="wppt_suggested_content">' + stripTags( content.replace( /\\/g, '' ) ) + '</blockquote>' : '' );
 
 				// Add a source attribution if there is one available.
-				if ( ( ( title.length && __( 'new-post' ) !== title ) || site_name.length ) && url.length ) {
+				if ( ( ( title.length && __( 'new-post' ) !== title ) || siteName.length ) && url.length ) {
 					content += '<p class="wppt_source">';
 					content += __( 'source' );
 					content += ' <cite class="wppt_suggested_content_source">';
-					content += __( 'source-link').replace( '%1$s', encodeURI( url ) ).replace( '%2$s', stripTags( title || site_name ) );
+					content += __( 'source-link').replace( '%1$s', encodeURI( url ) ).replace( '%2$s', stripTags( title || siteName ) );
 					content += '</cite></p>';
 				}
 
