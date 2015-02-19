@@ -612,10 +612,17 @@ object {
   max-width: 100%;
 }
 
+/**
+* #.# Post formats
+*
+* Complete styles for post formats UI
+*/
+/* TODO if we remove the <br> during merge, this can go. */
 #post-formats-select br {
   display: none;
 }
 
+/* TODO Needed after merge? */
 .post-format {
   width: 0;
   height: 0;
@@ -628,6 +635,7 @@ object {
   display: block;
   padding: 13px 2px 14px 13px;
   cursor: pointer;
+  /* TODO Doesn't work in plugin. Might work in merge */
 }
 .post-format-icon:before, .post-format-icon:after {
   content: "";

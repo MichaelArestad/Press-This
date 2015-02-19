@@ -1,25 +1,28 @@
-// ==========================================================================
-// Post Formats
-// ==========================================================================
+/**
+* #.# Post formats
+*
+* Complete styles for post formats UI
+*/
 
-
+/* TODO if we remove the <br> during merge, this can go. */
 #post-formats-select {
 	br {
 		display: none;
 	}
 }
 
-.post-format { // TODO make accessible
+/* TODO Needed after merge? */
+.post-format {
 	width: 0;
 	height: 0;
 	position: absolute;
-	top: -9999px; // TODO find a better way for hidding it
+	top: -9999px;
 }
 
 .post-format-icon {
 	position: relative;
 	display: block;
-	padding: 13px 2px 14px 13px; // TODO em() and responsive styles
+	padding: 13px 2px 14px 13px;
 	cursor: pointer;
 
 	&:before,
@@ -51,6 +54,7 @@
 		content: "\f147";
 		float: right;
 	}
+	/* TODO Doesn't work in plugin. Might work in merge */
 	.post-format:focus + & {
 		box-shadow: inset 6px 0 0 $blue--light;
 		background: transparentize( $blue--light, .95 );
