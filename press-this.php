@@ -169,6 +169,7 @@ class WP_Press_This {
 			'unexpected-error'           => __( 'Sorry, but an unexpected error occurred.', 'press-this' ),
 			'should-upgrade-bookmarklet' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', 'press-this' ),
 			'saveAlert'                  => __( 'The changes you made will be lost if you navigate away from this page.' ),
+			'allMediaHeading'            => __( 'Suggested media', 'press-this' ),
 		);
 	}
 

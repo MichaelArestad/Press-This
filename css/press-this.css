@@ -253,8 +253,14 @@ th {
 }
 
 .screen-reader-text, .taghint {
-  clip: rect(1px, 1px, 1px, 1px);
   position: absolute !important;
+  margin: -1px;
+  padding: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
 }
 .screen-reader-text:hover, .taghint:hover, .screen-reader-text:active, .taghint:active, .screen-reader-text:focus, .taghint:focus {
   background-color: #f1f1f1;
@@ -1316,6 +1322,12 @@ html {
     max-height: 200px;
     max-height: 18.75vw;
   }
+}
+
+.wppt-all-media-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .suggested-media-thumbnail:focus,
