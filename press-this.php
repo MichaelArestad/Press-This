@@ -22,14 +22,14 @@ class WP_Press_This {
 	 * @uses remove_action(), add_action()
 	 */
 	public function __construct() {
-		$script_name = self::script_name();
+		$script_name = $this->script_name();
 
 		if ( empty( $script_name ) ) {
 			return;
 		}
 
 		if ( is_admin() ) {
-			if ( false !== strpos( self::runtime_url(), $script_name ) ) {
+			if ( false !== strpos( $this->runtime_url(), $script_name ) ) {
 				/*
 				 * Take over /wp-admin/press-this.php
 				 */
@@ -129,7 +129,7 @@ class WP_Press_This {
 	 * @uses WP_Press_This::plugin_data()
 	 */
 	public function plugin_version() {
-		$data = self::plugin_data();
+		$data = $this->plugin_data();
 		return ( ! empty( $data ) && ! empty( $data['Version'] ) ) ? (string) $data['Version'] : 0;
 	}
 
@@ -141,7 +141,7 @@ class WP_Press_This {
 	 * @uses admin_url()
 	 */
 	public function runtime_url() {
-		return self::set_url_scheme( admin_url( 'press-this.php' ) );
+		return $this->set_url_scheme( admin_url( 'press-this.php' ) );
 	}
 
 	/**
@@ -190,11 +190,11 @@ class WP_Press_This {
 		}
 
 		return array(
-			'version'        => self::plugin_version(),
-			'runtime_url'    => self::strip_url_scheme( self::runtime_url() ),
-			'ajax_url'       => self::strip_url_scheme( admin_url( 'admin-ajax.php' ) ),
+			'version'        => $this->plugin_version(),
+			'runtime_url'    => $this->strip_url_scheme( $this->runtime_url() ),
+			'ajax_url'       => $this->strip_url_scheme( admin_url( 'admin-ajax.php' ) ),
 			'post_formats'   => $post_formats,
-			'i18n'           => self::i18n(),
+			'i18n'           => $this->i18n(),
 		);
 	}
 
@@ -214,12 +214,12 @@ class WP_Press_This {
 		 */
 		$ua = $_SERVER['HTTP_USER_AGENT'];
 		if ( ! empty( $ua ) && preg_match( '/\bMSIE (\d{1})/', $ua, $matches ) && (int) $matches[1] <= 8 ) {
-			return preg_replace( '/\bv=\d{1}/', 'v=' . self::plugin_version(), $link );
+			return preg_replace( '/\bv=\d{1}/', 'v=' . $this->plugin_version(), $link );
 		}
 
-		$url = esc_js( self::runtime_url() . '?v=' . self::plugin_version() );
+		$url = esc_js( $this->runtime_url() . '?v=' . $this->plugin_version() );
 
-		$link = 'javascript:' . file_get_contents( self::plugin_dir_path() . '/js/bookmarklet.min.js' );
+		$link = 'javascript:' . file_get_contents( $this->plugin_dir_path() . '/js/bookmarklet.min.js' );
 		$link = str_replace( 'window.pt_url', wp_json_encode( $url ), $link );
 
 		return $link;
@@ -233,7 +233,7 @@ class WP_Press_This {
 	 */
 	public function press_this_php_override() {
 		// Simply drop the following test once/if this becomes the standard Press This code in core
-		if ( false === strpos( self::runtime_url(), self::script_name() ) ) {
+		if ( false === strpos( $this->runtime_url(), $this->script_name() ) ) {
 			return;
 		}
 
@@ -241,7 +241,7 @@ class WP_Press_This {
 			wp_die( __( 'Cheatin&#8217; uh?' ) );
 		}
 
-		self::serve_app_html();
+		$this->serve_app_html();
 	}
 
 	/**
@@ -269,7 +269,7 @@ class WP_Press_This {
 				$image_url = $url_matches[1];
 
 				//Don't sideload images already hosted on our WP instance
-				if ( false !== strpos( $image_url, preg_replace( '/^(http:.+)\/wp-admin\/.+/', '\1/wp-content/', self::script_name() ) ) ) {
+				if ( false !== strpos( $image_url, preg_replace( '/^(http:.+)\/wp-admin\/.+/', '\1/wp-content/', $this->script_name() ) ) ) {
 					continue;
 				}
 
@@ -335,7 +335,7 @@ class WP_Press_This {
 			}
 		}
 
-		$new_content = self::side_load_images( $post_id, $post['post_content'] );
+		$new_content = $this->side_load_images( $post_id, $post['post_content'] );
 
 		if ( ! is_wp_error( $new_content ) ) {
 			$post['post_content'] = $new_content;
@@ -417,7 +417,7 @@ class WP_Press_This {
 	 * @param array $data Existing data array if you have one.
 	 *
 	 * @return array New data array
-	 * @uses self::fetch_source_html()
+	 * @uses $this->fetch_source_html()
 	 */
 	public function source_data_fetch_fallback( $url, $data = array() ) {
 		if ( empty( $url ) ) {
@@ -425,7 +425,7 @@ class WP_Press_This {
 		}
 
 		// Download source page to tmp file
-		$source_content = self::fetch_source_html( $url );
+		$source_content = $this->fetch_source_html( $url );
 		if ( is_wp_error( $source_content ) ) {
 			return array( 'errors' => $source_content->get_error_messages() );
 		}
@@ -554,7 +554,7 @@ class WP_Press_This {
 		if ( apply_filters( 'press_this_media_discovery', __return_true() ) ) {
 			// If no _meta (a new thing) was passed via $_POST, fetch data from source as fallback, makes PT fully backward compatible
 			if ( empty( $data['_meta'] ) && ! empty( $data['u'] ) ) {
-				$data = self::source_data_fetch_fallback( $data['u'], $data );
+				$data = $this->source_data_fetch_fallback( $data['u'], $data );
 			}
 		} else {
 			if ( ! empty( $data['_img'] ) ) {
@@ -579,7 +579,7 @@ class WP_Press_This {
 			$styles .= ',';
 		}
 
-		return $styles . plugin_dir_url( __FILE__ ) . 'css/press-this-editor.css?ver=' . self::plugin_version();
+		return $styles . plugin_dir_url( __FILE__ ) . 'css/press-this-editor.css?ver=' . $this->plugin_version();
 	}
 
 	/**
@@ -592,13 +592,13 @@ class WP_Press_This {
 		global $wp_locale;
 
 		// Get i18n strings
-		$i18n                 = self::i18n();
+		$i18n                 = $this->i18n();
 
 		// Get data, new (POST) and old (GET)
-		$data                 = self::merge_or_fetch_data();
+		$data                 = $this->merge_or_fetch_data();
 
 		// Get site settings array/data
-		$site_settings        = self::site_settings();
+		$site_settings        = $this->site_settings();
 
 		// Set the passed data
 		$data['_version']     = $site_settings['version'];
@@ -607,7 +607,7 @@ class WP_Press_This {
 
 		// Plugin only
 		wp_register_script( 'press-this-app', plugin_dir_url( __FILE__ ) . 'js/app.js', array( 'jquery' ), false, true );
-		wp_localize_script( 'press-this-app', 'pressThisL10n', self::i18n() );
+		wp_localize_script( 'press-this-app', 'pressThisL10n', $this->i18n() );
 
 		wp_register_style( 'press-this-css', plugin_dir_url( __FILE__ ) . 'css/press-this.css' );
 
@@ -933,7 +933,7 @@ class WP_Press_This {
 	/**
 	 * Prints a custom options page for PT
 	 *
-	 * @see self::register_options_page()
+	 * @see $this->register_options_page()
 	 */
 	public function do_options_page() {
 
