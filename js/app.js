@@ -633,6 +633,10 @@
 
 				listContainer.empty();
 
+				if ( ( interestingEmbeds && interestingEmbeds.length ) || ( interestingImages && interestingImages.length ) ) {
+					listContainer.append( '<h2 class="screen-reader-text">' + pressThisL10n.allMediaHeading + '</h2><ul class="wppt-all-media-list ciao"/>' );
+				}
+
 				if ( interestingEmbeds && interestingEmbeds.length ) {
 					$.each(interestingEmbeds, function (i, src) {
 						src = stripTags( src );
@@ -661,7 +665,7 @@
 							cssClass += ' is-video';
 						}
 
-						$('<div></div>', {
+						$('<li></li>', {
 							'id': 'embed-' + i + '-container',
 							'class': cssClass,
 							'tabindex': '0'
@@ -671,7 +675,7 @@
 							if ( e.type === 'click' || e.which === 13 ) {
 								insertSelectedMedia('embed',src);
 							}
-						}).appendTo(listContainer);
+						}).appendTo( '.wppt-all-media-list', listContainer );
 
 						found++;
 					});
@@ -690,7 +694,7 @@
 							displaySrc = src;
 						}
 
-						$('<div></div>', {
+						$('<li></li>', {
 							'id': 'img-' + i + '-container',
 							'class': 'suggested-media-thumbnail is-image',
 							'tabindex': '0'
@@ -700,7 +704,7 @@
 							if ( e.type === 'click' || e.which === 13 ) {
 								insertSelectedMedia('img', src, data.u);
 							}
-						}).appendTo(listContainer);
+						}).appendTo( '.wppt-all-media-list', listContainer );
 
 						found++;
 					});

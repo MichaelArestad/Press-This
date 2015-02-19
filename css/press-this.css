@@ -253,28 +253,14 @@ th {
 }
 
 .screen-reader-text, .taghint {
-  clip: rect(1px, 1px, 1px, 1px);
-  position: absolute !important;
-}
-.screen-reader-text:hover, .taghint:hover, .screen-reader-text:active, .taghint:active, .screen-reader-text:focus, .taghint:focus {
-  background-color: #f1f1f1;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-  box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-  clip: auto !important;
-  color: #21759b t;
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-  height: auto;
-  left: 5px;
-  line-height: normal;
-  padding: 15px 23px 14px;
-  text-decoration: none;
-  top: 5px;
-  width: auto;
-  z-index: 100000;
+  position: absolute;
+  margin: -1px;
+  padding: 0;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
 }
 
 /**
@@ -1316,6 +1302,12 @@ html {
     max-height: 200px;
     max-height: 18.75vw;
   }
+}
+
+.wppt-all-media-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .suggested-media-thumbnail:focus,
