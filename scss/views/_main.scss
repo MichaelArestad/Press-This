@@ -273,6 +273,12 @@ body {
 }
 
 .post__title {
+
+	// This is a 1px transparent gif to get a click-through behavior on IE8
+	background: url(data:image/gif;base64,R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEHAAIALAAAAAABAAEAAAICVAEAOw==);
+	// IE8 doesn't support multiple backgrounds, so it'll ignore the following
+	background: none, none;
+
 	&:before {
 		// Keeps empty container from collapsing
 		content: '\a0';
