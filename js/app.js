@@ -691,7 +691,6 @@
 						}
 
 						$('<div></div>', {
-							'src': displaySrc,
 							'id': 'img-' + i + '-container',
 							'class': 'suggested-media-thumbnail is-image',
 							'tabindex': '0'
