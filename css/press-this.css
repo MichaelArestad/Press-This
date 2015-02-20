@@ -1505,12 +1505,11 @@ html {
 .editor div.mce-toolbar-grp {
   padding: 0.71429em 0;
   background: none;
-  border-color: #e5e5e5;
+  border: 0;
 }
 @media (max-height: 400px), (max-width: 320px) {
   .editor div.mce-toolbar-grp {
     padding: 0;
-    border: 0;
   }
 }
 

@@ -530,11 +530,10 @@ body {
 	div.mce-toolbar-grp {
 		padding: em( 10px, 14px ) 0;
 		background: none;
-		border-color: $gray--light;
+		border: 0;
 
 		@media ( max-height: 400px ), ( max-width: 320px ) {
 			padding: 0;
-			border: 0;
 		}
 	}
 }
