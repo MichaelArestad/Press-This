@@ -452,7 +452,7 @@
 					if ( !link || !link.length ) {
 						link = src;
 					}
-					newContent = '<a href="' + link + '"><img src="' + src + '" /></a>\n';
+					newContent = '<a href="' + link + '"><img class="alignnone size-full" src="' + src + '" /></a>\n';
 				} else {
 					newContent = '[embed]' + src + '[/embed]\n';
 				}
