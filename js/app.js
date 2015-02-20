@@ -62,15 +62,15 @@
 				}
 
 				var link = '';
-
-				if ( data.u ) {
-					link = data.u;
-				}
-
-				if ( ! link.length && data._links ) {
+				
+				if ( data._links ) {
 					if (data._links.canonical && data._links.canonical.length) {
 						link = data._links.canonical;
-					}
+					}	
+				}
+
+				if ( ! link.length && data.u ) {
+					link = data.u;
 				}
 
 				if ( ! link.length && data._meta ) {
