@@ -21,15 +21,15 @@
 	pt_url += ( pt_url.indexOf( '?' ) > -1 ? '&' : '?' ) + 'buster=' + ( new Date().getTime() );
 
 	if ( document.title.length && document.title.length <= 512 ) {
-		pt_url += '&t=' + encodeURI( document.title );
+		pt_url += '&t=' + encodeURIComponent( document.title );
 	}
 
 	if ( selection && selection.length <= 512 ) {
-		pt_url += '&s=' + encodeURI( selection );
+		pt_url += '&s=' + encodeURIComponent( selection );
 	}
 
 	if ( href.match( /^https?:/ ) ) {
-		pt_url += '&u=' + encodeURI( href );
+		pt_url += '&u=' + encodeURIComponent( href );
 	} else {
 		top.location.href = pt_url;
 		return;
