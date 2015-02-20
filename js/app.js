@@ -646,7 +646,7 @@
 						}
 
 						var displaySrc = '',
-							cssClass   = 'suggested-media-thumbnail suggested-media--embed';
+							cssClass   = 'suggested-media-thumbnail suggested-media-embed';
 
 						if ( src.indexOf( 'youtube.com/' ) > -1 ) {
 							displaySrc = 'https://i.ytimg.com/vi/' + src.replace( /.+v=([^&]+).*/, '$1' ) + '/hqdefault.jpg';
@@ -711,11 +711,11 @@
 				}
 
 				if ( ! found ) {
-					mediaContainer.removeClass('all-media--visible').addClass( 'no-media');
+					mediaContainer.removeClass('all-media-visible').addClass( 'no-media');
 					return;
 				}
 
-				mediaContainer.removeClass( 'no-media' ).addClass( 'all-media--visible' );
+				mediaContainer.removeClass( 'no-media' ).addClass( 'all-media-visible' );
 			}
 
 			/* ***************************************************************

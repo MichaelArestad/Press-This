@@ -1269,21 +1269,11 @@ html {
   z-index: -1;
 }
 
+/* Suggested images */
 .featured-container {
   position: relative;
   padding: 2px 0;
   border-bottom: 1px solid #e5e5e5;
-}
-
-.featured-image {
-  display: block;
-  padding: 62.5% 0 0 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  -webkit-background-size: cover;
-  background-size: cover;
-  height: 0 !important;
-  cursor: pointer;
 }
 
 .all-media {
@@ -1319,7 +1309,7 @@ html {
 }
 
 .suggested-media-thumbnail:focus,
-.suggested-media--embed:focus {
+.suggested-media-embed:focus {
   outline: 0;
   -webkit-box-shadow: inset 0 0 0 3px #2ea2cc;
   box-shadow: inset 0 0 0 3px #2ea2cc;
@@ -1375,42 +1365,37 @@ html {
   }
 }
 
-.suggested-media--embed:before {
+.suggested-media-embed:before {
   content: "\f104";
   color: #fff;
   color: rgba(255, 255, 255, 0.9);
 }
-.suggested-media--embed.is-audio:hover:before, .suggested-media--embed.is-audio:active:before, .suggested-media--embed.is-audio:focus:before, .suggested-media--embed.is-tweet:hover:before, .suggested-media--embed.is-tweet:active:before, .suggested-media--embed.is-tweet:focus:before {
+.suggested-media-embed.is-audio:hover:before, .suggested-media-embed.is-audio:active:before, .suggested-media-embed.is-audio:focus:before, .suggested-media-embed.is-tweet:hover:before, .suggested-media-embed.is-tweet:active:before, .suggested-media-embed.is-tweet:focus:before {
   color: #fff;
 }
-.suggested-media--embed.is-video {
+.suggested-media-embed.is-video {
   background-color: #222;
 }
-.suggested-media--embed.is-video:hover:before, .suggested-media--embed.is-video:active:before, .suggested-media--embed.is-video:focus:before {
+.suggested-media-embed.is-video:hover:before, .suggested-media-embed.is-video:active:before, .suggested-media-embed.is-video:focus:before {
   color: rgba(255, 255, 255, 0.2);
 }
-.suggested-media--embed.is-video:before {
+.suggested-media-embed.is-video:before {
   content: "\f236";
 }
-.suggested-media--embed.is-audio {
+.suggested-media-embed.is-audio {
   background-color: #ff7d44;
 }
-.suggested-media--embed.is-audio:before {
+.suggested-media-embed.is-audio:before {
   content: "\f127";
 }
-.suggested-media--embed.is-tweet {
+.suggested-media-embed.is-tweet {
   background-color: #55acee;
 }
-.suggested-media--embed.is-tweet:before {
+.suggested-media-embed.is-tweet:before {
   content: "\f301";
 }
 
-.all-media--visible .featured-image,
-.all-media--visible #wppt_no_image,
-.all-media--visible #wppt_all_media_switch {
-  display: none;
-}
-.all-media--visible .all-media {
+.all-media-visible .all-media {
   display: block;
 }
 
