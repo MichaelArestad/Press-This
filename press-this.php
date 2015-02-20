@@ -711,8 +711,8 @@ class WP_Press_This {
 			<span class="dashicons dashicons-wordpress"></span>
 			<span><?php bloginfo( 'name' ); ?></span>
 		</h1>
-		<button class="options-open button-subtle"><span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e( 'Show post options' ); ?></span></button>
-		<button class="options-close button-subtle is-hidden"><?php _e( 'Done' ); ?></button>
+		<button type="button" class="options-open button-subtle"><span class="dashicons dashicons-tag"></span><span class="screen-reader-text"><?php _e( 'Show post options' ); ?></span></button>
+		<button type="button" class="options-close button-subtle is-hidden"><?php _e( 'Done' ); ?></button>
 	</div>
 
 	<div id="wppt_scanbar" class="scan">
@@ -767,20 +767,20 @@ class WP_Press_This {
 		<div class="options-panel is-off-screen is-hidden">
 			<div class="post-options">
 				<?php if ( $supports_formats ) : ?>
-					<button class="button-reset post-option">
+					<button type="button" class="button-reset post-option">
 						<span class="dashicons dashicons-admin-post"></span>
 						<span class="post-option-title"><?php _e( 'Format' ); ?></span>
 						<span class="post-option-contents" id="post-option-post-format"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
 						<span class="dashicons dashicons-arrow-right-alt2"></span>
 					</button>
 				<?php endif; ?>
-				<button class="button-reset post-option">
+				<button type="button" class="button-reset post-option">
 					<span class="dashicons dashicons-category"></span>
 					<span class="post-option-title"><?php _e( 'Categories' ); ?></span>
 					<span class="post-option-contents" id="post-option-category"></span>
 					<span class="dashicons dashicons-arrow-right-alt2"></span>
 				</button>
-				<button class="button-reset post-option">
+				<button type="button" class="button-reset post-option">
 					<span class="dashicons dashicons-tag"></span>
 					<span class="post-option-title"><?php _e( 'Tags' ); ?></span>
 					<span class="post-option-contents" id="post-option-tags"></span>
@@ -790,13 +790,13 @@ class WP_Press_This {
 
 			<?php if ( $supports_formats ) : ?>
 				<div class="setting-modal is-off-screen is-hidden">
-					<button class="button-reset modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Post format' ); ?></span></button>
+					<button type="button" class="button-reset modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Post format' ); ?></span></button>
 					<?php post_format_meta_box( $post, null ); ?>
 				</div>
 			<?php endif; ?>
 
 			<div class="setting-modal is-off-screen is-hidden">
-				<button class="button-reset modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Categories' ); ?></span></button>
+				<button type="button" class="button-reset modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Categories' ); ?></span></button>
 				<?php
 
 				$taxonomy = get_taxonomy( 'category' );
@@ -838,7 +838,7 @@ class WP_Press_This {
 			</div>
 
 			<div class="setting-modal tags is-off-screen is-hidden">
-				<button class="button-reset modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Tags' ); ?></span></button>
+				<button type="button" class="button-reset modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Tags' ); ?></span></button>
 				<?php post_tags_meta_box( $post, null ); ?>
 			</div>
 		</div><!-- .options-panel -->
