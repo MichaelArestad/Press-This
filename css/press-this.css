@@ -386,9 +386,12 @@ strong {
 }
 
 .button-reset {
+  margin: 0;
   padding: 0;
   border: 0;
   background: none;
+  cursor: pointer;
+  -webkit-appearance: none;
 }
 .button-reset:focus {
   outline: 0;

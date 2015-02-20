@@ -37,9 +37,12 @@
 }
 
 .button-reset {
+	margin: 0;
 	padding: 0;
 	border: 0;
 	background: none;
+	cursor: pointer;
+	-webkit-appearance: none;
 
 	&:focus {
 		outline: 0;
