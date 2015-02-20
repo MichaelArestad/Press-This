@@ -1,6 +1,6 @@
-// ==========================================================================
-// Main
-// ==========================================================================
+/**
+* #.# Main
+*/
 
 $sidebar-size: 320px;
 
@@ -234,14 +234,6 @@ body {
 	}
 	@include breakpoint( '<320px' ) {
 		padding: 0;
-	}
-}
-
-.editor--content {
-	min-height: 8em;
-
-	@include breakpoint( '<320px' ) {
-		padding: 0 em( 20px, 14px );
 	}
 }
 
@@ -530,7 +522,7 @@ body {
 }
 
 
-// TinyMCE
+/* TinyMCE styles */
 .editor {
 	.wp-media-buttons {
 		float: none;
@@ -571,7 +563,7 @@ body {
 }
 
 
-// Options panel
+/* Options panel (sidebar) */
 .options-panel {
 	position: relative;
 	float: right;
@@ -579,7 +571,8 @@ body {
 	width: $sidebar-size;
 	border-left: 1px solid $gray--light;
 	font-size: 14px;
-	box-shadow: 5001px 5000px 0 5000px #fff, // Keeps background the full height of the screen
+	/* Keeps background the full height of the screen */
+	box-shadow: 5001px 5000px 0 5000px #fff,
 		5000px 5000px 0 5000px $gray--light;
 
 	@include breakpoint( '<900px' ) {
@@ -611,7 +604,7 @@ body {
 	width: 100%;
 	overflow-x: hidden;
 
-	.post-option__contents {
+	.post-option-contents {
 		margin-left: 3px;
 		color: #333;
 	}
@@ -627,9 +620,9 @@ body {
 .post-option {
 	position: relative;
 
-	.post-options & { // TODO remove overqualifier after conversion to buttons
+	.post-options & {
 		display: block;
-		padding: 13px 37px 13px 14px; // TODO em() and responsive styles
+		padding: 13px 37px 13px 14px;
 		border-bottom: 1px solid $gray--light;
 		text-decoration: none;
 		color: #9ea7af;
@@ -662,10 +655,10 @@ body {
 
 }
 
-.post-option__title {
+.post-option-title {
 	display: inline-block;
-	margin: 0 0 0 8px; // TODO em()
-	font-size: 14px; // TODO em()
+	margin: 0 0 0 8px;
+	font-size: 14px;
 	font-weight: normal;
 }
 
@@ -699,7 +692,7 @@ body {
 
 .modal-close {
 	display: block;
-	padding: 13px 14px; // TODO em()
+	padding: 13px 14px;
 	border-bottom: 1px solid $gray--light;
 	text-decoration: none;
 

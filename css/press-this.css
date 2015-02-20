@@ -759,7 +759,7 @@ dd {
 * Complete styles for post categories UI
 */
 input[type="search"].categories-search,
-.add-category__name {
+.add-category-name {
   display: block;
   width: 100%;
   padding: 0.85714em 1.07143em;
@@ -773,7 +773,7 @@ input[type="search"].categories-search,
 }
 @media (max-width: 600px) {
   input[type="search"].categories-search,
-  .add-category__name {
+  .add-category-name {
     font-size: 16px;
     /* Needs to be 16px to prevent zooming on iOS. Guh. */
   }
@@ -944,6 +944,9 @@ input[type="search"].categories-search,
   color: #9ea7af;
 }
 
+/**
+* #.# Main
+*/
 html,
 body {
   overflow-x: hidden;
@@ -1197,15 +1200,6 @@ html {
 @media (max-width: 320px) {
   .editor {
     padding: 0;
-  }
-}
-
-.editor--content {
-  min-height: 8em;
-}
-@media (max-width: 320px) {
-  .editor--content {
-    padding: 0 1.42857em;
   }
 }
 
@@ -1492,6 +1486,7 @@ html {
   }
 }
 
+/* TinyMCE styles */
 .editor .wp-media-buttons {
   float: none;
 }
@@ -1532,6 +1527,7 @@ html {
   font-size: 13px;
 }
 
+/* Options panel (sidebar) */
 .options-panel {
   position: relative;
   float: right;
@@ -1539,7 +1535,9 @@ html {
   width: 320px;
   border-left: 1px solid #e5e5e5;
   font-size: 14px;
+  /* Keeps background the full height of the screen */
   -webkit-box-shadow: 5001px 5000px 0 5000px #fff, 5000px 5000px 0 5000px #e5e5e5;
+  /* Keeps background the full height of the screen */
   box-shadow: 5001px 5000px 0 5000px #fff, 5000px 5000px 0 5000px #e5e5e5;
 }
 @media (max-width: 900px) {
@@ -1577,7 +1575,7 @@ html {
   width: 100%;
   overflow-x: hidden;
 }
-.post-options .post-option__contents {
+.post-options .post-option-contents {
   margin-left: 3px;
   color: #333;
 }
@@ -1623,7 +1621,7 @@ html {
   }
 }
 
-.post-option__title {
+.post-option-title {
   display: inline-block;
   margin: 0 0 0 8px;
   font-size: 14px;
