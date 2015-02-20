@@ -638,6 +638,11 @@ class WP_Press_This {
 			set_current_screen( $hook_suffix );
 		}
 
+		global $is_IE;
+		if ( $is_IE ) {
+			@header( 'X-UA-Compatible: IE=edge' );
+		}
+
 		@header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 
 		if ( ! function_exists( 'post_tags_meta_box' ) ) {
