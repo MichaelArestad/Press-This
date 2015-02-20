@@ -622,9 +622,11 @@ body {
 
 	.post-options & {
 		display: block;
+		width: 100%; // Even with display: block needs the width declaration because it's a <button>
 		padding: 13px 37px 13px 14px;
 		border-bottom: 1px solid $gray--light;
 		text-decoration: none;
+		text-align: left;
 		color: #9ea7af;
 		text-overflow: ellipsis;
 		white-space: nowrap;
@@ -692,9 +694,12 @@ body {
 
 .modal-close {
 	display: block;
+	width: 100%; // Even with display: block needs the width declaration because it's a <button>
 	padding: 13px 14px;
 	border-bottom: 1px solid $gray--light;
+	color: $blue--light;
 	text-decoration: none;
+	text-align: left;
 
 	&:focus {
 		outline: 0;
