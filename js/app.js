@@ -778,7 +778,8 @@
 					$postActions = $( '.press-this-actions' ),
 					$scanbar = $( '#wppt_scanbar' ),
 					isOffScreen = 'is-off-screen',
-					isHidden = 'is-hidden';
+					isHidden = 'is-hidden',
+					ifOffHidden = isOffScreen + ' ' + isHidden;
 
 				$optOpen.on( 'click', function(){
 					$optOpen.addClass( isHidden );
@@ -787,7 +788,7 @@
 					$scanbar.addClass( isHidden );
 
 					$sidebar
-						.removeClass( isOffScreen + ' ' + isHidden )
+						.removeClass( ifOffHidden )
 						.one( 'transitionend', function() {
 							$postOption.eq(0).focus();
 						});
@@ -803,6 +804,9 @@
 						.addClass( isOffScreen )
 						.one( 'transitionend', function() {
 							$( this ).addClass( isHidden );
+							// Reset to options list
+							$( '.post-options' ).removeClass( ifOffHidden );
+							$( '.setting-modal').addClass( ifOffHidden );
 						});
 				});
 			}
