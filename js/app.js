@@ -22,7 +22,20 @@
 				suggestedTitleStr     = getSuggestedTitle( data ),
 				suggestedContentStr   = getSuggestedContent( data ),
 				hasSetFocus           = false,
-				catsCache = [];
+				catsCache             = [],
+				transitionEndEvent    = ( function() {
+					var style = document.documentElement.style;
+
+					if ( typeof style.transition !== 'undefined' ) {
+						return 'transitionend';
+					}
+
+					if ( typeof style.WebkitTransition !== 'undefined' ) {
+						return 'webkitTransitionEnd';
+					}
+
+					return false;
+				}());
 
 			/* ***************************************************************
 			 * HELPER FUNCTIONS
@@ -62,11 +75,11 @@
 				}
 
 				var link = '';
-				
+
 				if ( data._links ) {
 					if (data._links.canonical && data._links.canonical.length) {
 						link = data._links.canonical;
-					}	
+					}
 				}
 
 				if ( ! link.length && data.u ) {
@@ -733,35 +746,46 @@
 					$settingModal = $( '.setting-modal' ),
 					$modalClose   = $( '.modal-close' );
 
-				$postOption.on( 'click', function() {
+				$postOption.on( 'click', function( event ) {
 					var index = $( this ).index(),
 						$targetSettingModal = $settingModal.eq( index );
 
+					event.preventDefault();
+
 					$postOptions
 						.addClass( isOffScreen )
-						.one( 'transitionend', function() {
+						.one( transitionEndEvent, function() {
 							$( this ).addClass( isHidden );
 						});
 
 					$targetSettingModal
 						.removeClass( isOffScreen + ' ' + isHidden )
-						.one( 'transitionend', function() {
+						.one( transitionEndEvent, function() {
 							$( this ).find( $modalClose ).focus();
 						});
 				});
 
-				$modalClose.on( 'click', function(){
+				$modalClose.on( 'click', function( event ) {
 					var $targetSettingModal = $( this ).parent(),
 						index = $targetSettingModal.index();
+
+					event.preventDefault();
 
 					$postOptions
 						.removeClass( isOffScreen + ' ' + isHidden );
 
 					$targetSettingModal
 						.addClass( isOffScreen )
-						.one( 'transitionend', function() {
+						.one( transitionEndEvent, function() {
 							$( this ).addClass( isHidden );
 						});
+
+					// For browser that don't support transitionend.
+					if ( ! transitionEndEvent ) {
+						setTimeout( function() {
+							$targetSettingModal.addClass( isHidden );
+						}, 350 );
+					}
 
 					$postOption.eq( index - 1 ).focus();
 				});
