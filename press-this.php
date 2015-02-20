@@ -165,7 +165,6 @@ class WP_Press_This {
 			'source'                     => apply_filters( 'press_this_source_string', __( 'Source:', 'press-this' ) ),
 			'source-link'                => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
 			'new-post'                   => __( 'Title', 'press-this' ),
-			'start-typing-here'          => __( 'Start typing here.', 'press-this' ),
 			'unexpected-error'           => __( 'Sorry, but an unexpected error occurred.', 'press-this' ),
 			'should-upgrade-bookmarklet' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', 'press-this' ),
 			'saveAlert'                  => __( 'The changes you made will be lost if you navigate away from this page.' ),

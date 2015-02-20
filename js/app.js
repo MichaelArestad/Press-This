@@ -169,7 +169,7 @@
 			 */
 			function getSuggestedContent( data ) {
 				if ( ! data || data.length ) {
-					return __( 'start-typing-here' );
+					return '';
 				}
 
 				var content   = '',
@@ -201,8 +201,8 @@
 					content += '</cite></p>';
 				}
 
-				if ( ! content.length ) {
-					content = __( 'start-typing-here' );
+				if ( ! content ) {
+					content = '';
 				}
 
 				return content.replace( /\\/g, '' );
