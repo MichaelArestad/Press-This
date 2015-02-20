@@ -1209,8 +1209,8 @@ html {
   }
 }
 
-.post__title,
-.post__title-placeholder {
+.post-title,
+.post-title-placeholder {
   margin: 0;
   padding: .83em 0;
   width: 100%;
@@ -1219,48 +1219,50 @@ html {
   line-height: 1.4;
   font-weight: 700;
 }
-.post__title:active, .post__title:focus,
-.post__title-placeholder:active,
-.post__title-placeholder:focus {
+.post-title:active, .post-title:focus,
+.post-title-placeholder:active,
+.post-title-placeholder:focus {
   outline: 0;
   -webkit-box-shadow: inset 0px -3px 0 #2ea2cc;
   box-shadow: inset 0px -3px 0 #2ea2cc;
   border-color: #2ea2cc;
 }
 @media (max-width: 900px) {
-  .post__title,
-  .post__title-placeholder {
+  .post-title,
+  .post-title-placeholder {
     font-size: 24px;
   }
 }
 @media (max-height: 400px) {
-  .post__title,
-  .post__title-placeholder {
+  .post-title,
+  .post-title-placeholder {
     padding: 15px 0;
     font-size: 16px;
   }
 }
 @media (max-width: 320px) {
-  .post__title,
-  .post__title-placeholder {
+  .post-title,
+  .post-title-placeholder {
     font-size: 16px;
     font-weight: 600;
     padding: 1.14286em 1.42857em;
   }
 }
 
-.post__title {
+.post-title {
+  /* IE8 fallback */
   background: url(data:image/gif;base64,R0lGODlhAQABAJEAAAAAAP///////wAAACH5BAEHAAIALAAAAAABAAEAAAICVAEAOw==);
   background: none, none;
 }
-.post__title:before {
+.post-title:before {
+  /* Keeps empty container from collapsing */
   content: '\a0';
   display: inline-block;
   width: 0;
   speak: none;
 }
 
-.post__title-placeholder {
+.post-title-placeholder {
   position: absolute;
   border: 0;
   color: #9ea7af;

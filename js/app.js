@@ -592,7 +592,7 @@
 				if ( ! hasEmptyTitleStr ) {
 					$('#wppt_title_field').val( title );
 					$('#wppt_title_container').text( title );
-					$('.post__title-placeholder').addClass('screen-reader-text');
+					$('.post-title-placeholder').addClass('screen-reader-text');
 				}
 
 				$('#wppt_title_container').on( 'input', function() {
@@ -812,7 +812,7 @@
 			 */
 			function monitorPlaceholder() {
 				var $selector = $( '#wppt_title_container'),
-					$placeholder = $('.post__title-placeholder');
+					$placeholder = $('.post-title-placeholder');
 
 				$selector.on( 'focus', function() {
 					$placeholder.addClass('screen-reader-text');
