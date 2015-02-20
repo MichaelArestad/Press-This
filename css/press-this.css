@@ -1405,7 +1405,8 @@ html {
   border: 0;
 }
 
-.press-this__actions {
+/* Actions bar */
+.press-this-actions {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -1415,14 +1416,14 @@ html {
   border-top: 1px solid #e5e5e5;
 }
 @media (max-width: 900px) {
-  .press-this__actions {
+  .press-this-actions {
     -webkit-transform: translateY(0);
     -ms-transform: translateY(0);
     transform: translateY(0);
     -webkit-transition: -webkit-transform .3s ease-in-out;
     transition: transform .3s ease-in-out;
   }
-  .press-this__actions.is-hidden {
+  .press-this-actions.is-hidden {
     -webkit-transform: translateY(100%);
     -ms-transform: translateY(100%);
     transform: translateY(100%);

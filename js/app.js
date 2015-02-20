@@ -775,7 +775,7 @@
 					$optClose = $( '.options-close' ),
 					$postOption = $( '.post-option' ),
 					$sidebar = $( '.options-panel' ),
-					$postActions = $( '.press-this__actions' ),
+					$postActions = $( '.press-this-actions' ),
 					$scanbar = $( '#wppt_scanbar' ),
 					isOffScreen = 'is-off-screen',
 					isHidden = 'is-hidden';

@@ -831,7 +831,7 @@ class WP_Press_This {
 		</div><!-- .options-panel -->
 	</div><!-- .wrapper -->
 
-	<div class="press-this__actions">
+	<div class="press-this-actions">
 		<div class="pressthis-media-buttons">
 			<button type="button" class="insert-media button-subtle" data-editor="pressthis">
 				<span class="dashicons dashicons-admin-media"></span>
