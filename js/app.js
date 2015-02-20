@@ -432,7 +432,19 @@
 							renderError( response.data.errorMessage );
 							hideSpinner();
 						} else if ( response.data.redirect ) {
-							window.location.href = response.data.redirect;
+							if ( ! siteConfig.redir_in_parent ) {
+								window.location.href = response.data.redirect;
+							} else {
+								if ( window.opener ) {
+									try {
+										window.opener.location.href = response.data.redirect;
+									} catch( er ) {}
+
+									window.self.close();
+								} else {
+									window.location.href = response.data.redirect;
+								}
+							}
 						}
 					}
 				});

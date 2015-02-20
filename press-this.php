@@ -191,11 +191,12 @@ class WP_Press_This {
 		}
 
 		return array(
-			'version'        => $this->plugin_version(),
-			'runtime_url'    => $this->strip_url_scheme( $this->runtime_url() ),
-			'ajax_url'       => $this->strip_url_scheme( admin_url( 'admin-ajax.php' ) ),
-			'post_formats'   => $post_formats,
-			'i18n'           => $this->i18n(),
+			'version'         => $this->plugin_version(),
+			'runtime_url'     => $this->strip_url_scheme( $this->runtime_url() ),
+			'ajax_url'        => $this->strip_url_scheme( admin_url( 'admin-ajax.php' ) ),
+			'post_formats'    => $post_formats,
+			'redir_in_parent' => apply_filters( 'press_this_redirect_in_parent', __return_false() ),
+			'i18n'            => $this->i18n(),
 		);
 	}
 
