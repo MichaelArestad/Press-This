@@ -432,16 +432,7 @@
 							renderError( response.data.errorMessage );
 							hideSpinner();
 						} else if ( response.data.redirect ) {
-							// TODO: better redirect/window.open()/_blank logic
-							if ( window.opener ) {
-								try {
-									window.opener.location.href = response.data.redirect;
-								} catch( er ) {}
-
-								window.self.close();
-							} else {
-								window.location.href = response.data.redirect;
-							}
+							window.location.href = response.data.redirect;
 						}
 					}
 				});
