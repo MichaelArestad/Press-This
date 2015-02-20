@@ -385,6 +385,15 @@ strong {
   text-decoration: underline;
 }
 
+.button-reset {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+.button-reset:focus {
+  outline: 0;
+}
+
 /**
 * #.# Forms
 *
@@ -1591,9 +1600,11 @@ html {
 }
 .post-options .post-option {
   display: block;
+  width: 100%;
   padding: 13px 37px 13px 14px;
   border-bottom: 1px solid #e5e5e5;
   text-decoration: none;
+  text-align: left;
   color: #9ea7af;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1655,9 +1666,12 @@ html {
 
 .modal-close {
   display: block;
+  width: 100%;
   padding: 13px 14px;
   border-bottom: 1px solid #e5e5e5;
+  color: #2ea2cc;
   text-decoration: none;
+  text-align: left;
 }
 .modal-close:focus {
   outline: 0;
