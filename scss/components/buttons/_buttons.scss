@@ -35,3 +35,14 @@
 		text-decoration: underline;
 	}
 }
+
+.button-reset {
+	padding: 0;
+	border: 0;
+	background: none;
+
+	&:focus {
+		outline: 0;
+	}
+
+}
