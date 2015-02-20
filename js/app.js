@@ -42,13 +42,17 @@
 			 *************************************************************** */
 
 			/**
-			 * Emulates our PHP __() gettext function, powered by the strings exported in siteConfig.i18n.
+			 * Emulates our PHP __() gettext function, powered by the strings exported in pressThisL10n.
 			 *
-			 * @param key string Key of the string to be translated, as found in siteConfig.i18n
-			 * @returns string Original or translated value, if there is one
+			 * @param key string Key of the string to be translated, as found in pressThisL10n.
+			 * @returns string Original or translated string, or empty string if no key.
 			 */
 			function __( key ) {
-				return ( ! siteConfig || ! siteConfig.i18n || ! siteConfig.i18n[key] || ! siteConfig.i18n[key].length ) ? key : siteConfig.i18n[key];
+				if ( key && window.pressThisL10n ) {
+					return window.pressThisL10n[key] || key;
+				}
+
+				return key || '';
 			}
 
 			/**
@@ -432,18 +436,14 @@
 							renderError( response.data.errorMessage );
 							hideSpinner();
 						} else if ( response.data.redirect ) {
-							if ( ! siteConfig.redir_in_parent ) {
-								window.location.href = response.data.redirect;
-							} else {
-								if ( window.opener ) {
-									try {
-										window.opener.location.href = response.data.redirect;
-									} catch( er ) {}
+							if ( window.opener && siteConfig.redir_in_parent ) {
+								try {
+									window.opener.location.href = response.data.redirect;
+								} catch( er ) {}
 
-									window.self.close();
-								} else {
-									window.location.href = response.data.redirect;
-								}
+								window.self.close();
+							} else {
+								window.location.href = response.data.redirect;
 							}
 						}
 					}

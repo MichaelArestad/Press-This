@@ -196,7 +196,6 @@ class WP_Press_This {
 			'ajax_url'        => $this->strip_url_scheme( admin_url( 'admin-ajax.php' ) ),
 			'post_formats'    => $post_formats,
 			'redir_in_parent' => apply_filters( 'press_this_redirect_in_parent', __return_false() ),
-			'i18n'            => $this->i18n(),
 		);
 	}
 
@@ -600,9 +599,6 @@ class WP_Press_This {
 	 */
 	public function serve_app_html() {
 		global $wp_locale;
-
-		// Get i18n strings
-		$i18n                 = $this->i18n();
 
 		// Get data, new (POST) and old (GET)
 		$data                 = $this->merge_or_fetch_data();
