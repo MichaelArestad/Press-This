@@ -303,7 +303,7 @@ strong {
 *
 * Pushing buttons is what I do.
 */
-.scan__submit, .button-primary, .button-subtle {
+.scan-submit, .button-primary, .button-subtle {
   display: inline-block;
   margin: 0;
   padding: 0 10px 1px;
@@ -319,28 +319,28 @@ strong {
   -webkit-appearance: none;
 }
 
-.scan__submit {
+.scan-submit {
   background: #f7f7f7;
   border-color: #dedede;
   color: #555;
 }
-.scan__submit:hover, .scan__submit:focus {
+.scan-submit:hover, .scan-submit:focus {
   background: #eaeaea;
   border-color: #d1d1d1;
   color: #555;
   outline: 0;
 }
-.scan__submit:active {
+.scan-submit:active {
   background: #dedede;
   border-color: #d1d1d1;
   color: #555;
 }
-[disabled].scan__submit, .scan__submit:disabled {
+[disabled].scan-submit, .scan-submit:disabled {
   color: #d1c7c7 !important;
   background: #e3e3e3 !important;
   border-color: #d1d1d1 !important;
 }
-.scan__submit:visited {
+.scan-submit:visited {
   color: #555;
 }
 
@@ -1115,7 +1115,7 @@ html {
   }
 }
 
-.scan__url {
+.scan-url {
   display: block;
   border: 0;
   padding: 0.85714em 1.07143em;
@@ -1123,12 +1123,12 @@ html {
   width: 100%;
 }
 @media (max-width: 600px) {
-  .scan__url {
+  .scan-url {
     font-size: 16px;
   }
 }
 
-.scan__submit {
+.scan-submit {
   position: absolute;
   top: 0;
   right: 0;
@@ -1141,12 +1141,12 @@ html {
   font-size: 14px;
   line-height: 1.6;
 }
-.scan__submit:hover, .scan__submit:focus {
+.scan-submit:hover, .scan-submit:focus {
   background: #2991b7;
   border-color: #20708e;
   color: #fff;
 }
-.scan__submit:active {
+.scan-submit:active {
   background: #2581a2;
   border-color: #20708e;
   color: #fff;

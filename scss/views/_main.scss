@@ -163,7 +163,7 @@ body {
 	}
 }
 
-.scan__url {
+.scan-url {
 	display: block;
 	border: 0;
 	padding: em( 12px, 14px ) em( 15px, 14px );
@@ -175,7 +175,7 @@ body {
 	}
 }
 
-.scan__submit {
+.scan-submit {
 	@extend %button;
 	@extend %button--secondary;
 	position: absolute;
