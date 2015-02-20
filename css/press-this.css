@@ -1074,7 +1074,13 @@ html {
   position: relative;
   margin: 0 2.14286em;
   padding: 0.35714em 1.42857em;
-  font-size: 0.7em;
+  font-size: 14px;
+}
+@media (max-width: 600px) {
+  .notice,
+  .error {
+    margin: 0 15px;
+  }
 }
 .notice:before,
 .error:before {

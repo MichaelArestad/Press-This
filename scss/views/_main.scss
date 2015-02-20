@@ -121,8 +121,11 @@ body {
 	position: relative;
 	margin: 0 em( 30px,14px );
 	padding: em( 5px, 14px ) em( 20px, 14px );
-	font-size: em( 14px );
+	font-size: 14px;
 
+	@include breakpoint( '<600px' ) {
+		margin: 0 15px;
+	}
 	&:before {
 		$dot-size: 8px;
 
