@@ -638,8 +638,7 @@ class WP_Press_This {
 			set_current_screen( $hook_suffix );
 		}
 
-		global $is_IE;
-		if ( $is_IE ) {
+		if ( ! empty( $GLOBALS['is_IE'] ) ) {
 			@header( 'X-UA-Compatible: IE=edge' );
 		}
 
