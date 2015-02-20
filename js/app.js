@@ -634,7 +634,7 @@
 				listContainer.empty();
 
 				if ( ( interestingEmbeds && interestingEmbeds.length ) || ( interestingImages && interestingImages.length ) ) {
-					listContainer.append( '<h2 class="screen-reader-text">' + pressThisL10n.allMediaHeading + '</h2><ul class="wppt-all-media-list ciao"/>' );
+					listContainer.append( '<h2 class="screen-reader-text">' + pressThisL10n.allMediaHeading + '</h2><ul class="wppt-all-media-list"/>' );
 				}
 
 				if ( interestingEmbeds && interestingEmbeds.length ) {
