@@ -282,11 +282,19 @@ class WP_Press_This {
 
 				// See if files exist in content - we don't want to upload non-used selected files.
 				if ( false !== strpos( $new_content, htmlspecialchars( $image_url ) ) ) {
-					$upload = media_sideload_image( $image_url, $post_id );
+					// Sideload image, which ives us a new image tag, strip the empty alt that comes with it.
+					$upload = str_replace( ' alt=""', '', media_sideload_image( $image_url, $post_id ) );
+
+					// Preserve assigned class, id, width, height and alt attributes
+					if ( preg_match_all( '/(class|width|height|id|alt)=\\\?(\"|\')[^"\']+\\\?(\2)/', $image, $attr_matches ) && is_array( $attr_matches[0] ) ) {
+						foreach ( $attr_matches[0] as $attr ) {
+							$upload = str_replace( '<img', '<img ' . $attr, $upload );
+						}
+					}
 
 					// Replace the POSTED content <img> with correct uploaded ones. Regex contains fix for Magic Quotes
 					if ( ! is_wp_error( $upload ) ) {
-						$new_content = preg_replace( '/<img ([^>]*)src=\\\?(\"|\')'.preg_quote( htmlspecialchars( $image_url ), '/' ).'\\\?(\2)([^>\/]*)\/*>/is', $upload, $new_content );
+						$new_content = str_replace( $image, $upload, $new_content );
 					}
 				}
 			}
