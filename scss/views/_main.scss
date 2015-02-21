@@ -730,3 +730,24 @@ body {
 		top: -1px;
 	margin-left: 11px;
 }
+
+/* LT IE9 */
+.lt-ie9 {
+	overflow: visible;
+
+	.options-panel,
+	.post-options {
+		border-left: 1px solid $gray--light;
+	}
+	.post-options.is-off-screen {
+		border: 0;
+	}
+	.categories-select input {
+		top: 50%;
+		right: 10px;
+		left: auto;
+		margin-top: -8px;
+		width: 16px;
+		height: 16px;
+	}
+}

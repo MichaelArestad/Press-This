@@ -1705,4 +1705,24 @@ html {
   margin-left: 11px;
 }
 
+/* LT IE9 */
+.lt-ie9 {
+  overflow: visible;
+}
+.lt-ie9 .options-panel,
+.lt-ie9 .post-options {
+  border-left: 1px solid #e5e5e5;
+}
+.lt-ie9 .post-options.is-off-screen {
+  border: 0;
+}
+.lt-ie9 .categories-select input {
+  top: 50%;
+  right: 10px;
+  left: auto;
+  margin-top: -8px;
+  width: 16px;
+  height: 16px;
+}
+
 /*# sourceMappingURL=press-this.css.map */
