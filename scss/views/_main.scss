@@ -181,15 +181,17 @@ body {
 
 .scan-submit {
 	@extend %button;
-	@extend %button--secondary;
 	position: absolute;
 		top: 0;
 		right: 0;
 		bottom: 0;
 	padding: em( 12px, 14px ) em( 15px, 14px );
-	border: 0;
+	background: #f7f7f7;
+	border-color: #dedede;
+	border-bottom: 0;
 	border-left: 1px solid $gray--ultralight;
 	border-radius: 0;
+	color: #555;
 	font-size: 14px;
 	line-height: 1.6;
 
@@ -198,12 +200,15 @@ body {
 		background: darken( $blue--light, 5% );
 		border-color: darken( $blue--light, 15% );
 		color: #fff;
+		outline: 0;
 	}
-
 	&:active {
 		background: darken( $blue--light, 10% );
 		border-color: darken( $blue--light, 15% );
 		color: #fff;
+	}
+	&:visited {
+		color: #555;
 	}
 }
 

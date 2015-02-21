@@ -303,7 +303,7 @@ strong {
 *
 * Pushing buttons is what I do.
 */
-.scan-submit, .button-primary, .button-subtle {
+.button-primary, .button-subtle, .scan-submit {
   display: inline-block;
   margin: 0;
   padding: 0 10px 1px;
@@ -317,31 +317,6 @@ strong {
   white-space: nowrap;
   cursor: pointer;
   -webkit-appearance: none;
-}
-
-.scan-submit {
-  background: #f7f7f7;
-  border-color: #dedede;
-  color: #555;
-}
-.scan-submit:hover, .scan-submit:focus {
-  background: #eaeaea;
-  border-color: #d1d1d1;
-  color: #555;
-  outline: 0;
-}
-.scan-submit:active {
-  background: #dedede;
-  border-color: #d1d1d1;
-  color: #555;
-}
-[disabled].scan-submit, .scan-submit:disabled {
-  color: #d1c7c7 !important;
-  background: #e3e3e3 !important;
-  border-color: #d1d1d1 !important;
-}
-.scan-submit:visited {
-  color: #555;
 }
 
 .button-primary {
@@ -360,7 +335,7 @@ strong {
   border-color: #20708e;
   color: #fff;
 }
-[disabled].button-primary, .button-primary:disabled {
+.button-primary[disabled], .button-primary:disabled {
   color: #c7ced1 !important;
   background: #2688ab !important;
   border-color: #20708e !important;
@@ -1175,10 +1150,13 @@ html {
   right: 0;
   bottom: 0;
   padding: 0.85714em 1.07143em;
-  border: 0;
+  background: #f7f7f7;
+  border-color: #dedede;
+  border-bottom: 0;
   border-left: 1px solid #f1f1f1;
   -webkit-border-radius: 0;
   border-radius: 0;
+  color: #555;
   font-size: 14px;
   line-height: 1.6;
 }
@@ -1186,11 +1164,15 @@ html {
   background: #2991b7;
   border-color: #20708e;
   color: #fff;
+  outline: 0;
 }
 .scan-submit:active {
   background: #2581a2;
   border-color: #20708e;
   color: #fff;
+}
+.scan-submit:visited {
+  color: #555;
 }
 
 .wrapper {

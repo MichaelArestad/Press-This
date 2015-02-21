@@ -6,28 +6,27 @@
 
 
 @import
-	"variables",
 	"mixins",
 	"extends";
 
-
 .button-primary {
-	@extend %button--primary;
+	@extend %button;
+	@include button( $blue--light, #fff );
 }
 
 .button-subtle {
 	@extend %button;
 	background: none;
 	border: 0;
-	color: map-get( $buttons, subtle__color );
+	color: $blue--dark;
 
 	&:visited {
-		color: map-get( $buttons, subtle__color );
+		color: $blue--dark;
 	}
 	&:focus,
 	&:hover,
 	&:active {
-		color: map-get( $buttons, subtle__color--hover );
+		color: $blue--light;
 	}
 	&:focus,
 	&:active {
