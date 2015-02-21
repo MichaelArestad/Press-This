@@ -363,9 +363,9 @@ class WP_Press_This {
 			}
 
 			if ( 'publish' === get_post_status( $post_id ) ) {
-				$redirect = get_post_permalink( $post_id );
+				$redirect = apply_filters( 'press_this_publish_redirect', get_post_permalink( $post_id ), $post_id );
 			} else {
-				$redirect = get_edit_post_link( $post_id, 'raw' );
+				$redirect = apply_filters( 'press_this_draft_redirect', get_edit_post_link( $post_id, 'raw' ), $post_id );
 			}
 
 			wp_send_json_success( array( 'redirect' => $redirect ) );
