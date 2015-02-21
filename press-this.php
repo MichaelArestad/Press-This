@@ -162,13 +162,13 @@ class WP_Press_This {
 	 */
 	public function i18n() {
 		return array(
-			'source'                     => apply_filters( 'press_this_source_string', __( 'Source:', 'press-this' ) ),
+			'source'                     => apply_filters( 'press_this_source_string', __( 'Source:' ) ),
 			'source-link'                => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
-			'new-post'                   => __( 'Title', 'press-this' ),
-			'unexpected-error'           => __( 'Sorry, but an unexpected error occurred.', 'press-this' ),
-			'should-upgrade-bookmarklet' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!', 'press-this' ),
+			'new-post'                   => __( 'Title' ),
+			'unexpected-error'           => __( 'Sorry, but an unexpected error occurred.' ),
+			'should-upgrade-bookmarklet' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' ),
 			'saveAlert'                  => __( 'The changes you made will be lost if you navigate away from this page.' ),
-			'allMediaHeading'            => __( 'Suggested media', 'press-this' ),
+			'allMediaHeading'            => __( 'Suggested media' ),
 		);
 	}
 
@@ -409,9 +409,9 @@ class WP_Press_This {
 			// Let's do some cleanup, for good measure :)
 			unlink( $source_tmp_file );
 		} else if ( is_wp_error( $source_tmp_file ) ) {
-			$source_content = new WP_Error( 'upload-error',  sprintf( __( 'Error: %s', 'press-this' ), sprintf( __( 'Could not download the source URL (native error: %s).', 'press-this' ), $source_tmp_file->get_error_message() ) ) );
+			$source_content = new WP_Error( 'upload-error',  sprintf( __( 'Error: %s' ), sprintf( __( 'Could not download the source URL (native error: %s).' ), $source_tmp_file->get_error_message() ) ) );
 		} else if ( ! file_exists( $source_tmp_file ) ) {
-			$source_content = new WP_Error( 'no-local-file',  sprintf( __( 'Error: %s', 'press-this' ), __( 'Could not save or locate the temporary download file for the source URL.', 'press-this' ) ) );
+			$source_content = new WP_Error( 'no-local-file',  sprintf( __( 'Error: %s' ), __( 'Could not save or locate the temporary download file for the source URL.' ) ) );
 		}
 
 		return $source_content;
@@ -712,8 +712,8 @@ class WP_Press_This {
 
 	<div id="wppt_scanbar" class="scan">
 		<form method="GET">
-			<input type="url" name="u" id="wppt_url_scan" class="scan-url" value="" placeholder="<?php echo esc_attr( __( 'Enter a URL to scan', 'press-this' ) ) ?>" />
-			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan-submit" value="<?php echo esc_attr( __( 'Scan', 'press-this' ) ) ?>" />
+			<input type="url" name="u" id="wppt_url_scan" class="scan-url" value="" placeholder="<?php echo esc_attr( __( 'Enter a URL to scan' ) ) ?>" />
+			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan-submit" value="<?php echo esc_attr( __( 'Scan' ) ) ?>" />
 		</form>
 	</div>
 
@@ -1061,7 +1061,7 @@ class WP_Press_This {
 	 */
 	public function admin_notices() {
 		if ( 'plugins' === get_current_screen()->id ) {
-			printf( '<div class="error"><p>%s</p></div>', sprintf( __( '<strong>Press This setup:</strong> Please visit our <a href="%s">admin screen</a> and select your preferred install method.', 'press-this' ), admin_url( 'tools.php?page=press_this_options' ) ) );
+			printf( '<div class="error"><p>%s</p></div>', sprintf( __( '<strong>Press This setup:</strong> Please visit our <a href="%s">admin screen</a> and select your preferred install method.' ), admin_url( 'tools.php?page=press_this_options' ) ) );
 		}
 	}
 }
