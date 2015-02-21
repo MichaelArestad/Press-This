@@ -954,35 +954,36 @@ class WP_Press_This {
 		?>
 		<style type="text/css">
 			.postbox-pt {
-				margin: 1em 0 0 0;
-				padding: 0 1em 1em;
+				margin: 20px 0 0 0;
+				padding: 0.7em 2em 1em;
+				max-width: 420px;
 			}
 
-				.postbox-pt textarea {
-					width: 100%;
-					font-size: 1em;
-				}
+			.postbox-pt textarea {
+				width: 100%;
+				font-size: 1em;
+			}
 
-				.postbox-pt h4 {
-					margin: 2em 0 1em;
-				}
+			.postbox-pt h4 {
+				margin: 2em 0 1em;
+			}
 
-				.postbox-pt-buttons {
-					line-height: 2em;
-				}
+			.pressthis {
+				vertical-align: top;
+				position: relative;
+				z-index: 1;
+			}
 
-				.button-pt-bookmarklet:before {
-					color: #FFF;
-					font: 400 20px/1 dashicons;
-					content: '\f157';
-					position: relative;
-					display: inline-block;
-					top: 2px;
-				}
-
-				.wp-core-ui .postbox-pt .button:active {
-					vertical-align: middle;
-				}
+			p.pressthis .button {
+				margin-left: 10px;
+				padding: 0;
+				height: auto;
+				vertical-align: top;
+			}
+			.pressthis button .dashicons {
+				margin: 5px 8px 6px 7px;
+				color: #777;
+			}
 
 		</style>
 		<div class="wrap">
@@ -994,38 +995,27 @@ class WP_Press_This {
 			</div>
 			<form>
 			<div class="postbox postbox-pt">
-				<h3><?php _e( 'How to install it?' ); ?></h3>
-				<h4><?php _e( 'Press This Bookmarklet' ); ?></h4>
-				<p><?php _e( 'The bookmarklet allows you to quickly get content from any site. To use it, drag-and-drop the following link to your bookmarks bar. Some mobile browsers make it impossible to add Javascript bookmarklets. For those, use the direct link version below.' ); ?></p>
+				<h3><?php _e( 'Install Press This' ); ?></h3>
+				<h4><?php _e( 'Bookmarklet' ); ?></h4>
+				<p><?php _e( 'Drag the bookmarklet below to your bookmarks bar. Then, when you\'re on a page you want to share, simply "press" it.' ); ?></p>
 
-				<div class="postbox-pt-buttons">
+				<p class="pressthis">
+					<a class="" onclick="return false;" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><span><?php _e( 'Press This' ) ?></span></a>
+					<button type="button" class="button button-secondary js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-code-wrap"><span class="dashicons dashicons-clipboard"></span><span class="screen-reader-text"><?php _e( 'Copy Press This Bookmarklet' ) ?></span></button>
+				</p>
 
-					<a class="button button-primary button-pt-bookmarklet" onclick="return false;" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><?php _e( 'Press This' ) ?></a>
-					<?php _e( 'or' ); ?>
-					<button type="button" class="button button-large js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-code-wrap"><?php _e( 'Copy Press This Bookmarklet' ) ?></button>
-
-					<div class="hidden js-pressthis-code-wrap">
-						<p id="pressthis-code-desc"><?php _e( 'If you can\'t add it to your bookmarks by dragging, copy the code below, open your Bookmarks manager, create new bookmark, type Press This into the name field and paste the code into the URL field.' ) ?></p>
-						<p><textarea class="js-pressthis-code" rows="5" cols="120" readonly="readonly" aria-labelledby="pressthis-code-desc"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
-					</div>
-
+				<div class="hidden js-pressthis-code-wrap">
+					<p id="pressthis-code-desc"><?php _e( 'If you can\'t drag it to your bookmarks, copy the following code and create new bookmark. Paste the code into the new bookmark\'s URL field.' ) ?></p>
+					<p><textarea class="js-pressthis-code" rows="5" cols="120" readonly="readonly" aria-labelledby="pressthis-code-desc"><?php echo htmlspecialchars( get_shortcut_link() ); ?></textarea></p>
 				</div>
 
-				<h4><?php _e( 'Press This Direct Link' ); ?></h4>
-				<p><?php _e( 'Follow the Press This Direct Link and add it to your bookmarks:' ); ?></p>
 
-				<div class="postbox-pt-buttons">
+				<h4><?php _e( 'Direct link (best for mobile)' ); ?></h4>
+				<p><?php _e( 'Follow the link to open Press This. Then add it to your device\'s bookmarks or home screen.' ); ?></p>
 
-					<a class="button button-primary" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e( 'Press This' ) ?></a>
-					<?php _e( 'or' ); ?>
-					<button type="button" class="button button-large js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-dl-code-wrap"><?php _e( 'Copy Press This Direct Link' ) ?></button>
-
-					<div class="hidden js-pressthis-code-wrap">
-						<p id="pressthis-dl-code-desc"><?php _e( 'Copy the link below, open your Bookmarks manager, create new bookmark, and paste the url into the URL field.' ) ?></p>
-						<p><textarea class="js-pressthis-code" rows="1" cols="120" readonly="readonly" aria-labelledby="pressthis-dl-code-desc"><?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?></textarea></p>
-					</div>
-
-				</div>
+				<p>
+					<a class="button button-secondary" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e( 'Open Press This' ) ?></a>
+				</p>
 
 			</div>
 			</form>
@@ -1038,7 +1028,7 @@ class WP_Press_This {
 
 				$showPressThisWrap.on( 'click', function( event ) {
 
-					$(this).next( '.js-pressthis-code-wrap' ).slideToggle(200);
+					$(this).parent().next( '.js-pressthis-code-wrap' ).slideToggle(200);
 
 					$( this ).attr( 'aria-expanded', $( this ).attr( 'aria-expanded' ) === 'false' ? 'true' : 'false' );
 
