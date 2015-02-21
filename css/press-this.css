@@ -1531,7 +1531,25 @@ html {
 @media (max-width: 600px) {
   #mceu_11,
   #mceu_12 {
-    display: none;
+    position: absolute;
+    margin: -1px;
+    padding: 0;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    border: 0;
+  }
+  #mceu_11:focus,
+  #mceu_12:focus {
+    position: static;
+    margin: 1px;
+    padding: inherit;
+    height: auto;
+    width: auto;
+    overflow: visible;
+    clip: auto;
+    border: 1px solid #999;
   }
 }
 #wp-link-wrap.search-panel-visible {
