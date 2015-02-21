@@ -166,7 +166,6 @@ class WP_Press_This {
 			'source-link'                => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
 			'new-post'                   => __( 'Title' ),
 			'unexpected-error'           => __( 'Sorry, but an unexpected error occurred.' ),
-			'should-upgrade-bookmarklet' => __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' ),
 			'saveAlert'                  => __( 'The changes you made will be lost if you navigate away from this page.' ),
 			'allMediaHeading'            => __( 'Suggested media' ),
 		);
@@ -727,6 +726,12 @@ class WP_Press_This {
 
 	<div class="wrapper">
 		<div class="editor-wrapper">
+			<div class="alerts">
+				<p class="notice hidden should-upgrade-bookmarklet">
+					<?php printf( __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' ), admin_url( 'tools.php?page=press_this_options' ) ); ?>
+				</p>
+			<div>
+			
 			<div id='wppt_app_container' class="editor">
 				<span id="wppt_title_container_label" class="post-title-placeholder"><?php _e( 'Post title' ); ?></span>
 				<h2 id="wppt_title_container" class="post-title" contenteditable="true" spellcheck="true" aria-labelledby="wppt_title_container_label" tabindex="0"></h2>

@@ -58,13 +58,55 @@
 			/**
 			 * Strips HTML tags
 			 *
-			 * @param str string Text to have the HTML tags striped out of
-			 * @returns string Stripped text
+			 * @param string string Text to have the HTML tags striped out of.
+			 * @returns string Stripped text.
 			 */
-			function stripTags( str ) {
-				var out = str && str.replace( /<[^>]+>/g, '' );
-				// Encode the rest
-				return $div.text( out ).html();
+			function stripTags( string ) {
+				string = string || '';
+
+				return string
+					.replace( /<!--[\s\S]*?(-->|$)/g, '' )
+					.replace( /<(script|style)[^>]*>[\s\S]*?(<\/\1>|$)/ig, '' )
+					.replace( /<\/?[a-z][^>]*>/ig, '' );
+			}
+
+			// TODO: needed?
+			function entityEncode( text ) {
+				return $div.text( text ).html();
+			}
+
+			/**
+			 * Strip HTML tags and entity encode some of the HTML special chars.
+			 *
+			 * @param text string Text.
+			 * @returns string Sanitized text.
+			 */
+			function sanitizeText( text ) {
+				text = stripTags( text );
+
+				return text
+					.replace( /\\/, '' )
+					.replace( /</g, '&lt;' )
+					.replace( />/g, '&gt;' )
+					.replace( /"/g, '&quot;' )
+					.replace( /'/g, '&#039;' );
+			}
+
+			/**
+			 * Allow only HTTP or protocol relative URLs.
+			 *
+			 * @param url string The URL.
+			 * @returns string Processed URL.
+			 */
+			function checkUrl( url ) {
+				url = $.trim( url || '' );
+
+				if ( /^(?:https?)?:\/\//.test( url ) ) {
+					url = stripTags( url );
+					return url.replace( /["\\]+/g, '' );
+				}
+
+				return '';
 			}
 
 			/**
@@ -190,14 +232,14 @@
 				}
 
 				// Wrap suggested content in blockquote tag, if we have any.
-				content = ( content.length ? '<blockquote class="wppt_suggested_content">' + stripTags( content.replace( /\\/g, '' ) ) + '</blockquote>' : '' );
+				content = ( content.length ? '<blockquote class="press-this-suggested-content">' + sanitizeText( content ) + '</blockquote>' : '' );
 
 				// Add a source attribution if there is one available.
 				if ( ( ( title.length && __( 'new-post' ) !== title ) || siteName.length ) && url.length ) {
-					content += '<p class="wppt_source">';
+					content += '<p class="press-this-suggested-source">';
 					content += __( 'source' );
-					content += ' <cite class="wppt_suggested_content_source">';
-					content += __( 'source-link').replace( '%1$s', encodeURI( url ) ).replace( '%2$s', stripTags( title || siteName ) );
+					content += ' <cite>';
+					content += __( 'source-link').replace( '%1$s', encodeURI( url ) ).replace( '%2$s', sanitizeText( title || siteName ) );
 					content += '</cite></p>';
 				}
 
@@ -330,6 +372,8 @@
 					featured = data._meta['og:image:secure_url'];
 				}
 
+				featured = checkUrl( featured );
+
 				return ( isSrcUninterestingPath( featured ) ) ? '' : featured;
 			}
 
@@ -352,8 +396,9 @@
 				if ( imgs.length ) {
 					$.each( imgs, function ( i, src ) {
 						src = src.replace( /http:\/\/[\d]+\.gravatar\.com\//, 'https://secure.gravatar.com/' );
+						src = checkUrl( src );
 
-						if ( !src || !src.length ) {
+						if ( ! src || ! src.length ) {
 							// Skip: no src value
 							return;
 						}
@@ -384,7 +429,7 @@
 			 */
 			function showSpinner() {
 				$( '#wppt_spinner' ).addClass( 'show' );
-				$( '[class^="button--"]' ).each( function(){
+				$( '.post-actions button' ).each( function() {
 					$( this ).attr( 'disabled', 'disabled' );
 				} );
 			}
@@ -394,7 +439,7 @@
 			 */
 			function hideSpinner() {
 				$( '#wppt_spinner' ).removeClass( 'show' );
-				$( '[class^="button--"]' ).each( function(){
+				$( '.post-actions button' ).each( function() {
 					$( this ).removeAttr( 'disabled' );
 				} );
 			}
@@ -416,7 +461,9 @@
 
 				editor && editor.save();
 
-				$form.append( '<input type="hidden" name="action" id="wppt_action_field" value="press_this_' + action + '_post">' );
+				$( '#wppt_title_field' ).val( sanitizeText( $( '#wppt_title_container' ).text() ) );
+
+				$form.append( '<input type="hidden" name="action" value="press_this_' + action + '_post">' );
 
 				// Make sure to flush out the tags with tagBox before saving
 				if ( window.tagBox ) {
@@ -464,10 +511,14 @@
 					return;
 				}
 
+				src = checkUrl( src );
+				link = checkUrl( link );
+				
 				if ( 'img' === type ) {
-					if ( !link || !link.length ) {
+					if ( ! link || ! link.length ) {
 						link = src;
 					}
+
 					newContent = '<a href="' + link + '"><img class="alignnone size-full" src="' + src + '" /></a>\n';
 				} else {
 					newContent = '[embed]' + src + '[/embed]\n';
@@ -563,14 +614,10 @@
 			 * @param error string error|notice CSS class for display
 			 */
 			function renderNotice( msg, error ) {
-				var $alerts = $( '#alerts' ),
+				var $alerts = $( '.editor-wrapper div.alerts' ),
 					className = error ? 'error' : 'notice';
 
-				if ( ! $alerts.length ) {
-					$alerts = $( '<div id="alerts" class="alerts">' ).insertBefore( '#wppt_app_container' );
-				}
-
-				$alerts.append( $( '<p class="' + className +'">' + stripTags( msg ) + '</p>' ) );
+				$alerts.append( $( '<p class="' + className + '">' ).text( msg ) );
 			}
 
 			/**
@@ -595,7 +642,7 @@
 
 				// Prompt user to upgrade their bookmarklet if there is a version mismatch.
 				if ( data.v && data._version && data.v !== data._version ) {
-					renderNotice( __( 'should-upgrade-bookmarklet').replace( '%s', siteConfig.runtime_url.replace( /^(.+)\/press-this\.php(\?.*)?/, '$1/tools.php?page=press_this_options' ) ) );
+					$( '.should-upgrade-bookmarklet' ).removeClass( 'hidden' );
 				}
 			}
 
@@ -603,17 +650,23 @@
 			 * Render the suggested title, if any
 			 */
 			function renderSuggestedTitle() {
-				var title = suggestedTitleStr || '';
+				var suggestedTitle = suggestedTitleStr || '',
+					$title = $( '#wppt_title_container' );
 
 				if ( ! hasEmptyTitleStr ) {
-					$( '#wppt_title_field' ).val( title );
-					$( '#wppt_title_container' ).text( title );
+					$( '#wppt_title_field' ).val( suggestedTitle );
+					$title.text( suggestedTitle );
 					$( '.post-title-placeholder' ).addClass( 'screen-reader-text' );
 				}
 
-				$( '#wppt_title_container' ).on( 'input', function() {
+				$title.on( 'keyup', function() {
 					saveAlert = true;
-					$( '#wppt_title_field' ).val( $( this ).text() );
+				}).on( 'paste', function() {
+					saveAlert = true;
+
+					setTimeout( function() {
+						$title.text( $title.text() );
+					}, 100 );
 				} );
 
 			}
@@ -655,7 +708,7 @@
 
 				if ( interestingEmbeds && interestingEmbeds.length ) {
 					$.each( interestingEmbeds, function ( i, src ) {
-						src = stripTags( src );
+						src = checkUrl( src );
 
 						if ( ! isEmbeddable( src ) ) {
 							return;
@@ -681,7 +734,7 @@
 							cssClass += ' is-video';
 						}
 
-						$( '<li></li>', {
+						$( '<li>', {
 							'id': 'embed-' + i + '-container',
 							'class': cssClass,
 							'tabindex': '0'
@@ -699,7 +752,7 @@
 
 				if ( interestingImages && interestingImages.length ) {
 					$.each( interestingImages, function ( i, src ) {
-						src = stripTags( src );
+						src = checkUrl( src );
 
 						var displaySrc = src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
 						if ( src.indexOf( 'files.wordpress.com/' ) > -1 ) {
@@ -710,7 +763,7 @@
 							displaySrc = src;
 						}
 
-						$( '<li></li>', {
+						$( '<li>', {
 							'id': 'img-' + i + '-container',
 							'class': 'suggested-media-thumbnail is-image',
 							'tabindex': '0'
