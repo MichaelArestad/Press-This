@@ -18,6 +18,17 @@
 	height: 0;
 	position: absolute;
 	top: -9999px;
+
+	.lt-ie9 & {
+		margin: 17px 12px 0 13px;
+		width: auto;
+		height: auto;
+		position: static;
+		top: auto;
+		float: left;
+		width: 16px;
+		height: 16px;
+	}
 }
 
 .post-format-icon {
@@ -71,6 +82,9 @@
 	}
 	.post-format:checked + &:after {
 		display: block;
+	}
+	.lt-ie9 & {
+		margin-left: 16px;
 	}
 }
 

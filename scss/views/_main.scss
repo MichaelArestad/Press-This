@@ -24,6 +24,10 @@ body {
 	}
 }
 
+.lt-ie9 {
+	overflow: visible;
+}
+
 
 // Adminbar
 .adminbar {
@@ -631,7 +635,16 @@ body {
 			right: 8px;
 		margin-top: -10px;
 	}
+}
 
+.lt-ie9 {
+	.options-panel,
+	.post-options {
+		border-left: 1px solid $gray--light;
+	}
+	.post-options.is-off-screen {
+		border: 0;
+	}
 }
 
 .post-option {
@@ -729,25 +742,4 @@ body {
 	position: relative;
 		top: -1px;
 	margin-left: 11px;
-}
-
-/* LT IE9 */
-.lt-ie9 {
-	overflow: visible;
-
-	.options-panel,
-	.post-options {
-		border-left: 1px solid $gray--light;
-	}
-	.post-options.is-off-screen {
-		border: 0;
-	}
-	.categories-select input {
-		top: 50%;
-		right: 10px;
-		left: auto;
-		margin-top: -8px;
-		width: 16px;
-		height: 16px;
-	}
 }

@@ -164,7 +164,15 @@ input[type="search"].categories-search,
 			display: block;
 		}
 	}
+}
 
+.lt-ie9 .categories-select input {
+	top: 50%;
+	right: 10px;
+	left: auto;
+	margin-top: -8px;
+	width: 16px;
+	height: 16px;
 }
 
 /* TODO Reformats checkbox on Firefox until we remove checkbox in merge */

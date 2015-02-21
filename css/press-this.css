@@ -524,6 +524,16 @@ dd {
   position: absolute;
   top: -9999px;
 }
+.lt-ie9 .post-format {
+  margin: 17px 12px 0 13px;
+  width: auto;
+  height: auto;
+  position: static;
+  top: auto;
+  float: left;
+  width: 16px;
+  height: 16px;
+}
 
 .post-format-icon {
   position: relative;
@@ -575,6 +585,9 @@ dd {
 }
 .post-format:checked + .post-format-icon:after {
   display: block;
+}
+.lt-ie9 .post-format-icon {
+  margin-left: 16px;
 }
 
 .post-format-aside:before {
@@ -930,6 +943,15 @@ input[type="search"].categories-search,
   display: block;
 }
 
+.lt-ie9 .categories-select input {
+  top: 50%;
+  right: 10px;
+  left: auto;
+  margin-top: -8px;
+  width: 16px;
+  height: 16px;
+}
+
 /* TODO Reformats checkbox on Firefox until we remove checkbox in merge */
 @-moz-document url-prefix() {
   .categories-select input {
@@ -980,6 +1002,10 @@ html {
   body {
     font-size: 14px;
   }
+}
+
+.lt-ie9 {
+  overflow: visible;
 }
 
 .adminbar {
@@ -1615,6 +1641,14 @@ html {
   margin-top: -10px;
 }
 
+.lt-ie9 .options-panel,
+.lt-ie9 .post-options {
+  border-left: 1px solid #e5e5e5;
+}
+.lt-ie9 .post-options.is-off-screen {
+  border: 0;
+}
+
 .post-option {
   position: relative;
 }
@@ -1703,26 +1737,6 @@ html {
   position: relative;
   top: -1px;
   margin-left: 11px;
-}
-
-/* LT IE9 */
-.lt-ie9 {
-  overflow: visible;
-}
-.lt-ie9 .options-panel,
-.lt-ie9 .post-options {
-  border-left: 1px solid #e5e5e5;
-}
-.lt-ie9 .post-options.is-off-screen {
-  border: 0;
-}
-.lt-ie9 .categories-select input {
-  top: 50%;
-  right: 10px;
-  left: auto;
-  margin-top: -8px;
-  width: 16px;
-  height: 16px;
 }
 
 /*# sourceMappingURL=press-this.css.map */
