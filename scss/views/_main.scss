@@ -7,7 +7,10 @@ $sidebar-size: 320px;
 html,
 body {
 	overflow-x: hidden;
-	height: 100%;
+
+	@include breakpoint( '>900px' ) {
+		height: 100%;
+	}
 }
 
 html {
