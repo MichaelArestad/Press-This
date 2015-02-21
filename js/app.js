@@ -1,5 +1,5 @@
 ( function( $ ) {
-	$( document ).ready(function( $ ) {
+	$( document ).ready( function( $ ) {
 
 		/**
 		 * WpPressThis_App
@@ -12,7 +12,7 @@
 			 */
 			var editor,
 				saveAlert             = false,
-				$div                  = $('<div>'),
+				$div                  = $( '<div>' ),
 				siteConfig            = window.wpPressThisConfig || {},
 				data                  = window.wpPressThisData || {},
 				smallestWidth         = 128,
@@ -35,7 +35,7 @@
 					}
 
 					return false;
-				}());
+				}() );
 
 			/* ***************************************************************
 			 * HELPER FUNCTIONS
@@ -81,7 +81,7 @@
 				var link = '';
 
 				if ( data._links ) {
-					if (data._links.canonical && data._links.canonical.length) {
+					if ( data._links.canonical && data._links.canonical.length ) {
 						link = data._links.canonical;
 					}
 				}
@@ -91,9 +91,9 @@
 				}
 
 				if ( ! link.length && data._meta ) {
-					if (data._meta['twitter:url'] && data._meta['twitter:url'].length) {
+					if ( data._meta['twitter:url'] && data._meta['twitter:url'].length ) {
 						link = data._meta['twitter:url'];
-					} else if (data._meta['og:url'] && data._meta['og:url'].length) {
+					} else if ( data._meta['og:url'] && data._meta['og:url'].length ) {
 						link = data._meta['og:url'];
 					}
 				}
@@ -122,7 +122,7 @@
 					}
 				}
 
-				return name.replace(/\\/g, '');
+				return name.replace( /\\/g, '' );
 			}
 
 			/**
@@ -133,7 +133,7 @@
 			 */
 			function getSuggestedTitle( data ) {
 				if ( ! data || data.length ) {
-					return __('new-post');
+					return __( 'new-post' );
 				}
 
 				var title = '';
@@ -217,15 +217,15 @@
 			function isEmbeddable( url ) {
 				if ( ! url || ! url ) {
 					return false;
-				} else if ( url.match(/\/\/(m\.|www\.)?youtube\.com\/watch\?/) || url.match(/\/youtu\.be\/.+$/) ) {
+				} else if ( url.match( /\/\/(m\.|www\.)?youtube\.com\/watch\?/ ) || url.match( /\/youtu\.be\/.+$/ ) ) {
 					return true;
-				} else if ( url.match(/\/\/vimeo\.com\/(.+\/)?[\d]+$/) ) {
+				} else if ( url.match( /\/\/vimeo\.com\/(.+\/)?[\d]+$/ ) ) {
 					return true;
-				} else if ( url.match(/\/\/(www\.)?dailymotion\.com\/video\/.+$/) ) {
+				} else if ( url.match( /\/\/(www\.)?dailymotion\.com\/video\/.+$/ ) ) {
 					return true;
-				} else if ( url.match(/\/\/soundcloud\.com\/.+$/) ) {
+				} else if ( url.match( /\/\/soundcloud\.com\/.+$/ ) ) {
 					return true;
-				} else if ( url.match(/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/) ) {
+				} else if ( url.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ) {
 					return true;
 				}
 				return false;
@@ -256,13 +256,13 @@
 				} else if ( src.match( /\/wp-includes\// ) ) {
 					// Classic WP interface images
 					return true;
-				} else if ( src.match(/[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/) ) {
+				} else if ( src.match( /[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/ ) ) {
 					// Most often tiny buttons/thumbs (< 100px wide)
 					return true;
-				} else if ( src.indexOf('/g.gif') > -1 ) {
+				} else if ( src.indexOf( '/g.gif' ) > -1 ) {
 					// Classic WP stats gif
 					return true;
-				} else if ( src.indexOf('/pixel.mathtag.com') > -1 ) {
+				} else if ( src.indexOf( '/pixel.mathtag.com' ) > -1 ) {
 					// See mathtag.com
 					return true;
 				}
@@ -281,7 +281,7 @@
 
 				if ( embeds.length ) {
 					$.each( embeds, function ( i, src ) {
-						if (!src || !src.length) {
+						if ( !src || !src.length ) {
 							// Skip: no src value
 							return;
 						} else if ( !isEmbeddable( src ) ) {
@@ -289,16 +289,16 @@
 							return;
 						}
 
-						var schemelessSrc = src.replace(/^https?:/, '');
+						var schemelessSrc = src.replace( /^https?:/, '' );
 
 						if ( Array.prototype.indexOf && alreadySelected.indexOf( schemelessSrc ) > -1 ) {
 							// Skip: already shown
 							return;
 						}
 
-						interestingEmbeds.push(src);
-						alreadySelected.push(schemelessSrc);
-					});
+						interestingEmbeds.push( src );
+						alreadySelected.push( schemelessSrc );
+					} );
 				}
 
 				return interestingEmbeds;
@@ -316,17 +316,17 @@
 					return '';
 				}
 
-				if (data._meta['twitter:image0:src'] && data._meta['twitter:image0:src'].length) {
+				if ( data._meta['twitter:image0:src'] && data._meta['twitter:image0:src'].length ) {
 					featured = data._meta['twitter:image0:src'];
-				} else if (data._meta['twitter:image0'] && data._meta['twitter:image0'].length) {
+				} else if ( data._meta['twitter:image0'] && data._meta['twitter:image0'].length ) {
 					featured = data._meta['twitter:image0'];
-				} else if (data._meta['twitter:image:src'] && data._meta['twitter:image:src'].length) {
+				} else if ( data._meta['twitter:image:src'] && data._meta['twitter:image:src'].length ) {
 					featured = data._meta['twitter:image:src'];
-				} else if (data._meta['twitter:image'] && data._meta['twitter:image'].length) {
+				} else if ( data._meta['twitter:image'] && data._meta['twitter:image'].length ) {
 					featured = data._meta['twitter:image'];
-				} else if (data._meta['og:image'] && data._meta['og:image'].length) {
+				} else if ( data._meta['og:image'] && data._meta['og:image'].length ) {
 					featured = data._meta['og:image'];
-				} else if (data._meta['og:image:secure_url'] && data._meta['og:image:secure_url'].length) {
+				} else if ( data._meta['og:image:secure_url'] && data._meta['og:image:secure_url'].length ) {
 					featured = data._meta['og:image:secure_url'];
 				}
 
@@ -345,35 +345,35 @@
 					alreadySelected  = [];
 
 				if ( featuredPict.length ) {
-					interestingImgs.push(featuredPict);
-					alreadySelected.push(featuredPict.replace(/^https?:/, ''));
+					interestingImgs.push( featuredPict );
+					alreadySelected.push( featuredPict.replace(/^https?:/, '') );
 				}
 
 				if ( imgs.length ) {
 					$.each( imgs, function ( i, src ) {
-						src = src.replace(/http:\/\/[\d]+\.gravatar\.com\//, 'https://secure.gravatar.com/');
+						src = src.replace( /http:\/\/[\d]+\.gravatar\.com\//, 'https://secure.gravatar.com/' );
 
-						if (!src || !src.length) {
+						if ( !src || !src.length ) {
 							// Skip: no src value
 							return;
 						}
 
-						var schemelessSrc = src.replace(/^https?:/, '');
+						var schemelessSrc = src.replace( /^https?:/, '' );
 
 						if ( Array.prototype.indexOf && alreadySelected.indexOf( schemelessSrc ) > -1 ) {
 							// Skip: already shown
 							return;
-						} else if (isSrcUninterestingPath(src)) {
+						} else if ( isSrcUninterestingPath( src ) ) {
 							// Skip: spinner, stat, ad, or spacer pict
 							return;
-						} else if (src.indexOf('avatar') > -1 && interestingImgs.length >= 15) {
+						} else if ( src.indexOf( 'avatar' ) > -1 && interestingImgs.length >= 15 ) {
 							// Skip:  some type of avatar and we've already gathered more than 23 diff images to show
 							return;
 						}
 
-						interestingImgs.push(src);
-						alreadySelected.push(schemelessSrc);
-					});
+						interestingImgs.push( src );
+						alreadySelected.push( schemelessSrc );
+					} );
 				}
 
 				return interestingImgs;
@@ -383,20 +383,20 @@
 			 * Show UX spinner
 			 */
 			function showSpinner() {
-				$('#wppt_spinner').addClass('show');
-				$('[class^="button--"]').each(function(){
-					$(this).attr('disabled', 'disabled');
-				});
+				$( '#wppt_spinner' ).addClass( 'show' );
+				$( '[class^="button--"]' ).each( function(){
+					$( this ).attr( 'disabled', 'disabled' );
+				} );
 			}
 
 			/**
 			 * Hide UX spinner
 			 */
 			function hideSpinner() {
-				$('#wppt_spinner').removeClass('show');
-				$('[class^="button--"]').each(function(){
-					$(this).removeAttr('disabled');
-				});
+				$( '#wppt_spinner' ).removeClass( 'show' );
+				$( '[class^="button--"]' ).each( function(){
+					$( this ).removeAttr( 'disabled' );
+				} );
 			}
 
 			/**
@@ -408,7 +408,7 @@
 				saveAlert = false;
 				showSpinner();
 
-				var $form = $('#wppt_form');
+				var $form = $( '#wppt_form' );
 
 				if ( 'publish' !== action ) {
 					action = 'draft';
@@ -420,14 +420,14 @@
 
 				// Make sure to flush out the tags with tagBox before saving
 				if ( window.tagBox ) {
-					$('div.tagsdiv').each( function() {
+					$( 'div.tagsdiv' ).each( function() {
 						window.tagBox.flushTags( this, false, 1 );
-					});
+					} );
 				}
 
 				var data = $form.serialize();
 
-				$.ajax({
+				$.ajax( {
 					type: 'post',
 					url: window.ajaxurl,
 					data: data,
@@ -447,7 +447,7 @@
 							}
 						}
 					}
-				});
+				} );
 			}
 
 			/**
@@ -536,11 +536,11 @@
 							} else {
 								$wrap.prepend( $node );
 							}
-						});
+						} );
 
 						refreshCatsCache();
 					}
-				});
+				} );
 			}
 
 			/* ***************************************************************
@@ -552,7 +552,7 @@
 			 */
 			function renderToolsVisibility() {
 				if ( data.u && data.u.match( /^https?:/ ) ) {
-					$('#wppt_scanbar').hide();
+					$( '#wppt_scanbar' ).hide();
 				}
 			}
 
@@ -606,15 +606,15 @@
 				var title = suggestedTitleStr || '';
 
 				if ( ! hasEmptyTitleStr ) {
-					$('#wppt_title_field').val( title );
-					$('#wppt_title_container').text( title );
-					$('.post-title-placeholder').addClass('screen-reader-text');
+					$( '#wppt_title_field' ).val( title );
+					$( '#wppt_title_container' ).text( title );
+					$( '.post-title-placeholder' ).addClass( 'screen-reader-text' );
 				}
 
-				$('#wppt_title_container').on( 'input', function() {
+				$( '#wppt_title_container' ).on( 'input', function() {
 					saveAlert = true;
-					$('#wppt_title_field').val( $(this).text() );
-				});
+					$( '#wppt_title_field' ).val( $( this ).text() );
+				} );
 
 			}
 
@@ -634,7 +634,7 @@
 					editor.setContent( suggestedContentStr );
 					editor.on( 'focus', function() {
 						hasSetFocus = true;
-					});
+					} );
 				}
 
 			}
@@ -644,7 +644,7 @@
 			 */
 			function renderDetectedMedia() {
 				var mediaContainer = $( '#wppt_featured_media_container'),
-					listContainer  = $('#wppt_all_media_container'),
+					listContainer  = $( '#wppt_all_media_container' ),
 					found          = 0;
 
 				listContainer.empty();
@@ -654,7 +654,7 @@
 				}
 
 				if ( interestingEmbeds && interestingEmbeds.length ) {
-					$.each(interestingEmbeds, function (i, src) {
+					$.each( interestingEmbeds, function ( i, src ) {
 						src = stripTags( src );
 
 						if ( ! isEmbeddable( src ) ) {
@@ -681,53 +681,53 @@
 							cssClass += ' is-video';
 						}
 
-						$('<li></li>', {
+						$( '<li></li>', {
 							'id': 'embed-' + i + '-container',
 							'class': cssClass,
 							'tabindex': '0'
-						}).css({
+						} ).css( {
 							'background-image': ( displaySrc.length ) ? 'url(' + displaySrc + ')' : null
-						}).on('click keypress', function (e) {
+						} ).on( 'click keypress', function ( e ) {
 							if ( e.type === 'click' || e.which === 13 ) {
-								insertSelectedMedia('embed',src);
+								insertSelectedMedia( 'embed',src );
 							}
-						}).appendTo( '.wppt-all-media-list', listContainer );
+						} ).appendTo( '.wppt-all-media-list', listContainer );
 
 						found++;
-					});
+					} );
 				}
 
 				if ( interestingImages && interestingImages.length ) {
-					$.each(interestingImages, function (i, src) {
+					$.each( interestingImages, function ( i, src ) {
 						src = stripTags( src );
 
 						var displaySrc = src.replace(/^(http[^\?]+)(\?.*)?$/, '$1');
-						if ( src.indexOf('files.wordpress.com/') > -1 ) {
+						if ( src.indexOf( 'files.wordpress.com/' ) > -1 ) {
 							displaySrc = displaySrc.replace(/\?.*$/, '') + '?w=' + smallestWidth;
-						} else if ( src.indexOf('gravatar.com/') > -1 ) {
-							displaySrc = displaySrc.replace(/\?.*$/, '') + '?s=' + smallestWidth;
+						} else if ( src.indexOf( 'gravatar.com/' ) > -1 ) {
+							displaySrc = displaySrc.replace( /\?.*$/, '' ) + '?s=' + smallestWidth;
 						} else {
 							displaySrc = src;
 						}
 
-						$('<li></li>', {
+						$( '<li></li>', {
 							'id': 'img-' + i + '-container',
 							'class': 'suggested-media-thumbnail is-image',
 							'tabindex': '0'
-						}).css({
+						} ).css( {
 							'background-image': 'url(' + displaySrc + ')'
-						}).on('click keypress', function (e) {
+						} ).on( 'click keypress', function ( e ) {
 							if ( e.type === 'click' || e.which === 13 ) {
-								insertSelectedMedia('img', src, data.u);
+								insertSelectedMedia( 'img', src, data.u );
 							}
-						}).appendTo( '.wppt-all-media-list', listContainer );
+						} ).appendTo( '.wppt-all-media-list', listContainer );
 
 						found++;
-					});
+					} );
 				}
 
 				if ( ! found ) {
-					mediaContainer.removeClass('all-media-visible').addClass( 'no-media');
+					mediaContainer.removeClass( 'all-media-visible' ).addClass( 'no-media');
 					return;
 				}
 
@@ -759,14 +759,14 @@
 						.addClass( isOffScreen )
 						.one( transitionEndEvent, function() {
 							$( this ).addClass( isHidden );
-						});
+						} );
 
 					$targetSettingModal
 						.removeClass( isOffScreen + ' ' + isHidden )
 						.one( transitionEndEvent, function() {
 							$( this ).find( $modalClose ).focus();
-						});
-				});
+						} );
+				} );
 
 				$modalClose.on( 'click', function( event ) {
 					var $targetSettingModal = $( this ).parent(),
@@ -781,7 +781,7 @@
 						.addClass( isOffScreen )
 						.one( transitionEndEvent, function() {
 							$( this ).addClass( isHidden );
-						});
+						} );
 
 					// For browser that don't support transitionend.
 					if ( ! transitionEndEvent ) {
@@ -791,7 +791,7 @@
 					}
 
 					$postOption.eq( index - 1 ).focus();
-				});
+				} );
 			}
 
 			/**
@@ -817,9 +817,9 @@
 					$sidebar
 						.removeClass( ifOffHidden )
 						.one( 'transitionend', function() {
-							$postOption.eq(0).focus();
-						});
-				});
+							$postOption.eq( 0 ).focus();
+						} );
+				} );
 
 				$optClose.on( 'click', function(){
 					$optClose.addClass( isHidden );
@@ -834,8 +834,8 @@
 							// Reset to options list
 							$( '.post-options' ).removeClass( ifOffHidden );
 							$( '.setting-modal').addClass( ifOffHidden );
-						});
-				});
+						} );
+				} );
 			}
 
 			/**
@@ -847,7 +847,7 @@
 
 				$selector.on( 'focus', function() {
 					$placeholder.addClass('screen-reader-text');
-				});
+				} );
 
 				$selector.on( 'blur', function() {
 					var textLength = $( this ).text().length;
@@ -855,7 +855,7 @@
 					if ( ! textLength ) {
 						$placeholder.removeClass('screen-reader-text');
 					}
-				});
+				} );
 			}
 
 			/* ***************************************************************
@@ -880,47 +880,47 @@
 			function monitor(){
 				$( '#wppt_current_site a').click( function( e ) {
 					e.preventDefault();
-				});
+				} );
 
 				// Publish and Draft buttons and submit
 
 				$( '#wppt_draft_field' ).on( 'click', function() {
 					submitPost( 'draft' );
-				});
+				} );
 
 				$( '#wppt_publish_field' ).on( 'click', function() {
 					submitPost( 'publish' );
-				});
+				} );
 
 				monitorOptionsModal();
 				monitorSidebarToggle();
 				monitorPlaceholder();
 
-				$('#post-formats-select input').on( 'change', function() {
+				$( '#post-formats-select input' ).on( 'change', function() {
 					var $this = $( this );
 
 					if ( $this.is( ':checked' ) ) {
-						setPostFormatString( $this.attr('id').replace( /^post-format-(.+)$/, '$1' ) );
+						setPostFormatString( $this.attr( 'id' ).replace( /^post-format-(.+)$/, '$1' ) );
 					}
-				});
+				} );
 
 				// Needs more work, doesn't detect when the other JS changes the value of #tax-input-post_tag
 				$( '#tax-input-post_tag' ).on( 'change', function() {
 					var val =  $( this ).val();
-					$('#post-option-tags').text( ( val.length ) ? val.replace( /,([^\s])/g, ', $1' ) : '' );
-				});
+					$( '#post-option-tags' ).text( ( val.length ) ? val.replace( /,([^\s])/g, ', $1' ) : '' );
+				} );
 
 				$( window ).on( 'beforeunload.press-this', function() {
 					if ( saveAlert || ( editor && editor.isDirty() ) ) {
 						return window.pressThisL10n.saveAlert;
 					}
-				});
+				} );
 
 				$( 'button.add-cat-toggle' ).on( 'click.press-this', function() {
 					$( this ).toggleClass( 'is-toggled' );
 					$( '.setting-modal .add-category' ).toggleClass( 'is-hidden' );
 					$( '.categories-search-wrapper' ).toggleClass( 'is-hidden' );
-				});
+				} );
 
 				$( 'button.add-cat-submit' ).on( 'click.press-this', saveNewCategory );
 
@@ -977,5 +977,5 @@
 
 		// Initialize app
 		window.wpPressThisApp = new WpPressThisApp();
-	});
+	} );
 }( jQuery ));
