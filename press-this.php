@@ -591,7 +591,7 @@ class WP_Press_This {
 
 	/**
 	 * Output the post format selection HTML.
-	 * ?><?php
+	 *
 	 */
 	function post_formats_html( $post ) {
 		if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post->post_type, 'post-formats' ) ) {
