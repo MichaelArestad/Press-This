@@ -730,7 +730,7 @@ class WP_Press_This {
 				<p class="notice hidden should-upgrade-bookmarklet">
 					<?php printf( __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' ), admin_url( 'tools.php?page=press_this_options' ) ); ?>
 				</p>
-			<div>
+			</div>
 			
 			<div id='wppt_app_container' class="editor">
 				<span id="wppt_title_container_label" class="post-title-placeholder"><?php _e( 'Post title' ); ?></span>
