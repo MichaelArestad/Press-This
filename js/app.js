@@ -95,7 +95,7 @@
 		function checkUrl( url ) {
 			url = $.trim( url || '' );
 
-			if ( /^(?:https?)?:\/\//.test( url ) ) {
+			if ( /^(?:https?:)?\/\//.test( url ) ) {
 				url = stripTags( url );
 				return url.replace( /["\\]+/g, '' );
 			}
@@ -327,7 +327,7 @@
 
 					var schemelessSrc = src.replace( /^https?:/, '' );
 
-					if ( Array.prototype.indexOf && alreadySelected.indexOf( schemelessSrc ) > -1 ) {
+					if ( $.inArray( schemelessSrc, alreadySelected ) > -1 ) {
 						// Skip: already shown
 						return;
 					}

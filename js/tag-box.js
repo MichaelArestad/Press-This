@@ -15,24 +15,26 @@
 var tagBox;
 
 ( function( $ ) {
-	var postL10n = { 'comma': ',' }; // Expected by following code
-
 	// The following code is from /wp-admin/js/post.js, see notes above.
 
 	// return an array with any duplicate, whitespace or values removed
-	function array_unique_noempty(a) {
+	function array_unique_noempty( array ) {
 		var out = [];
-		jQuery.each( a, function(key, val) {
-			val = jQuery.trim(val);
-			if ( val && jQuery.inArray(val, out) == -1 )
-				out.push(val);
+
+		$.each( array, function( key, val ) {
+			val = $.trim( val );
+
+			if ( val && $.inArray( val, out ) === -1 ) {
+				out.push( val );
+			}
 		} );
+
 		return out;
 	}
 
 	tagBox = {
 		clean : function(tags) {
-			var comma = postL10n.comma;
+			var comma = window.pressThisL10n.tagDelimiter;
 			if ( ',' !== comma )
 				tags = tags.replace(new RegExp(comma, 'g'), ',');
 			tags = tags.replace(/\s*,\s*/g, ',').replace(/,+/g, ',').replace(/[,\s]+$/, '').replace(/^[,\s]+/, '');
@@ -42,36 +44,41 @@ var tagBox;
 		},
 
 		parseTags : function(el) {
-			var id = el.id, num = id.split('-check-num-')[1], taxbox = $(el).closest('.tagsdiv'),
-				thetags = taxbox.find('.the-tags'), comma = postL10n.comma,
-				current_tags = thetags.val().split(comma), new_tags = [];
+			var id = el.id,
+				num = id.split('-check-num-')[1],
+				taxbox = $(el).closest('.tagsdiv'),
+				thetags = taxbox.find('.the-tags'),
+				comma = window.pressThisL10n.tagDelimiter,
+				current_tags = thetags.val().split( comma ),
+				new_tags = [];
+			
 			delete current_tags[num];
 
-			$.each( current_tags, function(key, val) {
-				val = $.trim(val);
+			$.each( current_tags, function( key, val ) {
+				val = $.trim( val );
 				if ( val ) {
-					new_tags.push(val);
+					new_tags.push( val );
 				}
 			});
 
-			thetags.val( this.clean( new_tags.join(comma) ) );
+			thetags.val( this.clean( new_tags.join( comma ) ) );
 
-			this.quickClicks(taxbox);
+			this.quickClicks( taxbox );
 			return false;
 		},
 
-		quickClicks : function(el) {
+		quickClicks : function( el ) {
 			var thetags = $('.the-tags', el),
 				tagchecklist = $('.tagchecklist', el),
 				id = $(el).attr('id'),
 				current_tags, disabled;
 
-			if ( !thetags.length )
+			if ( ! thetags.length )
 				return;
 
 			disabled = thetags.prop('disabled');
 
-			current_tags = thetags.val().split(postL10n.comma);
+			current_tags = thetags.val().split( window.pressThisL10n.tagDelimiter );
 			tagchecklist.empty();
 
 			$.each( current_tags, function( key, val ) {
@@ -88,10 +95,10 @@ var tagBox;
 				// If tags editing isn't disabled, create the X button.
 				if ( ! disabled ) {
 					xbutton = $( '<a id="' + id + '-check-num-' + key + '" class="ntdelbutton" tabindex="0">X</a>' );
-					xbutton.on( 'click keypress', function(e){
+					xbutton.on( 'click keypress', function( e ) {
 						// Trigger function if pressed Enter - keyboard navigation
 						if ( e.type === 'click' || e.which === 13 ) {
-							tagBox.parseTags(this);
+							tagBox.parseTags( this );
 						}
 					});
 					span.prepend('&nbsp;').prepend( xbutton );
@@ -102,11 +109,12 @@ var tagBox;
 			});
 		},
 
-		flushTags : function(el, a, f) {
+		flushTags : function( el, a, f ) {
 			var tagsval, newtags, text,
-				tags = $('.the-tags', el),
-				newtag = $('input.newtag', el),
-				comma = postL10n.comma;
+				tags = $( '.the-tags', el ),
+				newtag = $( 'input.newtag', el ),
+				comma = window.pressThisL10n.tagDelimiter;
+
 			a = a || false;
 
 			text = a ? $(a).text() : newtag.val();
@@ -114,34 +122,39 @@ var tagBox;
 			newtags = tagsval ? tagsval + comma + text : text;
 
 			newtags = this.clean( newtags );
-			newtags = array_unique_noempty( newtags.split(comma) ).join(comma);
-			tags.val(newtags);
-			this.quickClicks(el);
+			newtags = array_unique_noempty( newtags.split( comma ) ).join( comma );
+			tags.val( newtags );
+			this.quickClicks( el );
 
-			if ( !a )
+			if ( ! a )
 				newtag.val('');
-			if ( 'undefined' == typeof(f) )
+			if ( 'undefined' == typeof( f ) )
 				newtag.focus();
 
 			return false;
 		},
 
-		get : function(id) {
-			var tax = id.substr(id.indexOf('-')+1);
+		get : function( id ) {
+			var tax = id.substr( id.indexOf('-') + 1 );
 
-			$.post(ajaxurl, {'action':'get-tagcloud', 'tax':tax}, function(r, stat) {
-				if ( 0 === r || 'success' != stat )
-					r = wpAjax.broken;
+			$.post( ajaxurl, { 'action': 'get-tagcloud', 'tax': tax }, function( r, stat ) {
+				if ( 0 === r || 'success' != stat ) {
+					// TODO show error?
+				//	r = wpAjax.broken; 
+					return;
+				}
 
-				r = $('<p id="tagcloud-'+tax+'" class="the-tagcloud">'+r+'</p>');
-				$('a', r).click(function(){
+				// TODO: move the wrapper to the html
+				r = $( '<p id="tagcloud-' + tax + '" class="the-tagcloud">' + r + '</p>');
+
+				$( 'a', r ).click( function() {
 					// TODO: this is a modif to the core version, change when merging
 					// tagBox.flushTags( $(this).closest('.inside').children('.tagsdiv'), this);
-					tagBox.flushTags( $('.tagsdiv'), this);
+					tagBox.flushTags( $('.tagsdiv'), this );
 					return false;
 				});
 
-				$('#'+id).after(r);
+				$( '#' + id ).after( r );
 			});
 		},
 
@@ -175,9 +188,12 @@ var tagBox;
 					e.preventDefault();
 					return false;
 				}
-			}).each(function(){
+			}).each( function() {
 				var tax = $(this).closest('div.tagsdiv').attr('id');
-				$(this).suggest( ajaxurl + '?action=ajax-tag-search&tax=' + tax, { delay: 500, minchars: 2, multiple: true, multipleSep: postL10n.comma + ' ' } );
+				$(this).suggest(
+					ajaxurl + '?action=ajax-tag-search&tax=' + tax,
+					{ delay: 500, minchars: 2, multiple: true, multipleSep: window.pressThisL10n.tagDelimiter + ' ' }
+				);
 			});
 
 			// save tags on post save/publish

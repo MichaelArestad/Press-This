@@ -162,12 +162,13 @@ class WP_Press_This {
 	 */
 	public function i18n() {
 		return array(
-			'source'                     => apply_filters( 'press_this_source_string', __( 'Source:' ) ),
-			'source-link'                => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
-			'new-post'                   => __( 'Title' ),
-			'unexpected-error'           => __( 'Sorry, but an unexpected error occurred.' ),
-			'saveAlert'                  => __( 'The changes you made will be lost if you navigate away from this page.' ),
-			'allMediaHeading'            => __( 'Suggested media' ),
+			'source'           => apply_filters( 'press_this_source_string', __( 'Source:' ) ),
+			'source-link'      => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
+			'new-post'         => __( 'Title' ),
+			'unexpected-error' => __( 'Sorry, but an unexpected error occurred.' ),
+			'saveAlert'        => __( 'The changes you made will be lost if you navigate away from this page.' ),
+			'allMediaHeading'  => __( 'Suggested media' ),
+			'tagDelimiter'     => _x( ',', 'tag delimiter' ),
 		);
 	}
 
@@ -682,14 +683,16 @@ class WP_Press_This {
 	function tags_html( $post ) {
 		$taxonomy = get_taxonomy( 'post_tag' );
 		$user_can_assign_terms = current_user_can( $taxonomy->cap->assign_terms );
-		$comma = _x( ',', 'tag delimiter' );
+		$esc_tags = get_terms_to_edit( $post->ID, 'post_tag' );
+
+		if ( ! $esc_tags || is_wp_error( $esc_tags ) ) {
+			$esc_tags = '';
+		}
 
 		?>
 		<div class="tagsdiv" id="post_tag">
 			<div class="jaxtag">
-			<div class="nojs-tags hide-if-js">
-			<p><?php echo $taxonomy->labels->add_or_remove_items; ?></p>
-			<textarea name="tax_input[post_tag]" rows="3" cols="20" class="the-tags" id="tax-input-post_tag" <?php disabled( ! $user_can_assign_terms ); ?>><?php echo str_replace( ',', $comma . ' ', get_terms_to_edit( $post->ID, 'post_tag' ) ); // textarea_escaped by esc_attr() ?></textarea></div>
+			<input type="hidden" name="tax_input[post_tag]" class="the-tags" value="<?php echo $esc_tags; ?>">
 		 	<?php
 
 			if ( $user_can_assign_terms ) {
