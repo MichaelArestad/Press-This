@@ -590,6 +590,49 @@ class WP_Press_This {
 	}
 
 	/**
+	 * Output the post format selection HTML.
+	 * ?><?php
+	 */
+	function post_formats_html( $post ) {
+		if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post->post_type, 'post-formats' ) ) {
+			$post_formats = get_theme_support( 'post-formats' );
+
+			if ( is_array( $post_formats[0] ) ) {
+				$post_format = get_post_format( $post->ID );
+
+				if ( ! $post_format ) {
+					$post_format = '0';
+				}
+
+				// Add in the current one if it isn't there yet, in case the current theme doesn't support it
+				if ( $post_format && ! in_array( $post_format, $post_formats[0] ) ) {
+					$post_formats[0][] = $post_format;
+				}
+
+				?>
+				<div id="post-formats-select">
+					<input type="radio" name="post_format" class="post-format" id="post-format-0" value="0" <?php checked( $post_format, '0' ); ?> />
+					<label for="post-format-0" class="post-format-icon post-format-standard"><?php echo get_post_format_string( 'standard' ); ?></label>
+					<?php
+
+					foreach ( $post_formats[0] as $format ) {
+						$attr_format = esc_attr( $format );
+
+						?>
+						<br />
+						<input type="radio" name="post_format" class="post-format" id="post-format-<?php echo $attr_format; ?>" value="<?php echo $attr_format; ?>" <?php checked( $post_format, $format ); ?> />
+						<label for="post-format-<?php echo $attr_format ?>" class="post-format-icon post-format-<?php echo $attr_format; ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></label>
+						<?php
+					 }
+
+					 ?>
+				</div>
+				<?php
+			}
+		}
+	}
+
+	/**
 	 * Output the categories HTML.
 	 *
 	 */
@@ -877,7 +920,7 @@ class WP_Press_This {
 			<?php if ( $supports_formats ) : ?>
 				<div class="setting-modal is-off-screen is-hidden">
 					<button type="button" class="button-reset modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Post format' ); ?></span></button>
-					<?php post_format_meta_box( $post, null ); ?>
+					<?php $this->post_formats_html( $post ); ?>
 				</div>
 			<?php endif; ?>
 
