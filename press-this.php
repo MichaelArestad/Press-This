@@ -590,6 +590,93 @@ class WP_Press_This {
 	}
 
 	/**
+	 * Output the categories HTML.
+	 *
+	 */
+	function categories_html( $post ) {
+		$taxonomy = get_taxonomy( 'category' );
+
+		if ( current_user_can( $taxonomy->cap->edit_terms ) ) {
+
+			?>
+			<button type="button" class="add-cat-toggle button-subtle"><span class="dashicons dashicons-plus"></span></button>
+			<div class="add-category is-hidden">
+				<label class="screen-reader-text" for="new-category"><?php echo $taxonomy->labels->add_new_item; ?></label>
+				<input type="text" id="new-category" class="add-category-name" placeholder="<?php echo esc_attr( $taxonomy->labels->new_item_name ); ?>" value="" aria-required="true">
+				<label class="screen-reader-text" for="new-category-parent"><?php echo $taxonomy->labels->parent_item_colon; ?></label>
+				<?php
+
+				wp_dropdown_categories( array(
+					'taxonomy' => 'category',
+					'hide_empty' => 0,
+					'name' => 'new-category-parent',
+					'orderby' => 'name',
+					'hierarchical' => 1,
+					'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;'
+				) );
+
+				?>
+				<button type="button" class="button add-cat-submit"><?php _e( 'Add' ); ?></button>
+			</div>
+			<?php
+		}
+
+		?>
+		<div class="categories-search-wrapper">
+			<input id="categories-search" type="search" class="categories-search" placeholder="<?php _e( 'Search categories' ) ?>">
+			<label for="categories-search"><span class="dashicons dashicons-search"></span></label>
+		</div>
+		<ul class="categories-select">
+			<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
+		</ul>
+		<?php
+	}
+
+	/**
+	 * Output the tags HTML.
+	 *
+	 */
+	function tags_html( $post ) {
+		$taxonomy = get_taxonomy( 'post_tag' );
+		$user_can_assign_terms = current_user_can( $taxonomy->cap->assign_terms );
+		$comma = _x( ',', 'tag delimiter' );
+
+		?>
+		<div class="tagsdiv" id="post_tag">
+			<div class="jaxtag">
+			<div class="nojs-tags hide-if-js">
+			<p><?php echo $taxonomy->labels->add_or_remove_items; ?></p>
+			<textarea name="tax_input[post_tag]" rows="3" cols="20" class="the-tags" id="tax-input-post_tag" <?php disabled( ! $user_can_assign_terms ); ?>><?php echo str_replace( ',', $comma . ' ', get_terms_to_edit( $post->ID, 'post_tag' ) ); // textarea_escaped by esc_attr() ?></textarea></div>
+		 	<?php
+
+			if ( $user_can_assign_terms ) {
+				?>
+				<div class="ajaxtag hide-if-no-js">
+					<label class="screen-reader-text" for="new-tag-post_tag"><?php _e('Tags'); ?></label>
+					<div class="taghint"><?php echo $taxonomy->labels->add_new_item; ?></div>
+					<p>
+						<input type="text" id="new-tag-post_tag" name="newtag[post_tag]" class="newtag form-input-tip" size="16" autocomplete="off" value="" />
+						<button type="button" class="button tagadd"><?php esc_attr_e('Add'); ?></button>
+					</p>
+				</div>
+				<p class="howto"><?php echo $taxonomy->labels->separate_items_with_commas; ?></p>
+				<?php
+			}
+
+			?>
+			</div>
+			<div class="tagchecklist"></div>
+		</div>
+		<?php
+
+		if ( $user_can_assign_terms ) {
+			?>
+			<p><a href="#titlediv" class="tagcloud-link" id="link-post_tag"><?php echo $taxonomy->labels->choose_from_most_used; ?></a></p>
+			<?php
+		}
+	}
+
+	/**
 	 * WP_Press_This::serve_app_html()
 	 * Serves the app's base HTML, which in turns calls the load.js
 	 *
@@ -639,9 +726,6 @@ class WP_Press_This {
 
 		@header( 'Content-Type: ' . get_option( 'html_type' ) . '; charset=' . get_option( 'blog_charset' ) );
 
-		if ( ! function_exists( 'post_tags_meta_box' ) ) {
-			require_once( ABSPATH . 'wp-admin/includes/meta-boxes.php' );
-		}
 ?>
 <!DOCTYPE html>
 <!--[if IE 7]>         <html class="lt-ie9 lt-ie8" <?php language_attributes(); ?>> <![endif]-->
@@ -731,7 +815,7 @@ class WP_Press_This {
 					<?php printf( __( 'You should upgrade <a href="%s" target="_blank">your bookmarklet</a> to the latest version!' ), admin_url( 'tools.php?page=press_this_options' ) ); ?>
 				</p>
 			</div>
-			
+
 			<div id='wppt_app_container' class="editor">
 				<span id="wppt_title_container_label" class="post-title-placeholder"><?php _e( 'Post title' ); ?></span>
 				<h2 id="wppt_title_container" class="post-title" contenteditable="true" spellcheck="true" aria-labelledby="wppt_title_container_label" tabindex="0"></h2>
@@ -799,49 +883,12 @@ class WP_Press_This {
 
 			<div class="setting-modal is-off-screen is-hidden">
 				<button type="button" class="button-reset modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Categories' ); ?></span></button>
-				<?php
-
-				$taxonomy = get_taxonomy( 'category' );
-
-				if ( current_user_can( $taxonomy->cap->edit_terms ) ) {
-
-				?>
-				<button type="button" class="add-cat-toggle button-subtle"><span class="dashicons dashicons-plus"></span></button>
-
-				<div class="add-category is-hidden">
-					<label class="screen-reader-text" for="new-category"><?php echo $taxonomy->labels->add_new_item; ?></label>
-
-					<input type="text" id="new-category" class="add-category-name" placeholder="<?php echo esc_attr( $taxonomy->labels->new_item_name ); ?>" value="" aria-required="true">
-					<label class="screen-reader-text" for="new-category-parent"><?php echo $taxonomy->labels->parent_item_colon; ?></label>
-
-					<?php
-
-					wp_dropdown_categories( array(
-						'taxonomy' => 'category',
-						'hide_empty' => 0,
-						'name' => 'new-category-parent',
-						'orderby' => 'name',
-						'hierarchical' => 1,
-						'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;'
-					) );
-
-					?>
-
-					<button type="button" class="button add-cat-submit"><?php _e( 'Add' ); ?></button>
-				</div>
-				<?php } ?>
-				<div class="categories-search-wrapper">
-					<input id="categories-search" type="search" class="categories-search" placeholder="<?php _e( 'Search categories' ) ?>">
-					<label for="categories-search"><span class="dashicons dashicons-search"></span></label>
-				</div>
-				<ul class="categories-select">
-					<?php wp_terms_checklist( $post->ID, array( 'taxonomy' => 'category' ) ); ?>
-				</ul>
+				<?php $this->categories_html( $post ); ?>
 			</div>
 
 			<div class="setting-modal tags is-off-screen is-hidden">
 				<button type="button" class="button-reset modal-close"><span class="dashicons dashicons-arrow-left-alt2"></span><span class="setting-title"><?php _e( 'Tags' ); ?></span></button>
-				<?php post_tags_meta_box( $post, null ); ?>
+				<?php $this->tags_html( $post ); ?>
 			</div>
 		</div><!-- .options-panel -->
 	</div><!-- .wrapper -->

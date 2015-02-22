@@ -152,7 +152,7 @@ var tagBox;
 				tagBox.quickClicks(this);
 			});
 
-			$('input.tagadd', ajaxtag).click(function(){
+			$('button.tagadd', ajaxtag).click(function(){
 				t.flushTags( $(this).closest('.tagsdiv') );
 			});
 
