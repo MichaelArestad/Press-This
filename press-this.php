@@ -692,7 +692,7 @@ class WP_Press_This {
 		?>
 		<div class="tagsdiv" id="post_tag">
 			<div class="jaxtag">
-			<input type="hidden" name="tax_input[post_tag]" class="the-tags" value="<?php echo $esc_tags; ?>">
+			<input type="hidden" name="tax_input[post_tag]" class="the-tags" value="<?php echo $esc_tags; // escaped in get_terms_to_edit() ?>">
 		 	<?php
 
 			if ( $user_can_assign_terms ) {
