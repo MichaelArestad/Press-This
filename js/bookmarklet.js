@@ -3,6 +3,8 @@
 		head = document.getElementsByTagName( 'head' )[0],
 		img = new Image(),
 		target = '_press_this_app',
+		windowWidth = 600,
+		windowHeight = 700,
 		metas, links, content, imgs, ifrs,
 		vid, selection;
 
@@ -164,7 +166,6 @@
 	form.setAttribute( 'target', target );
 	form.setAttribute( 'style', 'display: none;' );
 
-	var windowWidth = 600, windowHeight = 700;
 	if (window.screen) {
 		windowWidth  = ( window.screen.availWidth ) ? window.screen.availWidth * 70 / 100 : windowWidth;
 		windowHeight = ( window.screen.availHeight ) ? window.screen.availHeight * 90 / 100 : windowHeight;
