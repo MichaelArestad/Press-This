@@ -61,6 +61,8 @@
 		add( '_embed[]', href );
 	} else if ( href.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ) {
 		add( '_embed[]', href );
+	} else if ( href.match( /\/\/vine\.co\/v\/[^\/]+/ ) ) {
+		add( '_embed[]', href );
 	}
 
 	metas = head.getElementsByTagName( 'meta' ) || [];
@@ -150,6 +152,12 @@
 
 		if ( vid && 2 === vid.length ) {
 			add( '_embed[]', 'https://vimeo.com/' + vid[1] );
+		}
+
+		vid = ifrs[ p ].src.match( /\/\/vine\.co\/v\/([^\/]+)\/embed/ );
+
+		if ( vid && 2 === vid.length ) {
+			add( '_embed[]', 'https://vine.co/v/' + vid[1] );
 		}
 	}
 

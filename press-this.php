@@ -523,6 +523,8 @@ class WP_Press_This {
 								$data['_embed'][] = 'https://www.youtube.com/watch?v=' . $src_matches[1];
 							} else if ( preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)([\?\/]{1}.*)?$/', $new_matches[2], $src_matches ) ) {
 								$data['_embed'][] = 'https://vimeo.com/' . (int) $src_matches[1];
+							} else if ( preg_match( '/\/\/vine\.co\/v\/([^\/]+)\/embed/', $new_matches[2], $src_matches ) ) {
+								$data['_embed'][] = 'https://vine.co/v/' . $src_matches[1];
 							}
 						}
 					}
@@ -549,7 +551,8 @@ class WP_Press_This {
 									     || false !== strpos( $new_matches[3], '//www.dailymotion.com/video/' )
 									     || preg_match( '/\/\/vimeo\.com\/[\d]+$/', $new_matches[3] )
 									     || preg_match( '/\/\/soundcloud\.com\/.+$/', $new_matches[3] )
-									     || preg_match( '/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/', $new_matches[3] ) ) {
+									     || preg_match( '/\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/', $new_matches[3] )
+									     || preg_match( '/\/\/vine\.co\/v\/[^\/]+/', $new_matches[3] ) ) {
 										if ( ! in_array( $new_matches[3], $data['_embed'] ) ) {
 											$data['_embed'][] = $new_matches[3];
 										}

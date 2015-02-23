@@ -263,6 +263,8 @@
 				return true;
 			} else if ( url.match( /\/\/twitter\.com\/[^\/]+\/status\/[\d]+$/ ) ) {
 				return true;
+			} else if ( url.match( /\/\/vine\.co\/v\/[^\/]+/ ) ) {
+				return true;
 			}
 			return false;
 		}
