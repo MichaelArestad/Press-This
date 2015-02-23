@@ -515,7 +515,6 @@ dd {
   display: block;
   padding: 13px 2px 14px 13px;
   cursor: pointer;
-  /* TODO Doesn't work in plugin. Might work in merge */
 }
 .post-format-icon:before, .post-format-icon:after {
   content: "";
@@ -545,11 +544,6 @@ dd {
   content: "\f147";
   float: right;
 }
-.post-format:focus + .post-format-icon {
-  -webkit-box-shadow: inset 6px 0 0 #2ea2cc;
-  box-shadow: inset 6px 0 0 #2ea2cc;
-  background: rgba(46, 162, 204, 0.05);
-}
 .post-format:checked + .post-format-icon {
   -webkit-box-shadow: inset 6px 0 0 #2ea2cc;
   box-shadow: inset 6px 0 0 #2ea2cc;
@@ -557,6 +551,13 @@ dd {
 }
 .post-format:checked + .post-format-icon:before, .post-format:checked + .post-format-icon:after {
   color: #333;
+}
+.post-format:focus + .post-format-icon {
+  background: #2ea2cc;
+  color: #fff;
+}
+.post-format:focus + .post-format-icon:before, .post-format:focus + .post-format-icon:after {
+  color: #fff;
 }
 .post-format:checked + .post-format-icon:after {
   display: block;
@@ -728,6 +729,9 @@ dd {
   text-decoration: none;
   outline: 0;
 }
+.tagcloud-link:focus {
+  text-decoration: underline;
+}
 
 .popular-tags {
   border: none;
@@ -747,6 +751,9 @@ dd {
 .the-tagcloud a {
   text-decoration: none;
   outline: 0;
+}
+.the-tagcloud a:focus {
+  text-decoration: underline;
 }
 
 .tagcloud h3 {
@@ -853,11 +860,6 @@ input[type="search"].categories-search,
   appearance: none;
   cursor: pointer;
 }
-.categories-select input:focus {
-  -webkit-box-shadow: inset 6px 0 0 #2ea2cc;
-  box-shadow: inset 6px 0 0 #2ea2cc;
-  background: rgba(46, 162, 204, 0.05);
-}
 .categories-select input:checked {
   -webkit-box-shadow: inset 6px 0 0 #2ea2cc;
   box-shadow: inset 6px 0 0 #2ea2cc;
@@ -885,6 +887,11 @@ input[type="search"].categories-search,
   transition: color .1s ease-in 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+.categories-select input:focus {
+  -webkit-box-shadow: inset 6px 0 0 #2ea2cc;
+  box-shadow: inset 6px 0 0 #2ea2cc;
+  background: rgba(46, 162, 204, 0.05);
 }
 .categories-select label {
   position: relative;

@@ -66,11 +66,6 @@
 		content: "\f147";
 		float: right;
 	}
-	/* TODO Doesn't work in plugin. Might work in merge */
-	.post-format:focus + & {
-		box-shadow: inset 6px 0 0 $blue--light;
-		background: transparentize( $blue--light, .95 );
-	}
 	.post-format:checked + & {
 		box-shadow: inset 6px 0 0 $blue--light;
 		background: transparentize( $blue--light, .9 );
@@ -78,6 +73,15 @@
 		&:before,
 		&:after {
 			color: #333;
+		}
+	}
+	.post-format:focus + & {
+		background: $blue--light;
+		color: #fff;
+
+		&:before,
+		&:after {
+			color: #fff;
 		}
 	}
 	.post-format:checked + &:after {
