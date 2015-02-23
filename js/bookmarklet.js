@@ -1,7 +1,6 @@
 ( function( window, document, href, pt_url ) {
-	var create = document.createElement,
-		encodeURI = window.encodeURIComponent,
-		form = create( 'form' ),
+	var encodeURI = window.encodeURIComponent,
+		form = document.createElement( 'form' ),
 		head = document.getElementsByTagName( 'head' )[0],
 		img = new Image(),
 		target = '_press_this_app',
@@ -43,7 +42,7 @@
 			return;
 		}
 
-		var input = create( 'input' );
+		var input = document.createElement( 'input' );
 
 		input.name = name;
 		input.value = value;
