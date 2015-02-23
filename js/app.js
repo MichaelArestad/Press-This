@@ -650,7 +650,7 @@
 			if ( ! hasEmptyTitleStr ) {
 				$( '#wppt_title_field' ).val( suggestedTitle );
 				$title.text( suggestedTitle );
-				$( '.post-title-placeholder' ).addClass( 'screen-reader-text' );
+				$( '.post-title-placeholder' ).addClass( 'is-hidden' );
 			}
 
 			$title.on( 'keyup', function() {
@@ -893,14 +893,14 @@
 				$placeholder = $('.post-title-placeholder');
 
 			$selector.on( 'focus', function() {
-				$placeholder.addClass('screen-reader-text');
+				$placeholder.addClass('is-hidden');
 			} );
 
 			$selector.on( 'blur', function() {
 				var textLength = $( this ).text().length;
 
 				if ( ! textLength ) {
-					$placeholder.removeClass('screen-reader-text');
+					$placeholder.removeClass('is-hidden');
 				}
 			} );
 		}

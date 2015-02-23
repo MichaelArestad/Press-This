@@ -1288,6 +1288,9 @@ html {
   color: #9ea7af;
   z-index: -1;
 }
+.post-title-placeholder.is-hidden {
+  display: none;
+}
 
 /* Suggested images */
 .featured-container {
