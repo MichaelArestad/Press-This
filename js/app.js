@@ -169,7 +169,7 @@
 		 */
 		function getSuggestedTitle( data ) {
 			if ( ! data || data.length ) {
-				return __( 'new-post' );
+				return __( 'newPost' );
 			}
 
 			var title = '';
@@ -189,7 +189,7 @@
 			}
 
 			if ( ! title.length ) {
-				title = __( 'new-post' );
+				title = __( 'newPost' );
 				hasEmptyTitleStr = true;
 			}
 
@@ -229,11 +229,11 @@
 			content = ( content.length ? '<blockquote class="press-this-suggested-content">' + sanitizeText( content ) + '</blockquote>' : '' );
 
 			// Add a source attribution if there is one available.
-			if ( ( ( title.length && __( 'new-post' ) !== title ) || siteName.length ) && url.length ) {
+			if ( ( ( title.length && __( 'newPost' ) !== title ) || siteName.length ) && url.length ) {
 				content += '<p class="press-this-suggested-source">';
 				content += __( 'source' );
 				content += ' <cite>';
-				content += __( 'source-link').replace( '%1$s', encodeURI( url ) ).replace( '%2$s', sanitizeText( title || siteName ) );
+				content += __( 'sourceLink').replace( '%1$s', encodeURI( url ) ).replace( '%2$s', sanitizeText( title || siteName ) );
 				content += '</cite></p>';
 			}
 
@@ -697,7 +697,7 @@
 			listContainer.empty();
 
 			if ( ( interestingEmbeds && interestingEmbeds.length ) || ( interestingImages && interestingImages.length ) ) {
-				listContainer.append( '<h2 class="screen-reader-text">' + pressThisL10n.allMediaHeading + '</h2><ul class="wppt-all-media-list"/>' );
+				listContainer.append( '<h2 class="screen-reader-text">' + __( 'allMediaHeading' ) + '</h2><ul class="wppt-all-media-list"/>' );
 			}
 
 			if ( interestingEmbeds && interestingEmbeds.length ) {
