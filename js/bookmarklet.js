@@ -1,10 +1,11 @@
 ( function( window, document, href, pt_url ) {
-	var form = document.createElement( 'form' ),
+	var create = document.createElement,
+		encodeURI = window.encodeURIComponent,
+		form = create( 'form' ),
 		head = document.getElementsByTagName( 'head' )[0],
 		img = new Image(),
 		target = '_press_this_app',
-		windowWidth = 600,
-		windowHeight = 700,
+		windowWidth, windowHeight,
 		metas, links, content, imgs, ifrs,
 		vid, selection;
 
@@ -23,15 +24,15 @@
 	pt_url += ( pt_url.indexOf( '?' ) > -1 ? '&' : '?' ) + 'buster=' + ( new Date().getTime() );
 
 	if ( document.title.length && document.title.length <= 512 ) {
-		pt_url += '&t=' + encodeURIComponent( document.title );
+		pt_url += '&t=' + encodeURI( document.title );
 	}
 
 	if ( selection && selection.length <= 512 ) {
-		pt_url += '&s=' + encodeURIComponent( selection );
+		pt_url += '&s=' + encodeURI( selection );
 	}
 
 	if ( href.match( /^https?:/ ) ) {
-		pt_url += '&u=' + encodeURIComponent( href );
+		pt_url += '&u=' + encodeURI( href );
 	} else {
 		top.location.href = pt_url;
 		return;
@@ -42,7 +43,7 @@
 			return;
 		}
 
-		var input = document.createElement( 'input' );
+		var input = create( 'input' );
 
 		input.name = name;
 		input.value = value;
@@ -166,10 +167,12 @@
 	form.setAttribute( 'target', target );
 	form.setAttribute( 'style', 'display: none;' );
 
-	if (window.screen) {
-		windowWidth  = ( window.screen.availWidth ) ? window.screen.availWidth * 70 / 100 : windowWidth;
-		windowHeight = ( window.screen.availHeight ) ? window.screen.availHeight * 90 / 100 : windowHeight;
-	}
+	// Make the window 70% x 90% of the parent if possible.
+	windowWidth  = window.outerWidth || document.documentElement.clientWidth || 600;
+	windowHeight = window.outerHeight || document.documentElement.clientHeight || 700;
+
+	windowWidth = ( windowWidth < 800 || windowWidth > 5000 ) ? 600 : ( windowWidth * 0.7 );
+	windowHeight = ( windowHeight < 800 || windowHeight > 3000 ) ? 700 : ( windowHeight * 0.9 );
 
 	window.open( 'about:blank', target, 'width=' + windowWidth + ',height=' + windowHeight );
 
