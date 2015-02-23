@@ -963,7 +963,7 @@
 
 			$( window ).on( 'beforeunload.press-this', function() {
 				if ( saveAlert || ( editor && editor.isDirty() ) ) {
-					return window.pressThisL10n.saveAlert;
+					return __( 'saveAlert' );
 				}
 			} );
 
