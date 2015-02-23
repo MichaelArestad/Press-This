@@ -609,7 +609,7 @@
 		 */
 		function renderNotice( msg, error ) {
 			var $alerts = $( '.editor-wrapper div.alerts' ),
-				className = error ? 'error' : 'notice';
+				className = error ? 'is-error' : 'is-notice';
 
 			$alerts.append( $( '<p class="' + className + '">' ).text( msg ) );
 		}
@@ -636,7 +636,7 @@
 
 			// Prompt user to upgrade their bookmarklet if there is a version mismatch.
 			if ( data.v && data._version && data.v !== data._version ) {
-				$( '.should-upgrade-bookmarklet' ).removeClass( 'hidden' );
+				$( '.should-upgrade-bookmarklet' ).parent().removeClass( 'is-hidden' );
 			}
 		}
 

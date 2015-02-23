@@ -121,10 +121,13 @@ body {
 	padding: em( 18px ) 0;
 	border-bottom: 1px solid $gray--light;
 	transform: translateZ( 0 );
+
+	&.is-hidden {
+		display: none;
+	}
 }
 
-.notice,
-.error {
+.alert {
 	position: relative;
 	margin: 0 em( 30px,14px );
 	padding: em( 5px, 14px ) em( 20px, 14px );
@@ -146,10 +149,10 @@ body {
 		border-radius: 50%;
 		background: $blue--light;
 	}
-}
-.error {
-	&:before {
-		background: red;
+	&.is-error {
+		&:before {
+			background: red;
+		}
 	}
 }
 

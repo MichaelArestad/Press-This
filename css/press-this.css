@@ -1089,22 +1089,22 @@ html {
   -ms-transform: translateZ(0);
   transform: translateZ(0);
 }
+.alerts.is-hidden {
+  display: none;
+}
 
-.notice,
-.error {
+.alert {
   position: relative;
   margin: 0 2.14286em;
   padding: 0.35714em 1.42857em;
   font-size: 14px;
 }
 @media (max-width: 600px) {
-  .notice,
-  .error {
+  .alert {
     margin: 0 15px;
   }
 }
-.notice:before,
-.error:before {
+.alert:before {
   content: '';
   position: absolute;
   top: 50%;
@@ -1116,8 +1116,7 @@ html {
   border-radius: 50%;
   background: #2ea2cc;
 }
-
-.error:before {
+.alert.is-error:before {
   background: red;
 }
 
@@ -1726,6 +1725,4 @@ html {
   margin-left: 11px;
 }
 
-.hidden {
-	display: none;
-}
+/*# sourceMappingURL=press-this.css.map */
