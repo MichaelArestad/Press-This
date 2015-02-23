@@ -1088,40 +1088,35 @@ html {
   color: #2ea2cc;
 }
 
-.alerts {
-  overflow: hidden;
-  padding: 0.9em 0;
-  border-bottom: 1px solid #e5e5e5;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-}
-.alerts.is-hidden {
-  display: none;
-}
-
 .alert {
   position: relative;
-  margin: 0 2.14286em;
-  padding: 0.35714em 1.42857em;
+  margin: 0;
+  padding: 16px 50px;
+  border-bottom: 1px solid #e5e5e5;
   font-size: 14px;
-}
-@media (max-width: 600px) {
-  .alert {
-    margin: 0 15px;
-  }
 }
 .alert:before {
   content: '';
   position: absolute;
   top: 50%;
-  left: 0;
+  left: 30px;
   width: 8px;
   height: 8px;
   margin-top: -4px;
   -webkit-border-radius: 50%;
   border-radius: 50%;
   background: #2ea2cc;
+}
+@media (max-width: 600px) {
+  .alert {
+    padding: 16px 35px;
+  }
+  .alert:before {
+    left: 15px;
+  }
+}
+.alert.is-hidden {
+  display: none;
 }
 .alert.is-error:before {
   background: red;

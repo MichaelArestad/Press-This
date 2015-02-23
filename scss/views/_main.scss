@@ -116,38 +116,35 @@ body {
 
 
 // Alerts
-.alerts {
-	overflow: hidden; // lazy clearfix
-	padding: em( 18px ) 0;
-	border-bottom: 1px solid $gray--light;
-	transform: translateZ( 0 );
-
-	&.is-hidden {
-		display: none;
-	}
-}
-
 .alert {
 	position: relative;
-	margin: 0 em( 30px,14px );
-	padding: em( 5px, 14px ) em( 20px, 14px );
+	margin: 0;
+	padding: 16px 50px;
+	border-bottom: 1px solid $gray--light;
 	font-size: 14px;
 
-	@include breakpoint( '<600px' ) {
-		margin: 0 15px;
-	}
 	&:before {
 		$dot-size: 8px;
 
 		content: '';
 		position: absolute;
 		top: 50%;
-		left: 0;
+		left: 30px;
 		width: $dot-size;
 		height: $dot-size;
 		margin-top: -0.5 * $dot-size;
 		border-radius: 50%;
 		background: $blue--light;
+	}
+	@include breakpoint( '<600px' ) {
+		padding: 16px 35px;
+
+		&:before {
+			left: 15px;
+		}
+	}
+	&.is-hidden {
+		display: none;
 	}
 	&.is-error {
 		&:before {
