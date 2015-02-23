@@ -1,7 +1,11 @@
 /*
 Press This :)
 */
-/*! normalize.css v3.0.0 | MIT License | git.io/normalize */
+/**
+* 1.0 Normalize
+*
+* normalize.css v3.0.0 | MIT License | git.io/normalize
+*/
 @import url("//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,600,700");
 html {
   font-family: sans-serif;
@@ -807,19 +811,14 @@ input[type="search"].categories-search,
 .add-category.is-hidden {
   display: none;
 }
-.add-category .postform {
-  display: none;
-  /* TODO Temporary removal of Parent Category dropdown */
-}
 .add-category .add-cat-submit {
   position: absolute;
   top: 0;
   right: 0;
-  bottom: 1px;
   border: 0;
   -webkit-border-radius: 0;
   border-radius: 0;
-  padding: 0 16px;
+  padding: 12px 16px;
   background: #f7f7f7;
   border-left: 1px solid #f1f1f1;
 }
@@ -830,6 +829,55 @@ input[type="search"].categories-search,
   color: #fff;
 }
 
+/* Parent category select */
+.postform {
+  display: block;
+  margin: 0;
+  padding: 10px 32px 12px 14px;
+  width: 100%;
+  border: 0;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #e5e5e5;
+  background: #fff url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2018.1.1%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%22-239%20241%2020%2020%22%20enable-background%3D%22new%20-239%20241%2020%2020%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cpath%20fill%3D%22%239EA7AF%22%20d%3D%22M-234%2C247l5%2C5l5-5l2%2C1l-7%2C7l-7-7L-234%2C247z%22/%3E%0D%0A%3C/svg%3E%0D%0A") no-repeat right 10px center;
+  -webkit-background-size: 20px 20px;
+  background-size: 20px 20px;
+  overflow: hidden;
+  line-height: 21px;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  vertical-align: top;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+}
+.postform:hover, .postform:focus {
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2018.1.1%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%22-239%20241%2020%2020%22%20enable-background%3D%22new%20-239%20241%2020%2020%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cpath%20fill%3D%22%23000222%22%20d%3D%22M-234%2C247l5%2C5l5-5l2%2C1l-7%2C7l-7-7L-234%2C247z%22/%3E%0D%0A%3C/svg%3E%0D%0A");
+}
+.postform:focus {
+  border-color: transparent;
+  -webkit-box-shadow: inset 0 0 0 4px #2ea2cc;
+  box-shadow: inset 0 0 0 4px #2ea2cc;
+  outline: 0;
+  -moz-outline: none;
+  -moz-user-focus: ignore;
+}
+.postform::-ms-expand {
+  display: none;
+}
+.postform::-ms-value {
+  background: none;
+  color: #727272;
+}
+.postform:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #727272;
+}
+
+/* Category list */
 .categories-select {
   margin: 0;
   padding: 0;
