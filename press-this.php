@@ -162,7 +162,27 @@ class WP_Press_This {
 	 */
 	public function i18n() {
 		return array(
+			/**
+			 * press_this_source_string: string displayed before the source attribution string, defaults to "Source:".
+			 *
+			 * @since 4.2
+			 * @see https://github.com/MichaelArestad/Press-This/issues/25
+			 *
+			 * @param string $string Internationalized source string
+			 *
+			 * return string Source string
+			 */
 			'source'           => apply_filters( 'press_this_source_string', __( 'Source:' ) ),
+			/**
+			 * press_this_source_link: HTML link format for the source attribution, can control target, class, etc
+			 *
+			 * @since 4.2
+			 * @see https://github.com/MichaelArestad/Press-This/issues/25
+			 *
+			 * @param string $link_format Internationalized link format, %1$s is link href, %2$s is link text
+			 *
+			 * return string Link markup
+			 */
 			'source-link'      => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
 			'new-post'         => __( 'Title' ),
 			'unexpected-error' => __( 'Sorry, but an unexpected error occurred.' ),
@@ -194,6 +214,15 @@ class WP_Press_This {
 			'runtime_url'     => $this->strip_url_scheme( $this->runtime_url() ),
 			'ajax_url'        => $this->strip_url_scheme( admin_url( 'admin-ajax.php' ) ),
 			'post_formats'    => $post_formats,
+			/**
+			 * press_this_redirect_in_parent: Should PT redirect the user in the parent window, instead of the popup, upon save.
+			 *
+			 * @since 4.2
+			 *
+			 * @param bool $redir_in_parent Whether to redirect in parent window or not, defaults to false
+			 *
+			 * return bool
+			 */
 			'redir_in_parent' => apply_filters( 'press_this_redirect_in_parent', __return_false() ),
 		);
 	}
@@ -363,8 +392,26 @@ class WP_Press_This {
 			}
 
 			if ( 'publish' === get_post_status( $post_id ) ) {
+				/**
+				 * press_this_publish_redirect: URL returned to PT on publish sucess, defaults to post permalink.
+				 *
+				 * @since 4.2
+				 *
+				 * @param int $post_id
+				 *
+				 * return string URL
+				 */
 				$redirect = apply_filters( 'press_this_publish_redirect', get_post_permalink( $post_id ), $post_id );
 			} else {
+				/**
+				 * press_this_draft_redirect: URL returned to PT on draft success, defaults to editing the post.
+				 *
+				 * @since 4.2
+				 *
+				 * @param int $post_id
+				 *
+				 * return string URL
+				 */
 				$redirect = apply_filters( 'press_this_draft_redirect', get_edit_post_link( $post_id, 'raw' ), $post_id );
 			}
 
@@ -559,6 +606,16 @@ class WP_Press_This {
 		$data['s'] = ( ! empty( $data['s'] ) ) ? $data['s'] : '';
 		$data['t'] = ( ! empty( $data['t'] ) ) ? $data['t'] : '';
 
+		/**
+		 * press_this_media_discovery: Whether to enable or disable in-source media discovery.
+		 *
+		 * @since 4.2
+		 * @see https://github.com/MichaelArestad/Press-This/issues/62
+		 *
+		 * @param bool $enable Defaults to true
+		 *
+		 * return bool
+		 */
 		if ( apply_filters( 'press_this_media_discovery', __return_true() ) ) {
 			// If no _meta (a new thing) was passed via $_POST, fetch data from source as fallback, makes PT fully backward compatible
 			if ( empty( $data['_meta'] ) && ! empty( $data['u'] ) ) {
@@ -576,6 +633,15 @@ class WP_Press_This {
 			}
 		}
 
+		/**
+		 * press_this_data: Data array used by PT to provide meta data gathered from the source.
+		 *
+		 * @since 4.2
+		 *
+		 * @param array $data Data array
+		 *
+		 * return array
+		 */
 		return apply_filters( 'press_this_data', $data );
 	}
 
