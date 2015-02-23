@@ -728,13 +728,15 @@
 						cssClass += ' is-video';
 					}
 
-					$( '<li>', {
+					$( '<li></li>', {
 						'id': 'embed-' + i + '-container',
 						'class': cssClass,
 						'tabindex': '0'
 					} ).css( {
 						'background-image': ( displaySrc.length ) ? 'url(' + displaySrc + ')' : null
-					} ).on( 'click keypress', function ( e ) {
+					} ).html(
+						'<span class="screen-reader-text">' + __( 'suggestedEmbedAlt' ).replace( '%d', i + 1 ) + '</span>'
+					).on( 'click keypress', function ( e ) {
 						if ( e.type === 'click' || e.which === 13 ) {
 							insertSelectedMedia( 'embed',src );
 						}
@@ -757,13 +759,15 @@
 						displaySrc = src;
 					}
 
-					$( '<li>', {
+					$( '<li></li>', {
 						'id': 'img-' + i + '-container',
 						'class': 'suggested-media-thumbnail is-image',
 						'tabindex': '0'
 					} ).css( {
 						'background-image': 'url(' + displaySrc + ')'
-					} ).on( 'click keypress', function ( e ) {
+					} ).html(
+						'<span class="screen-reader-text">' +__( 'suggestedImgAlt' ).replace( '%d', i + 1 ) + '</span>'
+					).on( 'click keypress', function ( e ) {
 						if ( e.type === 'click' || e.which === 13 ) {
 							insertSelectedMedia( 'img', src, data.u );
 						}

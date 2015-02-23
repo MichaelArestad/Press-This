@@ -187,12 +187,14 @@ class WP_Press_This {
 			 *
 			 * @return string Link markup
 			 */
-			'source-link'      => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
-			'new-post'         => __( 'Title' ),
-			'unexpected-error' => __( 'Sorry, but an unexpected error occurred.' ),
-			'saveAlert'        => __( 'The changes you made will be lost if you navigate away from this page.' ),
-			'allMediaHeading'  => __( 'Suggested media' ),
-			'tagDelimiter'     => _x( ',', 'tag delimiter' ),
+			'source-link'       => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
+			'new-post'          => __( 'Title' ),
+			'unexpected-error'  => __( 'Sorry, but an unexpected error occurred.' ),
+			'saveAlert'         => __( 'The changes you made will be lost if you navigate away from this page.' ),
+			'allMediaHeading'   => __( 'Suggested media' ),
+			'tagDelimiter'      => _x( ',', 'tag delimiter' ),
+			'suggestedEmbedAlt' => __( 'Suggested embed #%d' ),
+			'suggestedImgdAlt'  => __( 'Suggested image #%d' ),
 		);
 	}
 
