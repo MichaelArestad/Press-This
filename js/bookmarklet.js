@@ -164,7 +164,13 @@
 	form.setAttribute( 'target', target );
 	form.setAttribute( 'style', 'display: none;' );
 
-	window.open( 'about:blank', target, 'width=500,height=700' );
+	var windowWidth = 600, windowHeight = 700;
+	if (window.screen) {
+		windowWidth  = ( window.screen.availWidth ) ? window.screen.availWidth * 70 / 100 : windowWidth;
+		windowHeight = ( window.screen.availHeight ) ? window.screen.availHeight * 90 / 100 : windowHeight;
+	}
+
+	window.open( 'about:blank', target, 'width=' + windowWidth + ',height=' + windowHeight );
 
 	document.body.appendChild( form );
 
