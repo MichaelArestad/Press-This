@@ -170,7 +170,7 @@ class WP_Press_This {
 			 *
 			 * @param string $string Internationalized source string
 			 *
-			 * return string Source string
+			 * @return string Source string
 			 */
 			'source'           => apply_filters( 'press_this_source_string', __( 'Source:' ) ),
 			/**
@@ -181,7 +181,7 @@ class WP_Press_This {
 			 *
 			 * @param string $link_format Internationalized link format, %1$s is link href, %2$s is link text
 			 *
-			 * return string Link markup
+			 * @return string Link markup
 			 */
 			'source-link'      => apply_filters( 'press_this_source_link', __( '<a href="%1$s">%2$s</a>' ) ),
 			'new-post'         => __( 'Title' ),
@@ -221,7 +221,7 @@ class WP_Press_This {
 			 *
 			 * @param bool $redir_in_parent Whether to redirect in parent window or not, defaults to false
 			 *
-			 * return bool
+			 * @return bool
 			 */
 			'redir_in_parent' => apply_filters( 'press_this_redirect_in_parent', __return_false() ),
 		);
@@ -399,7 +399,7 @@ class WP_Press_This {
 				 *
 				 * @param int $post_id
 				 *
-				 * return string URL
+				 * @return string URL
 				 */
 				$redirect = apply_filters( 'press_this_publish_redirect', get_post_permalink( $post_id ), $post_id );
 			} else {
@@ -410,7 +410,7 @@ class WP_Press_This {
 				 *
 				 * @param int $post_id
 				 *
-				 * return string URL
+				 * @return string URL
 				 */
 				$redirect = apply_filters( 'press_this_draft_redirect', get_edit_post_link( $post_id, 'raw' ), $post_id );
 			}
@@ -614,7 +614,7 @@ class WP_Press_This {
 		 *
 		 * @param bool $enable Defaults to true
 		 *
-		 * return bool
+		 * @return bool
 		 */
 		if ( apply_filters( 'press_this_media_discovery', __return_true() ) ) {
 			// If no _meta (a new thing) was passed via $_POST, fetch data from source as fallback, makes PT fully backward compatible
@@ -640,7 +640,7 @@ class WP_Press_This {
 		 *
 		 * @param array $data Data array
 		 *
-		 * return array
+		 * @return array
 		 */
 		return apply_filters( 'press_this_data', $data );
 	}
