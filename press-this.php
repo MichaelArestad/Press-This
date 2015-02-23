@@ -732,18 +732,20 @@ class WP_Press_This {
 				<label class="screen-reader-text" for="new-category"><?php echo $taxonomy->labels->add_new_item; ?></label>
 				<input type="text" id="new-category" class="add-category-name" placeholder="<?php echo esc_attr( $taxonomy->labels->new_item_name ); ?>" value="" aria-required="true">
 				<label class="screen-reader-text" for="new-category-parent"><?php echo $taxonomy->labels->parent_item_colon; ?></label>
-				<?php
+				<div class="postform-wrapper">
+					<?php
 
-				wp_dropdown_categories( array(
-					'taxonomy' => 'category',
-					'hide_empty' => 0,
-					'name' => 'new-category-parent',
-					'orderby' => 'name',
-					'hierarchical' => 1,
-					'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;'
-				) );
+					wp_dropdown_categories( array(
+						'taxonomy' => 'category',
+						'hide_empty' => 0,
+						'name' => 'new-category-parent',
+						'orderby' => 'name',
+						'hierarchical' => 1,
+						'show_option_none' => '&mdash; ' . $taxonomy->labels->parent_item . ' &mdash;'
+					) );
 
-				?>
+					?>
+				</div>
 				<button type="button" class="button add-cat-submit"><?php _e( 'Add' ); ?></button>
 			</div>
 			<?php

@@ -41,6 +41,7 @@ input[type="search"].categories-search,
 
 .add-category {
 	position: relative;
+	border-bottom: 1px solid $gray--light;
 
 	&.is-hidden {
 		display: none;
@@ -68,15 +69,19 @@ input[type="search"].categories-search,
 }
 
 /* Parent category select */
+.postform-wrapper {
+	padding: 12px;
+}
+
 .postform {
 	display: block;
 	margin: 0;
-	padding: 10px 32px 12px 14px;
 	width: 100%;
+	height: 34px;
 	border: 0;
 	border-radius: 0;
-	border-bottom: 1px solid $gray--light;
-	background: #fff url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2018.1.1%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%22-239%20241%2020%2020%22%20enable-background%3D%22new%20-239%20241%2020%2020%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cpath%20fill%3D%22%239EA7AF%22%20d%3D%22M-234%2C247l5%2C5l5-5l2%2C1l-7%2C7l-7-7L-234%2C247z%22/%3E%0D%0A%3C/svg%3E%0D%0A') no-repeat right 10px center;
+	border: 1px solid $gray--light;
+	background: #fff;
 	background-size: 20px 20px;
 	overflow: hidden;
 	line-height: 21px;
@@ -85,19 +90,15 @@ input[type="search"].categories-search,
 	vertical-align: top;
 	white-space: nowrap;
 	cursor: pointer;
-	-webkit-appearance: none;
-	-moz-appearance: none;
-	appearance: none;
 	outline: 0;
 
 	&:hover,
 	&:focus {
-		background-image: url('data:image/svg+xml;charset=US-ASCII,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2018.1.1%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0D%0A%09%20viewBox%3D%22-239%20241%2020%2020%22%20enable-background%3D%22new%20-239%20241%2020%2020%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cpath%20fill%3D%22%23000222%22%20d%3D%22M-234%2C247l5%2C5l5-5l2%2C1l-7%2C7l-7-7L-234%2C247z%22/%3E%0D%0A%3C/svg%3E%0D%0A');
 	}
 
 	&:focus {
-		border-color: transparent;
-		box-shadow: inset 0 0 0 4px $blue--light;
+		border-color: $blue--dark;
+		box-shadow: 0 0 0 3px $blue--light;
 		outline: 0;
 		-moz-outline:none;
 		-moz-user-focus:ignore;
