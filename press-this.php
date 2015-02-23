@@ -13,13 +13,14 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 /**
  * Class WP_Press_This
+ *
+ * @since 4.2
  */
 class WP_Press_This {
 	/**
-	 * WP_Press_This::__construct()
 	 * Constructor
 	 *
-	 * @uses remove_action(), add_action()
+	 * @since 4.2
 	 */
 	public function __construct() {
 		$script_name = $this->script_name();
@@ -57,11 +58,11 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::script_name()
 	 * Returns the current app's fully qualified script name/url based on system-level tests
 	 *
+	 * @since 4.2
+	 *
 	 * @return mixed|string
-	 * @uses $_SERVER['SCRIPT_NAME'], $_SERVER['PHP_SELF'], $_SERVER['REQUEST_URI']
 	 */
 	public function script_name() {
 		$script_name = ( ! empty( $_SERVER['SCRIPT_NAME'] ) )
@@ -77,13 +78,13 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::set_url_scheme( $url )
 	 * Sets the URL to https or http, depending on availability and related WP config settings/APIs.
+	 *
+	 * @since 4.2
 	 *
 	 * @param $url string
 	 *
 	 * @return string
-	 * @uses WP's force_ssl_admin(), force_ssl_login(), force_ssl_content(), is_ssl(), and set_url_scheme()
 	 */
 	public function set_url_scheme( $url ) {
 		$current_user = get_current_user();
@@ -100,8 +101,9 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::strip_url_scheme()
 	 * Removes http or https from a URL to have it default to the current protocaol on the client-side (EG: //youtube.com/)
+	 *
+	 * @since 4.2
 	 *
 	 * @param $url
 	 * @return mixed
@@ -111,22 +113,22 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::plugin_data()
 	 * Returns this plugin's meta data, from in-code plugin header comment
 	 *
+	 * @since 4.2
+	 *
 	 * @return array
-	 * @uses WP's get_plugin_data()
 	 */
 	public function plugin_data() {
 		return get_plugin_data( __FILE__, false, false );
 	}
 
 	/**
-	 * WP_Press_This::plugin_data()
 	 * Returns this plugin's own version string, from in-code plugin header comment
 	 *
+	 * @since 4.2
+	 *
 	 * @return string The current plugin's version
-	 * @uses WP_Press_This::plugin_data()
 	 */
 	public function plugin_version() {
 		$data = $this->plugin_data();
@@ -134,29 +136,31 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::runtime_url()
 	 * Returns this plugin's own runtime URL, which happens to masquerade/override as /wp-admin/press-this.php
 	 *
+	 * @since 4.2
+	 *
 	 * @return string Full URL to /admin/press-this.php in current install
-	 * @uses admin_url()
 	 */
 	public function runtime_url() {
 		return $this->set_url_scheme( admin_url( 'press-this.php' ) );
 	}
 
 	/**
-	 * WP_Press_This::plugin_dir_path()
+	 * Plugin directory filesystem path
+	 *
+	 * @since 4.2
 	 *
 	 * @return string Full system path to /wp-content/plugins/press-this in current install
-	 * @uses __FILE__, plugin_dir_path()
 	 */
 	public function plugin_dir_path() {
 		return untrailingslashit( plugin_dir_path( __FILE__ ) );
 	}
 
 	/**
-	 * WP_Press_This::i18n()
 	 * Centralized/keyed app caption store, used on both server and client sides.
+	 *
+	 * @since 4.2
 	 *
 	 * @return array
 	 */
@@ -193,10 +197,9 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::press_this_ajax_site_settings()
 	 * App and site settings data, including i18n strings for the client-side
 	 *
-	 * @uses admin_url()
+	 * @since 4.2
 	 */
 	public function site_settings() {
 		$supported_formats = get_theme_support( 'post-formats' );
@@ -228,8 +231,9 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::shortcut_link_override() (plugin only)
 	 * Returns the bookmarklet's static code from /js/bookmarklet.js, with a local JS variable set to the current install's path to PT
+	 *
+	 * @since 4.2
 	 *
 	 * @return string Press This bookmarklet JS trigger found in /wp-admin/tools.php
 	 */
@@ -255,10 +259,9 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::press_this_php_override() (plugin only)
 	 * Takes over /wp-admin/press-this.php for backward compatibility and while in feature-as-plugin mode
 	 *
-	 * @uses $_POST
+	 * @since 4.2
 	 */
 	public function press_this_php_override() {
 		// Simply drop the following test once/if this becomes the standard Press This code in core
@@ -274,13 +277,13 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::side_load_images( $post_id, $content = '' )
 	 * Get the sources images and save them locally, fr posterity, unless we can't.
+	 *
+	 * @since 4.2
 	 *
 	 * @param $post_id int
 	 * @param $content string Current expected markup for PT
 	 * @return string New markup with old image URLs replaced with the local attachment ones if swapped
-	 * @uses current_user_can(), media_sideload_image(), is_wp_error()
 	 */
 	public function side_load_images( $post_id, $content = '' ) {
 		$new_content = $content;
@@ -337,8 +340,9 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::save()
 	 * Save the post as draft or published, via AJAX
+	 *
+	 * @since 4.2
 	 */
 	public function save() {
 		if ( empty( $_POST['wppt_nonce'] ) || ! wp_verify_nonce( $_POST['wppt_nonce'], 'press_this' ) ) {
@@ -420,10 +424,11 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::fetch_source_html( $url )
+	 * Download the source's HTML via server-side call
+	 *
+	 * @since 4.2
 	 *
 	 * @return string Source's HTML sanitized markup
-	 * @uses download_url(), is_wp_error(), wp_kses(), file_get_contents() , and unlink()
 	 */
 	public function fetch_source_html( $url ) {
 		// Download source page to tmp file
@@ -465,14 +470,14 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::source_data_fetch_fallback()
 	 * Fetch and parse _meta, _img, and _links data from the source
+	 *
+	 * @since 4.2
 	 *
 	 * @param string $url
 	 * @param array $data Existing data array if you have one.
 	 *
 	 * @return array New data array
-	 * @uses $this->fetch_source_html()
 	 */
 	public function source_data_fetch_fallback( $url, $data = array() ) {
 		if ( empty( $url ) ) {
@@ -592,8 +597,9 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::merge_or_fetch_data()
-	 * This code handles making our version of Press This backward compatible with the previous/legacy version by supporting its query string params
+	 * Handles making this version of Press This backward compatible with the previous/legacy version by supporting its query string params
+	 *
+	 * @since 4.2
 	 *
 	 * @return array
 	 */
@@ -647,6 +653,12 @@ class WP_Press_This {
 
 	/**
 	 * Add another stylesheet inside TinyMCE.
+	 *
+	 * @since 4.2
+	 *
+	 * @param string $styles URL to editor stylesheet
+	 *
+	 * @return string
 	 */
 	public function editor_styles_override( $styles ) {
 		if ( ! empty( $styles ) ) {
@@ -659,6 +671,9 @@ class WP_Press_This {
 	/**
 	 * Output the post format selection HTML.
 	 *
+	 * @since 4.2
+	 *
+	 * @param object $post
 	 */
 	function post_formats_html( $post ) {
 		if ( current_theme_supports( 'post-formats' ) && post_type_supports( $post->post_type, 'post-formats' ) ) {
@@ -702,6 +717,9 @@ class WP_Press_This {
 	/**
 	 * Output the categories HTML.
 	 *
+	 * @since 4.2
+	 *
+	 * @param object $post
 	 */
 	function categories_html( $post ) {
 		$taxonomy = get_taxonomy( 'category' );
@@ -745,6 +763,9 @@ class WP_Press_This {
 	/**
 	 * Output the tags HTML.
 	 *
+	 * @since 4.2
+	 *
+	 * @param object $post
 	 */
 	function tags_html( $post ) {
 		$taxonomy = get_taxonomy( 'post_tag' );
@@ -789,10 +810,9 @@ class WP_Press_This {
 	}
 
 	/**
-	 * WP_Press_This::serve_app_html()
 	 * Serves the app's base HTML, which in turns calls the load.js
 	 *
-	 * @uses $_POST, WP_Press_This::runtime_url(), WP_Press_This::plugin_dir_url()
+	 * @since 4.2
 	 */
 	public function serve_app_html() {
 		global $wp_locale;
@@ -1035,6 +1055,8 @@ class WP_Press_This {
 
 	/**
 	 * Ajax endpoint add new category
+	 *
+	 * @since 4.2
 	 */
 	public function press_this_add_category() {
 		if ( false === wp_verify_nonce( $_POST['new_cat_nonce'], 'add-category' ) ) {
@@ -1096,6 +1118,8 @@ class WP_Press_This {
 	/**
 	 * Registers a new setting screen and menu item for PT in the Admin sidebar
 	 *
+	 * @since 4.2
+	 *
 	 * @see add_action( 'admin_menu', array( $this, 'register_options_page' ) );
 	 */
 	public function register_options_page() {
@@ -1107,6 +1131,8 @@ class WP_Press_This {
 
 	/**
 	 * Prints a custom options page for PT
+	 *
+	 * @since 4.2
 	 *
 	 * @see $this->register_options_page()
 	 */
@@ -1214,6 +1240,8 @@ class WP_Press_This {
 
 	/**
 	 * Basic admin notice to prompt users to go to the related admin screen upon install
+	 *
+	 * @since 4.2
 	 */
 	public function admin_notices() {
 		if ( 'plugins' === get_current_screen()->id ) {
