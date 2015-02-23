@@ -194,7 +194,7 @@ class WP_Press_This {
 			'allMediaHeading'   => __( 'Suggested media' ),
 			'tagDelimiter'      => _x( ',', 'tag delimiter' ),
 			'suggestedEmbedAlt' => __( 'Suggested embed #%d' ),
-			'suggestedImgdAlt'  => __( 'Suggested image #%d' ),
+			'suggestedImgAlt'  => __( 'Suggested image #%d' ),
 		);
 	}
 
