@@ -422,7 +422,7 @@
 		 * Show UX spinner
 		 */
 		function showSpinner() {
-			$( '#wppt_spinner' ).addClass( 'show' );
+			$( '#spinner' ).addClass( 'show' );
 			$( '.post-actions button' ).each( function() {
 				$( this ).attr( 'disabled', 'disabled' );
 			} );
@@ -432,7 +432,7 @@
 		 * Hide UX spinner
 		 */
 		function hideSpinner() {
-			$( '#wppt_spinner' ).removeClass( 'show' );
+			$( '#spinner' ).removeClass( 'show' );
 			$( '.post-actions button' ).each( function() {
 				$( this ).removeAttr( 'disabled' );
 			} );
@@ -447,7 +447,7 @@
 			saveAlert = false;
 			showSpinner();
 
-			var $form = $( '#wppt_form' );
+			var $form = $( '#pressthis-form' );
 
 			if ( 'publish' !== action ) {
 				action = 'draft';
@@ -455,7 +455,7 @@
 
 			editor && editor.save();
 
-			$( '#wppt_title_field' ).val( sanitizeText( $( '#wppt_title_container' ).text() ) );
+			$( '#title-field' ).val( sanitizeText( $( '#title-container' ).text() ) );
 
 			$form.append( '<input type="hidden" name="action" value="press_this_' + action + '_post">' );
 
@@ -597,7 +597,7 @@
 		 */
 		function renderToolsVisibility() {
 			if ( data.u && data.u.match( /^https?:/ ) ) {
-				$( '#wppt_scanbar' ).hide();
+				$( '#scanbar' ).hide();
 			}
 		}
 
@@ -645,10 +645,10 @@
 		 */
 		function renderSuggestedTitle() {
 			var suggestedTitle = suggestedTitleStr || '',
-				$title = $( '#wppt_title_container' );
+				$title = $( '#title-container' );
 
 			if ( ! hasEmptyTitleStr ) {
-				$( '#wppt_title_field' ).val( suggestedTitle );
+				$( '#title-field' ).val( suggestedTitle );
 				$title.text( suggestedTitle );
 				$( '.post-title-placeholder' ).addClass( 'is-hidden' );
 			}
@@ -690,8 +690,8 @@
 		 * Render the detected images and embed for selection, if any
 		 */
 		function renderDetectedMedia() {
-			var mediaContainer = $( '#wppt_featured_media_container'),
-				listContainer  = $( '#wppt_all_media_container' ),
+			var mediaContainer = $( '#featured-media-container'),
+				listContainer  = $( '#all-media-container' ),
 				found          = 0;
 
 			listContainer.empty();
@@ -850,7 +850,7 @@
 				$postOption = $( '.post-option' ),
 				$sidebar = $( '.options-panel' ),
 				$postActions = $( '.press-this-actions' ),
-				$scanbar = $( '#wppt_scanbar' ),
+				$scanbar = $( '#scanbar' ),
 				isOffScreen = 'is-off-screen',
 				isHidden = 'is-hidden',
 				ifOffHidden = isOffScreen + ' ' + isHidden;
@@ -889,7 +889,7 @@
 		 * Interactive behavior for the post title's field placeholder
 		 */
 		function monitorPlaceholder() {
-			var $selector = $( '#wppt_title_container'),
+			var $selector = $( '#title-container'),
 				$placeholder = $('.post-title-placeholder');
 
 			$selector.on( 'focus', function() {
@@ -925,17 +925,17 @@
 		 * Set app events and other state monitoring related code.
 		 */
 		function monitor(){
-			$( '#wppt_current_site a').click( function( e ) {
+			$( '#current-site a').click( function( e ) {
 				e.preventDefault();
 			} );
 
 			// Publish and Draft buttons and submit
 
-			$( '#wppt_draft_field' ).on( 'click', function() {
+			$( '#draft-field' ).on( 'click', function() {
 				submitPost( 'draft' );
 			} );
 
-			$( '#wppt_publish_field' ).on( 'click', function() {
+			$( '#publish-field' ).on( 'click', function() {
 				submitPost( 'publish' );
 			} );
 

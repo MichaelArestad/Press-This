@@ -345,7 +345,7 @@ class WP_Press_This {
 	 * @since 4.2
 	 */
 	public function save() {
-		if ( empty( $_POST['wppt_nonce'] ) || ! wp_verify_nonce( $_POST['wppt_nonce'], 'press_this' ) ) {
+		if ( empty( $_POST['pressthis-nonce'] ) || ! wp_verify_nonce( $_POST['pressthis-nonce'], 'press-this' ) ) {
 			wp_send_json_error( array( 'errorMessage' => __( 'Cheatin&#8217; uh?' ) ) );
 		}
 
@@ -359,7 +359,7 @@ class WP_Press_This {
 
 		$post = array(
 			'ID' => $post_id,
-			'post_title' => ( ! empty( $_POST['wppt_title'] ) ) ? sanitize_text_field( trim( $_POST['wppt_title'] ) ) : '',
+			'post_title' => ( ! empty( $_POST['title'] ) ) ? sanitize_text_field( trim( $_POST['title'] ) ) : '',
 			'post_content' => ( ! empty( $_POST['pressthis'] ) ) ? trim( $_POST['pressthis'] ) : '',
 			'post_type' => 'post',
 			'post_status' => 'draft',
@@ -918,8 +918,8 @@ class WP_Press_This {
 	?>
 </head>
 <body>
-	<div id="wppt_adminbar" class="adminbar">
-		<h1 id="wppt_current_site" class="current-site">
+	<div id="adminbar" class="adminbar">
+		<h1 id="current-site" class="current-site">
 			<span class="dashicons dashicons-wordpress"></span>
 			<span><?php bloginfo( 'name' ); ?></span>
 		</h1>
@@ -927,18 +927,18 @@ class WP_Press_This {
 		<button type="button" class="options-close button-subtle is-hidden"><?php _e( 'Done' ); ?></button>
 	</div>
 
-	<div id="wppt_scanbar" class="scan">
+	<div id="scanbar" class="scan">
 		<form method="GET">
-			<input type="url" name="u" id="wppt_url_scan" class="scan-url" value="" placeholder="<?php echo esc_attr( __( 'Enter a URL to scan' ) ) ?>" />
-			<input type="submit" name="wppt_url_scan_submit" id="wppt_url_scan_submit" class="scan-submit" value="<?php echo esc_attr( __( 'Scan' ) ) ?>" />
+			<input type="url" name="u" id="url-scan" class="scan-url" value="" placeholder="<?php echo esc_attr( __( 'Enter a URL to scan' ) ) ?>" />
+			<input type="submit" name="url-scan-submit" id="url-scan-submit" class="scan-submit" value="<?php echo esc_attr( __( 'Scan' ) ) ?>" />
 		</form>
 	</div>
 
-	<form id="wppt_form" name="wppt_form" method="POST" autocomplete="off">
+	<form id="pressthis-form" name="pressthis-form" method="POST" autocomplete="off">
 		<input type="hidden" name="post_ID" id="post_ID" value="<?php echo $post_ID; ?>" />
-		<?php wp_nonce_field( 'press_this', 'wppt_nonce', false ); ?>
+		<?php wp_nonce_field( 'press-this', 'pressthis-nonce', false ); ?>
 		<?php wp_nonce_field( 'add-category', '_ajax_nonce-add-category', false ); ?>
-		<input type="hidden" name="wppt_title" id="wppt_title_field" value="" />
+		<input type="hidden" name="title" id="title-field" value="" />
 
 	<div class="wrapper">
 		<div class="editor-wrapper">
@@ -948,12 +948,12 @@ class WP_Press_This {
 				</p>
 			</div>
 
-			<div id='wppt_app_container' class="editor">
-				<span id="wppt_title_container_label" class="post-title-placeholder" aria-hidden="true"><?php _e( 'Post title' ); ?></span>
-				<h2 id="wppt_title_container" class="post-title" contenteditable="true" spellcheck="true" aria-label="<?php _e( 'Post title' ); ?>" tabindex="0"></h2>
-				<div id='wppt_featured_media_container' class="featured-container no-media">
-					<div id='wppt_all_media_widget' class="all-media">
-						<div id='wppt_all_media_container'></div>
+			<div id='app-container' class="editor">
+				<span id="title-container-label" class="post-title-placeholder" aria-hidden="true"><?php _e( 'Post title' ); ?></span>
+				<h2 id="title-container" class="post-title" contenteditable="true" spellcheck="true" aria-label="<?php _e( 'Post title' ); ?>" tabindex="0"></h2>
+				<div id='featured-media-container' class="featured-container no-media">
+					<div id='all-media-widget' class="all-media">
+						<div id='all-media-container'></div>
 					</div>
 				</div>
 
@@ -1033,8 +1033,8 @@ class WP_Press_This {
 			</button>
 		</div>
 		<div class="post-actions">
-			<button type="button" class="button-subtle" id="wppt_draft_field"><?php _e( 'Save Draft' ); ?></button>
-			<button type="button" class="button-primary" id="wppt_publish_field"><?php _e( 'Publish' ); ?></button>
+			<button type="button" class="button-subtle" id="draft-field"><?php _e( 'Save Draft' ); ?></button>
+			<button type="button" class="button-primary" id="publish-field"><?php _e( 'Publish' ); ?></button>
 		</div>
 	</div>
 	</form>
