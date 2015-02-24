@@ -32,18 +32,18 @@ module.exports = function( grunt ) {
 				src: [ 'js/**/*.js', '!js/**/*.min.js' ]
 			}
 		},
-		sass: {
-			dist: {
-				options: {
-					// Can be nested, compact, compressed, expanded
-					style: 'expanded'
-				},
-				files: {
-					'css/press-this.css': 'scss/style.scss',
-					'css/press-this-editor.css': 'scss/editor-style.scss'
-				}
-			}
-		},
+		// sass: {
+		// 	dist: {
+		// 		options: {
+		// 			// Can be nested, compact, compressed, expanded
+		// 			style: 'expanded'
+		// 		},
+		// 		files: {
+		// 			'css/press-this.css': 'scss/style.scss',
+		// 			'css/press-this-editor.css': 'scss/editor-style.scss'
+		// 		}
+		// 	}
+		// },
 		uglify: {
 			bookmarklet: {
 				options: {
@@ -55,16 +55,16 @@ module.exports = function( grunt ) {
 					'js/bookmarklet.min.js': [ 'js/bookmarklet.js' ]
 				}
 			}
-		},
-		watch: {
-			css: {
-				files: [ 'scss/*.scss', 'scss/**/*.scss' ],
-				tasks: [ 'sass', 'autoprefixer' ],
-				options: {
-					spawn: false
-				}
-			}
-		}
+		}//,
+		// watch: {
+		// 	css: {
+		// 		files: [ 'scss/*.scss', 'scss/**/*.scss' ],
+		// 		tasks: [ 'sass', 'autoprefixer' ],
+		// 		options: {
+		// 			spawn: false
+		// 		}
+		// 	}
+		// }
 	} );
 
 	grunt.registerTask( 'default', [

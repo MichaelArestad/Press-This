@@ -1,120 +1,123 @@
 /*
-Press This :)
+Press This TinyMCE editor styles :)
 */
+
+
 /**
-* #.# Links
+* Links
 */
 @import url("//fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,600,700");
 a {
-  color: #0074a2;
+	color: #0074a2;
 }
 
 a:visited {
-  color: #0074a2;
+	color: #0074a2;
 }
 
 a:hover,
 a:focus,
 a:active {
-  color: #2ea2cc;
+	color: #2ea2cc;
 }
 
+
 /**
-* #.# Lists
+* Lists
 */
 ul,
 ol {
-  margin: 0 0 1.5em 3em;
+	margin: 0 0 1.5em 3em;
 }
 
 ul {
-  list-style: disc;
+	list-style: disc;
 }
 
 ol {
-  list-style: decimal;
+	list-style: decimal;
 }
 
 li > ul,
 li > ol {
-  margin-bottom: 0;
-  margin-left: 1.5em;
+	margin-bottom: 0;
+	margin-left: 1.5em;
 }
 
 dt {
-  font-weight: 700;
+	font-weight: 700;
 }
 
 dd {
-  margin: 0 1.5em 1.5em;
+	margin: 0 1.5em 1.5em;
 }
 
+
 /**
-* #.# Media
+* Media
 *
 * Basic image and object styles
 */
 img {
-  max-width: 100%;
-  height: auto;
+	max-width: 100%;
+	height: auto;
 }
 
 /* Makes sure embeds and iframes fit inside their containers */
 embed,
 iframe,
 object {
-  max-width: 100%;
+	max-width: 100%;
 }
 
+
 /**
-* #.# TinyMCE styles
+* TinyMCE styles
 *
 * Pretty dang good.
 */
 body {
-  color: #404040;
-  font-family: "Open Sans", Helvetica, Arial, sans-serif;
-  font-size: 20px;
-  font-weight: 400;
-  line-height: 1.6;
+	color: #404040;
+	font-family: "Open Sans", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	font-weight: 400;
+	line-height: 1.6;
 }
 @media (max-width: 900px) {
-  body#tinymce {
-    padding-top: 30px !important;
-  }
+	body#tinymce {
+		padding-top: 30px !important;
+	}
 }
 @media (max-width: 640px) {
-  body {
-    font-size: 16px;
-  }
+	body {
+		font-size: 16px;
+	}
 }
 @media (max-width: 320px) {
-  body {
-    margin: 0 15px;
-  }
+	body {
+		margin: 0 15px;
+	}
 }
 
 #tinymce b,
 #tinymce strong {
-  /* overrides TinyMCE's !important. Woohoo. */
-  font-weight: 700 !important;
+	/* overrides TinyMCE's !important. Woohoo. */
+	font-weight: 700 !important;
 }
 
 blockquote {
-  margin: 1em 1.5em;
-  color: #9ea7af;
-  font-size: em(25px);
-  font-style: italic;
+	margin: 1em 1.5em;
+	color: #9ea7af;
+	font-size: em(25px);
+	font-style: italic;
 }
 @media (max-width: 900px) {
-  blockquote {
-    margin: 1.5em 1em;
-  }
+	blockquote {
+		margin: 1.5em 1em;
+	}
 }
 
 ul,
 ol {
-  margin: 0 0 1.5em .75em;
+	margin: 0 0 1.5em .75em;
 }
-
-/*# sourceMappingURL=press-this-editor.css.map */
