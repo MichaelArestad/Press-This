@@ -7,26 +7,17 @@ Tested up to: 4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Posting images, links, and cat gifs will never be the same.
+Now merged into WordPress (4.2.0), no longer does anything.
 
 == Description ==
 
-Press This is a redesign of the Press This bookmarklet with a focus on automation and speed. It will have a simplified interface, efficient media upload, content scraping, and site switching.
-
-**CAUTION:** This is in super early development. Don't use on a production site. There be dragons!
+This plugin has now been merged into WordPress itself, and no longer does anything. See the new Press This in WordPress 4.2 and up.
 
 == Contributing ==
 
-You can see discussion and progress at [corepressthis.wordpress.com](corepressthis.wordpress.com).
+Development is now happening withing the WordPress core infrastructure.
+See the Press This component in Trac: https://core.trac.wordpress.org/query?status=!closed&component=Press+This
 
-Development of this plugin is done on [Github](https://github.com/MichaelArestad/Press-This). Pull requests welcome.
-
-== Screenshots ==
-
-1. Get and activate the plugin (see https://make.wordpress.org/ui/2014/06/04/press-this/)
-2. Install the bookmarklet to your browser's bookmark toolbar
-3. Use the bookmarklet on any web page
-4. Publish in 2 steps! :)
 
 == Changelog ==
 
@@ -81,3 +72,6 @@ Development of this plugin is done on [Github](https://github.com/MichaelArestad
 = 0.0.4.3 =
  * Improving our github to svn tool flow
  * Still alpha level code.
+
+= 0.1 =
+ * Change the plugin to do nothing now that merged in WordPress.
